@@ -1,6 +1,8 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 import { UserManagementService } from '../user-management.service';
 
 @Component({
@@ -16,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private usermanagementService: UserManagementService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -23,11 +26,13 @@ export class LoginComponent implements OnInit {
 
   onLoginformSubmited(): void {
     this.usermanagementService.getCsrfToken().subscribe((response) => {
-      console.log(response);
       this.usermanagementService
         .login(this.loginForm.value)
         .subscribe((response) => {
-          this.router.navigate(['dashboard']);
+          if (response.status == 200) {
+            this.authService.login();
+            this.router.navigate(['']);
+          }
         });
     });
   }
