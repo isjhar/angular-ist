@@ -75,6 +75,10 @@
               "browserTarget": "murajaah-assistant-web:build:development"
             }
           },
+          "options": {
+            "browserTarget": "murajaah-assistant-web:build",
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
