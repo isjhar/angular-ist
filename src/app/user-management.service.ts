@@ -15,11 +15,11 @@ export class UserManagementService {
     return this.http.get('/sanctum/csrf-cookie');
   }
 
-  login(): Observable<any> {
-    let data = {
-      email: 'isjhar@gmail.com',
-      password: 'muhtarudinB102!'
-    }
+  login(data: any): Observable<any> {
+    // let data = {
+    //   email: 'isjhar@gmail.com',
+    //   password: 'muhtarudinB102!'
+    // }
     let headers = new HttpHeaders({
       Accept: 'text/html'
     })
