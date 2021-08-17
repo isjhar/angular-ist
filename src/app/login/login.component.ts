@@ -12,7 +12,7 @@ import { UserManagementService } from '../user-management.service';
 })
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
-    username: new FormControl(''),
+    email: new FormControl(''),
     password: new FormControl(''),
   });
 
@@ -29,10 +29,10 @@ export class LoginComponent implements OnInit {
       this.usermanagementService
         .login(this.loginForm.value)
         .subscribe((response) => {
-          if (response.status == 200) {
+          this.usermanagementService.getUser().subscribe((response) => {
             this.authService.login();
             this.router.navigate(['']);
-          }
+          });
         });
     });
   }
