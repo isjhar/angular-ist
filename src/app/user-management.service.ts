@@ -24,6 +24,17 @@ export class UserManagementService {
     });
   }
 
+  logout(): Observable<any> {
+    let headers = new HttpHeaders({
+      Accept: 'text/html',
+    });
+    return this.http.post('/auth/logout', null, {
+      headers: headers,
+      responseType: 'text',
+      observe: 'response',
+    });
+  }
+
   getUser(): Observable<any> {
     return this.http.get('/api/user');
   }
