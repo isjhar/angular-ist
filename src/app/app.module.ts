@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor, authInterceptorProviders } from './auth.interceptor';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,6 +15,7 @@ import { AuthInterceptor, authInterceptorProviders } from './auth.interceptor';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FlexLayoutModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
