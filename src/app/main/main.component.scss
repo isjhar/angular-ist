@@ -1,9 +1,9 @@
 .sidenav-container {
-  height: 100%;
+  height: calc(100% - 64px);
 }
 
 .sidenav {
-  width: 200px;
+  width: 250px;
 }
 
 .sidenav .mat-toolbar {
@@ -13,5 +13,5 @@
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 1000;
 }
