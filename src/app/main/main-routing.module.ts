@@ -19,6 +19,13 @@ const routes: Routes = [
             (m) => m.PendaftaranModule
           ),
       },
+      {
+        path: 'pengaturan',
+        loadChildren: () =>
+          import('./pengaturan/pengaturan.module').then(
+            (m) => m.PengaturanModule
+          ),
+      },
     ],
   },
 ];
