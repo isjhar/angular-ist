@@ -2,6 +2,11 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+interface ApiResponse<T> {
+  message: string;
+  data: T;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,7 +40,7 @@ export class UserManagementService {
     });
   }
 
-  getUser(): Observable<any> {
-    return this.http.get('/api/user');
+  getUser(): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>('/api/user');
   }
 }
