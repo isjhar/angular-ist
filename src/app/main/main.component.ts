@@ -6,6 +6,12 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { UserManagementService } from '../user-management.service';
 
+interface Menu {
+  name: string;
+  url: string;
+  isShow: boolean;
+}
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -26,7 +32,42 @@ export class MainComponent implements OnInit {
     private breakpointObserver: BreakpointObserver
   ) {}
 
-  ngOnInit(): void {}
+  menus: Menu[] = [
+    {
+      name: 'Dashboard',
+      url: '',
+      isShow: false,
+    },
+    {
+      name: 'Pendaftaran',
+      url: '/pendaftaran',
+      isShow: false,
+    },
+    {
+      name: 'Pengaturan',
+      url: '/pengaturan',
+      isShow: false,
+    },
+  ];
+
+  ngOnInit(): void {
+    this.filterMenus();
+  }
+
+  filterMenus(): void {
+    let user = this.authService.getUser();
+    this.menus.forEach((x) => {
+      let isShow = false;
+      for (let index = 0; index < user.roles.length; index++) {
+        const element = user.roles[index];
+        if (element.menus.map((x) => x.name).includes(x.name)) {
+          isShow = true;
+          break;
+        }
+      }
+      x.isShow = isShow;
+    });
+  }
 
   onLogoutClicked(): void {
     this.userManagementService.logout().subscribe((response) => {

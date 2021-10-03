@@ -33,9 +33,11 @@
     [opened]="(isHandset$ | async) === false"
   >
     <mat-nav-list>
-      <a mat-list-item routerLink="">Dashboard</a>
-      <a mat-list-item routerLink="/pendaftaran">Pendaftaran</a>
-      <a mat-list-item routerLink="/pengaturan">Pengaturan</a>
+      <ng-container *ngFor="let menu of menus">
+        <a *ngIf="menu.isShow" mat-list-item [routerLink]="menu.url">{{
+          menu.name
+        }}</a>
+      </ng-container>
     </mat-nav-list>
   </mat-sidenav>
   <router-outlet></router-outlet>

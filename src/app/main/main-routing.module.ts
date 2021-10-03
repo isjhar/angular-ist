@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './main.component';
+import { MainGuard } from './main.guard';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
           import('./pendaftaran/pendaftaran.module').then(
             (m) => m.PendaftaranModule
           ),
+        canActivate: [MainGuard],
       },
       {
         path: 'pengaturan',
@@ -25,6 +27,7 @@ const routes: Routes = [
           import('./pengaturan/pengaturan.module').then(
             (m) => m.PengaturanModule
           ),
+        canActivate: [MainGuard],
       },
     ],
   },
