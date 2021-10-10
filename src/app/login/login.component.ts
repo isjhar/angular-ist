@@ -17,19 +17,19 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(
-    private usermanagementService: UserManagementService,
+    private userManagementService: UserManagementService,
     private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {}
 
-  onLoginformSubmited(): void {
-    this.usermanagementService.getCsrfToken().subscribe((response) => {
-      this.usermanagementService
+  onLoginformSubmitted(): void {
+    this.userManagementService.getCsrfToken().subscribe((response) => {
+      this.userManagementService
         .login(this.loginForm.value)
         .subscribe((response) => {
-          this.usermanagementService.getUser().subscribe((response) => {
+          this.userManagementService.getUser().subscribe((response) => {
             this.authService.login(response.data);
             this.router.navigate(['']);
           });
