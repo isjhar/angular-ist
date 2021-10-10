@@ -8,7 +8,7 @@ import {
   HttpErrorResponse,
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
@@ -27,12 +27,16 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     //handle your auth error or rethrow
-    if (
-      this.router.url !== '/login' &&
-      (err.status === 401 || err.status === 419)
-    ) {
-      this.authService.logout();
-      this.router.navigateByUrl(`/login`);
+    if (this.router.url !== '/login') {
+      if (err.status === 401 || err.status === 419) {
+        this.authService.logout();
+        this.router.navigateByUrl(`/login`);
+        return EMPTY;
+      } else if (err.status == 403) {
+        this.router.navigateByUrl('');
+        return EMPTY;
+      }
+
       // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
       return of(err.message); // or EMPTY may be appropriate here
     }
