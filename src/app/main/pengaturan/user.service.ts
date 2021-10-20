@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse, ApiUrlBuilder, PaginationParams } from 'src/app/api';
+import {
+  ApiResponse,
+  ApiUrlBuilder,
+  Pagination,
+  PaginationParams,
+} from 'src/app/api';
 
 interface User {
   email: string;
@@ -26,7 +31,9 @@ interface RoleMenu {
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getUsers(params: PaginationParams): Observable<ApiResponse<any>> {
+  getUsers(
+    params: PaginationParams
+  ): Observable<ApiResponse<Pagination<User>>> {
     let urlBuilder = new ApiUrlBuilder('/api/users');
     urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);

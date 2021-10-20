@@ -8,6 +8,11 @@ export interface PaginationParams {
   limit?: number;
 }
 
+export interface Pagination<T> {
+  total: number;
+  data: T[];
+}
+
 export class ApiUrlBuilder {
   urls: string[] = [];
   constructor(baseUrl: string) {

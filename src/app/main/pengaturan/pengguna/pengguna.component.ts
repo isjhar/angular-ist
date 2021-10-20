@@ -34,6 +34,11 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
         show: true,
         title: 'Email',
       },
+      {
+        prop: 'roles',
+        show: true,
+        title: 'Peran',
+      },
     ];
   }
 
@@ -60,6 +65,7 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
           return {
             name: x.name,
             email: x.email,
+            roles: x.roles.map((role: any) => role.name).join(', '),
           };
         });
         this.table.renderRows();
