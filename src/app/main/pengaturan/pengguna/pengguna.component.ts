@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import {
@@ -6,6 +7,7 @@ import {
   DefaultTableComponent,
 } from 'src/app/shared/default-table/default-table.component';
 import { UserService } from '../user.service';
+import { TambahPenggunaDialogComponent } from './tambah-pengguna-dialog/tambah-pengguna-dialog.component';
 
 @Component({
   selector: 'app-pengguna',
@@ -20,7 +22,7 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.columns = [
@@ -48,6 +50,10 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
 
   onPageChanged(event: any): void {
     this.getList();
+  }
+
+  onTambahClicked(): void {
+    this.dialog.open(TambahPenggunaDialogComponent);
   }
 
   getList(): void {

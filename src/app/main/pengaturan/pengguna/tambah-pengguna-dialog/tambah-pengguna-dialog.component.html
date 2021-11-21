@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
+  <h2 mat-dialog-title>Tambah Pengguna</h2>
+  <mat-dialog-content class="mat-typography">
+    <div fxLayout="column">
+      <mat-form-field appearance="fill">
+        <mat-label>Nama</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error>
+          <app-form-error-required name="name"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required />
+        <mat-error>
+          <app-form-error-email name="email"></app-form-error-email>
+        </mat-error>
+        <mat-error>
+          <app-form-error-required name="email"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Batal</button>
+    <button mat-button type="submit" [disabled]="!formGroup.valid">
+      Tambah
+    </button>
+  </mat-dialog-actions>
+</form>

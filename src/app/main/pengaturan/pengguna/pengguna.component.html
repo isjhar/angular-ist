@@ -1,11 +1,14 @@
 <div class="container">
-  <div>
-    <button mat-raised-button color="primary">Tambah</button>
+  <div style="margin-bottom: 10px">
+    <button mat-raised-button color="primary" (click)="onTambahClicked()">
+      Tambah
+    </button>
   </div>
   <app-default-table
     [dataSource]="dataSource"
     [length]="length"
     [columns]="columns"
+    (page)="onPageChanged($event)"
   >
   </app-default-table>
 </div>
