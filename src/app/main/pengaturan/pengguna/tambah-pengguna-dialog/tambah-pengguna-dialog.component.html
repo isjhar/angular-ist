@@ -3,13 +3,6 @@
   <mat-dialog-content class="mat-typography">
     <div fxLayout="column">
       <mat-form-field appearance="fill">
-        <mat-label>Nama</mat-label>
-        <input matInput formControlName="name" required />
-        <mat-error>
-          <app-form-error-required name="name"></app-form-error-required>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" type="email" required />
         <mat-error>
@@ -17,6 +10,38 @@
         </mat-error>
         <mat-error>
           <app-form-error-required name="email"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Nama</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error>
+          <app-form-error-required name="name"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required />
+        <mat-error>
+          <app-form-error-required name="password"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Konfirmasi Password</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="confirmPassword"
+          required
+        />
+        <mat-error *ngIf="confirmPassword.hasError('passwordMismatch')">
+          Password tidak sama
+        </mat-error>
+        <mat-error>
+          <app-form-error-required
+            name="confirmPassword"
+          ></app-form-error-required>
         </mat-error>
       </mat-form-field>
     </div>

@@ -53,7 +53,11 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
   }
 
   onTambahClicked(): void {
-    this.dialog.open(TambahPenggunaDialogComponent);
+    this.dialog.open(TambahPenggunaDialogComponent, {
+      width: '90%',
+      maxWidth: 500,
+      height: '450px',
+    });
   }
 
   getList(): void {
