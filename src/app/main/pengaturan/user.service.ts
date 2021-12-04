@@ -25,6 +25,11 @@ interface RoleMenu {
   url?: string;
 }
 
+interface Role {
+  id: number;
+  name: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -38,5 +43,10 @@ export class UserService {
     urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
     return this.http.get<ApiResponse<any>>(urlBuilder.getUrl());
+  }
+
+  getRoles(): Observable<ApiResponse<Role[]>> {
+    let urlBuilder = new ApiUrlBuilder('/api/roles');
+    return this.http.get<ApiResponse<Role[]>>(urlBuilder.getUrl());
   }
 }

@@ -44,6 +44,32 @@
           ></app-form-error-required>
         </mat-error>
       </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Peranan</mat-label>
+        <mat-select formControlName="roles" multiple required>
+          <mat-select-trigger>
+            <mat-chip-list>
+              <mat-chip
+                *ngFor="let role of roles.value"
+                [selectable]="true"
+                [removable]="true"
+                (removed)="removeRole(role)"
+              >
+                {{ role.name }}
+              </mat-chip>
+            </mat-chip-list>
+          </mat-select-trigger>
+          <mat-option
+            *ngFor="let roleOption of roleOptions"
+            [value]="roleOption"
+            >{{ roleOption.name }}</mat-option
+          >
+        </mat-select>
+        <mat-error>
+          <app-form-error-required name="roles"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

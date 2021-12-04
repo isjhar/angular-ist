@@ -9,6 +9,7 @@ import { PenggunaComponent } from './pengguna/pengguna.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
 import { DefaultTableModule } from 'src/app/shared/default-table/default-table.module';
 import { TambahPenggunaDialogComponent } from './pengguna/tambah-pengguna-dialog/tambah-pengguna-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DefaultFormModule } from 'src/app/shared/default-form/default-form.module';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,9 @@ import { DefaultFormModule } from 'src/app/shared/default-form/default-form.modu
     ReactiveFormsModule,
     FlexLayoutModule,
     DefaultFormModule,
+    MatChipsModule,
+    MatIconModule,
+    MatSelectModule,
   ],
 })
 export class PengaturanModule {}

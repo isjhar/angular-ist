@@ -1,13 +1,17 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   Form,
+  FormArray,
   FormControl,
   FormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { UserService } from '../../user.service';
 
 const passwordValidator2: ValidatorFn = (
   control: AbstractControl
@@ -28,6 +32,7 @@ const passwordValidator2: ValidatorFn = (
 })
 export class TambahPenggunaDialogComponent implements OnInit {
   currentPassword: string = '';
+  roleOptions: any[] = [];
 
   formGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -36,7 +41,6 @@ export class TambahPenggunaDialogComponent implements OnInit {
     confirmPassword: new FormControl('', [
       Validators.required,
       (control: AbstractControl) => {
-        console.log(this.currentPassword);
         let confirmPassword = control as FormControl;
         if (confirmPassword.value === this.currentPassword) {
           return null;
@@ -46,6 +50,7 @@ export class TambahPenggunaDialogComponent implements OnInit {
         };
       },
     ]),
+    roles: new FormControl([]),
   });
 
   get name() {
@@ -64,12 +69,17 @@ export class TambahPenggunaDialogComponent implements OnInit {
     return this.formGroup.get('confirmPassword') as FormControl;
   }
 
-  constructor() {}
+  get roles() {
+    return this.formGroup.get('roles') as FormControl;
+  }
+
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.password.valueChanges.subscribe((value) => {
       this.currentPassword = value;
     });
+    this.getRoles();
   }
 
   validatePassword(): ValidatorFn {
@@ -88,16 +98,20 @@ export class TambahPenggunaDialogComponent implements OnInit {
     console.log('test');
   }
 
-  getErrorMessage(): string {
-    if (this.name.hasError('required')) {
-      return 'Kolom harus diisi';
-    }
+  addRole(event: MatChipInputEvent): void {}
 
-    if (this.email.hasError('required')) {
-      return 'Kolom harus diisi';
-    } else if (this.email.hasError('email')) {
-      return 'Email tidak valid';
-    }
-    return '';
+  removeRole(role: any): void {
+    const roles = this.roles.value as any[];
+    let index = roles.findIndex((x) => x.id == role.id);
+    roles.splice(index, 1);
+    this.roles.setValue(roles);
+  }
+
+  selectedRole(event: any): void {}
+
+  getRoles(): void {
+    this.userService.getRoles().subscribe((response) => {
+      this.roleOptions = response.data;
+    });
   }
 }

@@ -56,7 +56,7 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
     this.dialog.open(TambahPenggunaDialogComponent, {
       width: '90%',
       maxWidth: 500,
-      height: '450px',
+      height: 'auto',
     });
   }
 
