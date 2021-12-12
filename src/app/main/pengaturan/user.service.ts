@@ -25,7 +25,7 @@ interface RoleMenu {
   url?: string;
 }
 
-interface Role {
+export interface Role {
   id: number;
   name: string;
 }
@@ -43,6 +43,18 @@ export class UserService {
     urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
     return this.http.get<ApiResponse<any>>(urlBuilder.getUrl());
+  }
+
+  storeUser(params: User): Observable<ApiResponse<User>> {
+    return this.http.post<ApiResponse<User>>('/api/users/', params);
+  }
+
+  updateUser(params: User): Observable<ApiResponse<any>> {
+    return this.http.patch<ApiResponse<any>>('/api/users/', params);
+  }
+
+  deleteUser(id: number): Observable<ApiResponse<any>> {
+    return this.http.delete<ApiResponse<any>>(`/api/users/${id}`);
   }
 
   getRoles(): Observable<ApiResponse<Role[]>> {
