@@ -1,16 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  FormGroup,
+  FormGroupDirective,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 import { FormErrorEmailComponent } from './form-error-email.component';
 
 describe('FormErrorEmailComponent', () => {
   let component: FormErrorEmailComponent;
   let fixture: ComponentFixture<FormErrorEmailComponent>;
+  let formGroupDirectiveStub: Partial<FormGroupDirective> = {
+    form: new FormGroup({}),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormErrorEmailComponent ]
-    })
-    .compileComponents();
+      imports: [ReactiveFormsModule],
+      declarations: [FormErrorEmailComponent],
+      providers: [
+        { provide: FormGroupDirective, useValue: formGroupDirectiveStub },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

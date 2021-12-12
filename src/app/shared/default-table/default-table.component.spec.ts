@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DefaultTableComponent } from './default-table.component';
 
@@ -8,9 +11,9 @@ describe('DefaultTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DefaultTableComponent ]
-    })
-    .compileComponents();
+      imports: [MatTableModule, MatPaginatorModule, BrowserAnimationsModule],
+      declarations: [DefaultTableComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

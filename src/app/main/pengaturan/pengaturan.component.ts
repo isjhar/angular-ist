@@ -7,7 +7,7 @@ import { UserService } from './user.service';
   styleUrls: ['./pengaturan.component.scss'],
 })
 export class PengaturanComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor() {}
 
   isPenggunaTabLoaded: boolean = true;
 

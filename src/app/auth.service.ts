@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-interface User {
+export interface User {
   email: string;
   roles: UserRole[];
 }

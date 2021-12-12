@@ -1,16 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  FormGroup,
+  FormGroupDirective,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 import { FormErrorRequiredComponent } from './form-error-required.component';
 
 describe('FormErrorRequiredComponent', () => {
   let component: FormErrorRequiredComponent;
   let fixture: ComponentFixture<FormErrorRequiredComponent>;
+  let formGroupDirectiveStub: Partial<FormGroupDirective> = {
+    form: new FormGroup({}),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormErrorRequiredComponent ]
-    })
-    .compileComponents();
+      imports: [ReactiveFormsModule],
+      declarations: [FormErrorRequiredComponent],
+      providers: [
+        { provide: FormGroupDirective, useValue: formGroupDirectiveStub },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

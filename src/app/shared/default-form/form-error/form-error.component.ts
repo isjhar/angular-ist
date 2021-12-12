@@ -2,11 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective } from '@angular/forms';
 
 @Component({
-  selector: 'app-form-error',
-  templateUrl: './form-error.component.html',
-  styleUrls: ['./form-error.component.scss'],
+  template: '',
 })
-export class FormErrorComponent implements OnInit {
+export abstract class FormErrorComponent implements OnInit {
   @Input() name: string = '';
 
   formControl!: FormControl;
