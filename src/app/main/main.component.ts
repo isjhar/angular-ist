@@ -10,6 +10,7 @@ interface Menu {
   name: string;
   url: string;
   isShow: boolean;
+  icon: string;
 }
 
 @Component({
@@ -37,16 +38,19 @@ export class MainComponent implements OnInit {
       name: 'Dashboard',
       url: '',
       isShow: false,
+      icon: 'dashboard',
     },
     {
       name: 'Pendaftaran',
       url: '/pendaftaran',
       isShow: false,
+      icon: 'app_registration',
     },
     {
       name: 'Pengaturan',
       url: '/pengaturan',
       isShow: false,
+      icon: 'settings',
     },
   ];
 
