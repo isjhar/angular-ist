@@ -35,7 +35,9 @@
     <mat-nav-list>
       <ng-container *ngFor="let menu of menus">
         <a *ngIf="menu.isShow" mat-list-item [routerLink]="menu.url">
-          <mat-icon mat-list-icon>{{ menu.icon }}</mat-icon>
+          <mat-icon mat-list-icon style="margin-right: 10px">{{
+            menu.icon
+          }}</mat-icon>
           {{ menu.name }}
         </a>
       </ng-container>
