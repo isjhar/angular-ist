@@ -1,4 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ApiResponse } from './api';
+import { UserManagementService } from './user-management.service';
 
 export interface User {
   email: string;
@@ -22,22 +27,30 @@ interface RoleMenu {
 })
 export class AuthService {
   readonly IS_LOGGED_IN = 'IS_LOGGED_IN';
-  constructor() {}
+  readonly LOGGED_USER = 'LOGGED_USER';
+  constructor(private http: HttpClient) {}
 
   isLoggedIn(): boolean {
     return localStorage.getItem(this.IS_LOGGED_IN) !== null;
   }
 
-  login(data: any): void {
-    localStorage.setItem(this.IS_LOGGED_IN, JSON.stringify(data));
+  login(): void {
+    localStorage.setItem(this.IS_LOGGED_IN, 'true');
   }
 
   logout(): void {
     localStorage.removeItem(this.IS_LOGGED_IN);
+    localStorage.removeItem(this.LOGGED_USER);
   }
 
-  getUser(): User {
-    let user: User = JSON.parse(localStorage.getItem(this.IS_LOGGED_IN)!);
-    return user;
+  getUser(): Observable<User> {
+    if (localStorage.getItem(this.LOGGED_USER) === null) {
+      return this.http
+        .get<ApiResponse<User>>('/api/user')
+        .pipe(map((x) => x.data));
+    } else {
+      let user: User = JSON.parse(localStorage.getItem(this.LOGGED_USER)!);
+      return of(user);
+    }
   }
 }

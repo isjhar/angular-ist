@@ -35,8 +35,4 @@ export class UserManagementService {
       observe: 'response',
     });
   }
-
-  getUser(): Observable<ApiResponse<any>> {
-    return this.http.get<ApiResponse<any>>('/api/user');
-  }
 }

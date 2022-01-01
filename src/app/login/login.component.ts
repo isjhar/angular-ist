@@ -29,10 +29,8 @@ export class LoginComponent implements OnInit {
       this.userManagementService
         .login(this.loginForm.value)
         .subscribe((response) => {
-          this.userManagementService.getUser().subscribe((response) => {
-            this.authService.login(response.data);
-            this.router.navigate(['']);
-          });
+          this.authService.login();
+          this.router.navigate(['']);
         });
     });
   }

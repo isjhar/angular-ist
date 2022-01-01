@@ -59,17 +59,18 @@ export class MainComponent implements OnInit {
   }
 
   filterMenus(): void {
-    let user = this.authService.getUser();
-    this.menus.forEach((x) => {
-      let isShow = false;
-      for (let index = 0; index < user.roles.length; index++) {
-        const element = user.roles[index];
-        if (element.menus.map((x) => x.name).includes(x.name)) {
-          isShow = true;
-          break;
+    this.authService.getUser().subscribe((user) => {
+      this.menus.forEach((x) => {
+        let isShow = false;
+        for (let index = 0; index < user.roles.length; index++) {
+          const element = user.roles[index];
+          if (element.menus.map((x) => x.name).includes(x.name)) {
+            isShow = true;
+            break;
+          }
         }
-      }
-      x.isShow = isShow;
+        x.isShow = isShow;
+      });
     });
   }
 
