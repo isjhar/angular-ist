@@ -17,3 +17,15 @@
   >
   </app-default-table>
 </div>
+
+<ng-template #actionTemplate let-element="element">
+  <button
+    *ngIf="element.id != 1"
+    mat-icon-button
+    color="primary"
+    aria-label="Example icon button with a delete icon"
+    (click)="onDeleteClicked(element)"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</ng-template>

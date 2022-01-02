@@ -1,6 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h2 mat-dialog-title>Tambah Pengguna</h2>
-  <mat-error *ngIf="error"> {{ error }} </mat-error>
+  <h1 mat-dialog-title>Tambah Pengguna</h1>
+  <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
   <mat-dialog-content class="mat-typography">
     <div fxLayout="column">
       <mat-form-field appearance="fill">
@@ -93,20 +93,12 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Batal</button>
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="!formGroup.valid || isLoading"
+    <app-loading-button
       data-test="btn-add-form"
-      style="width: 100px; height: 36px"
+      [disabled]="!formGroup.valid"
+      [isLoading]="isLoading"
     >
-      <ng-container *ngIf="!isLoading">Tambah</ng-container>
-      <mat-spinner
-        *ngIf="isLoading"
-        [diameter]="14"
-        style="margin: 0 auto"
-      ></mat-spinner>
-    </button>
+      Tambah
+    </app-loading-button>
   </mat-dialog-actions>
 </form>

@@ -1,6 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import {
   DefaultTableColumn,
   DefaultTableComponent,
@@ -20,6 +28,8 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
 
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
+  @ViewChild('actionTemplate', { static: true })
+  actionTemplate!: TemplateRef<any>;
 
   constructor(
     private userService: UserService,
@@ -43,6 +53,12 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
         prop: 'roles',
         show: true,
         title: 'Peran',
+      },
+      {
+        prop: 'aksi',
+        show: true,
+        title: 'Aksi',
+        cellTemplate: this.actionTemplate,
       },
     ];
   }
@@ -72,6 +88,27 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onDeleteClicked(element: any): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '30%',
+      maxWidth: 500,
+      height: 'auto ',
+      data: {
+        message: 'Apakah kamu yakin akan menghapus pengguna ini?',
+        yes$: this.delete(element.id),
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getList();
+        this.snackBar.open('Pengguna berhasil dihapus', 'Tutup', {
+          horizontalPosition: 'start',
+          verticalPosition: 'bottom',
+        });
+      }
+    });
+  }
+
   getList(): void {
     this.userService
       .getUsers({
@@ -85,6 +122,7 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
         this.dataSource = pagination.data.map((x: any) => {
           position++;
           return {
+            id: x.id,
             name: x.name,
             email: x.email,
             roles: x.roles.map((role: any) => role.name).join(', '),
@@ -92,5 +130,9 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
         });
         this.table.renderRows();
       });
+  }
+
+  delete(id: number): Observable<any> {
+    return this.userService.deleteUser(id);
   }
 }

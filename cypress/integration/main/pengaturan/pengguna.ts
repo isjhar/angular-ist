@@ -21,8 +21,21 @@ describe('Pengguna', () => {
 
     cy.get('body').click();
 
+    cy.intercept({
+      url: '/api/users',
+      method: 'POST',
+    }).as('storeUser');
+
     cy.get('[data-test="btn-add-form"]').click();
 
-    cy.get('[data-test="alert"').should('not.exist');
+    cy.wait('@storeUser').then((interception) => {
+      cy.get('[data-test="error"]').should('not.exist');
+    });
   });
+
+  it('Delete User', () => {
+    cy.get('[data-test="btn-delete"]').last();
+  });
+
+  it('Edit User', () => {});
 });

@@ -4,10 +4,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { FormErrorRequiredComponent } from './form-error/form-error-required/form-error-required.component';
 import { FormErrorEmailComponent } from './form-error/form-error-email/form-error-email.component';
+import { LoadingButtonComponent } from './loading-button/loading-button.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [FormErrorRequiredComponent, FormErrorEmailComponent],
-  exports: [FormErrorRequiredComponent, FormErrorEmailComponent],
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule],
+  declarations: [
+    FormErrorRequiredComponent,
+    FormErrorEmailComponent,
+    LoadingButtonComponent,
+  ],
+  exports: [
+    FormErrorRequiredComponent,
+    FormErrorEmailComponent,
+    LoadingButtonComponent,
+  ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class DefaultFormModule {}

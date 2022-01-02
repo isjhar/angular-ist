@@ -1,0 +1,11 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
+  <h1 mat-dialog-title>Konfirmasi</h1>
+  <mat-error *ngIf="error"> {{ error }} </mat-error>
+  <div mat-dialog-content>
+    <p>{{ data.message }}</p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Batal</button>
+    <app-loading-button [isLoading]="isLoading"> Ya </app-loading-button>
+  </div>
+</form>

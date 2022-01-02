@@ -21,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmDialogModule } from 'src/app/shared/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    ConfirmDialogModule,
   ],
 })
 export class PengaturanModule {}

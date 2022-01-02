@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
   Output,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,6 +14,7 @@ export interface DefaultTableColumn {
   title: string;
   prop: string;
   show: boolean;
+  cellTemplate?: TemplateRef<any>;
 }
 
 @Component({

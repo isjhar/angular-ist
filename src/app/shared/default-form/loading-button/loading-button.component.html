@@ -1,0 +1,17 @@
+<button
+  mat-raised-button
+  color="primary"
+  type="submit"
+  [disabled]="disabled || isLoading"
+  style="height: 36px"
+  [ngStyle]="{ width: width }"
+>
+  <ng-container *ngIf="!isLoading">
+    <ng-content></ng-content>
+  </ng-container>
+  <mat-spinner
+    *ngIf="isLoading"
+    [diameter]="14"
+    style="margin: 0 auto"
+  ></mat-spinner>
+</button>
