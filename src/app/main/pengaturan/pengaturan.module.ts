@@ -19,6 +19,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DefaultFormModule } from 'src/app/shared/default-form/default-form.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatChipsModule,
     MatIconModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
 })
 export class PengaturanModule {}

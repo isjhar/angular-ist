@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   DefaultTableColumn,
   DefaultTableComponent,
@@ -20,7 +21,11 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
 
-  constructor(private userService: UserService, public dialog: MatDialog) {}
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.columns = [
@@ -51,10 +56,19 @@ export class PenggunaComponent implements OnInit, AfterViewInit {
   }
 
   onTambahClicked(): void {
-    this.dialog.open(TambahPenggunaDialogComponent, {
+    const dialogRef = this.dialog.open(TambahPenggunaDialogComponent, {
       width: '90%',
       maxWidth: 500,
       height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getList();
+        this.snackBar.open('Tambah penggunan berhasil', 'Tutup', {
+          horizontalPosition: 'start',
+          verticalPosition: 'bottom',
+        });
+      }
     });
   }
 

@@ -25,6 +25,13 @@ interface RoleMenu {
   url?: string;
 }
 
+interface UserRequestParams {
+  email: string;
+  name: string;
+  password: string;
+  roles: number[];
+}
+
 export interface Role {
   id: number;
   name: string;
@@ -45,7 +52,7 @@ export class UserService {
     return this.http.get<ApiResponse<any>>(urlBuilder.getUrl());
   }
 
-  storeUser(params: User): Observable<ApiResponse<User>> {
+  storeUser(params: UserRequestParams): Observable<ApiResponse<User>> {
     return this.http.post<ApiResponse<User>>('/api/users/', params);
   }
 

@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   Form,
@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../../user.service';
 
 const passwordValidator2: ValidatorFn = (
@@ -31,8 +32,12 @@ const passwordValidator2: ValidatorFn = (
   styleUrls: ['./tambah-pengguna-dialog.component.scss'],
 })
 export class TambahPenggunaDialogComponent implements OnInit {
+  @Output() success = new EventEmitter();
+
   currentPassword: string = '';
   roleOptions: any[] = [];
+  isLoading: boolean = false;
+  error: string = '';
 
   formGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -73,7 +78,10 @@ export class TambahPenggunaDialogComponent implements OnInit {
     return this.formGroup.get('roles') as FormControl;
   }
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private dialogRef: MatDialogRef<TambahPenggunaDialogComponent>
+  ) {}
 
   ngOnInit(): void {
     this.password.valueChanges.subscribe((value) => {
@@ -95,7 +103,27 @@ export class TambahPenggunaDialogComponent implements OnInit {
   }
 
   onSubmitted(): void {
-    console.log('test');
+    this.isLoading = true;
+    let roles = this.roles.value as any[];
+    this.userService
+      .storeUser({
+        email: this.email.value,
+        name: this.name.value,
+        password: this.password.value,
+        roles: roles.map((x) => x.id),
+      })
+      .subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.dialogRef.close('success');
+        },
+        (response) => {
+          this.isLoading = false;
+          this.error = response.error.message
+            ? response.error.message
+            : 'internal server error';
+        }
+      );
   }
 
   addRole(event: MatChipInputEvent): void {}
