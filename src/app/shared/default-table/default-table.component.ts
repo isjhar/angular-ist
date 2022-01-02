@@ -43,10 +43,7 @@ export class DefaultTableComponent implements OnInit {
 
   private _dataSource: any[] = [];
   @Input() set dataSource(values: any[]) {
-    let startPosition = 1;
-    if (this.pageIndex) {
-      startPosition = this.pageIndex;
-    }
+    let startPosition = this.pageIndex * this.pageSize + 1;
     this._dataSource = values.map((x) => {
       let newSource = Object.assign({ position: startPosition }, x);
       startPosition++;
