@@ -3,15 +3,6 @@
 // with Intellisense and code completion in your
 // IDE or Text Editor.
 // ***********************************************
-// declare namespace Cypress {
-//   interface Chainable<Subject = any> {
-//     customCommand(param: any): typeof customCommand;
-//   }
-// }
-//
-// function customCommand(param: any): void {
-//   console.warn(param);
-// }
 //
 // NOTE: You can use it like so:
 // Cypress.Commands.add('customCommand', customCommand);
@@ -41,3 +32,30 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+declare namespace Cypress {
+  interface Chainable<Subject = any> {
+    login(): Chainable<any>;
+  }
+}
+
+Cypress.Commands.add('login', () => {
+  return cy.request('get', '/sanctum/csrf-cookie').then((response) => {
+    cy.getCookie('XSRF-TOKEN').then((cookie) => {
+      cy.request({
+        method: 'POST',
+        url: '/auth/login',
+        form: true,
+        body: {
+          email: 'isjhar@gmail.com',
+          password: 'muhtarudinB102!',
+        },
+        headers: {
+          'X-XSRF-TOKEN': decodeURIComponent(cookie?.value!),
+        },
+      }).then((respone) => {
+        localStorage.setItem('IS_LOGGED_IN', 'true');
+      });
+    });
+  });
+});
