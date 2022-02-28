@@ -34,8 +34,17 @@ describe('Pengguna', () => {
   });
 
   it('Delete User', () => {
-    cy.get('[data-test="btn-delete"]').last();
-  });
+    cy.get('[data-test="btn-delete"]').last().click();
 
-  it('Edit User', () => {});
+    cy.intercept({
+      url: '/api/users/*',
+      method: 'DELETE',
+    }).as('deleteUser');
+
+    cy.get('[data-test="btn-yes"]').click();
+
+    cy.wait('@deleteUser').then((interception) => {
+      cy.get('[data-test="error"]').should('not.exist');
+    });
+  });
 });
