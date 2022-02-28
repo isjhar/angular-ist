@@ -9,13 +9,7 @@
       Tambah
     </button>
   </div>
-  <app-default-table
-    [dataSource]="dataSource"
-    [length]="length"
-    [columns]="columns"
-    (page)="onPageChanged($event)"
-  >
-  </app-default-table>
+  <app-server-side-table #table> </app-server-side-table>
 </div>
 
 <ng-template #actionTemplate let-element="element">

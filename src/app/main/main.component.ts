@@ -47,8 +47,8 @@ export class MainComponent implements OnInit {
       icon: 'app_registration',
     },
     {
-      name: 'Pengaturan',
-      url: '/pengaturan',
+      name: 'Setting',
+      url: '/setting',
       isShow: false,
       icon: 'settings',
     },

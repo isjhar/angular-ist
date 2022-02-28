@@ -1,0 +1,6 @@
+<mat-tab-group (selectedTabChange)="onTabChanged($event)">
+  <mat-tab label="User">
+    <app-user *ngIf="isUserTabLoaded"></app-user>
+  </mat-tab>
+  <mat-tab label="Role"> Referensi </mat-tab>
+</mat-tab-group>

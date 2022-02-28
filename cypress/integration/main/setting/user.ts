@@ -1,4 +1,4 @@
-describe('Pengguna', () => {
+describe('User', () => {
   before(() => {
     cy.login().visit('/setting');
   });
@@ -9,10 +9,10 @@ describe('Pengguna', () => {
 
   it('Insert User', () => {
     cy.get('[data-test="btn-add-list"]').click();
-    cy.get('[data-test="email"]').type('test@gmail.com');
-    cy.get('[data-test="name"]').type('test');
-    cy.get('[data-test="password"]').type('test123');
-    cy.get('[data-test="confirm-password"]').type('test123');
+    cy.get('[data-test="email"]').type('ztest@gmail.com');
+    cy.get('[data-test="name"]').type('ztest');
+    cy.get('[data-test="password"]').type('ztest123');
+    cy.get('[data-test="confirm-password"]').type('ztest123');
     cy.get('[data-test="roles"]')
       .click()
       .get('mat-option')

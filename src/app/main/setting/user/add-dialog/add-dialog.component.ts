@@ -1,37 +1,20 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
-  Form,
-  FormArray,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
-import { UserService } from '../../user.service';
-
-const passwordValidator2: ValidatorFn = (
-  control: AbstractControl
-): ValidationErrors | null => {
-  let formControl = control as FormControl;
-  if (formControl.value.length < 2) {
-    return null;
-  }
-  return {
-    passwordMismatch: true,
-  };
-};
+import { UserHttpService } from '../../user-http.service';
 
 @Component({
-  selector: 'app-tambah-pengguna-dialog',
-  templateUrl: './tambah-pengguna-dialog.component.html',
-  styleUrls: ['./tambah-pengguna-dialog.component.scss'],
+  selector: 'app-add-dialog',
+  templateUrl: './add-dialog.component.html',
+  styleUrls: ['./add-dialog.component.scss'],
 })
-export class TambahPenggunaDialogComponent implements OnInit {
+export class AddDialogComponent implements OnInit {
   @Output() success = new EventEmitter();
 
   currentPassword: string = '';
@@ -79,8 +62,8 @@ export class TambahPenggunaDialogComponent implements OnInit {
   }
 
   constructor(
-    private userService: UserService,
-    private dialogRef: MatDialogRef<TambahPenggunaDialogComponent>
+    private userHttpService: UserHttpService,
+    private dialogRef: MatDialogRef<AddDialogComponent>
   ) {}
 
   ngOnInit(): void {
@@ -90,22 +73,10 @@ export class TambahPenggunaDialogComponent implements OnInit {
     this.getRoles();
   }
 
-  validatePassword(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      let confirmPassword = control as FormControl;
-      if (confirmPassword.value.lengt < 2) {
-        return null;
-      }
-      return {
-        passwordMismatch: true,
-      };
-    };
-  }
-
   onSubmitted(): void {
     this.isLoading = true;
     let roles = this.roles.value as any[];
-    this.userService
+    this.userHttpService
       .storeUser({
         email: this.email.value,
         name: this.name.value,
@@ -138,7 +109,7 @@ export class TambahPenggunaDialogComponent implements OnInit {
   selectedRole(event: any): void {}
 
   getRoles(): void {
-    this.userService.getRoles().subscribe((response) => {
+    this.userHttpService.getRoles().subscribe((response) => {
       this.roleOptions = response.data;
     });
   }

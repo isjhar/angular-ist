@@ -22,11 +22,9 @@ const routes: Routes = [
         canActivate: [MainGuard],
       },
       {
-        path: 'pengaturan',
+        path: 'setting',
         loadChildren: () =>
-          import('./pengaturan/pengaturan.module').then(
-            (m) => m.PengaturanModule
-          ),
+          import('./setting/setting.module').then((m) => m.SettingModule),
         canActivate: [MainGuard],
       },
     ],

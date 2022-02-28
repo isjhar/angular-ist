@@ -37,10 +37,8 @@ export interface Role {
   name: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class UserService {
+@Injectable({ providedIn: 'root' })
+export class UserHttpService {
   constructor(private http: HttpClient) {}
 
   getUsers(
