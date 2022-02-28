@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h1 mat-dialog-title>Tambah Pengguna</h1>
+  <h1 mat-dialog-title>Add Role</h1>
   <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
   <mat-dialog-content class="mat-typography">
     <div fxLayout="column">
@@ -20,14 +20,14 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Nama</mat-label>
+        <mat-label>Name</mat-label>
         <input matInput formControlName="name" required data-test="name" />
         <mat-error>
           <app-form-error-required name="name"></app-form-error-required>
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Kata Sandi</mat-label>
+        <mat-label>Password</mat-label>
         <input
           matInput
           type="password"
@@ -42,7 +42,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Konfirmasi Kata Sandi</mat-label>
+        <mat-label>Confirm Password</mat-label>
         <input
           matInput
           type="password"
@@ -52,7 +52,7 @@
           autocomplete="confirm-password"
         />
         <mat-error *ngIf="confirmPassword.hasError('passwordMismatch')">
-          Password tidak sama
+          Password do not match
         </mat-error>
         <mat-error>
           <app-form-error-required
@@ -62,7 +62,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Peran</mat-label>
+        <mat-label>Role</mat-label>
         <mat-select formControlName="roles" multiple required data-test="roles">
           <mat-select-trigger>
             <mat-chip-list>
@@ -92,13 +92,13 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Batal</button>
+    <button mat-button mat-dialog-close>Cancel</button>
     <app-loading-button
       data-test="btn-add-form"
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
     >
-      Tambah
+      Save
     </app-loading-button>
   </mat-dialog-actions>
 </form>

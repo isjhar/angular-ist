@@ -43,12 +43,12 @@ export class UserComponent implements OnInit {
       {
         prop: 'roles',
         show: true,
-        title: 'Peran',
+        title: 'Role',
       },
       {
-        prop: 'aksi',
+        prop: 'id',
         show: true,
-        title: 'Aksi',
+        title: 'Action',
         cellTemplate: this.actionTemplate,
       },
     ]);
