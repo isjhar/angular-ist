@@ -48,7 +48,7 @@ Cypress.Commands.add('login', () => {
         form: true,
         body: {
           email: 'isjhar@gmail.com',
-          password: 'muhtarudinB102!',
+          password: '1234qwer!',
         },
         headers: {
           'X-XSRF-TOKEN': decodeURIComponent(cookie?.value!),
