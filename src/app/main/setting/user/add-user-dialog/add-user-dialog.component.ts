@@ -1,22 +1,20 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
+import { RoleHttpService } from '../../role-http.service';
 import { UserHttpService } from '../../user-http.service';
 
 @Component({
-  selector: 'app-add-dialog',
-  templateUrl: './add-dialog.component.html',
-  styleUrls: ['./add-dialog.component.scss'],
+  selector: 'app-add-user-dialog',
+  templateUrl: './add-user-dialog.component.html',
+  styleUrls: ['./add-user-dialog.component.scss'],
 })
-export class AddDialogComponent implements OnInit {
-  @Output() success = new EventEmitter();
-
+export class AddUserDialogComponent implements OnInit {
   currentPassword: string = '';
   roleOptions: any[] = [];
   isLoading: boolean = false;
@@ -63,7 +61,8 @@ export class AddDialogComponent implements OnInit {
 
   constructor(
     private userHttpService: UserHttpService,
-    private dialogRef: MatDialogRef<AddDialogComponent>
+    private roleHttpService: RoleHttpService,
+    private dialogRef: MatDialogRef<AddUserDialogComponent>
   ) {}
 
   ngOnInit(): void {
@@ -97,8 +96,6 @@ export class AddDialogComponent implements OnInit {
       );
   }
 
-  addRole(event: MatChipInputEvent): void {}
-
   removeRole(role: any): void {
     const roles = this.roles.value as any[];
     let index = roles.findIndex((x) => x.id == role.id);
@@ -106,10 +103,8 @@ export class AddDialogComponent implements OnInit {
     this.roles.setValue(roles);
   }
 
-  selectedRole(event: any): void {}
-
   getRoles(): void {
-    this.userHttpService.getRoles().subscribe((response) => {
+    this.roleHttpService.get().subscribe((response) => {
       this.roleOptions = response.data;
     });
   }

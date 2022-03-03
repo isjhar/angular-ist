@@ -92,9 +92,11 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button mat-dialog-close data-test="btn-cancel-form">
+      Cancel
+    </button>
     <app-loading-button
-      data-test="btn-add-form"
+      data-test="btn-save-form"
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
     >

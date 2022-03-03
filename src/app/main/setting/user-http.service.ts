@@ -7,22 +7,11 @@ import {
   Pagination,
   PaginationParams,
 } from 'src/app/api';
+import { Role } from './role-http.service';
 
 interface User {
   email: string;
-  roles: UserRole[];
-}
-
-interface UserRole {
-  id: number;
-  name: string;
-  menus: RoleMenu[];
-}
-
-interface RoleMenu {
-  id: number;
-  name: string;
-  url?: string;
+  roles: Role[];
 }
 
 interface UserRequestParams {
@@ -30,11 +19,6 @@ interface UserRequestParams {
   name: string;
   password: string;
   roles: number[];
-}
-
-export interface Role {
-  id: number;
-  name: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -60,10 +44,5 @@ export class UserHttpService {
 
   deleteUser(id: number): Observable<ApiResponse<any>> {
     return this.http.delete<ApiResponse<any>>(`/api/users/${id}`);
-  }
-
-  getRoles(): Observable<ApiResponse<Role[]>> {
-    let urlBuilder = new ApiUrlBuilder('/api/roles');
-    return this.http.get<ApiResponse<Role[]>>(urlBuilder.getUrl());
   }
 }

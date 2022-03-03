@@ -6,7 +6,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-di
 import { ServerSideTableComponent } from 'src/app/shared/default-table/server-side-table/server-side-table.component';
 import { ServerSideTableService } from 'src/app/shared/default-table/server-side-table/server-side-table.service';
 import { UserHttpService } from '../user-http.service';
-import { AddDialogComponent } from './add-dialog/add-dialog.component';
+import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
 import { UserTableService } from './user-table.service';
 
 @Component({
@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
   }
 
   onTambahClicked(): void {
-    const dialogRef = this.dialog.open(AddDialogComponent, {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
       width: '90%',
       maxWidth: 500,
       height: 'auto',
