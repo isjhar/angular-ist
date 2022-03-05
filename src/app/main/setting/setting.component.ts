@@ -8,14 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class SettingComponent implements OnInit {
   constructor() {}
 
-  isUserTabLoaded: boolean = true;
-
   ngOnInit(): void {}
 
   onTabChanged(event: any): void {
     switch (event.index) {
       case 0:
-        this.isUserTabLoaded = true;
+        break;
+      case 1:
+        break;
     }
   }
 }

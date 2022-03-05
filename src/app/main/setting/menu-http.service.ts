@@ -21,7 +21,13 @@ interface StoreRequestParams {}
 export class MenuHttpService {
   constructor(private http: HttpClient) {}
 
-  get(params: PaginationParams): Observable<ApiResponse<Pagination<Menu>>> {
+  get(): Observable<ApiResponse<Pagination<Menu>>> {
+    return this.http.get<ApiResponse<Pagination<Menu>>>('/api/menus');
+  }
+
+  getPerPage(
+    params: PaginationParams
+  ): Observable<ApiResponse<Pagination<Menu>>> {
     let urlBuilder = new ApiUrlBuilder('/api/menus');
     urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);

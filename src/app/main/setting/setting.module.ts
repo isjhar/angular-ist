@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { SettingRoutingModule } from './setting-routing.module';
 import { SettingComponent } from './setting.component';
 import { UserComponent } from './user/user.component';
-import { AddDialogComponent } from './user/add-dialog/add-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DefaultTableModule } from 'src/app/shared/default-table/default-table.module';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,9 +18,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
+import { RoleComponent } from './role/role.component';
+import { AddRoleDialogComponent } from './role/add-role-dialog/add-role-dialog.component';
+import { AddUserDialogComponent } from './user/add-user-dialog/add-user-dialog.component';
 
 @NgModule({
-  declarations: [SettingComponent, UserComponent, AddDialogComponent],
+  declarations: [
+    SettingComponent,
+    UserComponent,
+    RoleComponent,
+    AddRoleDialogComponent,
+    AddUserDialogComponent,
+  ],
   imports: [
     CommonModule,
     SettingRoutingModule,

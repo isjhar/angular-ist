@@ -16,7 +16,6 @@ export interface Role {
 }
 
 interface RoleRequestParams {
-  id: number;
   name: string;
   menus: number[];
 }
@@ -27,8 +26,8 @@ interface RoleRequestParams {
 export class RoleHttpService {
   constructor(private http: HttpClient) {}
 
-  get(): Observable<ApiResponse<Role[]>> {
-    return this.http.get<ApiResponse<Role[]>>('/api/roles');
+  get(): Observable<ApiResponse<Pagination<Role>>> {
+    return this.http.get<ApiResponse<Pagination<Role>>>('/api/roles');
   }
 
   getPerPage(
@@ -44,8 +43,8 @@ export class RoleHttpService {
     return this.http.post<ApiResponse<Role>>('/api/roles', params);
   }
 
-  update(params: RoleRequestParams): Observable<ApiResponse<any>> {
-    return this.http.patch<ApiResponse<any>>('/api/roles', params);
+  update(id: number, params: RoleRequestParams): Observable<ApiResponse<any>> {
+    return this.http.patch<ApiResponse<any>>(`/api/roles/${id}`, params);
   }
 
   delete(id: number): Observable<ApiResponse<any>> {

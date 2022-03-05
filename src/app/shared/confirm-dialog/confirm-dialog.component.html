@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h1 mat-dialog-title>Konfirmasi</h1>
+  <h1 mat-dialog-title>Confirmation</h1>
   <mat-error *ngIf="error" data-test="error"> {{ error }} </mat-error>
   <div mat-dialog-content>
     <p>{{ data.message }}</p>

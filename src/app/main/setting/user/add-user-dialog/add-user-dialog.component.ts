@@ -105,7 +105,7 @@ export class AddUserDialogComponent implements OnInit {
 
   getRoles(): void {
     this.roleHttpService.get().subscribe((response) => {
-      this.roleOptions = response.data;
+      this.roleOptions = response.data.data;
     });
   }
 }

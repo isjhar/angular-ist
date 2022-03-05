@@ -1,20 +1,20 @@
 describe('Role', () => {
   before(() => {
-    cy.login().visit('/pengaturan');
+    cy.login().visit('/setting');
+    cy.get('div[role="tab"]').eq(1).click();
   });
 
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('laravel_session', 'XSRF-TOKEN');
   });
 
-  it('Insert Role', () => {
-    cy.get('[data-test="btn-role-tab"]').click();
-    cy.get('[data-test="btn-add-list"]').click();
+  it('Insert role', () => {
+    cy.get('[data-test="btn-add-role-list"]').click();
     cy.get('[data-test="name"]').type('Perawat');
     cy.get('[data-test="menus"]')
       .click()
       .get('mat-option')
-      .contains('Pendaftaran')
+      .contains('Setting')
       .click();
 
     cy.get('body').click();
@@ -26,18 +26,42 @@ describe('Role', () => {
 
     cy.get('[data-test="btn-save-form"]').click();
 
-    cy.wait('@storeUser').then((interception) => {
+    cy.wait('@storeRole').then((interception) => {
       cy.get('[data-test="error"]').should('not.exist');
     });
   });
 
-  it('Edit Role', () => {
+  it('Insert duplicate role', () => {
+    cy.get('[data-test="btn-add-role-list"]').click();
+    cy.get('[data-test="name"]').type('Admin');
+    cy.get('[data-test="menus"]')
+      .click()
+      .get('mat-option')
+      .contains('Setting')
+      .click();
+
+    cy.get('body').click();
+
+    cy.intercept({
+      url: '/api/roles',
+      method: 'POST',
+    }).as('storeRole');
+
+    cy.get('[data-test="btn-save-form"]').click();
+
+    cy.wait('@storeRole').then((interception) => {
+      cy.get('[data-test="error"]').should('exist');
+      cy.get('[data-test="btn-cancel-form"]').click();
+    });
+  });
+
+  it('Edit role', () => {
     cy.get('[data-test="btn-edit"]').last().click();
     cy.get('[data-test="name"]').type('Staff');
     cy.get('[data-test="menus"]')
       .click()
       .get('mat-option')
-      .contains('Pendaftaran')
+      .contains('Setting')
       .click();
 
     cy.get('body').click();
@@ -45,11 +69,11 @@ describe('Role', () => {
     cy.intercept({
       url: '/api/roles/*',
       method: 'PATCH',
-    }).as('patchRole');
+    }).as('updateRole');
 
     cy.get('[data-test="btn-save-form"]').click();
 
-    cy.wait('@patchRole').then((interception) => {
+    cy.wait('@updateRole').then((interception) => {
       cy.get('[data-test="error"]').should('not.exist');
     });
   });
