@@ -25,7 +25,7 @@ interface UserRequestParams {
 export class UserHttpService {
   constructor(private http: HttpClient) {}
 
-  getUsers(
+  getPerPage(
     params: PaginationParams
   ): Observable<ApiResponse<Pagination<User>>> {
     let urlBuilder = new ApiUrlBuilder('/api/users');

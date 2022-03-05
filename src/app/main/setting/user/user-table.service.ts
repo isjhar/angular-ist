@@ -10,7 +10,7 @@ export class UserTableService extends ServerSideTableService {
     super();
   }
   getList(params: PaginationParams): Observable<ApiResponse<Pagination<any>>> {
-    return this.httpService.getUsers(params);
+    return this.httpService.getPerPage(params);
   }
   map(source: any) {
     return {
