@@ -14,7 +14,11 @@ export interface Menu {
   url: string;
 }
 
-interface StoreRequestParams {}
+interface StoreRequestParams {
+  name: string;
+  url: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -38,8 +42,8 @@ export class MenuHttpService {
     return this.http.post<ApiResponse<Menu>>('/api/menus', params);
   }
 
-  update(params: Menu): Observable<ApiResponse<any>> {
-    return this.http.patch<ApiResponse<any>>('/api/menus', params);
+  update(id: number, params: StoreRequestParams): Observable<ApiResponse<any>> {
+    return this.http.patch<ApiResponse<any>>(`/api/menus/${id}`, params);
   }
 
   delete(id: number): Observable<ApiResponse<any>> {

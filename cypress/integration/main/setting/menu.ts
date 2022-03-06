@@ -27,7 +27,7 @@ describe('Menu', () => {
 
   it('Insert duplicate menu', () => {
     cy.get('[data-test="btn-add-menu-list"]').click();
-    cy.get('[data-test="name"]').type('Admin');
+    cy.get('[data-test="name"]').type('Registration');
     cy.get('[data-test="url"]').type('/registration');
 
     cy.intercept({

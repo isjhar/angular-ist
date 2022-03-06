@@ -1,0 +1,36 @@
+<div class="container">
+  <div style="margin-bottom: 10px">
+    <button
+      data-test="btn-add-menu-list"
+      mat-raised-button
+      color="primary"
+      (click)="onAddClicked()"
+    >
+      Add
+    </button>
+  </div>
+  <app-server-side-table #table> </app-server-side-table>
+</div>
+
+<ng-template #actionTemplate let-element="element">
+  <button
+    *ngIf="element.id != 1"
+    mat-icon-button
+    color="primary"
+    aria-label="Edit"
+    data-test="btn-edit"
+    (click)="onEditClicked(element)"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    *ngIf="element.id != 1"
+    mat-icon-button
+    color="primary"
+    aria-label="Delete"
+    data-test="btn-delete"
+    (click)="onDeleteClicked(element)"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</ng-template>

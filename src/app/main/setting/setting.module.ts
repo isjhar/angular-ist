@@ -21,6 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { RoleComponent } from './role/role.component';
 import { AddRoleDialogComponent } from './role/add-role-dialog/add-role-dialog.component';
 import { AddUserDialogComponent } from './user/add-user-dialog/add-user-dialog.component';
+import { MenuComponent } from './menu/menu.component';
+import { AddMenuDialogComponent } from './menu/add-menu-dialog/add-menu-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { AddUserDialogComponent } from './user/add-user-dialog/add-user-dialog.c
     RoleComponent,
     AddRoleDialogComponent,
     AddUserDialogComponent,
+    MenuComponent,
+    AddMenuDialogComponent,
   ],
   imports: [
     CommonModule,
