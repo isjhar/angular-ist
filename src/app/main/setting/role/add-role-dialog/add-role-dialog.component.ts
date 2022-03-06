@@ -45,7 +45,6 @@ export class AddRoleDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formGroup.patchValue(this.data.value);
     this.getMenus();
   }
 
@@ -84,6 +83,13 @@ export class AddRoleDialogComponent implements OnInit {
   getMenus(): void {
     this.menuHttpService.get().subscribe((response) => {
       this.menuOptions = response.data.data;
+      this.formGroup.patchValue({
+        id: this.data.value.id,
+        name: this.data.value.name,
+        menus: this.menuOptions.filter((x) =>
+          this.data.value.menus.includes(x.id)
+        ),
+      });
     });
   }
 }
