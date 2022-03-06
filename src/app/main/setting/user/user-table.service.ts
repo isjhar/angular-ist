@@ -17,7 +17,7 @@ export class UserTableService extends ServerSideTableService {
       id: source.id,
       name: source.name,
       email: source.email,
-      roles: source.roles.map((role: any) => role.name).join(', '),
+      role_names: source.role_names,
     };
   }
 }

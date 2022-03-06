@@ -34,16 +34,19 @@ export class UserComponent implements OnInit {
         prop: 'name',
         show: true,
         title: 'Name',
+        sortable: true,
       },
       {
         prop: 'email',
         show: true,
         title: 'Email',
+        sortable: true,
       },
       {
-        prop: 'roles',
+        prop: 'role_names',
         show: true,
-        title: 'Role',
+        title: 'Roles',
+        sortable: true,
       },
       {
         prop: 'id',

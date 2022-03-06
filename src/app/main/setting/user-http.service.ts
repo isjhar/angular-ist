@@ -11,6 +11,8 @@ import { Role } from './role-http.service';
 
 interface User {
   email: string;
+  name: string;
+  role_names: string;
   roles: Role[];
 }
 
@@ -31,6 +33,8 @@ export class UserHttpService {
     let urlBuilder = new ApiUrlBuilder('/api/users');
     urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
+    urlBuilder.pushQueryParam('sort', params.sort);
+    urlBuilder.pushQueryParam('order', params.order);
     return this.http.get<ApiResponse<any>>(urlBuilder.getUrl());
   }
 
