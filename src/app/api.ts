@@ -6,6 +6,8 @@ export interface ApiResponse<T> {
 export interface PaginationParams {
   page?: number;
   limit?: number;
+  sort?: string;
+  order?: string;
 }
 
 export interface Pagination<T> {

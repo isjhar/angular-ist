@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 
 export interface DefaultTableColumn {
@@ -15,6 +16,7 @@ export interface DefaultTableColumn {
   prop: string;
   show: boolean;
   cellTemplate?: TemplateRef<any>;
+  sortable?: boolean;
 }
 
 @Component({
@@ -57,9 +59,11 @@ export class DefaultTableComponent implements OnInit {
   }
 
   @Output() page = new EventEmitter<any>();
+  @Output() sortChange = new EventEmitter<any>();
 
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sorter!: MatSort;
 
   pageSizeOptions: number[] = [5, 10, 20];
   displayedColumns: string[] = [];
@@ -72,12 +76,24 @@ export class DefaultTableComponent implements OnInit {
     return this.paginator.pageIndex;
   }
 
+  get sort() {
+    return this.sorter.active;
+  }
+
+  get order() {
+    return this.sorter.direction;
+  }
+
   constructor() {}
 
   ngOnInit(): void {}
 
   onPageChanged(event: any): void {
     this.page.emit(event);
+  }
+
+  onSortChanged(event: any): void {
+    this.sortChange.emit(event);
   }
 
   renderRows(): void {

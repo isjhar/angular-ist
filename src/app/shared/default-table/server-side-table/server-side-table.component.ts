@@ -45,11 +45,17 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
     this.getList();
   }
 
+  onSortChanged(event: any): void {
+    this.getList();
+  }
+
   getList(): void {
     this.service
       .getList({
         limit: this.table.pageSize,
         page: this.table.pageIndex + 1,
+        sort: this.table.sort,
+        order: this.table.order,
       })
       .subscribe((response: any) => {
         let pagination = response.data;
