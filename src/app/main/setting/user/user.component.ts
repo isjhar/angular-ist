@@ -66,7 +66,7 @@ export class UserComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('Tambah penggunan berhasil', 'Tutup', {
+        this.snackBar.open('User added successfully', 'Close', {
           horizontalPosition: 'start',
           verticalPosition: 'bottom',
         });
@@ -80,14 +80,14 @@ export class UserComponent implements OnInit {
       maxWidth: 500,
       height: 'auto ',
       data: {
-        message: 'Apakah kamu yakin akan menghapus pengguna ini?',
+        message: 'Are you sure?',
         yes$: this.delete(element.id),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('Pengguna berhasil dihapus', 'Tutup', {
+        this.snackBar.open('User deleted successfully', 'Close', {
           horizontalPosition: 'start',
           verticalPosition: 'bottom',
         });
