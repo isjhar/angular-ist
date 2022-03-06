@@ -45,7 +45,8 @@ describe('Menu', () => {
 
   it('Edit menu', () => {
     cy.get('[data-test="btn-edit"]').last().click();
-    cy.get('[data-test="name"]').type('Pendaftaran');
+    cy.get('[data-test="name"]').clear();
+    cy.get('[data-test="name"]').type('Registraion');
 
     cy.intercept({
       url: '/api/menus/*',
