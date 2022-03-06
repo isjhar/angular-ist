@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService, User } from '../auth.service';
 import { UserManagementService } from '../user-management.service';
 
 interface Menu {
@@ -25,6 +25,12 @@ export class MainComponent implements OnInit {
       map((result) => result.matches),
       shareReplay()
     );
+
+  loggedUser: User = {
+    email: '',
+    name: '',
+    roles: [],
+  };
 
   constructor(
     private authService: AuthService,
@@ -55,22 +61,27 @@ export class MainComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.filterMenus();
+    this.getLoggedUser();
   }
 
-  filterMenus(): void {
+  getLoggedUser(): void {
     this.authService.getUser().subscribe((user) => {
-      this.menus.forEach((x) => {
-        let isShow = false;
-        for (let index = 0; index < user.roles.length; index++) {
-          const element = user.roles[index];
-          if (element.menus.map((x) => x.name).includes(x.name)) {
-            isShow = true;
-            break;
-          }
+      this.loggedUser = user;
+      this.filterAccessibleMenu();
+    });
+  }
+
+  filterAccessibleMenu(): void {
+    this.menus.forEach((x) => {
+      let isShow = false;
+      for (let index = 0; index < this.loggedUser.roles.length; index++) {
+        const element = this.loggedUser.roles[index];
+        if (element.menus.map((x) => x.name).includes(x.name)) {
+          isShow = true;
+          break;
         }
-        x.isShow = isShow;
-      });
+      }
+      x.isShow = isShow;
     });
   }
 

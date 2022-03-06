@@ -13,10 +13,18 @@
       <span>smirs-web</span>
     </div>
     <div class="flex-item">
-      <button mat-button color="secondary" [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon> Profil
+      <button mat-button color="secondary">
+        <mat-icon>account_circle</mat-icon> {{ loggedUser.name }}
+      </button>
+
+      <button mat-icon-button color="secondary" [matMenuTriggerFor]="menu">
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>email</mat-icon> {{ loggedUser.email }}
+        </button>
+        <mat-divider></mat-divider>
         <button mat-menu-item (click)="onLogoutClicked()">
           <mat-icon>logout</mat-icon> Logout
         </button>

@@ -7,6 +7,7 @@ import { UserManagementService } from './user-management.service';
 
 export interface User {
   email: string;
+  name: string;
   roles: UserRole[];
 }
 
