@@ -1,10 +1,10 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h1 mat-dialog-title>Role</h1>
+  <h1 mat-dialog-title i18n="role">Role</h1>
   <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
   <mat-dialog-content class="mat-typography">
     <div fxLayout="column">
       <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
+        <mat-label i18n="name">Name</mat-label>
         <input matInput formControlName="name" required data-test="name" />
         <mat-error>
           <app-form-error-required name="name"></app-form-error-required>
@@ -12,7 +12,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Menu</mat-label>
+        <mat-label i18n="menu">Menu</mat-label>
         <mat-select formControlName="menus" multiple required data-test="menus">
           <mat-select-trigger>
             <mat-chip-list>
@@ -42,13 +42,19 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close data-test="btn-cancel-form">
+    <button
+      mat-button
+      mat-dialog-close
+      data-test="btn-cancel-form"
+      i18n="cancel"
+    >
       Cancel
     </button>
     <app-loading-button
       data-test="btn-save-form"
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
+      i18n="save"
     >
       Save
     </app-loading-button>

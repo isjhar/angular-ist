@@ -1,10 +1,10 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h1 mat-dialog-title>User</h1>
+  <h1 mat-dialog-title i18n="user">User</h1>
   <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
   <mat-dialog-content class="mat-typography">
     <div fxLayout="column">
       <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
+        <mat-label i18n="email">Email</mat-label>
         <input
           matInput
           formControlName="email"
@@ -20,14 +20,14 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
+        <mat-label i18n="name">Name</mat-label>
         <input matInput formControlName="name" required data-test="name" />
         <mat-error>
           <app-form-error-required name="name"></app-form-error-required>
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
+        <mat-label i18n="password">Password</mat-label>
         <input
           matInput
           type="password"
@@ -42,7 +42,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Confirm Password</mat-label>
+        <mat-label i18n="confirm-password">Confirm Password</mat-label>
         <input
           matInput
           type="password"
@@ -62,7 +62,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Role</mat-label>
+        <mat-label i18n="role">Role</mat-label>
         <mat-select formControlName="roles" multiple required data-test="roles">
           <mat-select-trigger>
             <mat-chip-list>
@@ -92,13 +92,19 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close data-test="btn-cancel-form">
+    <button
+      mat-button
+      mat-dialog-close
+      data-test="btn-cancel-form"
+      i18n="cancel"
+    >
       Cancel
     </button>
     <app-loading-button
       data-test="btn-save-form"
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
+      i18n="save"
     >
       Save
     </app-loading-button>
