@@ -1,16 +1,17 @@
 <mat-toolbar color="primary">
   <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="100%">
     <div class="flex-item">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.open()"
-        *ngIf="isHandset$ | async"
-      >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>smirs-web</span>
+      <div fxLayout="row" fxLayoutAlign="space-start center">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="sidenav.toggle()"
+        >
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <label>smirs-web</label>
+      </div>
     </div>
     <div class="flex-item">
       <button mat-button color="secondary">
@@ -35,7 +36,7 @@
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
-    #drawer
+    #sidenav
     class="sidenav"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
