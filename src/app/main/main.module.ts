@@ -13,6 +13,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BreadcrumbModule } from '../shared/breadcrumb/breadcrumb.module';
 
 @NgModule({
   declarations: [MainComponent],
@@ -29,6 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCardModule,
     MatMenuModule,
     FlexLayoutModule,
+    BreadcrumbModule,
   ],
 })
 export class MainModule {}

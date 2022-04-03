@@ -44,14 +44,49 @@
   >
     <mat-nav-list>
       <ng-container *ngFor="let menu of menus">
-        <a *ngIf="menu.isShow" mat-list-item [routerLink]="menu.url">
-          <mat-icon mat-list-icon style="margin-right: 10px">{{
-            menu.icon
-          }}</mat-icon>
-          {{ menu.name }}
-        </a>
+        <ng-container *ngIf="menu.isShow">
+          <a *ngIf="!menu.childs" mat-list-item [routerLink]="menu.url">
+            <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
+            {{ menu.name }}
+          </a>
+
+          <a *ngIf="menu.childs" mat-list-item (click)="toggleMenu(menu.name)">
+            <div
+              fxLayout="row"
+              style="width: 100%"
+              fxLayoutAlign="space-between center"
+            >
+              <div class="flex-item">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon mat-list-icon class="icon">{{
+                    menu.icon
+                  }}</mat-icon>
+                  {{ menu.name }}
+                </div>
+              </div>
+              <div class="flex-item">
+                <mat-icon mat-list-icon> arrow_drop_down </mat-icon>
+              </div>
+            </div>
+          </a>
+          <ng-container *ngIf="expandedMenu == menu.name">
+            <mat-nav-list>
+              <ng-container *ngFor="let child of menu.childs">
+                <a
+                  mat-list-item
+                  [routerLink]="menu.url + child.url"
+                  class="child-label"
+                  >{{ child.name }}
+                </a>
+              </ng-container>
+            </mat-nav-list>
+          </ng-container>
+        </ng-container>
       </ng-container>
     </mat-nav-list>
   </mat-sidenav>
-  <router-outlet></router-outlet>
+  <div class="container">
+    <app-breadcrumb></app-breadcrumb>
+    <router-outlet></router-outlet>
+  </div>
 </mat-sidenav-container>

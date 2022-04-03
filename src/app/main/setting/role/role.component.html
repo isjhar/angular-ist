@@ -1,17 +1,15 @@
-<div class="container">
-  <div style="margin-bottom: 10px">
-    <button
-      data-test="btn-add-role-list"
-      mat-raised-button
-      color="primary"
-      (click)="onTambahClicked()"
-      i18n="add"
-    >
-      Add
-    </button>
-  </div>
-  <app-server-side-table #table> </app-server-side-table>
+<div style="margin-bottom: 10px">
+  <button
+    data-test="btn-add-role-list"
+    mat-raised-button
+    color="primary"
+    (click)="onTambahClicked()"
+    i18n="add"
+  >
+    Add
+  </button>
 </div>
+<app-server-side-table #table> </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
   <button

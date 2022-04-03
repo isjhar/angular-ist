@@ -11,6 +11,12 @@ interface Menu {
   url: string;
   isShow: boolean;
   icon: string;
+  childs?: MenuChild[];
+}
+
+interface MenuChild {
+  name: string;
+  url: string;
 }
 
 @Component({
@@ -57,6 +63,20 @@ export class MainComponent implements OnInit {
       url: '/setting',
       isShow: false,
       icon: 'settings',
+      childs: [
+        {
+          name: 'Users',
+          url: '/users',
+        },
+        {
+          name: 'Roles',
+          url: '/roles',
+        },
+        {
+          name: 'Menus',
+          url: '/menus',
+        },
+      ],
     },
   ];
 
@@ -90,5 +110,14 @@ export class MainComponent implements OnInit {
       this.authService.logout();
       this.router.navigate(['/login']);
     });
+  }
+
+  expandedMenu: string = '';
+  toggleMenu(name: string): void {
+    if (this.expandedMenu == name) {
+      this.expandedMenu = '';
+      return;
+    }
+    this.expandedMenu = name;
   }
 }

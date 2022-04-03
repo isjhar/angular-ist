@@ -2,10 +2,32 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SettingComponent } from './setting.component';
 
-const routes: Routes = [{ path: '', component: SettingComponent }];
+const routes: Routes = [
+  {
+    path: '',
+    component: SettingComponent,
+    children: [
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./user/user.module').then((m) => m.UserModule),
+      },
+      {
+        path: 'roles',
+        loadChildren: () =>
+          import('./role/role.module').then((m) => m.RoleModule),
+      },
+      {
+        path: 'menus',
+        loadChildren: () =>
+          import('./menu/menu.module').then((m) => m.MenuModule),
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SettingRoutingModule { }
+export class SettingRoutingModule {}
