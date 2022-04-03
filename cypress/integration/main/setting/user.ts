@@ -1,6 +1,6 @@
 describe('User', () => {
   before(() => {
-    cy.login().visit('/setting');
+    cy.login().visit('/setting/users');
   });
 
   beforeEach(() => {

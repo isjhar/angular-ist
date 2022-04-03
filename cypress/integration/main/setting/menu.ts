@@ -1,7 +1,6 @@
 describe('Menu', () => {
   before(() => {
-    cy.login().visit('/setting');
-    cy.get('div[role="tab"]').eq(2).click();
+    cy.login().visit('/setting/menus');
   });
 
   beforeEach(() => {
@@ -46,7 +45,7 @@ describe('Menu', () => {
   it('Edit menu', () => {
     cy.get('[data-test="btn-edit"]').last().click();
     cy.get('[data-test="name"]').clear();
-    cy.get('[data-test="name"]').type('Registraion');
+    cy.get('[data-test="name"]').type('Registration');
 
     cy.intercept({
       url: '/api/menus/*',

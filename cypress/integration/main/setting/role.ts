@@ -1,7 +1,6 @@
 describe('Role', () => {
   before(() => {
-    cy.login().visit('/setting');
-    cy.get('div[role="tab"]').eq(1).click();
+    cy.login().visit('/setting/roles');
   });
 
   beforeEach(() => {
@@ -57,14 +56,8 @@ describe('Role', () => {
 
   it('Edit role', () => {
     cy.get('[data-test="btn-edit"]').last().click();
+    cy.get('[data-test="name"]').clear();
     cy.get('[data-test="name"]').type('Staff');
-    cy.get('[data-test="menus"]')
-      .click()
-      .get('mat-option')
-      .contains('Setting')
-      .click();
-
-    cy.get('body').click();
 
     cy.intercept({
       url: '/api/roles/*',
