@@ -1,20 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { MenuHttpService } from '../../menu-http.service';
-import { RoleHttpService } from '../../role-http.service';
+import { RolesHttpService } from '../../roles-http.service';
 
-export interface AddRoleDialogData {
+export interface AddDialogData {
   value: any;
 }
 
 @Component({
-  selector: 'app-add-role-dialog',
-  templateUrl: './add-role-dialog.component.html',
-  styleUrls: ['./add-role-dialog.component.scss'],
+  selector: 'app-add-dialog',
+  templateUrl: './add-dialog.component.html',
+  styleUrls: ['./add-dialog.component.scss'],
 })
-export class AddRoleDialogComponent implements OnInit {
+export class AddDialogComponent implements OnInit {
   menuOptions: any[] = [];
   isLoading: boolean = false;
   error: string = '';
@@ -38,10 +37,10 @@ export class AddRoleDialogComponent implements OnInit {
   }
 
   constructor(
-    private roleHttpService: RoleHttpService,
+    private roleHttpService: RolesHttpService,
     private menuHttpService: MenuHttpService,
-    private dialogRef: MatDialogRef<AddRoleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AddRoleDialogData
+    private dialogRef: MatDialogRef<AddDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {}
 
   ngOnInit(): void {

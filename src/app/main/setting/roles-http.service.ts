@@ -23,7 +23,7 @@ interface RoleRequestParams {
 @Injectable({
   providedIn: 'root',
 })
-export class RoleHttpService {
+export class RolesHttpService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<ApiResponse<Pagination<Role>>> {

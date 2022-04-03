@@ -1,4 +1,4 @@
-describe('Role', () => {
+describe('Roles', () => {
   before(() => {
     cy.login().visit('/setting/roles');
   });

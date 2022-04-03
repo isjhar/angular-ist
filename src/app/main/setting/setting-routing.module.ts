@@ -20,7 +20,7 @@ const routes: Routes = [
       {
         path: 'roles',
         loadChildren: () =>
-          import('./role/role.module').then((m) => m.RoleModule),
+          import('./roles/roles.module').then((m) => m.RolesModule),
       },
       {
         path: 'menus',

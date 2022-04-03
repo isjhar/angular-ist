@@ -7,7 +7,7 @@ import {
   Pagination,
   PaginationParams,
 } from 'src/app/api';
-import { Role } from './role-http.service';
+import { Role } from './roles-http.service';
 
 interface User {
   email: string;

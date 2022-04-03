@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { RoleHttpService } from '../../role-http.service';
+import { RolesHttpService } from '../../roles-http.service';
 import { UsersHttpService } from '../../users-http.service';
 
 @Component({
@@ -61,7 +61,7 @@ export class AddDialogComponent implements OnInit {
 
   constructor(
     private userHttpService: UsersHttpService,
-    private roleHttpService: RoleHttpService,
+    private roleHttpService: RolesHttpService,
     private dialogRef: MatDialogRef<AddDialogComponent>
   ) {}
 

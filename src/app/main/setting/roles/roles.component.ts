@@ -4,20 +4,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/shared/default-table/server-side-table/server-side-table.component';
 import { ServerSideTableService } from 'src/app/shared/default-table/server-side-table/server-side-table.service';
-import { RoleHttpService } from '../role-http.service';
+import { RolesHttpService } from '../roles-http.service';
 import {
-  AddRoleDialogComponent,
-  AddRoleDialogData,
-} from './add-role-dialog/add-role-dialog.component';
-import { RoleTableService } from './role-table.service';
+  AddDialogComponent,
+  AddDialogData,
+} from './add-dialog/add-dialog.component';
+import { RolesTableService } from './roles-table.service';
 
 @Component({
-  selector: 'app-role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss'],
-  providers: [{ provide: ServerSideTableService, useClass: RoleTableService }],
+  selector: 'app-roles',
+  templateUrl: './roles.component.html',
+  styleUrls: ['./roles.component.scss'],
+  providers: [{ provide: ServerSideTableService, useClass: RolesTableService }],
 })
-export class RoleComponent implements OnInit {
+export class RolesComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
   @ViewChild('table', { static: true })
@@ -31,7 +31,7 @@ export class RoleComponent implements OnInit {
 
   constructor(
     private tableService: ServerSideTableService,
-    private httpService: RoleHttpService,
+    private httpService: RolesHttpService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -58,13 +58,13 @@ export class RoleComponent implements OnInit {
   }
 
   onTambahClicked(): void {
-    const data: AddRoleDialogData = {
+    const data: AddDialogData = {
       value: { id: 0, name: '', menus: [] },
     };
     const matConfig = Object.assign({}, this.matConifg, {
       data: data,
     });
-    const dialogRef = this.dialog.open(AddRoleDialogComponent, matConfig);
+    const dialogRef = this.dialog.open(AddDialogComponent, matConfig);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
@@ -77,7 +77,7 @@ export class RoleComponent implements OnInit {
   }
 
   onEditClicked(element: any): void {
-    const data: AddRoleDialogData = {
+    const data: AddDialogData = {
       value: {
         id: element.id,
         name: element.name,
@@ -87,7 +87,7 @@ export class RoleComponent implements OnInit {
     const matConfig = Object.assign({}, this.matConifg, {
       data: data,
     });
-    const dialogRef = this.dialog.open(AddRoleDialogComponent, matConfig);
+    const dialogRef = this.dialog.open(AddDialogComponent, matConfig);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
