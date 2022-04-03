@@ -45,7 +45,7 @@
     <mat-nav-list>
       <ng-container *ngFor="let menu of menus">
         <ng-container *ngIf="menu.isShow">
-          <a *ngIf="!menu.childs" mat-list-item [routerLink]="menu.url">
+          <a *ngIf="!menu.childs" mat-list-item [routerLink]="'/' + menu.url">
             <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
             {{ menu.name }}
           </a>
@@ -74,7 +74,7 @@
               <ng-container *ngFor="let child of menu.childs">
                 <a
                   mat-list-item
-                  [routerLink]="menu.url + child.url"
+                  [routerLink]="'/' + menu.url + '/' + child.url"
                   class="child-label"
                   >{{ child.name }}
                 </a>
@@ -87,6 +87,8 @@
   </mat-sidenav>
   <div class="container">
     <app-breadcrumb></app-breadcrumb>
-    <router-outlet></router-outlet>
+    <div style="margin-top: 20px">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </mat-sidenav-container>

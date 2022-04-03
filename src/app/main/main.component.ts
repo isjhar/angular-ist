@@ -5,19 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../auth.service';
 import { UserManagementService } from '../user-management.service';
-
-interface Menu {
-  name: string;
-  url: string;
-  isShow: boolean;
-  icon: string;
-  childs?: MenuChild[];
-}
-
-interface MenuChild {
-  name: string;
-  url: string;
-}
+import { Menu, MenuService } from '../menu.service';
 
 @Component({
   selector: 'app-main',
@@ -42,43 +30,13 @@ export class MainComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private userManagementService: UserManagementService,
-    private breakpointObserver: BreakpointObserver
-  ) {}
+    private breakpointObserver: BreakpointObserver,
+    private menuService: MenuService
+  ) {
+    this.menus = this.menuService.menus;
+  }
 
-  menus: Menu[] = [
-    {
-      name: 'Dashboard',
-      url: '',
-      isShow: false,
-      icon: 'dashboard',
-    },
-    {
-      name: 'Pendaftaran',
-      url: '/pendaftaran',
-      isShow: false,
-      icon: 'app_registration',
-    },
-    {
-      name: 'Setting',
-      url: '/setting',
-      isShow: false,
-      icon: 'settings',
-      childs: [
-        {
-          name: 'Users',
-          url: '/users',
-        },
-        {
-          name: 'Roles',
-          url: '/roles',
-        },
-        {
-          name: 'Menus',
-          url: '/menus',
-        },
-      ],
-    },
-  ];
+  menus: Menu[];
 
   ngOnInit(): void {
     this.getLoggedUser();

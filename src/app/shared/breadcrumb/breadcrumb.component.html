@@ -1,1 +1,15 @@
-<p>breadcrumb works!</p>
+<ng-container *ngFor="let menu of menus">
+  <ng-container *ngIf="paths.length > 1 && menu.url == paths[1]">
+    <a [routerLink]="'/' + menu.url">{{ menu.name }}</a>
+    <ng-container *ngIf="menu.childs && paths.length > 2">
+      <ng-container *ngFor="let child of menu.childs">
+        <ng-container *ngIf="child.url == paths[2]">
+          /
+          <a [routerLink]="'/' + menu.url + '/' + child.url">
+            {{ child.name }}
+          </a>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

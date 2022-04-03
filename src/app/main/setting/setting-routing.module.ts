@@ -8,6 +8,11 @@ const routes: Routes = [
     component: SettingComponent,
     children: [
       {
+        path: '',
+        loadChildren: () =>
+          import('./user/user.module').then((m) => m.UserModule),
+      },
+      {
         path: 'users',
         loadChildren: () =>
           import('./user/user.module').then((m) => m.UserModule),
