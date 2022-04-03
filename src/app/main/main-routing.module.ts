@@ -14,14 +14,6 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
-        path: 'pendaftaran',
-        loadChildren: () =>
-          import('./pendaftaran/pendaftaran.module').then(
-            (m) => m.PendaftaranModule
-          ),
-        canActivate: [MainGuard],
-      },
-      {
         path: 'setting',
         loadChildren: () =>
           import('./setting/setting.module').then((m) => m.SettingModule),
