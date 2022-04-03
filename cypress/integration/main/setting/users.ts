@@ -1,4 +1,4 @@
-describe('User', () => {
+describe('Users', () => {
   before(() => {
     cy.login().visit('/setting/users');
   });

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserTableService } from './user-table.service';
+import { UsersHttpService } from './users-http.service';
 
-describe('UserTableService', () => {
-  let service: UserTableService;
+describe('UserHttpService', () => {
+  let service: UsersHttpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UserTableService);
+    service = TestBed.inject(UsersHttpService);
   });
 
   it('should be created', () => {

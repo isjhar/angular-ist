@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UserRoutingModule } from './user-routing.module';
-import { UserComponent } from './user.component';
-import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
+import { UsersRoutingModule } from './users-routing.module';
+import { UsersComponent } from './users.component';
+import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import { DefaultTableModule } from 'src/app/shared/default-table/default-table.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,10 +17,10 @@ import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  declarations: [UserComponent, AddUserDialogComponent],
+  declarations: [UsersComponent, AddDialogComponent],
   imports: [
     CommonModule,
-    UserRoutingModule,
+    UsersRoutingModule,
     DefaultTableModule,
     MatIconModule,
     MatFormFieldModule,
@@ -34,4 +34,4 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule,
   ],
 })
-export class UserModule {}
+export class UsersModule {}

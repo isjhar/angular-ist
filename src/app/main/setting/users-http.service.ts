@@ -24,7 +24,7 @@ interface UserRequestParams {
 }
 
 @Injectable({ providedIn: 'root' })
-export class UserHttpService {
+export class UsersHttpService {
   constructor(private http: HttpClient) {}
 
   getPerPage(

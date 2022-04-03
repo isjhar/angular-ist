@@ -7,14 +7,14 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RoleHttpService } from '../../role-http.service';
-import { UserHttpService } from '../../user-http.service';
+import { UsersHttpService } from '../../users-http.service';
 
 @Component({
-  selector: 'app-add-user-dialog',
-  templateUrl: './add-user-dialog.component.html',
-  styleUrls: ['./add-user-dialog.component.scss'],
+  selector: 'app-add-dialog',
+  templateUrl: './add-dialog.component.html',
+  styleUrls: ['./add-dialog.component.scss'],
 })
-export class AddUserDialogComponent implements OnInit {
+export class AddDialogComponent implements OnInit {
   currentPassword: string = '';
   roleOptions: any[] = [];
   isLoading: boolean = false;
@@ -60,9 +60,9 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   constructor(
-    private userHttpService: UserHttpService,
+    private userHttpService: UsersHttpService,
     private roleHttpService: RoleHttpService,
-    private dialogRef: MatDialogRef<AddUserDialogComponent>
+    private dialogRef: MatDialogRef<AddDialogComponent>
   ) {}
 
   ngOnInit(): void {

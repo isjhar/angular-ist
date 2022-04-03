@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginationParams, ApiResponse, Pagination } from 'src/app/api';
 import { ServerSideTableService } from 'src/app/shared/default-table/server-side-table/server-side-table.service';
-import { UserHttpService } from '../user-http.service';
+import { UsersHttpService } from '../users-http.service';
 
 @Injectable()
-export class UserTableService extends ServerSideTableService {
-  constructor(private httpService: UserHttpService) {
+export class UsersTableService extends ServerSideTableService {
+  constructor(private httpService: UsersHttpService) {
     super();
   }
   getList(params: PaginationParams): Observable<ApiResponse<Pagination<any>>> {

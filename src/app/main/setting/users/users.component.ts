@@ -5,17 +5,17 @@ import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/shared/default-table/server-side-table/server-side-table.component';
 import { ServerSideTableService } from 'src/app/shared/default-table/server-side-table/server-side-table.service';
-import { UserHttpService } from '../user-http.service';
-import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
-import { UserTableService } from './user-table.service';
+import { UsersHttpService } from '../users-http.service';
+import { AddDialogComponent } from './add-dialog/add-dialog.component';
+import { UsersTableService } from './users-table.service';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
-  providers: [{ provide: ServerSideTableService, useClass: UserTableService }],
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss'],
+  providers: [{ provide: ServerSideTableService, useClass: UsersTableService }],
 })
-export class UserComponent implements OnInit {
+export class UsersComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
   @ViewChild('table', { static: true })
@@ -23,7 +23,7 @@ export class UserComponent implements OnInit {
 
   constructor(
     private tableService: ServerSideTableService,
-    private userHttpService: UserHttpService,
+    private userHttpService: UsersHttpService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -58,7 +58,7 @@ export class UserComponent implements OnInit {
   }
 
   onTambahClicked(): void {
-    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+    const dialogRef = this.dialog.open(AddDialogComponent, {
       width: '90%',
       maxWidth: 500,
       height: 'auto',
