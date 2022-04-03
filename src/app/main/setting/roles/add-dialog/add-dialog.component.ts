@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MenuHttpService } from '../../menu-http.service';
+import { MenusHttpService } from '../../menus-http.service';
 import { RolesHttpService } from '../../roles-http.service';
 
 export interface AddDialogData {
@@ -38,7 +38,7 @@ export class AddDialogComponent implements OnInit {
 
   constructor(
     private roleHttpService: RolesHttpService,
-    private menuHttpService: MenuHttpService,
+    private menuHttpService: MenusHttpService,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {}

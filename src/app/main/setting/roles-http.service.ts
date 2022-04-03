@@ -7,7 +7,7 @@ import {
   Pagination,
   PaginationParams,
 } from 'src/app/api';
-import { Menu } from './menu-http.service';
+import { Menu } from './menus-http.service';
 
 export interface Role {
   id: number;

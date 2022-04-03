@@ -1,4 +1,4 @@
-describe('Menu', () => {
+describe('Menus', () => {
   before(() => {
     cy.login().visit('/setting/menus');
   });

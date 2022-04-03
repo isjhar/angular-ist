@@ -22,7 +22,7 @@ interface StoreRequestParams {
 @Injectable({
   providedIn: 'root',
 })
-export class MenuHttpService {
+export class MenusHttpService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<ApiResponse<Pagination<Menu>>> {

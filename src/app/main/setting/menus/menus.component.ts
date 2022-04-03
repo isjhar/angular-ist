@@ -4,20 +4,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/shared/default-table/server-side-table/server-side-table.component';
 import { ServerSideTableService } from 'src/app/shared/default-table/server-side-table/server-side-table.service';
-import { MenuHttpService } from '../menu-http.service';
+import { MenusHttpService } from '../menus-http.service';
 import {
-  AddMenuDialogComponent,
-  AddMenuDialogData,
-} from './add-menu-dialog/add-menu-dialog.component';
-import { MenuTableService } from './menu-table.service';
+  AddDialogComponent,
+  AddDialogData,
+} from './add-dialog/add-dialog.component';
+import { MenusTableService } from './menus-table.service';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
-  providers: [{ provide: ServerSideTableService, useClass: MenuTableService }],
+  selector: 'app-menus',
+  templateUrl: './menus.component.html',
+  styleUrls: ['./menus.component.scss'],
+  providers: [{ provide: ServerSideTableService, useClass: MenusTableService }],
 })
-export class MenuComponent implements OnInit {
+export class MenusComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
   @ViewChild('table', { static: true })
@@ -31,7 +31,7 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private tableService: ServerSideTableService,
-    private httpService: MenuHttpService,
+    private httpService: MenusHttpService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -58,13 +58,13 @@ export class MenuComponent implements OnInit {
   }
 
   onAddClicked(): void {
-    const data: AddMenuDialogData = {
+    const data: AddDialogData = {
       value: { id: 0, name: '', url: '' },
     };
     const matConfig = Object.assign({}, this.matConifg, {
       data: data,
     });
-    const dialogRef = this.dialog.open(AddMenuDialogComponent, matConfig);
+    const dialogRef = this.dialog.open(AddDialogComponent, matConfig);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
@@ -77,7 +77,7 @@ export class MenuComponent implements OnInit {
   }
 
   onEditClicked(element: any): void {
-    const data: AddMenuDialogData = {
+    const data: AddDialogData = {
       value: {
         id: element.id,
         name: element.name,
@@ -87,7 +87,7 @@ export class MenuComponent implements OnInit {
     const matConfig = Object.assign({}, this.matConifg, {
       data: data,
     });
-    const dialogRef = this.dialog.open(AddMenuDialogComponent, matConfig);
+    const dialogRef = this.dialog.open(AddDialogComponent, matConfig);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
