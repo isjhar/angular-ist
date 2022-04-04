@@ -6,11 +6,27 @@ import { Router } from '@angular/router';
 import { AuthService, User } from '../auth.service';
 import { UserManagementService } from '../user-management.service';
 import { Menu, MenuService } from '../menu.service';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
+  animations: [
+    trigger('openClose', [
+      transition(':enter', [
+        style({ height: '0px' }),
+        animate('0.2s', style({ height: '48px' })),
+      ]),
+      transition(':leave', [animate('0.2s', style({ height: '0px' }))]),
+    ]),
+  ],
 })
 export class MainComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver

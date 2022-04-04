@@ -69,14 +69,17 @@
               </div>
             </div>
           </a>
-          <ng-container *ngIf="expandedMenu == menu.name">
+          <ng-container>
             <mat-nav-list>
               <ng-container *ngFor="let child of menu.childs">
                 <a
+                  @openClose
+                  *ngIf="expandedMenu == menu.name"
                   mat-list-item
                   [routerLink]="'/' + menu.url + '/' + child.url"
                   class="child-label"
-                  >{{ child.name }}
+                >
+                  {{ child.name }}
                 </a>
               </ng-container>
             </mat-nav-list>
