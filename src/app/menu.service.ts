@@ -25,12 +25,6 @@ export class MenuService {
       icon: 'dashboard',
     },
     {
-      name: 'Pendaftaran',
-      url: 'pendaftaran',
-      isShow: false,
-      icon: 'app_registration',
-    },
-    {
       name: 'Setting',
       url: 'setting',
       isShow: false,
