@@ -23,9 +23,12 @@
       </ng-container>
 
       <td mat-cell *matCellDef="let element">
-        <ng-container *ngIf="!column.cellTemplate">
+        <ng-container
+          *ngIf="!column.cellTemplate && !column.cellTemplateByType"
+        >
           {{ element[column.prop] }}
         </ng-container>
+
         <ng-container *ngIf="column.cellTemplate">
           <ng-container
             *ngTemplateOutlet="
@@ -33,6 +36,12 @@
               context: { element: element }
             "
           ></ng-container>
+        </ng-container>
+
+        <ng-container
+          *ngIf="!column.cellTemplate && column.cellTemplateByType == 'date'"
+        >
+          {{ element[column.prop] | date: "M/d/yyyy" }}
         </ng-container>
       </td>
     </ng-container>
