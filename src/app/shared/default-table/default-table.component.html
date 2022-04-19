@@ -11,13 +11,13 @@
 
     <!-- Position Column -->
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.prop">
-      <ng-container *ngIf="!column.sortable">
+      <ng-container *ngIf="!column.sortBy">
         <th mat-header-cell *matHeaderCellDef>
           {{ column.title }}
         </th>
       </ng-container>
-      <ng-container *ngIf="column.sortable">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <ng-container *ngIf="column.sortBy">
+        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.sortBy">
           {{ column.title }}
         </th>
       </ng-container>

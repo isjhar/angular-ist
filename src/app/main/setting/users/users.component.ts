@@ -34,19 +34,19 @@ export class UsersComponent implements OnInit {
         prop: 'name',
         show: true,
         title: 'Name',
-        sortable: true,
+        sortBy: 'name',
       },
       {
         prop: 'email',
         show: true,
         title: 'Email',
-        sortable: true,
+        sortBy: 'email',
       },
       {
         prop: 'role_names',
         show: true,
         title: 'Roles',
-        sortable: true,
+        sortBy: 'role_names',
       },
       {
         prop: 'id',

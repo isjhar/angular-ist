@@ -16,7 +16,7 @@ export interface DefaultTableColumn {
   prop: string;
   show: boolean;
   cellTemplate?: TemplateRef<any>;
-  sortable?: boolean;
+  sortBy?: string;
 }
 
 @Component({
