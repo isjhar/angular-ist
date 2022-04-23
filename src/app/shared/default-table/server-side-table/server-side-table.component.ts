@@ -15,6 +15,7 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
   dataSource: any[] = [];
   length: number = 0;
   columns: DefaultTableColumn[] = [];
+  search: string = '';
 
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
@@ -31,6 +32,11 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
         this.table.renderRows();
       }
     );
+    this.search = this.service.search;
+    this.service.searchChange.subscribe((search) => {
+      this.search = search;
+      this.refreshData();
+    });
   }
 
   ngOnDestroy(): void {
@@ -56,6 +62,7 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
         page: this.table.pageIndex + 1,
         sort: this.table.sort,
         order: this.table.order,
+        search: this.search,
       })
       .subscribe((response: any) => {
         let pagination = response.data;
