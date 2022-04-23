@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
   DefaultTableColumn,
@@ -12,6 +12,8 @@ import { ServerSideTableService } from './server-side-table.service';
   styleUrls: ['./server-side-table.component.scss'],
 })
 export class ServerSideTableComponent implements OnInit, OnDestroy {
+  @Input() searchable: boolean = false;
+
   dataSource: any[] = [];
   length: number = 0;
   columns: DefaultTableColumn[] = [];
@@ -21,6 +23,7 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
   table!: DefaultTableComponent;
 
   columnsChangeSubscription!: Subscription;
+  searchChangeSubscription!: Subscription;
 
   constructor(private service: ServerSideTableService) {}
 
@@ -33,14 +36,17 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
       }
     );
     this.search = this.service.search;
-    this.service.searchChange.subscribe((search) => {
-      this.search = search;
-      this.refreshData();
-    });
+    this.searchChangeSubscription = this.service.searchChange.subscribe(
+      (search) => {
+        this.search = search;
+        this.refreshData();
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.columnsChangeSubscription.unsubscribe();
+    this.searchChangeSubscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {

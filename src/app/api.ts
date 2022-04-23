@@ -8,6 +8,7 @@ export interface PaginationParams {
   limit?: number;
   sort?: string;
   order?: string;
+  search?: string;
 }
 
 export interface Pagination<T> {
