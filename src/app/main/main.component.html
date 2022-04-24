@@ -65,7 +65,14 @@
                 </div>
               </div>
               <div class="flex-item">
-                <mat-icon mat-list-icon> arrow_drop_down </mat-icon>
+                <mat-icon
+                  mat-list-icon
+                  [@openCloseIcon]="
+                    expandedMenu == menu.name ? 'open' : 'closed'
+                  "
+                >
+                  arrow_right
+                </mat-icon>
               </div>
             </div>
           </a>

@@ -21,10 +21,30 @@ import {
   animations: [
     trigger('openClose', [
       transition(':enter', [
-        style({ height: '0px' }),
-        animate('0.2s', style({ height: '48px' })),
+        style({ height: '0px', opacity: 0 }),
+        animate('0.1s', style({ height: '48px' })),
+        animate('0.1s', style({ opacity: 1 })),
       ]),
-      transition(':leave', [animate('0.2s', style({ height: '0px' }))]),
+      transition(':leave', [
+        animate('0.1s', style({ opacity: 0 })),
+        animate('0.1s', style({ height: '0px' })),
+      ]),
+    ]),
+    trigger('openCloseIcon', [
+      state(
+        'open',
+        style({
+          transform: 'rotate(90deg)',
+        })
+      ),
+      state(
+        'closed',
+        style({
+          transform: 'rotate(0deg)',
+        })
+      ),
+      transition('open => closed', [animate('0.2s')]),
+      transition('closed => open', [animate('0.2s')]),
     ]),
   ],
 })
