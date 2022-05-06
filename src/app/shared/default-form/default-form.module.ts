@@ -19,6 +19,7 @@ import { FormErrorTimeFormatComponent } from './form-error/form-error-time-forma
     FormErrorRequiredComponent,
     FormErrorEmailComponent,
     LoadingButtonComponent,
+    FormErrorTimeFormatComponent,
   ],
   imports: [
     CommonModule,
