@@ -7,12 +7,13 @@ import { FormErrorEmailComponent } from './form-error/form-error-email/form-erro
 import { LoadingButtonComponent } from './loading-button/loading-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { FormErrorTimeFormatComponent } from './form-error/form-error-time-format/form-error-time-format.component';
 @NgModule({
   declarations: [
     FormErrorRequiredComponent,
     FormErrorEmailComponent,
     LoadingButtonComponent,
+    FormErrorTimeFormatComponent,
   ],
   exports: [
     FormErrorRequiredComponent,
