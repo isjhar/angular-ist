@@ -8,6 +8,12 @@
           <a [routerLink]="'/' + menu.url + '/' + child.url">
             {{ child.name }}
           </a>
+          <ng-container *ngIf="paths.length == 4">
+            /
+            <a [routerLink]="'/' + menu.url + '/' + child.url + '/' + paths[3]">
+              {{ paths[3] }}
+            </a>
+          </ng-container>
         </ng-container>
       </ng-container>
     </ng-container>
