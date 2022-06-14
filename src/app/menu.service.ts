@@ -11,6 +11,7 @@ export interface Menu {
 interface MenuChild {
   name: string;
   url: string;
+  childs?: MenuChild[];
 }
 
 @Injectable({

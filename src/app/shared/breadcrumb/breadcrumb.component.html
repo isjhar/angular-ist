@@ -1,21 +1,52 @@
 <ng-container *ngFor="let menu of menus">
   <ng-container *ngIf="paths.length > 1 && menu.url == paths[1]">
     <a [routerLink]="'/' + menu.url">{{ menu.name }}</a>
-    <ng-container *ngIf="menu.childs && paths.length > 2">
-      <ng-container *ngFor="let child of menu.childs">
-        <ng-container *ngIf="child.url == paths[2]">
-          /
-          <a [routerLink]="'/' + menu.url + '/' + child.url">
-            {{ child.name }}
-          </a>
-          <ng-container *ngIf="paths.length == 4">
-            /
-            <a [routerLink]="'/' + menu.url + '/' + child.url + '/' + paths[3]">
-              {{ paths[3] }}
-            </a>
-          </ng-container>
-        </ng-container>
+    <ng-container
+      *ngTemplateOutlet="
+        recursion;
+        context: { childs: menu.childs, parentUrl: '/' + menu.url, level: 2 }
+      "
+    ></ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template
+  #recursion
+  let-childs="childs"
+  let-parentUrl="parentUrl"
+  let-level="level"
+>
+  <ng-container *ngFor="let child of childs">
+    <ng-container
+      *ngIf="
+        paths.length > level &&
+        (child.url == paths[level] || child.url.includes(':'))
+      "
+    >
+      /
+      <a
+        *ngIf="!child.url.includes(':')"
+        [routerLink]="'/' + parentUrl + '/' + child.url"
+      >
+        {{ child.name }}
+      </a>
+      <a
+        *ngIf="child.url.includes(':')"
+        [routerLink]="'/' + parentUrl + '/' + paths[level]"
+      >
+        {{ paths[level] }}
+      </a>
+      <ng-container
+        *ngTemplateOutlet="
+          recursion;
+          context: {
+            childs: child.childs,
+            parentUrl: '/' + parentUrl + '/' + child.url,
+            level: level + 1
+          }
+        "
+      >
       </ng-container>
     </ng-container>
   </ng-container>
-</ng-container>
+</ng-template>
