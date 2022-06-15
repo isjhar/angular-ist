@@ -8,6 +8,6 @@ export class DefaultCurrencyPipe implements PipeTransform {
   numberPipe = new DecimalPipe('en');
 
   transform(value: string): string | null {
-    return this.numberPipe.transform(value, '1.2-2');
+    return this.numberPipe.transform(value, '1.0-0');
   }
 }
