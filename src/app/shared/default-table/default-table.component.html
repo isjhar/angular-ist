@@ -12,38 +12,91 @@
     <!-- Position Column -->
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.prop">
       <ng-container *ngIf="!column.sortBy">
-        <th mat-header-cell *matHeaderCellDef>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'center-cell':
+              column.cellTemplate ||
+              column.cellTemplateByType == 'date' ||
+              column.cellTemplateByType == 'category' ||
+              column.cellTemplateByType == 'number' ||
+              column.cellTemplateByType == 'currency'
+          }"
+        >
           {{ column.title }}
         </th>
       </ng-container>
       <ng-container *ngIf="column.sortBy">
-        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.sortBy">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [mat-sort-header]="column.sortBy"
+          [ngClass]="{
+            'center-cell':
+              column.cellTemplate ||
+              column.cellTemplateByType == 'date' ||
+              column.cellTemplateByType == 'category' ||
+              column.cellTemplateByType == 'number' ||
+              column.cellTemplateByType == 'currency'
+          }"
+        >
           {{ column.title }}
         </th>
       </ng-container>
 
-      <td mat-cell *matCellDef="let element">
-        <ng-container
-          *ngIf="!column.cellTemplate && !column.cellTemplateByType"
-        >
-          {{ element[column.prop] }}
-        </ng-container>
+      <ng-container *matCellDef="let element">
+        <td mat-cell *ngIf="!column.cellTemplate && !column.cellTemplateByType">
+          <ng-container>
+            {{ element[column.prop] }}
+          </ng-container>
+        </td>
 
-        <ng-container *ngIf="column.cellTemplate">
+        <td mat-cell *ngIf="column.cellTemplate" class="category-cell">
           <ng-container
             *ngTemplateOutlet="
               column.cellTemplate;
               context: { element: element }
             "
           ></ng-container>
-        </ng-container>
+        </td>
 
-        <ng-container
+        <td
+          mat-cell
           *ngIf="!column.cellTemplate && column.cellTemplateByType == 'date'"
+          class="date-cell"
         >
           {{ element[column.prop] | date: "M/d/yyyy" }}
-        </ng-container>
-      </td>
+        </td>
+
+        <td
+          mat-cell
+          *ngIf="
+            !column.cellTemplate && column.cellTemplateByType == 'category'
+          "
+          class="category-cell"
+        >
+          {{ element[column.prop] }}
+        </td>
+
+        <td
+          mat-cell
+          *ngIf="!column.cellTemplate && column.cellTemplateByType == 'number'"
+          class="number-cell"
+        >
+          {{ element[column.prop] }}
+        </td>
+
+        <td
+          mat-cell
+          *ngIf="
+            !column.cellTemplate && column.cellTemplateByType == 'currency'
+          "
+          class="number-cell"
+        >
+          {{ element[column.prop] | defaultCurrency }}
+        </td>
+      </ng-container>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

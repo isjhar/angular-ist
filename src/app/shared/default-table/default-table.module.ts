@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TextModule } from '../text/text.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatInputModule,
     MatIconModule,
     FlexLayoutModule,
+    TextModule,
   ],
 })
 export class DefaultTableModule {}
