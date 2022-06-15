@@ -5,7 +5,7 @@ import { DefaultCurrencyPipe } from './default-currency.pipe';
 
 @NgModule({
   declarations: [DefaultDatePipe, DefaultCurrencyPipe],
-  exports: [DefaultDatePipe],
+  exports: [DefaultDatePipe, DefaultCurrencyPipe],
   imports: [CommonModule],
 })
 export class TextModule {}
