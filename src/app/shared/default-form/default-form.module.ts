@@ -8,18 +8,21 @@ import { LoadingButtonComponent } from './loading-button/loading-button.componen
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormErrorTimeFormatComponent } from './form-error/form-error-time-format/form-error-time-format.component';
+import { CurrencyInputDirective } from './currency-input.directive';
 @NgModule({
   declarations: [
     FormErrorRequiredComponent,
     FormErrorEmailComponent,
     LoadingButtonComponent,
     FormErrorTimeFormatComponent,
+    CurrencyInputDirective,
   ],
   exports: [
     FormErrorRequiredComponent,
     FormErrorEmailComponent,
     LoadingButtonComponent,
     FormErrorTimeFormatComponent,
+    CurrencyInputDirective,
   ],
   imports: [
     CommonModule,
