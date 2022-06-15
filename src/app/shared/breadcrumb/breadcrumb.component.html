@@ -38,23 +38,22 @@
 
   <ng-container *ngIf="childs && !isChildsHasUrl(childs, paths[level])">
     <ng-container *ngFor="let child of childs">
-      /
-      <a
-        *ngIf="child.url.includes(':')"
-        [routerLink]="'/' + parentUrl + '/' + paths[level]"
-      >
-        {{ paths[level] }}
-      </a>
-      <ng-container
-        *ngTemplateOutlet="
-          recursion;
-          context: {
-            childs: child.childs,
-            parentUrl: '/' + parentUrl + '/' + child.url,
-            level: level + 1
-          }
-        "
-      >
+      <ng-container *ngIf="child.url.includes(':')">
+        /
+        <a [routerLink]="'/' + parentUrl + '/' + paths[level]">
+          {{ paths[level] }}
+        </a>
+        <ng-container
+          *ngTemplateOutlet="
+            recursion;
+            context: {
+              childs: child.childs,
+              parentUrl: '/' + parentUrl + '/' + paths[level],
+              level: level + 1
+            }
+          "
+        >
+        </ng-container>
       </ng-container>
     </ng-container>
   </ng-container>
