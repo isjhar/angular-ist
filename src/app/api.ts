@@ -23,7 +23,7 @@ export class ApiUrlBuilder {
   }
 
   pushQueryParam(key: string, value?: any) {
-    if (value !== null && value !== undefined) {
+    if (value !== null && value !== undefined && value !== '') {
       if (!this.urls.find((x) => x == '?')) {
         this.urls.push('?');
       } else {
