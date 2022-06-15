@@ -41,4 +41,8 @@ export class BreadcrumbComponent implements OnInit {
     }
     return result;
   }
+
+  isChildsHasUrl(childs: any[], url: string): boolean {
+    return childs.map((x) => x.url).includes(url);
+  }
 }

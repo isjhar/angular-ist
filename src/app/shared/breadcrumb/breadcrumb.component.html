@@ -17,19 +17,28 @@
   let-level="level"
 >
   <ng-container *ngFor="let child of childs">
-    <ng-container
-      *ngIf="
-        paths.length > level &&
-        (child.url == paths[level] || child.url.includes(':'))
-      "
-    >
+    <ng-container *ngIf="paths.length > level && child.url == paths[level]">
       /
-      <a
-        *ngIf="!child.url.includes(':')"
-        [routerLink]="'/' + parentUrl + '/' + child.url"
-      >
+      <a [routerLink]="'/' + parentUrl + '/' + child.url">
         {{ child.name }}
       </a>
+      <ng-container
+        *ngTemplateOutlet="
+          recursion;
+          context: {
+            childs: child.childs,
+            parentUrl: '/' + parentUrl + '/' + child.url,
+            level: level + 1
+          }
+        "
+      >
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="childs && !isChildsHasUrl(childs, paths[level])">
+    <ng-container *ngFor="let child of childs">
+      /
       <a
         *ngIf="child.url.includes(':')"
         [routerLink]="'/' + parentUrl + '/' + paths[level]"
