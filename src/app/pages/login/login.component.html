@@ -6,6 +6,7 @@
     [formGroup]="loginForm"
     (ngSubmit)="onLoginformSubmitted()"
   >
+    <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" data-test="email" />

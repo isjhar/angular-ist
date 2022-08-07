@@ -1,9 +1,11 @@
 import { Observable } from 'rxjs';
+import { User } from '../entities/user';
 
-export interface AuthRepository {
-  getCsrfToken(): Observable<any>;
-  login(data: LoginParams): Observable<any>;
-  logout(): Observable<any>;
+export abstract class AuthRepository {
+  abstract getCsrfToken(): Observable<any>;
+  abstract login(data: LoginParams): Observable<any>;
+  abstract logout(): Observable<any>;
+  abstract getLoggedUser(): Observable<User>;
 }
 export interface LoginParams {
   email: string;

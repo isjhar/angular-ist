@@ -7,10 +7,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MainComponent } from './main.component';
-import { AuthService, User } from '../auth.service';
+import { AuthService, User } from '../../auth.service';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UserManagementService } from '../user-management.service';
+import { UserManagementService } from '../../user-management.service';
 import { of } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
 

@@ -18,7 +18,12 @@
         <mat-icon>account_circle</mat-icon> {{ loggedUser.name }}
       </button>
 
-      <button mat-icon-button color="secondary" [matMenuTriggerFor]="menu">
+      <button
+        mat-icon-button
+        color="secondary"
+        [matMenuTriggerFor]="menu"
+        data-test="btn-profile"
+      >
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -26,7 +31,11 @@
           <mat-icon>email</mat-icon> {{ loggedUser.email }}
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onLogoutClicked()">
+        <button
+          mat-menu-item
+          (click)="onLogoutClicked()"
+          data-test="btn-logout"
+        >
           <mat-icon>logout</mat-icon>
           <ng-container i18n="logout">Logout</ng-container>
         </button>

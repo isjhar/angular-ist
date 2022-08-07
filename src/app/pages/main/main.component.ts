@@ -1,11 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { concatMap, map, shareReplay } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, User } from '../auth.service';
-import { UserManagementService } from '../user-management.service';
-import { Menu, MenuService } from '../menu.service';
+import { AuthService, User } from '../../auth.service';
+import { UserManagementService } from '../../user-management.service';
+import { Menu, MenuService } from '../../menu.service';
 import {
   animate,
   state,
@@ -13,6 +13,9 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { LogoutUseCaseService } from 'src/app/domain/usecases/logout-use-case.service';
+import { DeleteAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/delete-authenticated-user-use-case.service';
+import { GetLoggedUserUseCaseService } from 'src/app/domain/usecases/get-logged-user-use-case.service';
 
 @Component({
   selector: 'app-main',
@@ -63,10 +66,11 @@ export class MainComponent implements OnInit {
   };
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private userManagementService: UserManagementService,
     private breakpointObserver: BreakpointObserver,
+    private deleteAuthenticatedUserUseCaseService: DeleteAuthenticatedUserUseCaseService,
+    private getLoggedUserUseCaseService: GetLoggedUserUseCaseService,
+    private logoutUseCaseService: LogoutUseCaseService,
+    private router: Router,
     private menuService: MenuService
   ) {
     this.menus = this.menuService.menus;
@@ -79,7 +83,7 @@ export class MainComponent implements OnInit {
   }
 
   getLoggedUser(): void {
-    this.authService.getUser().subscribe((user) => {
+    this.getLoggedUserUseCaseService.execute().subscribe((user) => {
       this.loggedUser = user;
       this.filterAccessibleMenu();
     });
@@ -100,10 +104,16 @@ export class MainComponent implements OnInit {
   }
 
   onLogoutClicked(): void {
-    this.userManagementService.logout().subscribe((response) => {
-      this.authService.logout();
-      this.router.navigate(['/login']);
-    });
+    this.logoutUseCaseService
+      .execute()
+      .pipe(
+        concatMap((response) =>
+          this.deleteAuthenticatedUserUseCaseService.execute()
+        )
+      )
+      .subscribe((response) => {
+        this.router.navigate(['/login']);
+      });
   }
 
   expandedMenu: string = '';

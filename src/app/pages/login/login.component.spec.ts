@@ -5,8 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from '../auth.service';
-import { UserManagementService } from '../user-management.service';
+import { AuthService } from '../../auth.service';
+import { UserManagementService } from '../../user-management.service';
 
 import { LoginComponent } from './login.component';
 

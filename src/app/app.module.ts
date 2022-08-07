@@ -7,6 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor, authInterceptorProviders } from './auth.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AuthRepository } from './domain/repositories/auth-repository';
+import { MockAuthRepository } from './data/repositories/mock-auth-repository';
+import { AuthenticatedUserRepository } from './domain/repositories/authenticated-user-repository';
+import { LocalAuthenticatedUserRepository } from './data/repositories/local-authenticated-user-repository';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +21,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     HttpClientModule,
     FlexLayoutModule,
   ],
-  providers: [authInterceptorProviders],
+  providers: [
+    authInterceptorProviders,
+    { provide: AuthRepository, useClass: MockAuthRepository },
+    {
+      provide: AuthenticatedUserRepository,
+      useClass: LocalAuthenticatedUserRepository,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
