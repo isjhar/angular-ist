@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginationParams, ApiResponse, Pagination } from 'src/app/api';
-import { ServerSideTableService } from 'src/app/shared/default-table/server-side-table/server-side-table.service';
+import { ServerSideTableService } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
 import { UsersHttpService } from '../users-http.service';
 
 @Injectable()

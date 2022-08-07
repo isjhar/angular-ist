@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { ServerSideTableComponent } from 'src/app/shared/default-table/server-side-table/server-side-table.component';
-import { ServerSideTableService } from 'src/app/shared/default-table/server-side-table/server-side-table.service';
+import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
+import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
+import { ServerSideTableService } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
 import { MenusHttpService } from '../menus-http.service';
 import {
   AddDialogComponent,
