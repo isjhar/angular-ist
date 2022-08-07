@@ -1,21 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ApiResponse } from 'src/app/api';
 import { Menu } from 'src/app/domain/entities/menu';
 import { Pagination } from 'src/app/domain/entities/pagination';
+import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import {
   MenuRepository,
   StoreMenuRequestParams,
   UpdateMenuRequestParams,
 } from 'src/app/domain/repositories/menu-repository';
+import { ApiResponse } from '../entities/api-response';
 
 export class ApiMenuRepository extends MenuRepository {
   constructor(private http: HttpClient) {
     super();
   }
 
-  get(): Observable<Pagination<Menu>> {
+  get(params: PaginationParams): Observable<Pagination<Menu>> {
     return this.http.get<ApiResponse<Pagination<Menu>>>('/api/menus').pipe(
       catchError((response) => {
         throw response.error.message
