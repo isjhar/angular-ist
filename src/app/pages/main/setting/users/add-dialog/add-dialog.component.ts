@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { RolesHttpService } from '../../roles-http.service';
+import { GetRolesUseCaseService } from 'src/app/domain/usecases/get-roles-use-case.service';
 import { UsersHttpService } from '../../users-http.service';
 
 @Component({
@@ -61,7 +61,7 @@ export class AddDialogComponent implements OnInit {
 
   constructor(
     private userHttpService: UsersHttpService,
-    private roleHttpService: RolesHttpService,
+    private getRolesUseCaseService: GetRolesUseCaseService,
     private dialogRef: MatDialogRef<AddDialogComponent>
   ) {}
 
@@ -104,8 +104,8 @@ export class AddDialogComponent implements OnInit {
   }
 
   getRoles(): void {
-    this.roleHttpService.get().subscribe((response) => {
-      this.roleOptions = response.data.data;
+    this.getRolesUseCaseService.execute({}).subscribe((response) => {
+      this.roleOptions = response.data;
     });
   }
 }

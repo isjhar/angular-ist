@@ -2,7 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GetMenusUseCaseService } from 'src/app/domain/usecases/get-menus-use-case.service';
-import { RolesHttpService } from '../../roles-http.service';
+import { StoreRoleUseCaseService } from 'src/app/domain/usecases/store-role-use-case.service';
+import { UpdateRoleUseCaseService } from 'src/app/domain/usecases/update-role-use-case.service';
 
 export interface AddDialogData {
   value: any;
@@ -37,8 +38,9 @@ export class AddDialogComponent implements OnInit {
   }
 
   constructor(
-    private roleHttpService: RolesHttpService,
     private getMenusUseCaseService: GetMenusUseCaseService,
+    private storeRoleUseCaseService: StoreRoleUseCaseService,
+    private updateRoleUseCaseService: UpdateRoleUseCaseService,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {}
@@ -56,18 +58,18 @@ export class AddDialogComponent implements OnInit {
     };
     let save$ =
       this.id.value == 0
-        ? this.roleHttpService.store(params)
-        : this.roleHttpService.update(this.id.value, params);
+        ? this.storeRoleUseCaseService.execute(params)
+        : this.updateRoleUseCaseService.execute(
+            Object.assign({}, { id: this.id.value }, params)
+          );
     save$.subscribe(
       (response) => {
         this.isLoading = false;
         this.dialogRef.close('success');
       },
-      (response) => {
+      (error) => {
         this.isLoading = false;
-        this.error = response.error.message
-          ? response.error.message
-          : 'internal server error';
+        this.error = error;
       }
     );
   }

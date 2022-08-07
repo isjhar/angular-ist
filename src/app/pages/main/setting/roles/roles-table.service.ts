@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaginationParams, ApiResponse, Pagination } from 'src/app/api';
+import { Pagination } from 'src/app/domain/entities/pagination';
+import { PaginationParams } from 'src/app/domain/entities/pagination-params';
+import { GetRolesUseCaseService } from 'src/app/domain/usecases/get-roles-use-case.service';
 import { ServerSideTableService } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
-import { RolesHttpService } from '../roles-http.service';
 
 @Injectable()
 export class RolesTableService extends ServerSideTableService {
-  constructor(private httpService: RolesHttpService) {
+  constructor(private getRolesUseCaseService: GetRolesUseCaseService) {
     super();
   }
 
-  getList(params: PaginationParams): Observable<ApiResponse<Pagination<any>>> {
-    return this.httpService.getPerPage(params);
+  getList(params: PaginationParams): Observable<Pagination<any>> {
+    return this.getRolesUseCaseService.execute(params);
   }
 
   map(source: any) {

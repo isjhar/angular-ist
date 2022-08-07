@@ -1,10 +1,10 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeleteRoleUseCaseService } from 'src/app/domain/usecases/delete-role-use-case.service';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
 import { ServerSideTableService } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
-import { RolesHttpService } from '../roles-http.service';
 import {
   AddDialogComponent,
   AddDialogData,
@@ -30,8 +30,8 @@ export class RolesComponent implements OnInit {
   };
 
   constructor(
+    private deleteRoleUseCaseService: DeleteRoleUseCaseService,
     private tableService: ServerSideTableService,
-    private httpService: RolesHttpService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -106,7 +106,7 @@ export class RolesComponent implements OnInit {
       height: 'auto ',
       data: {
         message: 'Are you sure?',
-        yes$: this.httpService.delete(element.id),
+        yes$: this.deleteRoleUseCaseService.execute(element.id),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
