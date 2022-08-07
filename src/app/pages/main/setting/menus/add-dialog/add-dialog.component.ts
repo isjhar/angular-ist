@@ -63,11 +63,9 @@ export class AddDialogComponent implements OnInit {
         this.isLoading = false;
         this.dialogRef.close('success');
       },
-      (response) => {
+      (error) => {
         this.isLoading = false;
-        this.error = response.error.message
-          ? response.error.message
-          : 'internal server error';
+        this.error = error;
       }
     );
   }

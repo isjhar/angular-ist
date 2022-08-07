@@ -74,7 +74,7 @@ export class MockAuthRepository extends AuthRepository {
         observer.complete();
         return;
       }
-      observer.error({ error: 'user not found' });
+      observer.error('user not found');
       observer.complete();
     });
   }

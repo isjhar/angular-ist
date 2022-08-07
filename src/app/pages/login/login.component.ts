@@ -45,8 +45,8 @@ export class LoginComponent implements OnInit {
         (response) => {
           this.router.navigate(['']);
         },
-        (response) => {
-          this.error = `Login failed: ${response.error}`;
+        (error) => {
+          this.error = `Login failed: ${error}`;
         }
       );
   }

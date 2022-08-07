@@ -50,7 +50,7 @@ export class MockMenuRepositoryService extends MenuRepository {
     return new Observable<any>((observer) => {
       let menu = this.menus.find((element) => element.id == params.id);
       if (menu == undefined) {
-        observer.error({ error: 'menu not found' });
+        observer.error('menu not found');
       }
       menu!.name = params.name;
       menu!.url = params.url;
