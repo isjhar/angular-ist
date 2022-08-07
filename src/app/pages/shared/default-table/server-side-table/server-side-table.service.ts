@@ -1,5 +1,6 @@
 import { Observable, Subject } from 'rxjs';
-import { ApiResponse, Pagination, PaginationParams } from 'src/app/api';
+import { Pagination } from 'src/app/domain/entities/pagination';
+import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { DefaultTableColumn } from '../default-table.component';
 
 export abstract class ServerSideTableService {
@@ -16,8 +17,6 @@ export abstract class ServerSideTableService {
     this.search = search;
     this.searchChange.next(search);
   }
-  abstract getList(
-    params: PaginationParams
-  ): Observable<ApiResponse<Pagination<any>>>;
+  abstract getList(params: PaginationParams): Observable<Pagination<any>>;
   abstract map(source: any): any;
 }

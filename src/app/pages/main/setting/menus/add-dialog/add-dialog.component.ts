@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MenusHttpService } from '../../menus-http.service';
+import { StoreMenuUseCaseService } from 'src/app/domain/usecases/store-menu-use-case.service';
+import { UpdateMenuUseCaseService } from 'src/app/domain/usecases/update-menu-use-case.service';
 
 export interface AddDialogData {
   value: any;
@@ -35,7 +36,8 @@ export class AddDialogComponent implements OnInit {
   }
 
   constructor(
-    private menuHttpService: MenusHttpService,
+    private storeMenuUseCaseService: StoreMenuUseCaseService,
+    private updateMenuUseCaseService: UpdateMenuUseCaseService,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {}
@@ -52,8 +54,10 @@ export class AddDialogComponent implements OnInit {
     };
     let save$ =
       this.id.value == 0
-        ? this.menuHttpService.store(params)
-        : this.menuHttpService.update(this.id.value, params);
+        ? this.storeMenuUseCaseService.execute(params)
+        : this.updateMenuUseCaseService.execute(
+            Object.assign({}, { id: this.id.value }, params)
+          );
     save$.subscribe(
       (response) => {
         this.isLoading = false;

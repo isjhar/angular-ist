@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MenusHttpService } from '../../menus-http.service';
+import { GetMenusUseCaseService } from 'src/app/domain/usecases/get-menus-use-case.service';
 import { RolesHttpService } from '../../roles-http.service';
 
 export interface AddDialogData {
@@ -38,7 +38,7 @@ export class AddDialogComponent implements OnInit {
 
   constructor(
     private roleHttpService: RolesHttpService,
-    private menuHttpService: MenusHttpService,
+    private getMenusUseCaseService: GetMenusUseCaseService,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {}
@@ -80,8 +80,8 @@ export class AddDialogComponent implements OnInit {
   }
 
   getMenus(): void {
-    this.menuHttpService.get().subscribe((response) => {
-      this.menuOptions = response.data.data;
+    this.getMenusUseCaseService.execute({}).subscribe((response) => {
+      this.menuOptions = response.data;
       this.formGroup.patchValue({
         id: this.data.value.id,
         name: this.data.value.name,

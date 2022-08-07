@@ -3,19 +3,6 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export interface PaginationParams {
-  page?: number;
-  limit?: number;
-  sort?: string;
-  order?: string;
-  search?: string;
-}
-
-export interface Pagination<T> {
-  total: number;
-  data: T[];
-}
-
 export class ApiUrlBuilder {
   urls: string[] = [];
   constructor(baseUrl: string) {
