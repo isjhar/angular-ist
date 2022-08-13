@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { GetRolesUseCaseService } from 'src/app/domain/usecases/get-roles-use-case.service';
-import { UsersHttpService } from '../../users-http.service';
+import { StoreUserUseCaseService } from 'src/app/domain/usecases/store-user-use-case.service';
 
 @Component({
   selector: 'app-add-dialog',
@@ -60,8 +60,8 @@ export class AddDialogComponent implements OnInit {
   }
 
   constructor(
-    private userHttpService: UsersHttpService,
     private getRolesUseCaseService: GetRolesUseCaseService,
+    private storeUserUseCaseService: StoreUserUseCaseService,
     private dialogRef: MatDialogRef<AddDialogComponent>
   ) {}
 
@@ -75,8 +75,8 @@ export class AddDialogComponent implements OnInit {
   onSubmitted(): void {
     this.isLoading = true;
     let roles = this.roles.value as any[];
-    this.userHttpService
-      .storeUser({
+    this.storeUserUseCaseService
+      .execute({
         email: this.email.value,
         name: this.name.value,
         password: this.password.value,
@@ -89,9 +89,7 @@ export class AddDialogComponent implements OnInit {
         },
         (response) => {
           this.isLoading = false;
-          this.error = response.error.message
-            ? response.error.message
-            : 'internal server error';
+          this.error = response;
         }
       );
   }

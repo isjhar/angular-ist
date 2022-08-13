@@ -1,23 +1,41 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  InjectionToken,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import {
   DefaultTableColumn,
   DefaultTableComponent,
 } from '../default-table.component';
-import { ServerSideTableService } from './server-side-table.service';
+import {
+  ServerSideTableService,
+  TABLE_SERVICE,
+} from './server-side-table.service';
 
 @Component({
   selector: 'app-server-side-table',
   templateUrl: './server-side-table.component.html',
   styleUrls: ['./server-side-table.component.scss'],
 })
-export class ServerSideTableComponent implements OnInit, OnDestroy {
+export class ServerSideTableComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() searchable: boolean = false;
 
   dataSource: any[] = [];
   length: number = 0;
   columns: DefaultTableColumn[] = [];
   search: string = '';
+  initialized = false;
 
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
@@ -25,7 +43,9 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
   columnsChangeSubscription!: Subscription;
   searchChangeSubscription!: Subscription;
 
-  constructor(private service: ServerSideTableService) {}
+  constructor(
+    @Inject(TABLE_SERVICE) private service: ServerSideTableService<any, any>
+  ) {}
 
   ngOnInit(): void {
     this.columns = this.service.columns;
@@ -42,6 +62,11 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
         this.refreshData();
       }
     );
+    this.service.setTable(this.table);
+  }
+
+  ngAfterViewInit(): void {
+    this.get();
   }
 
   ngOnDestroy(): void {
@@ -49,36 +74,27 @@ export class ServerSideTableComponent implements OnInit, OnDestroy {
     this.searchChangeSubscription.unsubscribe();
   }
 
-  ngAfterViewInit(): void {
-    this.getList();
-  }
-
   onPageChanged(event: any): void {
-    this.getList();
+    this.get();
   }
 
   onSortChanged(event: any): void {
-    this.getList();
+    this.get();
   }
 
-  getList(): void {
+  get(): void {
     this.service
-      .getList({
-        limit: this.table.pageSize,
-        page: this.table.pageIndex + 1,
-        sort: this.table.sort,
-        order: this.table.order,
-        search: this.search,
-      })
-      .subscribe((response: any) => {
-        let pagination = response.data;
-        this.length = pagination.total;
-        this.dataSource = pagination.data.map((x: any) => this.service.map(x));
+      .get(this.service.getParams())
+      .pipe(delay(0))
+      .subscribe((response) => {
+        this.length = response.total;
+        this.dataSource = response.data;
         this.table.renderRows();
+        this.initialized = true;
       });
   }
 
   refreshData(): void {
-    this.getList();
+    this.get();
   }
 }

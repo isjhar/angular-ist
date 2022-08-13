@@ -4,71 +4,18 @@ import {
   AuthRepository,
   LoginParams,
 } from 'src/app/domain/repositories/auth-repository';
+import { MockUserRepository } from './mock-user-repository';
 
 export class MockAuthRepository extends AuthRepository {
-  users: User[] = [
-    {
-      email: 'sysadmin@gmail.com',
-      name: 'Sys Admin',
-      role_names: 'Sys Admin',
-      roles: [
-        {
-          id: 1,
-          menus: [
-            {
-              id: 1,
-              name: 'Dashboard',
-              url: '/',
-            },
-            {
-              id: 2,
-              name: 'Setting',
-              url: '/setting',
-            },
-          ],
-          name: 'Admin',
-        },
-      ],
-    },
-    {
-      email: 'admin@gmail.com',
-      name: 'Admin',
-      role_names: 'Admin',
-      roles: [
-        {
-          id: 1,
-          menus: [
-            {
-              id: 1,
-              name: 'Dashboard',
-              url: '/',
-            },
-            {
-              id: 2,
-              name: 'Setting',
-              url: '/setting',
-            },
-          ],
-          name: 'Admin',
-        },
-      ],
-    },
-  ];
-
-  loggedUser?: User;
-
-  getLoggedUser(): Observable<User> {
-    return of(this.loggedUser!);
-  }
   getCsrfToken(): Observable<any> {
     return of({});
   }
   login(data: LoginParams): Observable<any> {
     return new Observable<any>((observer) => {
-      this.loggedUser = this.users.find(
+      let loggedUser = MockUserRepository.users.find(
         (element) => element.email == data.email
       );
-      if (this.loggedUser) {
+      if (loggedUser) {
         this.setCookie('laravel_session', 'test', 100);
         observer.next();
         observer.complete();

@@ -3,10 +3,19 @@ import { Observable } from 'rxjs';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { GetRolesUseCaseService } from 'src/app/domain/usecases/get-roles-use-case.service';
-import { ServerSideTableService } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
+import {
+  GetServerSideTablePagination,
+  ServerSideTableService,
+} from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
 
 @Injectable()
-export class RolesTableService extends ServerSideTableService {
+export class RolesTableService extends ServerSideTableService<any, any> {
+  getParams() {
+    throw new Error('Method not implemented.');
+  }
+  get(params: any): Observable<GetServerSideTablePagination<any>> {
+    throw new Error('Method not implemented.');
+  }
   constructor(private getRolesUseCaseService: GetRolesUseCaseService) {
     super();
   }

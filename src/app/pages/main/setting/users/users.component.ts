@@ -1,11 +1,20 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { DeleteUserUseCaseService } from 'src/app/domain/usecases/delete-user-use-case.service';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
-import { ServerSideTableService } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
-import { UsersHttpService } from '../users-http.service';
+import {
+  ServerSideTableService,
+  TABLE_SERVICE,
+} from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
 import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import { UsersTableService } from './users-table.service';
 
@@ -13,7 +22,7 @@ import { UsersTableService } from './users-table.service';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  providers: [{ provide: ServerSideTableService, useClass: UsersTableService }],
+  providers: [{ provide: TABLE_SERVICE, useClass: UsersTableService }],
 })
 export class UsersComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })
@@ -22,8 +31,9 @@ export class UsersComponent implements OnInit {
   table!: ServerSideTableComponent;
 
   constructor(
-    private tableService: ServerSideTableService,
-    private userHttpService: UsersHttpService,
+    @Inject(TABLE_SERVICE)
+    private tableService: ServerSideTableService<any, any>,
+    private deleteUserUseCase: DeleteUserUseCaseService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -95,7 +105,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  delete(id: number): Observable<any> {
-    return this.userHttpService.deleteUser(id);
+  delete(id: number): Observable<void> {
+    return this.deleteUserUseCase.execute({ id: id });
   }
 }

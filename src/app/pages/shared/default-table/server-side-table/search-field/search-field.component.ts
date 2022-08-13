@@ -1,8 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ServerSideTableService } from '../server-side-table.service';
+import {
+  ServerSideTableService,
+  TABLE_SERVICE,
+} from '../server-side-table.service';
 
 @Component({
   selector: 'app-search-field',
@@ -20,7 +23,10 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
     return this.formGroup.get('search') as FormControl;
   }
 
-  constructor(private serverSideTableService: ServerSideTableService) {}
+  constructor(
+    @Inject(TABLE_SERVICE)
+    private serverSideTableService: ServerSideTableService<any, any>
+  ) {}
 
   ngOnInit(): void {
     this.searchValueChangesSubscription = this.search.valueChanges

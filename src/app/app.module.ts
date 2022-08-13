@@ -11,6 +11,12 @@ import { AuthRepository } from './domain/repositories/auth-repository';
 import { MockAuthRepository } from './data/repositories/mock-auth-repository';
 import { AuthenticatedUserRepository } from './domain/repositories/authenticated-user-repository';
 import { LocalAuthenticatedUserRepository } from './data/repositories/local-authenticated-user-repository';
+import { UserRepository } from './domain/repositories/user-repository';
+import { MockUserRepository } from './data/repositories/mock-user-repository';
+import { RoleRepository } from './domain/repositories/role-repository';
+import { MockRoleRepository } from './data/repositories/mock-role-repository';
+import { MenuRepository } from './domain/repositories/menu-repository';
+import { MockMenuRepository } from './data/repositories/mock-menu-repository';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +33,18 @@ import { LocalAuthenticatedUserRepository } from './data/repositories/local-auth
     {
       provide: AuthenticatedUserRepository,
       useClass: LocalAuthenticatedUserRepository,
+    },
+    {
+      provide: UserRepository,
+      useClass: MockUserRepository,
+    },
+    {
+      provide: RoleRepository,
+      useClass: MockRoleRepository,
+    },
+    {
+      provide: MenuRepository,
+      useClass: MockMenuRepository,
     },
   ],
   bootstrap: [AppComponent],

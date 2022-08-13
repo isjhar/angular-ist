@@ -1,10 +1,25 @@
 import { Observable } from 'rxjs';
-import { User } from 'src/app/auth.service';
+import { User } from 'src/app/domain/entities/user';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 
 export class LocalAuthenticatedUserRepository extends AuthenticatedUserRepository {
   readonly IS_LOGGED_IN = 'IS_LOGGED_IN';
   readonly LOGGED_USER = 'LOGGED_USER';
+
+  loggedUser?: User;
+
+  getLoggedUser(): Observable<User> {
+    return new Observable<User>((observer) => {
+      var loggedUser = localStorage.getItem(this.LOGGED_USER);
+      if (loggedUser === null) {
+        observer.error('userNotFound');
+        observer.complete();
+      }
+      let user: User = JSON.parse(loggedUser!);
+      observer.next(user);
+      observer.complete();
+    });
+  }
 
   isLoggedIn(): Observable<boolean> {
     return new Observable<boolean>((observer) => {
