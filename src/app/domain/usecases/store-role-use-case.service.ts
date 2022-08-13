@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Role } from '../entities/role';
 import {
   RoleRepository,
@@ -11,10 +12,27 @@ import { UseCase } from './use-case';
   providedIn: 'root',
 })
 export class StoreRoleUseCaseService
-  implements UseCase<StoreRoleRequestParams, Role>
+  implements UseCase<StoreRoleUseCaseParams, StoreRoleUseCaseResponse>
 {
   constructor(private roleRepository: RoleRepository) {}
-  execute(params: StoreRoleRequestParams): Observable<Role> {
-    return this.roleRepository.store(params);
+  execute(
+    params: StoreRoleUseCaseParams
+  ): Observable<StoreRoleUseCaseResponse> {
+    return this.roleRepository.store(params).pipe(
+      map<Role, StoreRoleUseCaseResponse>((response) => {
+        return {
+          role: response,
+        };
+      })
+    );
   }
+}
+
+export interface StoreRoleUseCaseParams {
+  name: string;
+  menus: number[];
+}
+
+export interface StoreRoleUseCaseResponse {
+  role: Role;
 }

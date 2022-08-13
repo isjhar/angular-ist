@@ -7,7 +7,6 @@ import { Role } from 'src/app/domain/entities/role';
 import {
   RoleRepository,
   StoreRoleRequestParams,
-  UpdateRoleRequestParams,
 } from 'src/app/domain/repositories/role-repository';
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
@@ -36,9 +35,9 @@ export class ApiRoleRepository extends RoleRepository {
       .post<ApiResponse<Role>>('/api/roles', params)
       .pipe(map((e) => e.data));
   }
-  update(params: UpdateRoleRequestParams): Observable<any> {
+  update(id: number, params: StoreRoleRequestParams): Observable<any> {
     return this.http
-      .patch<ApiResponse<any>>(`/api/roles/${params.id}`, params)
+      .patch<ApiResponse<any>>(`/api/roles/${id}`, params)
       .pipe(map((e) => e.data));
   }
   delete(id: number): Observable<any> {

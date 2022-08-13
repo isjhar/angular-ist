@@ -6,7 +6,6 @@ import { Role } from 'src/app/domain/entities/role';
 import {
   RoleRepository,
   StoreRoleRequestParams,
-  UpdateRoleRequestParams,
 } from 'src/app/domain/repositories/role-repository';
 import { MockMenuRepository } from './mock-menu-repository';
 
@@ -52,11 +51,9 @@ export class MockRoleRepository extends RoleRepository {
       observer.complete();
     });
   }
-  update(params: UpdateRoleRequestParams): Observable<any> {
+  update(id: number, params: StoreRoleRequestParams): Observable<any> {
     return new Observable<any>((observer) => {
-      let menu = MockRoleRepository.roles.find(
-        (element) => element.id == params.id
-      );
+      let menu = MockRoleRepository.roles.find((element) => element.id == id);
       if (menu == undefined) {
         observer.error('role not found');
       }
