@@ -8,7 +8,7 @@ import {
   GetUsersUseCaseService,
 } from 'src/app/domain/usecases/get-users-use-case.service';
 import {
-  GetServerSideTablePagination,
+  ServerSideTablePagination,
   GetServerSideTableParams,
   ServerSideTableService,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
@@ -32,9 +32,9 @@ export class UsersTableService extends ServerSideTableService<
   }
   get(
     params: GetServerSideTableParams
-  ): Observable<GetServerSideTablePagination<UserRow>> {
+  ): Observable<ServerSideTablePagination<UserRow>> {
     return this.getUsersUseCaseService.execute(params).pipe(
-      map<GetUsersUseCaseResponse, GetServerSideTablePagination<UserRow>>(
+      map<GetUsersUseCaseResponse, ServerSideTablePagination<UserRow>>(
         (element) => {
           return {
             total: element.pagination.total,

@@ -4,7 +4,7 @@ import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { GetRolesUseCaseService } from 'src/app/domain/usecases/get-roles-use-case.service';
 import {
-  GetServerSideTablePagination,
+  ServerSideTablePagination,
   ServerSideTableService,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
 
@@ -13,7 +13,7 @@ export class RolesTableService extends ServerSideTableService<any, any> {
   getParams() {
     throw new Error('Method not implemented.');
   }
-  get(params: any): Observable<GetServerSideTablePagination<any>> {
+  get(params: any): Observable<ServerSideTablePagination<any>> {
     throw new Error('Method not implemented.');
   }
   constructor(private getRolesUseCaseService: GetRolesUseCaseService) {

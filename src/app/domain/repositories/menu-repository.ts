@@ -6,15 +6,11 @@ import { PaginationParams } from '../entities/pagination-params';
 export abstract class MenuRepository {
   abstract get(params: PaginationParams): Observable<Pagination<Menu>>;
   abstract store(params: StoreMenuRequestParams): Observable<Menu>;
-  abstract update(params: UpdateMenuRequestParams): Observable<any>;
+  abstract update(id: number, params: StoreMenuRequestParams): Observable<any>;
   abstract delete(id: number): Observable<any>;
 }
 
 export interface StoreMenuRequestParams {
   name: string;
   url: string;
-}
-
-export interface UpdateMenuRequestParams extends StoreMenuRequestParams {
-  id: number;
 }

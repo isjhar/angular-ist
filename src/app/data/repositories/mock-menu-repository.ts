@@ -5,7 +5,6 @@ import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import {
   MenuRepository,
   StoreMenuRequestParams,
-  UpdateMenuRequestParams,
 } from 'src/app/domain/repositories/menu-repository';
 
 export class MockMenuRepository extends MenuRepository {
@@ -48,11 +47,9 @@ export class MockMenuRepository extends MenuRepository {
       observer.complete();
     });
   }
-  update(params: UpdateMenuRequestParams): Observable<any> {
+  update(id: number, params: StoreMenuRequestParams): Observable<any> {
     return new Observable<any>((observer) => {
-      let menu = MockMenuRepository.menus.find(
-        (element) => element.id == params.id
-      );
+      let menu = MockMenuRepository.menus.find((element) => element.id == id);
       if (menu == undefined) {
         observer.error('menu not found');
       }
