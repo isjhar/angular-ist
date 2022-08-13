@@ -47,7 +47,7 @@ export class MockMenuRepository extends MenuRepository {
       observer.complete();
     });
   }
-  update(id: number, params: StoreMenuRequestParams): Observable<any> {
+  update(id: number, params: StoreMenuRequestParams): Observable<void> {
     return new Observable<any>((observer) => {
       let menu = MockMenuRepository.menus.find((element) => element.id == id);
       if (menu == undefined) {
@@ -60,7 +60,7 @@ export class MockMenuRepository extends MenuRepository {
       observer.complete();
     });
   }
-  delete(id: number): Observable<any> {
+  delete(id: number): Observable<void> {
     return new Observable<any>((observer) => {
       MockMenuRepository.menus = MockMenuRepository.menus.filter(
         (element) => element.id != id

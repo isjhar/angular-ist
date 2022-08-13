@@ -7,7 +7,6 @@ import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import {
   MenuRepository,
   StoreMenuRequestParams,
-  UpdateMenuRequestParams,
 } from 'src/app/domain/repositories/menu-repository';
 import { ApiResponse } from '../entities/api-response';
 
@@ -33,13 +32,13 @@ export class ApiMenuRepository extends MenuRepository {
       .pipe(map((e) => e.data));
   }
 
-  update(params: UpdateMenuRequestParams): Observable<any> {
+  update(id: number, params: StoreMenuRequestParams): Observable<void> {
     return this.http
-      .patch<ApiResponse<any>>(`/api/menus/${params.id}`, params)
+      .patch<ApiResponse<any>>(`/api/menus/${id}`, params)
       .pipe(map((e) => e.data));
   }
 
-  delete(id: number): Observable<ApiResponse<any>> {
+  delete(id: number): Observable<void> {
     return this.http
       .delete<ApiResponse<any>>(`/api/menus/${id}`)
       .pipe(map((e) => e.data));

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Menu } from '../entities/menu';
 import {
   MenuRepository,
@@ -11,10 +12,27 @@ import { UseCase } from './use-case';
   providedIn: 'root',
 })
 export class StoreMenuUseCaseService
-  implements UseCase<StoreMenuRequestParams, Menu>
+  implements UseCase<StoreMenuUseCaseParams, StoreMenuUseCaseResponse>
 {
   constructor(private menuRepository: MenuRepository) {}
-  execute(params: StoreMenuRequestParams): Observable<Menu> {
-    return this.menuRepository.store(params);
+  execute(
+    params: StoreMenuUseCaseParams
+  ): Observable<StoreMenuUseCaseResponse> {
+    return this.menuRepository.store(params).pipe(
+      map<Menu, StoreMenuUseCaseResponse>((element) => {
+        return {
+          menu: element,
+        };
+      })
+    );
   }
+}
+
+export interface StoreMenuUseCaseParams {
+  name: string;
+  url: string;
+}
+
+export interface StoreMenuUseCaseResponse {
+  menu: Menu;
 }

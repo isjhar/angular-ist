@@ -6,9 +6,15 @@ import { UseCase } from './use-case';
 @Injectable({
   providedIn: 'root',
 })
-export class DeleteMenuUseCaseService implements UseCase<number, any> {
+export class DeleteMenuUseCaseService
+  implements UseCase<DeleteMenuUseCaseParams, void>
+{
   constructor(private menuRepository: MenuRepository) {}
-  execute(params: number): Observable<any> {
-    return this.menuRepository.delete(params);
+  execute(params: DeleteMenuUseCaseParams): Observable<any> {
+    return this.menuRepository.delete(params.id);
   }
+}
+
+export interface DeleteMenuUseCaseParams {
+  id: number;
 }
