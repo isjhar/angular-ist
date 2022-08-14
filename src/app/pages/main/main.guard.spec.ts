@@ -2,20 +2,21 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AuthInterceptor } from './auth.interceptor';
+import { MainGuard } from './main.guard';
 
-describe('AuthInterceptor', () => {
+describe('MainGuard', () => {
+  let guard: MainGuard;
   let routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
-      providers: [AuthInterceptor, { provide: Router, useValue: routerSpy }],
-    })
-  );
+      providers: [{ provide: Router, useValue: routerSpy }],
+    });
+    guard = TestBed.inject(MainGuard);
+  });
 
   it('should be created', () => {
-    const interceptor: AuthInterceptor = TestBed.inject(AuthInterceptor);
-    expect(interceptor).toBeTruthy();
+    expect(guard).toBeTruthy();
   });
 });

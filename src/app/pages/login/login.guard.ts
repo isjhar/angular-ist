@@ -11,12 +11,12 @@ import { map } from 'rxjs/operators';
 import {
   IsLoggedInUseCaseResponse,
   IsLoggedInUseCaseService,
-} from './domain/usecases/is-logged-in-use-case.service';
+} from 'src/app/domain/usecases/is-logged-in-use-case.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
   constructor(
     private isLoggedInUseCaseService: IsLoggedInUseCaseService,
     private router: Router
@@ -31,8 +31,8 @@ export class AuthGuard implements CanActivate {
     | UrlTree {
     return this.isLoggedInUseCaseService.execute().pipe(
       map<IsLoggedInUseCaseResponse, boolean>((response) => {
-        if (!response.isLoggedIn) {
-          this.router.navigate(['/login']);
+        if (response.isLoggedIn) {
+          this.router.navigate(['']);
           return false;
         }
         return true;
