@@ -8,13 +8,17 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from '../../auth.service';
+import { User } from 'src/app/domain/entities/user';
+import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/get-authenticated-user-use-case.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainGuard implements CanActivate {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -24,8 +28,8 @@ export class MainGuard implements CanActivate {
     | boolean
     | UrlTree {
     let url = state.url;
-    return this.authService.getUser().pipe(
-      map((user) => {
+    return this.getLoggedUserUseCaseService.execute().pipe(
+      map<User, boolean>((user) => {
         for (let i = 0; i < user.roles.length; i++) {
           const role = user.roles[i];
           for (let j = 0; j < role.menus.length; j++) {

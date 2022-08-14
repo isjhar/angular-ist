@@ -7,13 +7,20 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { map } from 'rxjs/operators';
+import {
+  IsLoggedInUseCaseResponse,
+  IsLoggedInUseCaseService,
+} from './domain/usecases/is-logged-in-use-case.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private isLoggedInUseCaseService: IsLoggedInUseCaseService,
+    private router: Router
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -22,10 +29,14 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/login']);
-      return false;
-    }
-    return true;
+    return this.isLoggedInUseCaseService.execute().pipe(
+      map<IsLoggedInUseCaseResponse, boolean>((response) => {
+        if (!response.isLoggedIn) {
+          this.router.navigate(['/login']);
+          return false;
+        }
+        return true;
+      })
+    );
   }
 }

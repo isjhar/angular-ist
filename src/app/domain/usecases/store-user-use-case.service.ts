@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from 'src/app/auth.service';
+import { User } from '../entities/user';
 import { UserRepository } from '../repositories/user-repository';
 import { UseCase } from './use-case';
 

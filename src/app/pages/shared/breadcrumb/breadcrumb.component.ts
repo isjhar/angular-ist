@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Menu, MenuService } from 'src/app/menu.service';
+import { Menu, MenuService } from 'src/app/pages/menu.service';
 
 @Component({
   selector: 'app-breadcrumb',

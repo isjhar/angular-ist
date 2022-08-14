@@ -8,12 +8,16 @@ import { UseCase } from './use-case';
   providedIn: 'root',
 })
 export class StoreAuthenticatedUserUseCaseService
-  implements UseCase<User, void>
+  implements UseCase<StoreAuthenticatedUserUseCaseParams, void>
 {
   constructor(
     private authenticatedUserRepository: AuthenticatedUserRepository
   ) {}
-  execute(params: User): Observable<void> {
-    return this.authenticatedUserRepository.store(params);
+  execute(params: StoreAuthenticatedUserUseCaseParams): Observable<void> {
+    return this.authenticatedUserRepository.store(params.loggedInUser);
   }
+}
+
+export interface StoreAuthenticatedUserUseCaseParams {
+  loggedInUser: User;
 }

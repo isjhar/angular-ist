@@ -8,7 +8,7 @@ export class LocalAuthenticatedUserRepository extends AuthenticatedUserRepositor
 
   loggedUser?: User;
 
-  getLoggedUser(): Observable<User> {
+  getAuthenticatedUser(): Observable<User> {
     return new Observable<User>((observer) => {
       var loggedUser = localStorage.getItem(this.LOGGED_USER);
       if (loggedUser === null) {
@@ -21,7 +21,7 @@ export class LocalAuthenticatedUserRepository extends AuthenticatedUserRepositor
     });
   }
 
-  isLoggedIn(): Observable<boolean> {
+  isAuthenticated(): Observable<boolean> {
     return new Observable<boolean>((observer) => {
       observer.next(localStorage.getItem(this.IS_LOGGED_IN) !== null);
       observer.complete();

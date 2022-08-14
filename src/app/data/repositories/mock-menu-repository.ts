@@ -22,7 +22,7 @@ export class MockMenuRepository extends MenuRepository {
   ];
 
   get(params: PaginationParams): Observable<Pagination<Menu>> {
-    let menus = MockMenuRepository.menus;
+    let menus = [...MockMenuRepository.menus];
     let search = params.search;
     let limit = params.limit ? params.limit : menus.length;
     let page = params.page ? params.page : 0;
@@ -30,8 +30,8 @@ export class MockMenuRepository extends MenuRepository {
     if (search != undefined) {
       menus = menus.filter((element) => element.name.includes(search!));
     }
-    menus = menus.splice(page * limit, limit);
-    return of({ total: MockMenuRepository.menus.length, data: menus });
+    let paginatedMenus = menus.splice((page - 1) * limit, limit);
+    return of({ total: menus.length, data: paginatedMenus });
   }
   store(params: StoreMenuRequestParams): Observable<Menu> {
     return new Observable<Menu>((observer) => {

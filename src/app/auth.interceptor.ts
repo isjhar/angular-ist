@@ -8,13 +8,16 @@ import {
   HttpErrorResponse,
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { LogoutUseCaseService } from './domain/usecases/logout-use-case.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private logoutUseCaseService: LogoutUseCaseService
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -29,8 +32,9 @@ export class AuthInterceptor implements HttpInterceptor {
     //handle your auth error or rethrow
     if (this.router.url !== '/login') {
       if (err.status === 401 || err.status === 419) {
-        this.authService.logout();
-        this.router.navigateByUrl(`/login`);
+        this.logoutUseCaseService.execute().subscribe((response) => {
+          this.router.navigateByUrl(`/login`);
+        });
         return EMPTY;
       } else if (err.status == 403) {
         this.router.navigateByUrl('');
@@ -38,9 +42,13 @@ export class AuthInterceptor implements HttpInterceptor {
       }
 
       // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
-      return throwError(err);
+      return throwError(
+        err.error.message ? err.error.message : 'internal server error'
+      );
     }
-    return throwError(err);
+    return throwError(
+      err.error.message ? err.error.message : 'internal server error'
+    );
   }
 }
 

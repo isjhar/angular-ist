@@ -103,7 +103,7 @@ export class AddDialogComponent implements OnInit {
 
   getRoles(): void {
     this.getRolesUseCaseService.execute({}).subscribe((response) => {
-      this.roleOptions = response.data;
+      this.roleOptions = response.pagination.data;
     });
   }
 }

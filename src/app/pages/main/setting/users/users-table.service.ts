@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from 'src/app/auth.service';
-import { Pagination } from 'src/app/domain/entities/pagination';
 import {
   GetUsersUseCaseResponse,
   GetUsersUseCaseService,

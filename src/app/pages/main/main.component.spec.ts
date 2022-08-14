@@ -7,10 +7,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MainComponent } from './main.component';
-import { AuthService, User } from '../../auth.service';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UserManagementService } from '../../user-management.service';
 import { of } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -19,19 +17,13 @@ describe('MainComponent', () => {
   let fixture: ComponentFixture<MainComponent>;
   let routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
   let authServiceStub;
-  let userManagementServiceStub: Partial<UserManagementService> = {};
   let breakPointObserverStub;
-  let user: User = {
-    email: 'test',
-    roles: [],
-  };
 
   beforeEach(async () => {
     breakPointObserverStub = jasmine.createSpyObj(['observe']);
     breakPointObserverStub.observe.and.returnValue(of(true));
 
     authServiceStub = jasmine.createSpyObj(['getUser']);
-    authServiceStub.getUser.and.returnValue(user);
 
     await TestBed.configureTestingModule({
       declarations: [MainComponent],
@@ -48,8 +40,6 @@ describe('MainComponent', () => {
       ],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: AuthService, useValue: authServiceStub },
-        { provide: UserManagementService, useValue: userManagementServiceStub },
         { provide: BreakpointObserver, useValue: breakPointObserverStub },
       ],
     }).compileComponents();

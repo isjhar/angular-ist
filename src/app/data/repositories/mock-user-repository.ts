@@ -58,7 +58,7 @@ export class MockUserRepository extends UserRepository {
     },
   ];
   get(params: PaginationParams): Observable<Pagination<User>> {
-    let users = MockUserRepository.users;
+    let users = [...MockUserRepository.users];
     let search = params.search;
     let limit = params.limit ? params.limit : users.length;
     let page = params.page ? params.page : 0;

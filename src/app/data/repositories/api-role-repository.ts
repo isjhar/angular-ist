@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { Role } from 'src/app/domain/entities/role';
@@ -22,27 +22,22 @@ export class ApiRoleRepository extends RoleRepository {
     return this.http
       .get<ApiResponse<Pagination<Role>>>(urlBuilder.getUrl())
       .pipe(
-        catchError((response) => {
-          throw response.error.message
-            ? response.error.message
-            : 'internal server error';
-        }),
-        map((e) => e.data)
+        map<ApiResponse<Pagination<Role>>, Pagination<Role>>((e) => e.data)
       );
   }
   store(params: StoreRoleRequestParams): Observable<Role> {
     return this.http
       .post<ApiResponse<Role>>('/api/roles', params)
-      .pipe(map((e) => e.data));
+      .pipe(map<ApiResponse<Role>, Role>((e) => e.data));
   }
-  update(id: number, params: StoreRoleRequestParams): Observable<any> {
+  update(id: number, params: StoreRoleRequestParams): Observable<void> {
     return this.http
-      .patch<ApiResponse<any>>(`/api/roles/${id}`, params)
-      .pipe(map((e) => e.data));
+      .patch<ApiResponse<void>>(`/api/roles/${id}`, params)
+      .pipe(map<ApiResponse<void>, void>((e) => e.data));
   }
-  delete(id: number): Observable<any> {
+  delete(id: number): Observable<void> {
     return this.http
-      .delete<ApiResponse<any>>(`/api/roles/${id}`)
-      .pipe(map((e) => e.data));
+      .delete<ApiResponse<void>>(`/api/roles/${id}`)
+      .pipe(map<ApiResponse<void>, void>((e) => e.data));
   }
 }

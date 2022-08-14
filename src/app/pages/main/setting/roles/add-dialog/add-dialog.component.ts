@@ -56,22 +56,31 @@ export class AddDialogComponent implements OnInit {
       name: this.name.value,
       menus: menus.map((x) => x.id),
     };
-    let save$ =
-      this.id.value == 0
-        ? this.storeRoleUseCaseService.execute(params)
-        : this.updateRoleUseCaseService.execute(
-            Object.assign({}, { id: this.id.value }, params)
-          );
-    save$.subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.dialogRef.close('success');
-      },
-      (error) => {
-        this.isLoading = false;
-        this.error = error;
-      }
-    );
+    if (this.id.value == 0) {
+      this.storeRoleUseCaseService.execute(params).subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.dialogRef.close('success');
+        },
+        (error) => {
+          this.isLoading = false;
+          this.error = error;
+        }
+      );
+    } else {
+      this.updateRoleUseCaseService
+        .execute(Object.assign({}, { id: this.id.value }, params))
+        .subscribe(
+          (response) => {
+            this.isLoading = false;
+            this.dialogRef.close('success');
+          },
+          (error) => {
+            this.isLoading = false;
+            this.error = error;
+          }
+        );
+    }
   }
 
   removeMenu(menu: any): void {
@@ -83,7 +92,7 @@ export class AddDialogComponent implements OnInit {
 
   getMenus(): void {
     this.getMenusUseCaseService.execute({}).subscribe((response) => {
-      this.menuOptions = response.data;
+      this.menuOptions = response.pagination.data;
       this.formGroup.patchValue({
         id: this.data.value.id,
         name: this.data.value.name,

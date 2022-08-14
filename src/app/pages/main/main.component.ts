@@ -3,9 +3,7 @@ import { Observable } from 'rxjs';
 import { concatMap, map, shareReplay } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, User } from '../../auth.service';
-import { UserManagementService } from '../../user-management.service';
-import { Menu, MenuService } from '../../menu.service';
+import { Menu, MenuService } from '../menu.service';
 import {
   animate,
   state,
@@ -15,7 +13,8 @@ import {
 } from '@angular/animations';
 import { LogoutUseCaseService } from 'src/app/domain/usecases/logout-use-case.service';
 import { DeleteAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/delete-authenticated-user-use-case.service';
-import { GetLoggedUserUseCaseService } from 'src/app/domain/usecases/get-logged-user-use-case.service';
+import { User } from 'src/app/domain/entities/user';
+import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/get-authenticated-user-use-case.service';
 
 @Component({
   selector: 'app-main',
@@ -59,16 +58,12 @@ export class MainComponent implements OnInit {
       shareReplay()
     );
 
-  loggedUser: User = {
-    email: '',
-    name: '',
-    roles: [],
-  };
+  loggedUser!: User;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private deleteAuthenticatedUserUseCaseService: DeleteAuthenticatedUserUseCaseService,
-    private getLoggedUserUseCaseService: GetLoggedUserUseCaseService,
+    private getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService,
     private logoutUseCaseService: LogoutUseCaseService,
     private router: Router,
     private menuService: MenuService

@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
 import { GetCsrfTokenUsecaseService } from 'src/app/domain/usecases/get-csrf-token-usecase.service';
-import { GetLoggedUserUseCaseService } from 'src/app/domain/usecases/get-logged-user-use-case.service';
+import {
+  GetLoggedInUserUseCaseResponse,
+  GetLoggedInUserUseCaseService,
+} from 'src/app/domain/usecases/get-logged-in-user-use-case.service';
 import { LoginUsecaseService } from 'src/app/domain/usecases/login-usecase.service';
-import { StoreAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/store-authenticated-user-use-case.service';
+import {
+  StoreAuthenticatedUserUseCaseParams,
+  StoreAuthenticatedUserUseCaseService,
+} from 'src/app/domain/usecases/store-authenticated-user-use-case.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private getCsrfTokenUseCaseService: GetCsrfTokenUsecaseService,
-    private getLoggedUserUseCaseService: GetLoggedUserUseCaseService,
+    private getLoggedUserUseCaseService: GetLoggedInUserUseCaseService,
     private loginUseCaseService: LoginUsecaseService,
     private storeAuthenticatedUserUseCaseService: StoreAuthenticatedUserUseCaseService,
     private router: Router
@@ -36,7 +42,18 @@ export class LoginComponent implements OnInit {
         concatMap((response) =>
           this.loginUseCaseService.execute(this.loginForm.value)
         ),
-        concatMap((response) => this.getLoggedUserUseCaseService.execute()),
+        concatMap((response) =>
+          this.getLoggedUserUseCaseService.execute().pipe(
+            map<
+              GetLoggedInUserUseCaseResponse,
+              StoreAuthenticatedUserUseCaseParams
+            >((response) => {
+              return {
+                loggedInUser: response.loggedInUser,
+              };
+            })
+          )
+        ),
         concatMap((response) =>
           this.storeAuthenticatedUserUseCaseService.execute(response)
         )
