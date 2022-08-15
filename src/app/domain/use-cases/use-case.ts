@@ -11,3 +11,7 @@ export interface GetUseCaseParams {
   order?: string;
   search?: string;
 }
+
+export interface DeleteUseCaseParams {
+  id: number;
+}
