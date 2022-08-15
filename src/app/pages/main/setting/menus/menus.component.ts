@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DeleteMenuUseCaseService } from 'src/app/domain/usecases/delete-menu-use-case.service';
+import { DeleteMenuUseCaseService } from 'src/app/domain/use-cases/delete-menu-use-case.service';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
 import {

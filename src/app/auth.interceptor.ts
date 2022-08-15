@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { LogoutUseCaseService } from './domain/usecases/logout-use-case.service';
+import { LogoutUseCaseService } from './domain/use-cases/logout-use-case.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 import {
   IsLoggedInUseCaseResponse,
   IsLoggedInUseCaseService,
-} from 'src/app/domain/usecases/is-logged-in-use-case.service';
+} from 'src/app/domain/use-cases/is-logged-in-use-case.service';
 
 @Injectable({
   providedIn: 'root',

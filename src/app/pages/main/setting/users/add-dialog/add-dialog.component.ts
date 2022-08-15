@@ -6,8 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { GetRolesUseCaseService } from 'src/app/domain/usecases/get-roles-use-case.service';
-import { StoreUserUseCaseService } from 'src/app/domain/usecases/store-user-use-case.service';
+import { GetRolesUseCaseService } from 'src/app/domain/use-cases/get-roles-use-case.service';
+import { StoreUserUseCaseService } from 'src/app/domain/use-cases/store-user-use-case.service';
 
 @Component({
   selector: 'app-add-dialog',

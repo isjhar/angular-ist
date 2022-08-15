@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import {
   GetUsersUseCaseResponse,
   GetUsersUseCaseService,
-} from 'src/app/domain/usecases/get-users-use-case.service';
+} from 'src/app/domain/use-cases/get-users-use-case.service';
 import {
   ServerSideTablePagination,
   GetServerSideTableParams,

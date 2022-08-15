@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { concatMap, map } from 'rxjs/operators';
-import { GetCsrfTokenUsecaseService } from 'src/app/domain/usecases/get-csrf-token-usecase.service';
+import { GetCsrfTokenUseCaseService } from 'src/app/domain/use-cases/get-csrf-token-use-case.service';
 import {
   GetLoggedInUserUseCaseResponse,
   GetLoggedInUserUseCaseService,
-} from 'src/app/domain/usecases/get-logged-in-user-use-case.service';
-import { LoginUsecaseService } from 'src/app/domain/usecases/login-usecase.service';
+} from 'src/app/domain/use-cases/get-logged-in-user-use-case.service';
+import { LoginUseCaseService } from 'src/app/domain/use-cases/login-use-case.service';
 import {
   StoreAuthenticatedUserUseCaseParams,
   StoreAuthenticatedUserUseCaseService,
-} from 'src/app/domain/usecases/store-authenticated-user-use-case.service';
+} from 'src/app/domain/use-cases/store-authenticated-user-use-case.service';
 
 @Component({
   selector: 'app-login',
@@ -26,9 +26,9 @@ export class LoginComponent implements OnInit {
   error?: String;
 
   constructor(
-    private getCsrfTokenUseCaseService: GetCsrfTokenUsecaseService,
+    private getCsrfTokenUseCaseService: GetCsrfTokenUseCaseService,
     private getLoggedUserUseCaseService: GetLoggedInUserUseCaseService,
-    private loginUseCaseService: LoginUsecaseService,
+    private loginUseCaseService: LoginUseCaseService,
     private storeAuthenticatedUserUseCaseService: StoreAuthenticatedUserUseCaseService,
     private router: Router
   ) {}

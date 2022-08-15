@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/domain/entities/user';
-import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/get-authenticated-user-use-case.service';
+import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/get-authenticated-user-use-case.service';
 
 @Injectable({
   providedIn: 'root',

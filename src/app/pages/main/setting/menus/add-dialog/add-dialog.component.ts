@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StoreMenuUseCaseService } from 'src/app/domain/usecases/store-menu-use-case.service';
-import { UpdateMenuUseCaseService } from 'src/app/domain/usecases/update-menu-use-case.service';
+import { StoreMenuUseCaseService } from 'src/app/domain/use-cases/store-menu-use-case.service';
+import { UpdateMenuUseCaseService } from 'src/app/domain/use-cases/update-menu-use-case.service';
 
 export interface AddDialogData {
   value: any;

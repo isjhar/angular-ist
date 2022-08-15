@@ -6,7 +6,7 @@ import { UseCase } from './use-case';
 @Injectable({
   providedIn: 'root',
 })
-export class GetCsrfTokenUsecaseService implements UseCase<void, void> {
+export class GetCsrfTokenUseCaseService implements UseCase<void, void> {
   constructor(private authRepository: AuthRepository) {}
   execute(params: void): Observable<void> {
     return this.authRepository.getCsrfToken();

@@ -6,8 +6,8 @@ import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import {
   GetRolesUseCaseService,
   GetRoleUseCaseResponse,
-} from 'src/app/domain/usecases/get-roles-use-case.service';
-import { GetUseCaseParams } from 'src/app/domain/usecases/use-case';
+} from 'src/app/domain/use-cases/get-roles-use-case.service';
+import { GetUseCaseParams } from 'src/app/domain/use-cases/use-case';
 import {
   ServerSideTablePagination,
   ServerSideTableService,

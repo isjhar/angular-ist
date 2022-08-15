@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GetMenusUseCaseService } from 'src/app/domain/usecases/get-menus-use-case.service';
-import { StoreRoleUseCaseService } from 'src/app/domain/usecases/store-role-use-case.service';
-import { UpdateRoleUseCaseService } from 'src/app/domain/usecases/update-role-use-case.service';
+import { GetMenusUseCaseService } from 'src/app/domain/use-cases/get-menus-use-case.service';
+import { StoreRoleUseCaseService } from 'src/app/domain/use-cases/store-role-use-case.service';
+import { UpdateRoleUseCaseService } from 'src/app/domain/use-cases/update-role-use-case.service';
 
 export interface AddDialogData {
   value: any;

@@ -6,7 +6,7 @@ import { UseCase } from './use-case';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginUsecaseService implements UseCase<LoginParams, void> {
+export class LoginUseCaseService implements UseCase<LoginParams, void> {
   constructor(private authRepository: AuthRepository) {}
   execute(params: LoginParams): Observable<void> {
     return this.authRepository.login(params);

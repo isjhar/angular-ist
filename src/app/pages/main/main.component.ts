@@ -11,10 +11,10 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { LogoutUseCaseService } from 'src/app/domain/usecases/logout-use-case.service';
-import { DeleteAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/delete-authenticated-user-use-case.service';
+import { LogoutUseCaseService } from 'src/app/domain/use-cases/logout-use-case.service';
+import { DeleteAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/delete-authenticated-user-use-case.service';
 import { User } from 'src/app/domain/entities/user';
-import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/usecases/get-authenticated-user-use-case.service';
+import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/get-authenticated-user-use-case.service';
 
 @Component({
   selector: 'app-main',
