@@ -30,6 +30,7 @@ export class ServerSideTableComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @Input() searchable: boolean = false;
+  @Input() searchPlaceholder: string = '';
 
   dataSource: any[] = [];
   length: number = 0;
