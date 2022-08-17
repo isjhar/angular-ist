@@ -2,7 +2,7 @@
   <div fxLayout="column">
     <mat-form-field appearance="legacy">
       <mat-label i18n="search">Search</mat-label>
-      <input matInput formControlName="search" placeholder="Ex. Jane Doe" />
+      <input matInput formControlName="search" [placeholder]="placeholder" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
