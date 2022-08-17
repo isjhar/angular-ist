@@ -28,8 +28,8 @@ export abstract class ServerSideTableService<Params, Row> {
     this.search = search;
     this.searchChange.next(search);
   }
-  abstract getParams(): Params;
   abstract get(params: Params): Observable<ServerSideTablePagination<Row>>;
+  abstract getParams(): Params;
 }
 
 export interface GetServerSideTableParams {
