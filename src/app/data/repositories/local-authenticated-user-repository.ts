@@ -2,7 +2,9 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/domain/entities/user';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 
-export class LocalAuthenticatedUserRepository extends AuthenticatedUserRepository {
+export class LocalAuthenticatedUserRepository
+  implements AuthenticatedUserRepository
+{
   readonly IS_LOGGED_IN = 'IS_LOGGED_IN';
   readonly LOGGED_USER = 'LOGGED_USER';
 

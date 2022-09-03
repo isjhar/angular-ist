@@ -11,10 +11,8 @@ import {
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
 
-export class ApiMenuRepository extends MenuRepository {
-  constructor(private http: HttpClient) {
-    super();
-  }
+export class ApiMenuRepository implements MenuRepository {
+  constructor(private http: HttpClient) {}
 
   get(params: PaginationParams): Observable<Pagination<Menu>> {
     let urlBuilder = new ApiUrlBuilder('/api/menus');

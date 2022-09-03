@@ -8,7 +8,7 @@ import {
 } from 'src/app/domain/repositories/user-repository';
 import { MockRoleRepository } from './mock-role-repository';
 
-export class MockUserRepository extends UserRepository {
+export class MockUserRepository implements UserRepository {
   static users: User[] = [
     {
       id: 1,

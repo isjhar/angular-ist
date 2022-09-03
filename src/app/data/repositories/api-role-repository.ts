@@ -11,10 +11,8 @@ import {
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
 
-export class ApiRoleRepository extends RoleRepository {
-  constructor(private http: HttpClient) {
-    super();
-  }
+export class ApiRoleRepository implements RoleRepository {
+  constructor(private http: HttpClient) {}
   get(params: PaginationParams): Observable<Pagination<Role>> {
     let urlBuilder = new ApiUrlBuilder('/api/roles');
     urlBuilder.pushQueryParam('page', params.page);

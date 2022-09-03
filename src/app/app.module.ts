@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,13 @@ import { MockRoleRepository } from './data/repositories/mock-role-repository';
 import { MenuRepository } from './domain/repositories/menu-repository';
 import { MockMenuRepository } from './data/repositories/mock-menu-repository';
 
+export const AUTH_REPOSITORY = new InjectionToken<AuthRepository>('');
+export const AUTHENTICATED_USER_REPOSITORY =
+  new InjectionToken<AuthenticatedUserRepository>('');
+export const USER_REPOSITORY = new InjectionToken<UserRepository>('');
+export const ROLE_REPOSITORY = new InjectionToken<RoleRepository>('');
+export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -29,21 +36,21 @@ import { MockMenuRepository } from './data/repositories/mock-menu-repository';
   ],
   providers: [
     authInterceptorProviders,
-    { provide: AuthRepository, useClass: MockAuthRepository },
+    { provide: AUTH_REPOSITORY, useClass: MockAuthRepository },
     {
-      provide: AuthenticatedUserRepository,
+      provide: AUTHENTICATED_USER_REPOSITORY,
       useClass: LocalAuthenticatedUserRepository,
     },
     {
-      provide: UserRepository,
+      provide: USER_REPOSITORY,
       useClass: MockUserRepository,
     },
     {
-      provide: RoleRepository,
+      provide: ROLE_REPOSITORY,
       useClass: MockRoleRepository,
     },
     {
-      provide: MenuRepository,
+      provide: MENU_REPOSITORY,
       useClass: MockMenuRepository,
     },
   ],

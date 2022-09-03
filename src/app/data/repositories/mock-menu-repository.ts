@@ -7,7 +7,7 @@ import {
   StoreMenuRequestParams,
 } from 'src/app/domain/repositories/menu-repository';
 
-export class MockMenuRepository extends MenuRepository {
+export class MockMenuRepository implements MenuRepository {
   static menus: Menu[] = [
     {
       id: 1,

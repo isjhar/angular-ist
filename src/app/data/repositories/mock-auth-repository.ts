@@ -6,7 +6,7 @@ import {
 } from 'src/app/domain/repositories/auth-repository';
 import { MockUserRepository } from './mock-user-repository';
 
-export class MockAuthRepository extends AuthRepository {
+export class MockAuthRepository implements AuthRepository {
   loggedInUser?: User;
   getCsrfToken(): Observable<any> {
     return of({});

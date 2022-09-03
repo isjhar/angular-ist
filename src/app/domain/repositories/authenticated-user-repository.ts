@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 import { User } from '../entities/user';
 
-export abstract class AuthenticatedUserRepository {
-  abstract getAuthenticatedUser(): Observable<User>;
-  abstract isAuthenticated(): Observable<boolean>;
-  abstract store(user: User): Observable<void>;
-  abstract delete(): Observable<void>;
+export interface AuthenticatedUserRepository {
+  getAuthenticatedUser(): Observable<User>;
+  isAuthenticated(): Observable<boolean>;
+  store(user: User): Observable<void>;
+  delete(): Observable<void>;
 }

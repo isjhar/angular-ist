@@ -9,7 +9,7 @@ import {
 } from 'src/app/domain/repositories/role-repository';
 import { MockMenuRepository } from './mock-menu-repository';
 
-export class MockRoleRepository extends RoleRepository {
+export class MockRoleRepository implements RoleRepository {
   static roles: Role[] = [
     {
       id: 1,

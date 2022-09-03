@@ -8,10 +8,8 @@ import {
 } from 'src/app/domain/repositories/auth-repository';
 import { ApiResponse } from '../entities/api-response';
 
-export class ApiAuthRepository extends AuthRepository {
-  constructor(private http: HttpClient) {
-    super();
-  }
+export class ApiAuthRepository implements AuthRepository {
+  constructor(private http: HttpClient) {}
   getCsrfToken(): Observable<any> {
     return this.http.get('/sanctum/csrf-cookie');
   }
