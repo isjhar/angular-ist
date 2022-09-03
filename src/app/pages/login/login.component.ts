@@ -8,16 +8,7 @@ import {
 } from 'src/app/app.module';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
-import { GetCsrfTokenUseCaseService } from 'src/app/domain/use-cases/get-csrf-token-use-case.service';
-import {
-  GetLoggedInUserUseCaseResponse,
-  GetLoggedInUserUseCaseService,
-} from 'src/app/domain/use-cases/get-logged-in-user-use-case.service';
 import { LoginUseCaseService } from 'src/app/domain/use-cases/login-use-case.service';
-import {
-  StoreAuthenticatedUserUseCaseParams,
-  StoreAuthenticatedUserUseCaseService,
-} from 'src/app/domain/use-cases/store-authenticated-user-use-case.service';
 
 @Component({
   selector: 'app-login',
@@ -31,9 +22,6 @@ export class LoginComponent implements OnInit {
   });
   error?: String;
 
-  getCsrfTokenUseCaseService: GetCsrfTokenUseCaseService;
-  getLoggedUserUseCaseService: GetLoggedInUserUseCaseService;
-  storeAuthenticatedUserUseCaseService: StoreAuthenticatedUserUseCaseService;
   loginUseCaseService: LoginUseCaseService;
 
   constructor(
@@ -42,49 +30,22 @@ export class LoginComponent implements OnInit {
     authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router
   ) {
-    this.loginUseCaseService = new LoginUseCaseService(authRepository);
-    this.getCsrfTokenUseCaseService = new GetCsrfTokenUseCaseService(
+    this.loginUseCaseService = new LoginUseCaseService(
+      authenticatedUserRepository,
       authRepository
     );
-    this.getLoggedUserUseCaseService = new GetLoggedInUserUseCaseService(
-      authRepository
-    );
-    this.storeAuthenticatedUserUseCaseService =
-      new StoreAuthenticatedUserUseCaseService(authenticatedUserRepository);
   }
 
   ngOnInit(): void {}
 
   onLoginformSubmitted(): void {
-    this.getCsrfTokenUseCaseService
-      .execute()
-      .pipe(
-        concatMap((response) =>
-          this.loginUseCaseService.execute(this.loginForm.value)
-        ),
-        concatMap((response) =>
-          this.getLoggedUserUseCaseService.execute().pipe(
-            map<
-              GetLoggedInUserUseCaseResponse,
-              StoreAuthenticatedUserUseCaseParams
-            >((response) => {
-              return {
-                loggedInUser: response.loggedInUser,
-              };
-            })
-          )
-        ),
-        concatMap((response) =>
-          this.storeAuthenticatedUserUseCaseService.execute(response)
-        )
-      )
-      .subscribe(
-        (response) => {
-          this.router.navigate(['']);
-        },
-        (error) => {
-          this.error = `Login failed: ${error}`;
-        }
-      );
+    this.loginUseCaseService.execute(this.loginForm.value).subscribe(
+      (response) => {
+        this.router.navigate(['']);
+      },
+      (error) => {
+        this.error = `Login failed: ${error}`;
+      }
+    );
   }
 }

@@ -12,7 +12,6 @@ import {
   trigger,
 } from '@angular/animations';
 import { LogoutUseCaseService } from 'src/app/domain/use-cases/logout-use-case.service';
-import { DeleteAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/delete-authenticated-user-use-case.service';
 import { User } from 'src/app/domain/entities/user';
 import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/get-authenticated-user-use-case.service';
 import {
@@ -66,7 +65,6 @@ export class MainComponent implements OnInit {
 
   loggedUser!: User;
 
-  deleteAuthenticatedUserUseCaseService: DeleteAuthenticatedUserUseCaseService;
   getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService;
   logoutUseCaseService: LogoutUseCaseService;
 
@@ -80,12 +78,13 @@ export class MainComponent implements OnInit {
   ) {
     this.menus = this.menuService.menus;
 
-    this.deleteAuthenticatedUserUseCaseService =
-      new DeleteAuthenticatedUserUseCaseService(authenticatedUserRepository);
     this.getLoggedUserUseCaseService = new GetAuthenticatedUserUseCaseService(
       authenticatedUserRepository
     );
-    this.logoutUseCaseService = new LogoutUseCaseService(authRepository);
+    this.logoutUseCaseService = new LogoutUseCaseService(
+      authenticatedUserRepository,
+      authRepository
+    );
   }
 
   menus: Menu[];
@@ -116,16 +115,9 @@ export class MainComponent implements OnInit {
   }
 
   onLogoutClicked(): void {
-    this.logoutUseCaseService
-      .execute()
-      .pipe(
-        concatMap((response) =>
-          this.deleteAuthenticatedUserUseCaseService.execute()
-        )
-      )
-      .subscribe((response) => {
-        this.router.navigate(['/login']);
-      });
+    this.logoutUseCaseService.execute().subscribe((response) => {
+      this.router.navigate(['/login']);
+    });
   }
 
   expandedMenu: string = '';
