@@ -82,6 +82,7 @@ export class MockUserRepository implements UserRepository {
           params.roles.includes(element.id)
         ),
       };
+      MockUserRepository.users.push(user);
       observer.next(user);
       observer.complete();
     });

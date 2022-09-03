@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { concatMap, map } from 'rxjs/operators';
+import {
+  AUTHENTICATED_USER_REPOSITORY,
+  AUTH_REPOSITORY,
+} from 'src/app/app.module';
+import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
+import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { GetCsrfTokenUseCaseService } from 'src/app/domain/use-cases/get-csrf-token-use-case.service';
 import {
   GetLoggedInUserUseCaseResponse,
@@ -25,13 +31,27 @@ export class LoginComponent implements OnInit {
   });
   error?: String;
 
+  getCsrfTokenUseCaseService: GetCsrfTokenUseCaseService;
+  getLoggedUserUseCaseService: GetLoggedInUserUseCaseService;
+  storeAuthenticatedUserUseCaseService: StoreAuthenticatedUserUseCaseService;
+  loginUseCaseService: LoginUseCaseService;
+
   constructor(
-    private getCsrfTokenUseCaseService: GetCsrfTokenUseCaseService,
-    private getLoggedUserUseCaseService: GetLoggedInUserUseCaseService,
-    private loginUseCaseService: LoginUseCaseService,
-    private storeAuthenticatedUserUseCaseService: StoreAuthenticatedUserUseCaseService,
+    @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
+    @Inject(AUTHENTICATED_USER_REPOSITORY)
+    authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router
-  ) {}
+  ) {
+    this.loginUseCaseService = new LoginUseCaseService(authRepository);
+    this.getCsrfTokenUseCaseService = new GetCsrfTokenUseCaseService(
+      authRepository
+    );
+    this.getLoggedUserUseCaseService = new GetLoggedInUserUseCaseService(
+      authRepository
+    );
+    this.storeAuthenticatedUserUseCaseService =
+      new StoreAuthenticatedUserUseCaseService(authenticatedUserRepository);
+  }
 
   ngOnInit(): void {}
 

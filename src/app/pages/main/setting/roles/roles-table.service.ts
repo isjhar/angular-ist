@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ROLE_REPOSITORY } from 'src/app/app.module';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
+import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import {
   GetRolesUseCaseService,
   GetRoleUseCaseResponse,
@@ -19,8 +21,11 @@ export class RolesTableService extends ServerSideTableService<
   GetUseCaseParams,
   RoleRow
 > {
-  constructor(private getRolesUseCaseService: GetRolesUseCaseService) {
+  getRolesUseCaseService: GetRolesUseCaseService;
+  constructor(@Inject(ROLE_REPOSITORY) roleRepository: RoleRepository) {
     super();
+
+    this.getRolesUseCaseService = new GetRolesUseCaseService(roleRepository);
   }
   getParams() {
     return {

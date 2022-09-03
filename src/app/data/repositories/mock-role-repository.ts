@@ -47,6 +47,7 @@ export class MockRoleRepository implements RoleRepository {
           params.menus.includes(e.id)
         ),
       };
+      MockRoleRepository.roles.push(role);
       observer.next(role);
       observer.complete();
     });

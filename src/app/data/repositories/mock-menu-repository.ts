@@ -43,6 +43,7 @@ export class MockMenuRepository implements MenuRepository {
         name: params.name,
         url: params.url,
       };
+      MockMenuRepository.menus.push(menu);
       observer.next(menu);
       observer.complete();
     });

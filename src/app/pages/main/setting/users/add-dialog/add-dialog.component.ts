@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -6,6 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ROLE_REPOSITORY, USER_REPOSITORY } from 'src/app/app.module';
+import { RoleRepository } from 'src/app/domain/repositories/role-repository';
+import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { GetRolesUseCaseService } from 'src/app/domain/use-cases/get-roles-use-case.service';
 import { StoreUserUseCaseService } from 'src/app/domain/use-cases/store-user-use-case.service';
 
@@ -58,12 +61,16 @@ export class AddDialogComponent implements OnInit {
   get roles() {
     return this.formGroup.get('roles') as FormControl;
   }
-
+  getRolesUseCaseService: GetRolesUseCaseService;
+  storeUserUseCaseService: StoreUserUseCaseService;
   constructor(
-    private getRolesUseCaseService: GetRolesUseCaseService,
-    private storeUserUseCaseService: StoreUserUseCaseService,
+    @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
+    @Inject(USER_REPOSITORY) userRepository: UserRepository,
     private dialogRef: MatDialogRef<AddDialogComponent>
-  ) {}
+  ) {
+    this.getRolesUseCaseService = new GetRolesUseCaseService(roleRepository);
+    this.storeUserUseCaseService = new StoreUserUseCaseService(userRepository);
+  }
 
   ngOnInit(): void {
     this.password.valueChanges.subscribe((value) => {

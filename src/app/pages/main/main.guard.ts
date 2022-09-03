@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -8,17 +8,25 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app.module';
 import { User } from 'src/app/domain/entities/user';
+import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/get-authenticated-user-use-case.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainGuard implements CanActivate {
+  getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService;
   constructor(
-    private router: Router,
-    private getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService
-  ) {}
+    @Inject(AUTHENTICATED_USER_REPOSITORY)
+    authenticatedUserRepository: AuthenticatedUserRepository,
+    private router: Router
+  ) {
+    this.getLoggedUserUseCaseService = new GetAuthenticatedUserUseCaseService(
+      authenticatedUserRepository
+    );
+  }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

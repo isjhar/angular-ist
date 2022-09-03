@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Pagination } from 'src/app/domain/entities/pagination';
-import { PaginationParams } from 'src/app/domain/entities/pagination-params';
+import { MENU_REPOSITORY } from 'src/app/app.module';
+import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import {
   GetMenusUseCaseResponse,
   GetMenusUseCaseService,
@@ -18,8 +18,11 @@ export class MenusTableService extends ServerSideTableService<
   GetUseCaseParams,
   MenuRow
 > {
-  constructor(private getMenusUseCaseService: GetMenusUseCaseService) {
+  getMenusUseCaseService: GetMenusUseCaseService;
+  constructor(@Inject(MENU_REPOSITORY) menuRepository: MenuRepository) {
     super();
+
+    this.getMenusUseCaseService = new GetMenusUseCaseService(menuRepository);
   }
 
   getParams(): GetUseCaseParams {

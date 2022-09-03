@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { USER_REPOSITORY } from 'src/app/app.module';
+import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import {
   GetUsersUseCaseResponse,
   GetUsersUseCaseService,
@@ -16,8 +18,11 @@ export class UsersTableService extends ServerSideTableService<
   GetServerSideTableParams,
   UserRow
 > {
-  constructor(private getUsersUseCaseService: GetUsersUseCaseService) {
+  getUsersUseCaseService: GetUsersUseCaseService;
+  constructor(@Inject(USER_REPOSITORY) userRepository: UserRepository) {
     super();
+
+    this.getUsersUseCaseService = new GetUsersUseCaseService(userRepository);
   }
   getParams(): GetServerSideTableParams {
     return {

@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MENU_REPOSITORY } from 'src/app/app.module';
+import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { StoreMenuUseCaseService } from 'src/app/domain/use-cases/store-menu-use-case.service';
 import { UpdateMenuUseCaseService } from 'src/app/domain/use-cases/update-menu-use-case.service';
 
@@ -34,13 +36,19 @@ export class AddDialogComponent implements OnInit {
   get url() {
     return this.formGroup.get('url') as FormControl;
   }
+  storeMenuUseCaseService: StoreMenuUseCaseService;
+  updateMenuUseCaseService: UpdateMenuUseCaseService;
 
   constructor(
-    private storeMenuUseCaseService: StoreMenuUseCaseService,
-    private updateMenuUseCaseService: UpdateMenuUseCaseService,
+    @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
-  ) {}
+  ) {
+    this.storeMenuUseCaseService = new StoreMenuUseCaseService(menuRepository);
+    this.updateMenuUseCaseService = new UpdateMenuUseCaseService(
+      menuRepository
+    );
+  }
 
   ngOnInit(): void {
     this.formGroup.patchValue(this.data.value);

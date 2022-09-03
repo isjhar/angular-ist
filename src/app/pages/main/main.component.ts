@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { concatMap, map, shareReplay } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Menu, MenuService } from '../menu.service';
 import {
@@ -15,6 +15,12 @@ import { LogoutUseCaseService } from 'src/app/domain/use-cases/logout-use-case.s
 import { DeleteAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/delete-authenticated-user-use-case.service';
 import { User } from 'src/app/domain/entities/user';
 import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/get-authenticated-user-use-case.service';
+import {
+  AUTHENTICATED_USER_REPOSITORY,
+  AUTH_REPOSITORY,
+} from 'src/app/app.module';
+import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
+import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
 
 @Component({
   selector: 'app-main',
@@ -60,15 +66,26 @@ export class MainComponent implements OnInit {
 
   loggedUser!: User;
 
+  deleteAuthenticatedUserUseCaseService: DeleteAuthenticatedUserUseCaseService;
+  getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService;
+  logoutUseCaseService: LogoutUseCaseService;
+
   constructor(
+    @Inject(AUTHENTICATED_USER_REPOSITORY)
+    authenticatedUserRepository: AuthenticatedUserRepository,
+    @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
     private breakpointObserver: BreakpointObserver,
-    private deleteAuthenticatedUserUseCaseService: DeleteAuthenticatedUserUseCaseService,
-    private getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService,
-    private logoutUseCaseService: LogoutUseCaseService,
     private router: Router,
     private menuService: MenuService
   ) {
     this.menus = this.menuService.menus;
+
+    this.deleteAuthenticatedUserUseCaseService =
+      new DeleteAuthenticatedUserUseCaseService(authenticatedUserRepository);
+    this.getLoggedUserUseCaseService = new GetAuthenticatedUserUseCaseService(
+      authenticatedUserRepository
+    );
+    this.logoutUseCaseService = new LogoutUseCaseService(authRepository);
   }
 
   menus: Menu[];

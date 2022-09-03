@@ -3,7 +3,6 @@ import { map } from 'rxjs/operators';
 
 import { Menu } from '../entities/menu';
 import { Pagination } from '../entities/pagination';
-import { PaginationParams } from '../entities/pagination-params';
 import { MenuRepository } from '../repositories/menu-repository';
 import { GetUseCaseParams, UseCase } from './use-case';
 

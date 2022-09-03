@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -8,6 +8,8 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app.module';
+import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import {
   IsLoggedInUseCaseResponse,
   IsLoggedInUseCaseService,
@@ -17,10 +19,16 @@ import {
   providedIn: 'root',
 })
 export class LoginGuard implements CanActivate {
+  isLoggedInUseCaseService: IsLoggedInUseCaseService;
   constructor(
-    private isLoggedInUseCaseService: IsLoggedInUseCaseService,
+    @Inject(AUTHENTICATED_USER_REPOSITORY)
+    authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router
-  ) {}
+  ) {
+    this.isLoggedInUseCaseService = new IsLoggedInUseCaseService(
+      authenticatedUserRepository
+    );
+  }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
