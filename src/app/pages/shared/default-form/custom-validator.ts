@@ -9,4 +9,11 @@ export class CustomValidator {
       ? { timeFormat: { value: control.value } }
       : null;
   }
+
+  static notFoundOption(control: AbstractControl): ValidationErrors | null {
+    let value = control.value;
+    return value && !value.id
+      ? { notFoundOption: { value: control.value } }
+      : null;
+  }
 }
