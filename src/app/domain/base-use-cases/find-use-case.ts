@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { FindableRepository } from '../base-repositories/findable-repository';
 import { UseCase } from './use-case';
 
-export class FindHouseUseCase<Result>
+export class FindUseCase<Result>
   implements UseCase<FindUseCaseParams, FindUseCaseResponse<Result>>
 {
   constructor(private findableRepository: FindableRepository<Result>) {}
