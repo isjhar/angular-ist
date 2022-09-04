@@ -1,14 +1,15 @@
-import { Observable } from 'rxjs';
+import { DeletableRepository } from '../base-repositories/deletable-repository';
+import { GetableRepository } from '../base-repositories/getable-repository';
+import { StorableRepository } from '../base-repositories/storeable-repository';
+import { UpdatableRepository } from '../base-repositories/updatable-repository';
 import { Menu } from '../entities/menu';
-import { Pagination } from '../entities/pagination';
 import { PaginationParams } from '../entities/pagination-params';
 
-export interface MenuRepository {
-  get(params: PaginationParams): Observable<Pagination<Menu>>;
-  store(params: StoreMenuRequestParams): Observable<Menu>;
-  update(id: number, params: StoreMenuRequestParams): Observable<void>;
-  delete(id: number): Observable<void>;
-}
+export interface MenuRepository
+  extends GetableRepository<PaginationParams, Menu>,
+    StorableRepository<StoreMenuRequestParams, Menu>,
+    UpdatableRepository<StoreMenuRequestParams>,
+    DeletableRepository {}
 
 export interface StoreMenuRequestParams {
   name: string;
