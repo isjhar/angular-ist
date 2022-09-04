@@ -14,47 +14,13 @@ export class MockUserRepository implements UserRepository {
       id: 1,
       email: 'sysadmin@gmail.com',
       name: 'Sys Admin',
-      roles: [
-        {
-          id: 1,
-          name: 'Sys Admin',
-          menus: [
-            {
-              id: 1,
-              name: 'Dashboard',
-              url: '/',
-            },
-            {
-              id: 2,
-              name: 'Setting',
-              url: '/setting',
-            },
-          ],
-        },
-      ],
+      roles: [...MockRoleRepository.roles],
     },
     {
       id: 2,
       email: 'admin@gmail.com',
       name: 'Admin',
-      roles: [
-        {
-          id: 1,
-          name: 'Admin',
-          menus: [
-            {
-              id: 1,
-              name: 'Dashboard',
-              url: '/',
-            },
-            {
-              id: 2,
-              name: 'Setting',
-              url: '/setting',
-            },
-          ],
-        },
-      ],
+      roles: [...MockRoleRepository.roles],
     },
   ];
   get(params: PaginationParams): Observable<Pagination<User>> {

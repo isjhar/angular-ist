@@ -2,11 +2,10 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { USER_REPOSITORY } from 'src/app/app.module';
+import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
+import { User } from 'src/app/domain/entities/user';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
-import {
-  GetUsersUseCaseResponse,
-  GetUsersUseCaseService,
-} from 'src/app/domain/use-cases/get-users-use-case.service';
+import { GetUsersUseCase } from 'src/app/domain/use-cases/get-users-use-case';
 import {
   ServerSideTablePagination,
   GetServerSideTableParams,
@@ -18,11 +17,11 @@ export class UsersTableService extends ServerSideTableService<
   GetServerSideTableParams,
   UserRow
 > {
-  getUsersUseCaseService: GetUsersUseCaseService;
+  getUsersUseCase: GetUsersUseCase;
   constructor(@Inject(USER_REPOSITORY) userRepository: UserRepository) {
     super();
 
-    this.getUsersUseCaseService = new GetUsersUseCaseService(userRepository);
+    this.getUsersUseCase = new GetUsersUseCase(userRepository);
   }
   getParams(): GetServerSideTableParams {
     return {
@@ -36,8 +35,8 @@ export class UsersTableService extends ServerSideTableService<
   get(
     params: GetServerSideTableParams
   ): Observable<ServerSideTablePagination<UserRow>> {
-    return this.getUsersUseCaseService.execute(params).pipe(
-      map<GetUsersUseCaseResponse, ServerSideTablePagination<UserRow>>(
+    return this.getUsersUseCase.execute(params).pipe(
+      map<GetUseCaseResponse<User>, ServerSideTablePagination<UserRow>>(
         (element) => {
           return {
             total: element.pagination.total,

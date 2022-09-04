@@ -11,19 +11,19 @@ import { map } from 'rxjs/operators';
 import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app.module';
 import { User } from 'src/app/domain/entities/user';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
-import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/get-authenticated-user-use-case.service';
+import { GetAuthenticatedUserUseCase } from 'src/app/domain/use-cases/get-authenticated-user-use-case';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainGuard implements CanActivate {
-  getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService;
+  getLoggedUserUseCase: GetAuthenticatedUserUseCase;
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)
     authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router
   ) {
-    this.getLoggedUserUseCaseService = new GetAuthenticatedUserUseCaseService(
+    this.getLoggedUserUseCase = new GetAuthenticatedUserUseCase(
       authenticatedUserRepository
     );
   }
@@ -36,7 +36,7 @@ export class MainGuard implements CanActivate {
     | boolean
     | UrlTree {
     let url = state.url;
-    return this.getLoggedUserUseCaseService.execute().pipe(
+    return this.getLoggedUserUseCase.execute().pipe(
       map<User, boolean>((user) => {
         for (let i = 0; i < user.roles.length; i++) {
           const role = user.roles[i];

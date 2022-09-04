@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MENU_REPOSITORY } from 'src/app/app.module';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
-import { StoreMenuUseCaseService } from 'src/app/domain/use-cases/store-menu-use-case.service';
-import { UpdateMenuUseCaseService } from 'src/app/domain/use-cases/update-menu-use-case.service';
+import { StoreMenuUseCase } from 'src/app/domain/use-cases/store-menu-use-case';
+import { UpdateMenuUseCase } from 'src/app/domain/use-cases/update-menu-use-case';
 
 export interface AddDialogData {
   value: any;
@@ -36,18 +36,16 @@ export class AddDialogComponent implements OnInit {
   get url() {
     return this.formGroup.get('url') as FormControl;
   }
-  storeMenuUseCaseService: StoreMenuUseCaseService;
-  updateMenuUseCaseService: UpdateMenuUseCaseService;
+  storeMenuUseCase: StoreMenuUseCase;
+  updateMenuUseCase: UpdateMenuUseCase;
 
   constructor(
     @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {
-    this.storeMenuUseCaseService = new StoreMenuUseCaseService(menuRepository);
-    this.updateMenuUseCaseService = new UpdateMenuUseCaseService(
-      menuRepository
-    );
+    this.storeMenuUseCase = new StoreMenuUseCase(menuRepository);
+    this.updateMenuUseCase = new UpdateMenuUseCase(menuRepository);
   }
 
   ngOnInit(): void {
@@ -60,21 +58,32 @@ export class AddDialogComponent implements OnInit {
       name: this.name.value,
       url: this.url.value,
     };
-    let save$ =
-      this.id.value == 0
-        ? this.storeMenuUseCaseService.execute(params)
-        : this.updateMenuUseCaseService.execute(
-            Object.assign({}, { id: this.id.value }, params)
-          );
-    save$.subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.dialogRef.close('success');
-      },
-      (error) => {
-        this.isLoading = false;
-        this.error = error;
-      }
-    );
+
+    if (this.id.value == 0) {
+      this.storeMenuUseCase.execute(params).subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.dialogRef.close('success');
+        },
+        (error) => {
+          this.isLoading = false;
+          this.error = error;
+        }
+      );
+      return;
+    }
+
+    this.updateMenuUseCase
+      .execute(Object.assign({}, { id: this.id.value }, params))
+      .subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.dialogRef.close('success');
+        },
+        (error) => {
+          this.isLoading = false;
+          this.error = error;
+        }
+      );
   }
 }

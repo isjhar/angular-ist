@@ -2,9 +2,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthenticatedUserRepository } from '../repositories/authenticated-user-repository';
-import { UseCase } from './use-case';
+import { UseCase } from '../base-use-cases/use-case';
 
-export class IsLoggedInUseCaseService
+export class IsLoggedInUseCase
   implements UseCase<void, IsLoggedInUseCaseResponse>
 {
   constructor(

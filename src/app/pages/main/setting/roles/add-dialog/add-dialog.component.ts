@@ -4,9 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MENU_REPOSITORY, ROLE_REPOSITORY } from 'src/app/app.module';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
-import { GetMenusUseCaseService } from 'src/app/domain/use-cases/get-menus-use-case.service';
-import { StoreRoleUseCaseService } from 'src/app/domain/use-cases/store-role-use-case.service';
-import { UpdateRoleUseCaseService } from 'src/app/domain/use-cases/update-role-use-case.service';
+import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
+import { StoreRoleUseCase } from 'src/app/domain/use-cases/store-role-use-case';
+import { UpdateRoleUseCase } from 'src/app/domain/use-cases/update-role-use-case';
 
 export interface AddDialogData {
   value: any;
@@ -40,9 +40,9 @@ export class AddDialogComponent implements OnInit {
     return this.formGroup.get('menus') as FormControl;
   }
 
-  getMenusUseCaseService: GetMenusUseCaseService;
-  storeRoleUseCaseService: StoreRoleUseCaseService;
-  updateRoleUseCaseService: UpdateRoleUseCaseService;
+  getMenusUseCase: GetMenusUseCase;
+  storeRoleUseCase: StoreRoleUseCase;
+  updateRoleUseCase: UpdateRoleUseCase;
 
   constructor(
     @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
@@ -50,11 +50,9 @@ export class AddDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {
-    this.getMenusUseCaseService = new GetMenusUseCaseService(menuRepository);
-    this.storeRoleUseCaseService = new StoreRoleUseCaseService(roleRepository);
-    this.updateRoleUseCaseService = new UpdateRoleUseCaseService(
-      roleRepository
-    );
+    this.getMenusUseCase = new GetMenusUseCase(menuRepository);
+    this.storeRoleUseCase = new StoreRoleUseCase(roleRepository);
+    this.updateRoleUseCase = new UpdateRoleUseCase(roleRepository);
   }
 
   ngOnInit(): void {
@@ -69,7 +67,7 @@ export class AddDialogComponent implements OnInit {
       menus: menus.map((x) => x.id),
     };
     if (this.id.value == 0) {
-      this.storeRoleUseCaseService.execute(params).subscribe(
+      this.storeRoleUseCase.execute(params).subscribe(
         (response) => {
           this.isLoading = false;
           this.dialogRef.close('success');
@@ -80,7 +78,7 @@ export class AddDialogComponent implements OnInit {
         }
       );
     } else {
-      this.updateRoleUseCaseService
+      this.updateRoleUseCase
         .execute(Object.assign({}, { id: this.id.value }, params))
         .subscribe(
           (response) => {
@@ -103,7 +101,7 @@ export class AddDialogComponent implements OnInit {
   }
 
   getMenus(): void {
-    this.getMenusUseCaseService.execute({}).subscribe((response) => {
+    this.getMenusUseCase.execute({}).subscribe((response) => {
       this.menuOptions = response.pagination.data;
       this.formGroup.patchValue({
         id: this.data.value.id,

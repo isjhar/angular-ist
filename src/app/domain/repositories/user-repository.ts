@@ -1,14 +1,17 @@
 import { Observable } from 'rxjs';
+import { DeletableRepository } from '../base-repositories/deletable-repository';
+import { GetableRepository } from '../base-repositories/getable-repository';
+import { StorableRepository } from '../base-repositories/storeable-repository';
+import { UpdatableRepository } from '../base-repositories/updatable-repository';
 import { Pagination } from '../entities/pagination';
 import { PaginationParams } from '../entities/pagination-params';
 import { User } from '../entities/user';
 
-export interface UserRepository {
-  get(params: PaginationParams): Observable<Pagination<User>>;
-  store(params: StoreUserRequestParams): Observable<User>;
-  update(id: number, params: StoreUserRequestParams): Observable<void>;
-  delete(id: number): Observable<void>;
-}
+export interface UserRepository
+  extends GetableRepository<PaginationParams, User>,
+    StorableRepository<StoreUserRequestParams, User>,
+    UpdatableRepository<StoreUserRequestParams>,
+    DeletableRepository {}
 
 export interface StoreUserRequestParams {
   email: string;

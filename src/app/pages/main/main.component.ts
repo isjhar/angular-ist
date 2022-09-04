@@ -11,9 +11,9 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { LogoutUseCaseService } from 'src/app/domain/use-cases/logout-use-case.service';
+import { LogoutUseCase } from 'src/app/domain/use-cases/logout-use-case';
 import { User } from 'src/app/domain/entities/user';
-import { GetAuthenticatedUserUseCaseService } from 'src/app/domain/use-cases/get-authenticated-user-use-case.service';
+import { GetAuthenticatedUserUseCase } from 'src/app/domain/use-cases/get-authenticated-user-use-case';
 import {
   AUTHENTICATED_USER_REPOSITORY,
   AUTH_REPOSITORY,
@@ -65,8 +65,8 @@ export class MainComponent implements OnInit {
 
   loggedUser!: User;
 
-  getLoggedUserUseCaseService: GetAuthenticatedUserUseCaseService;
-  logoutUseCaseService: LogoutUseCaseService;
+  getLoggedUserUseCase: GetAuthenticatedUserUseCase;
+  logoutUseCase: LogoutUseCase;
 
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)
@@ -78,10 +78,10 @@ export class MainComponent implements OnInit {
   ) {
     this.menus = this.menuService.menus;
 
-    this.getLoggedUserUseCaseService = new GetAuthenticatedUserUseCaseService(
+    this.getLoggedUserUseCase = new GetAuthenticatedUserUseCase(
       authenticatedUserRepository
     );
-    this.logoutUseCaseService = new LogoutUseCaseService(
+    this.logoutUseCase = new LogoutUseCase(
       authenticatedUserRepository,
       authRepository
     );
@@ -94,7 +94,7 @@ export class MainComponent implements OnInit {
   }
 
   getLoggedUser(): void {
-    this.getLoggedUserUseCaseService.execute().subscribe((user) => {
+    this.getLoggedUserUseCase.execute().subscribe((user) => {
       this.loggedUser = user;
       this.filterAccessibleMenu();
     });
@@ -115,7 +115,7 @@ export class MainComponent implements OnInit {
   }
 
   onLogoutClicked(): void {
-    this.logoutUseCaseService.execute().subscribe((response) => {
+    this.logoutUseCase.execute().subscribe((response) => {
       this.router.navigate(['/login']);
     });
   }

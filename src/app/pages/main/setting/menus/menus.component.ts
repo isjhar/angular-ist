@@ -8,8 +8,8 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MENU_REPOSITORY } from 'src/app/app.module';
+import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
-import { DeleteMenuUseCaseService } from 'src/app/domain/use-cases/delete-menu-use-case.service';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
 import {
@@ -40,7 +40,7 @@ export class MenusComponent implements OnInit {
     height: 'auto',
   };
 
-  deleteMenuUseCaseService: DeleteMenuUseCaseService;
+  deleteUseCase: DeleteUseCase;
 
   constructor(
     @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
@@ -49,9 +49,7 @@ export class MenusComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    this.deleteMenuUseCaseService = new DeleteMenuUseCaseService(
-      menuRepository
-    );
+    this.deleteUseCase = new DeleteUseCase(menuRepository);
   }
 
   ngOnInit(): void {
@@ -124,7 +122,7 @@ export class MenusComponent implements OnInit {
       height: 'auto ',
       data: {
         message: 'Are you sure?',
-        yes$: this.deleteMenuUseCaseService.execute(element.id),
+        yes$: this.deleteUseCase.execute(element.id),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

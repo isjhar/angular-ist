@@ -10,14 +10,11 @@ import {
 } from '@angular/common/http';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { LogoutUseCaseService } from './domain/use-cases/logout-use-case.service';
+import { LogoutUseCase } from './domain/use-cases/logout-use-case';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(
-    private router: Router,
-    private logoutUseCaseService: LogoutUseCaseService
-  ) {}
+  constructor(private router: Router, private logoutUseCase: LogoutUseCase) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -32,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
     //handle your auth error or rethrow
     if (this.router.url !== '/login') {
       if (err.status === 401 || err.status === 419) {
-        this.logoutUseCaseService.execute().subscribe((response) => {
+        this.logoutUseCase.execute().subscribe((response) => {
           this.router.navigateByUrl(`/login`);
         });
         return EMPTY;

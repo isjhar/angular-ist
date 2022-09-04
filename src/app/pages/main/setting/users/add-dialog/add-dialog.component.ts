@@ -9,8 +9,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ROLE_REPOSITORY, USER_REPOSITORY } from 'src/app/app.module';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
-import { GetRolesUseCaseService } from 'src/app/domain/use-cases/get-roles-use-case.service';
-import { StoreUserUseCaseService } from 'src/app/domain/use-cases/store-user-use-case.service';
+import { GetRolesUseCase } from 'src/app/domain/use-cases/get-roles-use-case';
+import { StoreUserUseCase } from 'src/app/domain/use-cases/store-user-use-case';
 
 @Component({
   selector: 'app-add-dialog',
@@ -61,15 +61,15 @@ export class AddDialogComponent implements OnInit {
   get roles() {
     return this.formGroup.get('roles') as FormControl;
   }
-  getRolesUseCaseService: GetRolesUseCaseService;
-  storeUserUseCaseService: StoreUserUseCaseService;
+  getRolesUseCase: GetRolesUseCase;
+  storeUserUseCase: StoreUserUseCase;
   constructor(
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
     @Inject(USER_REPOSITORY) userRepository: UserRepository,
     private dialogRef: MatDialogRef<AddDialogComponent>
   ) {
-    this.getRolesUseCaseService = new GetRolesUseCaseService(roleRepository);
-    this.storeUserUseCaseService = new StoreUserUseCaseService(userRepository);
+    this.getRolesUseCase = new GetRolesUseCase(roleRepository);
+    this.storeUserUseCase = new StoreUserUseCase(userRepository);
   }
 
   ngOnInit(): void {
@@ -82,7 +82,7 @@ export class AddDialogComponent implements OnInit {
   onSubmitted(): void {
     this.isLoading = true;
     let roles = this.roles.value as any[];
-    this.storeUserUseCaseService
+    this.storeUserUseCase
       .execute({
         email: this.email.value,
         name: this.name.value,
@@ -109,7 +109,7 @@ export class AddDialogComponent implements OnInit {
   }
 
   getRoles(): void {
-    this.getRolesUseCaseService.execute({}).subscribe((response) => {
+    this.getRolesUseCase.execute({}).subscribe((response) => {
       this.roleOptions = response.pagination.data;
     });
   }

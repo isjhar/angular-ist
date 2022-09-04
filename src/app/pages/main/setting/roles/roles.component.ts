@@ -8,8 +8,8 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ROLE_REPOSITORY } from 'src/app/app.module';
+import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
-import { DeleteRoleUseCaseService } from 'src/app/domain/use-cases/delete-role-use-case.service';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
 import {
@@ -40,7 +40,7 @@ export class RolesComponent implements OnInit {
     height: 'auto',
   };
 
-  deleteRoleUseCaseService: DeleteRoleUseCaseService;
+  deleteRoleUseCase: DeleteUseCase;
   constructor(
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
     @Inject(TABLE_SERVICE)
@@ -48,9 +48,7 @@ export class RolesComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    this.deleteRoleUseCaseService = new DeleteRoleUseCaseService(
-      roleRepository
-    );
+    this.deleteRoleUseCase = new DeleteUseCase(roleRepository);
   }
 
   ngOnInit(): void {
@@ -123,7 +121,7 @@ export class RolesComponent implements OnInit {
       height: 'auto ',
       data: {
         message: 'Are you sure?',
-        yes$: this.deleteRoleUseCaseService.execute(element.id),
+        yes$: this.deleteRoleUseCase.execute(element.id),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

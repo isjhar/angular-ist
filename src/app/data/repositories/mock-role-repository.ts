@@ -14,12 +14,12 @@ export class MockRoleRepository implements RoleRepository {
     {
       id: 1,
       name: 'Sys Admin',
-      menus: MockMenuRepository.menus,
+      menus: [...MockMenuRepository.menus],
     },
     {
       id: 2,
       name: 'Admin',
-      menus: MockMenuRepository.menus,
+      menus: [...MockMenuRepository.menus],
     },
   ];
 

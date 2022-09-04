@@ -2,9 +2,9 @@ import { Observable } from 'rxjs';
 
 import { User } from '../entities/user';
 import { AuthenticatedUserRepository } from '../repositories/authenticated-user-repository';
-import { UseCase } from './use-case';
+import { UseCase } from '../base-use-cases/use-case';
 
-export class GetAuthenticatedUserUseCaseService implements UseCase<void, User> {
+export class GetAuthenticatedUserUseCase implements UseCase<void, User> {
   constructor(
     private authenticatedUserRepository: AuthenticatedUserRepository
   ) {}

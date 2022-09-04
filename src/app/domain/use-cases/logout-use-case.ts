@@ -3,9 +3,9 @@ import { concatMap } from 'rxjs/operators';
 
 import { AuthRepository } from '../repositories/auth-repository';
 import { AuthenticatedUserRepository } from '../repositories/authenticated-user-repository';
-import { UseCase } from './use-case';
+import { UseCase } from '../base-use-cases/use-case';
 
-export class LogoutUseCaseService implements UseCase<void, void> {
+export class LogoutUseCase implements UseCase<void, void> {
   constructor(
     private authenticatedUserRepository: AuthenticatedUserRepository,
     private authRepository: AuthRepository

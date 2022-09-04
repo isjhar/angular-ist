@@ -12,22 +12,20 @@ import { AUTHENTICATED_USER_REPOSITORY } from './app.module';
 import { AuthenticatedUserRepository } from './domain/repositories/authenticated-user-repository';
 import {
   IsLoggedInUseCaseResponse,
-  IsLoggedInUseCaseService,
-} from './domain/use-cases/is-logged-in-use-case.service';
+  IsLoggedInUseCase,
+} from './domain/use-cases/is-logged-in-use-case';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  isLoggedInUseCaseService: IsLoggedInUseCaseService;
+  isLoggedInUseCase: IsLoggedInUseCase;
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)
     authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router
   ) {
-    this.isLoggedInUseCaseService = new IsLoggedInUseCaseService(
-      authenticatedUserRepository
-    );
+    this.isLoggedInUseCase = new IsLoggedInUseCase(authenticatedUserRepository);
   }
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -37,7 +35,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.isLoggedInUseCaseService.execute().pipe(
+    return this.isLoggedInUseCase.execute().pipe(
       map<IsLoggedInUseCaseResponse, boolean>((response) => {
         if (!response.isLoggedIn) {
           this.router.navigate(['/login']);

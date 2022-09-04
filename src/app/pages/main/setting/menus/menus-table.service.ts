@@ -3,26 +3,27 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MENU_REPOSITORY } from 'src/app/app.module';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
-import {
-  GetMenusUseCaseResponse,
-  GetMenusUseCaseService,
-} from 'src/app/domain/use-cases/get-menus-use-case.service';
-import { GetUseCaseParams } from 'src/app/domain/use-cases/use-case';
+import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 import {
   ServerSideTablePagination,
   ServerSideTableService,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
+import {
+  GetUseCaseParams,
+  GetUseCaseResponse,
+} from 'src/app/domain/base-use-cases/get-use-case';
+import { Menu } from 'src/app/domain/entities/menu';
 
 @Injectable()
 export class MenusTableService extends ServerSideTableService<
   GetUseCaseParams,
   MenuRow
 > {
-  getMenusUseCaseService: GetMenusUseCaseService;
+  getMenusUseCase: GetMenusUseCase;
   constructor(@Inject(MENU_REPOSITORY) menuRepository: MenuRepository) {
     super();
 
-    this.getMenusUseCaseService = new GetMenusUseCaseService(menuRepository);
+    this.getMenusUseCase = new GetMenusUseCase(menuRepository);
   }
 
   getParams(): GetUseCaseParams {
@@ -38,11 +39,17 @@ export class MenusTableService extends ServerSideTableService<
   get(
     params: GetUseCaseParams
   ): Observable<ServerSideTablePagination<MenuRow>> {
-    return this.getMenusUseCaseService.execute(params).pipe(
-      map<GetMenusUseCaseResponse, ServerSideTablePagination<MenuRow>>(
+    return this.getMenusUseCase.execute(params).pipe(
+      map<GetUseCaseResponse<Menu>, ServerSideTablePagination<MenuRow>>(
         (element) => {
           return {
-            data: element.pagination.data,
+            data: element.pagination.data.map<MenuRow>((element) => {
+              return {
+                id: element.id,
+                name: element.name,
+                url: element.url,
+              };
+            }),
             total: element.pagination.total,
           };
         }

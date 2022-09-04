@@ -8,7 +8,7 @@ import {
 } from 'src/app/app.module';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
-import { LoginUseCaseService } from 'src/app/domain/use-cases/login-use-case.service';
+import { LoginUseCase } from 'src/app/domain/use-cases/login-use-case';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   });
   error?: String;
 
-  loginUseCaseService: LoginUseCaseService;
+  loginUseCase: LoginUseCase;
 
   constructor(
     @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router
   ) {
-    this.loginUseCaseService = new LoginUseCaseService(
+    this.loginUseCase = new LoginUseCase(
       authenticatedUserRepository,
       authRepository
     );
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onLoginformSubmitted(): void {
-    this.loginUseCaseService.execute(this.loginForm.value).subscribe(
+    this.loginUseCase.execute(this.loginForm.value).subscribe(
       (response) => {
         this.router.navigate(['']);
       },

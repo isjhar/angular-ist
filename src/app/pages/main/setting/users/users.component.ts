@@ -9,8 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { USER_REPOSITORY } from 'src/app/app.module';
+import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
-import { DeleteUserUseCaseService } from 'src/app/domain/use-cases/delete-user-use-case.service';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
 import {
@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
   @ViewChild('table', { static: true })
   table!: ServerSideTableComponent;
 
-  deleteUserUseCase: DeleteUserUseCaseService;
+  deleteUserUseCase: DeleteUseCase;
 
   constructor(
     @Inject(TABLE_SERVICE)
@@ -41,7 +41,7 @@ export class UsersComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    this.deleteUserUseCase = new DeleteUserUseCaseService(userRepository);
+    this.deleteUserUseCase = new DeleteUseCase(userRepository);
   }
 
   ngOnInit(): void {

@@ -2,14 +2,13 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ROLE_REPOSITORY } from 'src/app/app.module';
-import { Pagination } from 'src/app/domain/entities/pagination';
-import { PaginationParams } from 'src/app/domain/entities/pagination-params';
-import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import {
-  GetRolesUseCaseService,
-  GetRoleUseCaseResponse,
-} from 'src/app/domain/use-cases/get-roles-use-case.service';
-import { GetUseCaseParams } from 'src/app/domain/use-cases/use-case';
+  GetUseCaseParams,
+  GetUseCaseResponse,
+} from 'src/app/domain/base-use-cases/get-use-case';
+import { Role } from 'src/app/domain/entities/role';
+import { RoleRepository } from 'src/app/domain/repositories/role-repository';
+import { GetRolesUseCase } from 'src/app/domain/use-cases/get-roles-use-case';
 import {
   ServerSideTablePagination,
   ServerSideTableService,
@@ -21,11 +20,11 @@ export class RolesTableService extends ServerSideTableService<
   GetUseCaseParams,
   RoleRow
 > {
-  getRolesUseCaseService: GetRolesUseCaseService;
+  getRolesUseCase: GetRolesUseCase;
   constructor(@Inject(ROLE_REPOSITORY) roleRepository: RoleRepository) {
     super();
 
-    this.getRolesUseCaseService = new GetRolesUseCaseService(roleRepository);
+    this.getRolesUseCase = new GetRolesUseCase(roleRepository);
   }
   getParams() {
     return {
@@ -37,8 +36,8 @@ export class RolesTableService extends ServerSideTableService<
     };
   }
   get(params: any): Observable<ServerSideTablePagination<any>> {
-    return this.getRolesUseCaseService.execute(params).pipe(
-      map<GetRoleUseCaseResponse, ServerSideTablePagination<RoleRow>>(
+    return this.getRolesUseCase.execute(params).pipe(
+      map<GetUseCaseResponse<Role>, ServerSideTablePagination<RoleRow>>(
         (response) => {
           return {
             data: response.pagination.data.map<RoleRow>((element) => {
