@@ -1,0 +1,12 @@
+<app-search-field
+  *ngIf="searchable"
+  [placeholder]="searchPlaceholder"
+></app-search-field>
+<app-default-table
+  [dataSource]="dataSource"
+  [length]="length"
+  [columns]="columns"
+  (page)="onPageChanged($event)"
+  (sortChange)="onSortChanged($event)"
+>
+</app-default-table>
