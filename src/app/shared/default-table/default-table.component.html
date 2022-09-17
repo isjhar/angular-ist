@@ -84,7 +84,7 @@
           *ngIf="!column.cellTemplate && column.cellTemplateByType == 'number'"
           class="number-cell"
         >
-          {{ element[column.prop] }}
+          {{ element[column.prop] | defaultNumber }}
         </td>
 
         <td
