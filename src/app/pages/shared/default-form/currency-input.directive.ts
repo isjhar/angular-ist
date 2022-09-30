@@ -21,24 +21,31 @@ import { DefaultCurrencyPipe } from '../text/default-currency.pipe';
   ],
 })
 export class CurrencyInputDirective {
-  private _value!: string | null;
+  private _value!: number | null;
   defaultCurrencyPipe = new DefaultCurrencyPipe();
 
-  get value(): string | null {
-    return this._value;
+  get value(): number | null {
+    if (this._value == null) {
+      return null;
+    }
+    return Number(this._value);
   }
 
   @Input('value')
-  set value(value: string | null) {
+  set value(value: number | null) {
     this._value = value;
-    this.formatValue(value);
+    this.formatValue(this._value);
   }
 
   constructor(private elementRef: ElementRef<HTMLInputElement>) {}
 
   @HostListener('input', ['$event.target.value'])
   onInput(value: string) {
-    this._value = value.replace(/[^\d]/g, '');
+    let parsedValue = value.replace(/[^\d]/g, '');
+    this._value = null;
+    if (parsedValue != '') {
+      this._value = Number(parsedValue);
+    }
     this._onChange(this._value); // here to notify Angular Validators
     if (this._value !== null) {
       this.formatValue(this._value);
@@ -62,6 +69,17 @@ export class CurrencyInputDirective {
   }
 
   writeValue(value: any) {
+    if (typeof value === 'string') {
+      if (value !== '') {
+        this._value = Number(value);
+        this.formatValue(this._value); // format Value
+        return;
+      }
+      this._value = null;
+      this.formatValue(this._value); // format Value
+      return;
+    }
+
     this._value = value;
     this.formatValue(this._value); // format Value
   }
@@ -74,10 +92,11 @@ export class CurrencyInputDirective {
 
   registerOnTouched() {}
 
-  formatValue(value: string | null) {
+  formatValue(value: number | null) {
     if (value !== null) {
-      this.elementRef.nativeElement.value =
-        this.defaultCurrencyPipe.transform(value)!; // number
+      this.elementRef.nativeElement.value = this.defaultCurrencyPipe.transform(
+        value.toString()
+      )!; // number
     } else {
       this.elementRef.nativeElement.value = '';
     }
