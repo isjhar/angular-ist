@@ -11,6 +11,9 @@ import { DefaultCurrencyPipe } from '../text/default-currency.pipe';
 
 @Directive({
   selector: 'input[appCurrencyInput]',
+  host: {
+    '[style.text-align]': '"right"',
+  },
   providers: [
     { provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: CurrencyInputDirective },
     {
