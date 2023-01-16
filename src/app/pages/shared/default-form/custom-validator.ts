@@ -16,4 +16,13 @@ export class CustomValidator {
       ? { notFoundOption: { value: control.value } }
       : null;
   }
+
+  static greaterThan(threshold: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      let value = control.value;
+      return (value != undefined || value != null) && value <= threshold
+        ? { greaterThan: { value: control.value, threshold: threshold } }
+        : null;
+    };
+  }
 }

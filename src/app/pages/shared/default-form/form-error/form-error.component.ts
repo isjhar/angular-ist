@@ -6,11 +6,15 @@ import { FormControl, FormGroupDirective } from '@angular/forms';
 })
 export abstract class FormErrorComponent implements OnInit {
   @Input() name: string = '';
+  @Input() formControlName: string = '';
 
   formControl!: FormControl;
   constructor(private form: FormGroupDirective) {}
 
   ngOnInit(): void {
-    this.formControl = this.form.form.get(this.name) as FormControl;
+    if (this.name) {
+      this.formControlName = this.name;
+    }
+    this.formControl = this.form.form.get(this.formControlName) as FormControl;
   }
 }
