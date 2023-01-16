@@ -27,6 +27,9 @@ export class CurrencyInputDirective {
   private _value!: number | null;
   defaultCurrencyPipe = new DefaultCurrencyPipe();
 
+  _onChange: (value: any) => void = (value: any) => {};
+  _onTouch: () => void = () => {};
+
   get value(): number | null {
     if (this._value == null) {
       return null;
@@ -49,16 +52,21 @@ export class CurrencyInputDirective {
     if (parsedValue != '') {
       this._value = Number(parsedValue);
     }
-    this._onChange(this._value); // here to notify Angular Validators
     if (this._value !== null) {
       this.formatValue(this._value);
       this.setCursorPosition();
     }
+    this._onChange(this._value); // here to notify Angular Validators
   }
 
   @HostListener('focus')
   onFocus() {
     this.setCursorPosition();
+  }
+
+  @HostListener('blur')
+  onBlur() {
+    this._onTouch();
   }
 
   setCursorPosition() {
@@ -91,9 +99,9 @@ export class CurrencyInputDirective {
     this._onChange = fn;
   }
 
-  _onChange(value: any): void {}
-
-  registerOnTouched() {}
+  registerOnTouched(fn: () => void) {
+    this._onTouch = fn;
+  }
 
   formatValue(value: number | null) {
     if (value !== null) {
