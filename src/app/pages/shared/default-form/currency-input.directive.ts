@@ -66,6 +66,7 @@ export class CurrencyInputDirective {
 
   @HostListener('blur')
   onBlur() {
+    this._onChange(this._value);
     this._onTouch();
   }
 
