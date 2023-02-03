@@ -12,10 +12,15 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Url</mat-label>
-        <input matInput formControlName="url" required data-test="url" />
+        <mat-label>Description</mat-label>
+        <input
+          matInput
+          formControlName="description"
+          required
+          data-test="description"
+        />
         <mat-error>
-          <app-form-error-required name="url"></app-form-error-required>
+          <app-form-error-required name="description"></app-form-error-required>
         </mat-error>
       </mat-form-field>
     </div>

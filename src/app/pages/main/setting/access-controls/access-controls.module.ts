@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultFormModule } from 'src/app/pages/shared/default-form/default-form.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [AccessControlsComponent, AddDialogComponent],
@@ -22,6 +23,7 @@ import { DefaultFormModule } from 'src/app/pages/shared/default-form/default-for
     DefaultFormModule,
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
     MatIconModule,
     MatSnackBarModule,
     MatDialogModule,
