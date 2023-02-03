@@ -12,13 +12,13 @@
 <app-server-side-table #table> </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
-  <a
+  <button
     mat-icon-button
     color="primary"
-    aria-label="View"
-    data-test="btn-detail"
-    [routerLink]="'/setting/access-controls/' + element.id"
+    aria-label="Delete"
+    data-test="btn-delete"
+    (click)="onDeleteClicked(element)"
   >
-    <mat-icon>visibility</mat-icon>
-  </a>
+    <mat-icon>delete</mat-icon>
+  </button>
 </ng-template>
