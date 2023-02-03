@@ -28,6 +28,13 @@ const routes: Routes = [
           import('./menus/menus.module').then((m) => m.MenusModule),
       },
       {
+        path: 'access-controls/:id',
+        loadChildren: () =>
+          import('./access-control/access-control.module').then(
+            (m) => m.AccessControlModule
+          ),
+      },
+      {
         path: 'access-controls',
         loadChildren: () =>
           import('./access-controls/access-controls.module').then(
