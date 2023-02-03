@@ -27,6 +27,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./menus/menus.module').then((m) => m.MenusModule),
       },
+      {
+        path: 'access-controls',
+        loadChildren: () =>
+          import('./access-controls/access-controls.module').then(
+            (m) => m.AccessControlsModule
+          ),
+      },
     ],
   },
 ];

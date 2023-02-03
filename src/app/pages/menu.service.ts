@@ -36,6 +36,10 @@ export class MenuService {
           url: 'users',
         },
         {
+          name: 'Access Controls',
+          url: 'access-controls',
+        },
+        {
           name: 'Roles',
           url: 'roles',
         },

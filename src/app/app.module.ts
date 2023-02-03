@@ -17,6 +17,8 @@ import { RoleRepository } from './domain/repositories/role-repository';
 import { MockRoleRepository } from './data/repositories/mock-role-repository';
 import { MenuRepository } from './domain/repositories/menu-repository';
 import { MockMenuRepository } from './data/repositories/mock-menu-repository';
+import { AccessControlRepository } from './domain/repositories/access-control-repository';
+import { MockAccessControlRepository } from './data/repositories/mock-access-control.repository';
 
 export const AUTH_REPOSITORY = new InjectionToken<AuthRepository>('');
 export const AUTHENTICATED_USER_REPOSITORY =
@@ -24,6 +26,8 @@ export const AUTHENTICATED_USER_REPOSITORY =
 export const USER_REPOSITORY = new InjectionToken<UserRepository>('');
 export const ROLE_REPOSITORY = new InjectionToken<RoleRepository>('');
 export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
+export const ACCESS_CONTROL_REPOSITORY =
+  new InjectionToken<AccessControlRepository>('');
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,6 +56,10 @@ export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
     {
       provide: MENU_REPOSITORY,
       useClass: MockMenuRepository,
+    },
+    {
+      provide: ACCESS_CONTROL_REPOSITORY,
+      useClass: MockAccessControlRepository,
     },
   ],
   bootstrap: [AppComponent],
