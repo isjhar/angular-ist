@@ -13,12 +13,13 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
-        <input
+        <textarea
           matInput
           formControlName="description"
           required
           data-test="description"
-        />
+          rows="3"
+        ></textarea>
         <mat-error>
           <app-form-error-required name="description"></app-form-error-required>
         </mat-error>
