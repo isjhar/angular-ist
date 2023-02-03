@@ -121,7 +121,7 @@ export class RolesComponent implements OnInit {
       height: 'auto ',
       data: {
         message: 'Are you sure?',
-        yes$: this.deleteRoleUseCase.execute(element.id),
+        yes$: this.deleteRoleUseCase.execute({ id: element.id }),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

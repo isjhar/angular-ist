@@ -122,7 +122,7 @@ export class MenusComponent implements OnInit {
       height: 'auto ',
       data: {
         message: 'Are you sure?',
-        yes$: this.deleteUseCase.execute(element.id),
+        yes$: this.deleteUseCase.execute({ id: element.id }),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
