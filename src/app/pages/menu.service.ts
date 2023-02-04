@@ -38,16 +38,16 @@ export class MenuService {
         {
           name: 'Access Controls',
           url: 'access-controls',
-          childs: [
-            {
-              name: 'Access Control',
-              url: ':id',
-            },
-          ],
         },
         {
           name: 'Roles',
           url: 'roles',
+          childs: [
+            {
+              name: 'Role',
+              url: ':id',
+            },
+          ],
         },
         {
           name: 'Menus',
