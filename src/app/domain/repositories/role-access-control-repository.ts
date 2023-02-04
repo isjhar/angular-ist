@@ -5,8 +5,10 @@ import { PaginationParams } from '../entities/pagination-params';
 import { RoleAccessControl } from '../entities/role-access-control';
 
 export interface RoleAccessControlRepository
-  extends GetableRepository<PaginationParams, RoleAccessControl>,
-    StorableRepository<StoreRoleAccessControlRequestParams, RoleAccessControl>,
+  extends StorableRepository<
+      StoreRoleAccessControlRequestParams,
+      RoleAccessControl
+    >,
     DeletableRepository {}
 
 export interface StoreRoleAccessControlRequestParams {
