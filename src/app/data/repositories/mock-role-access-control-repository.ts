@@ -1,14 +1,14 @@
 import { Observable, of } from 'rxjs';
-import { RoleAccessControl } from 'src/app/domain/entities/role-access-control';
 import {
   RoleAccessControlRepository,
   StoreRoleAccessControlRequestParams,
 } from 'src/app/domain/repositories/role-access-control-repository';
+import { RoleAccessControlData } from '../entities/role-access-control-data';
 
 export class MockRoleAccessControlRepository
   implements RoleAccessControlRepository
 {
-  static items: RoleAccessControl[] = [
+  static items: RoleAccessControlData[] = [
     {
       id: 1,
       roleId: 1,
@@ -31,20 +31,18 @@ export class MockRoleAccessControlRepository
     },
   ];
 
-  store(
-    params: StoreRoleAccessControlRequestParams
-  ): Observable<RoleAccessControl> {
-    return new Observable<RoleAccessControl>((observer) => {
+  store(params: StoreRoleAccessControlRequestParams): Observable<void> {
+    return new Observable<void>((observer) => {
       let maxId = Math.max(
         ...MockRoleAccessControlRepository.items.map((element) => element.id)
       );
-      let accessControl: RoleAccessControl = {
+      let accessControl: RoleAccessControlData = {
         id: maxId + 1,
         accessControlId: params.accessControlId,
         roleId: params.roleId,
       };
       MockRoleAccessControlRepository.items.push(accessControl);
-      observer.next(accessControl);
+      observer.next();
       observer.complete();
     });
   }
