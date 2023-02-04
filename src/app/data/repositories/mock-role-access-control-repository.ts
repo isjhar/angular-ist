@@ -1,9 +1,13 @@
 import { Observable, of } from 'rxjs';
+import { Pagination } from 'src/app/domain/entities/pagination';
+import { RoleAccessControl } from 'src/app/domain/entities/role-access-control';
 import {
+  GetRoleAccessControlsRequestParams,
   RoleAccessControlRepository,
   StoreRoleAccessControlRequestParams,
 } from 'src/app/domain/repositories/role-access-control-repository';
 import { RoleAccessControlData } from '../entities/role-access-control-data';
+import { MockAccessControlRepository } from './mock-access-control.repository';
 
 export class MockRoleAccessControlRepository
   implements RoleAccessControlRepository
@@ -30,6 +34,31 @@ export class MockRoleAccessControlRepository
       accessControlId: 2,
     },
   ];
+
+  get(
+    params: GetRoleAccessControlsRequestParams
+  ): Observable<Pagination<RoleAccessControl>> {
+    let items = [...MockAccessControlRepository.items];
+    let search = params.search;
+    let limit = params.limit ? params.limit : items.length;
+    let page = params.page ? params.page : 0;
+
+    if (search != undefined) {
+      items = items.filter((element) => element.name.includes(search!));
+    }
+    let paginatedAccessControls = items.splice((page - 1) * limit, limit);
+    let data: RoleAccessControl[] = paginatedAccessControls.map((element) => {
+      return {
+        accessControl: element,
+        id: MockRoleAccessControlRepository.items.find(
+          (roleAccessControl) =>
+            roleAccessControl.accessControlId == element.id &&
+            roleAccessControl.roleId == params.roleId
+        )?.id,
+      };
+    });
+    return of({ total: items.length, data: data });
+  }
 
   store(params: StoreRoleAccessControlRequestParams): Observable<void> {
     return new Observable<void>((observer) => {

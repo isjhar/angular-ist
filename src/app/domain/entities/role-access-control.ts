@@ -1,7 +1,6 @@
 import { AccessControl } from './access-control';
 
 export interface RoleAccessControl {
-  id: number;
+  id?: number;
   accessControl: AccessControl;
-  isEnabled: boolean;
 }
