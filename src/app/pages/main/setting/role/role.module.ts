@@ -3,15 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { RoleRoutingModule } from './role-routing.module';
 import { RoleComponent } from './role.component';
-
+import { MatCardModule } from '@angular/material/card';
+import { DefaultTableModule } from 'src/app/pages/shared/default-table/default-table.module';
 
 @NgModule({
-  declarations: [
-    RoleComponent
-  ],
-  imports: [
-    CommonModule,
-    RoleRoutingModule
-  ]
+  declarations: [RoleComponent],
+  imports: [CommonModule, RoleRoutingModule, DefaultTableModule, MatCardModule],
 })
-export class RoleModule { }
+export class RoleModule {}

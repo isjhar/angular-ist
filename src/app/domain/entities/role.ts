@@ -1,7 +1,7 @@
-import { Menu } from './menu';
+import { AccessControl } from './access-control';
 
 export interface Role {
   id: number;
   name: string;
-  menus: Menu[];
+  accessControls: AccessControl[];
 }

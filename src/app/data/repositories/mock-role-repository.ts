@@ -1,25 +1,25 @@
 import { Observable, of } from 'rxjs';
-import { Menu } from 'src/app/domain/entities/menu';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { Role } from 'src/app/domain/entities/role';
 import {
   RoleRepository,
   StoreRoleRequestParams,
+  UpdateRoleRequestParams,
 } from 'src/app/domain/repositories/role-repository';
-import { MockMenuRepository } from './mock-menu-repository';
+import { MockAccessControlRepository } from './mock-access-control.repository';
 
 export class MockRoleRepository implements RoleRepository {
   static roles: Role[] = [
     {
       id: 1,
       name: 'Sys Admin',
-      menus: [...MockMenuRepository.menus],
+      accessControls: [...MockAccessControlRepository.items],
     },
     {
       id: 2,
       name: 'Admin',
-      menus: [...MockMenuRepository.menus],
+      accessControls: [...MockAccessControlRepository.items],
     },
   ];
 
@@ -43,24 +43,21 @@ export class MockRoleRepository implements RoleRepository {
       let role: Role = {
         id: maxId + 1,
         name: params.name,
-        menus: MockMenuRepository.menus.filter((e) =>
-          params.menus.includes(e.id)
-        ),
+        accessControls: [],
       };
       MockRoleRepository.roles.push(role);
       observer.next(role);
       observer.complete();
     });
   }
-  update(id: number, params: StoreRoleRequestParams): Observable<any> {
+  update(id: number, params: UpdateRoleRequestParams): Observable<any> {
     return new Observable<any>((observer) => {
       let role = MockRoleRepository.roles.find((element) => element.id == id);
       if (role == undefined) {
         observer.error('role not found');
       }
-      role!.name = params.name;
-      role!.menus = MockMenuRepository.menus.filter((e) =>
-        params.menus.includes(e.id)
+      role!.accessControls = MockAccessControlRepository.items.filter((e) =>
+        params.accessControls.includes(e.id)
       );
 
       observer.next();

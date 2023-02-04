@@ -59,11 +59,6 @@ export class RolesComponent implements OnInit {
         title: 'Name',
       },
       {
-        prop: 'menu_names',
-        show: true,
-        title: 'Menus',
-      },
-      {
         prop: 'id',
         show: true,
         title: 'Action',
@@ -84,29 +79,6 @@ export class RolesComponent implements OnInit {
       if (result) {
         this.table.refreshData();
         this.snackBar.open('Role added successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
-      }
-    });
-  }
-
-  onEditClicked(element: any): void {
-    const data: AddDialogData = {
-      value: {
-        id: element.id,
-        name: element.name,
-        menus: element.menus.map((x: any) => x.id),
-      },
-    };
-    const matConfig = Object.assign({}, this.matConifg, {
-      data: data,
-    });
-    const dialogRef = this.dialog.open(AddDialogComponent, matConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.table.refreshData();
-        this.snackBar.open('Role edited successfully', 'Close', {
           horizontalPosition: 'start',
           verticalPosition: 'bottom',
         });
