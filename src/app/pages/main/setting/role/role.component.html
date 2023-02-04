@@ -1,5 +1,10 @@
 <div fxLayout="column" fxLayoutGap="20px">
-  <mat-card>
-    <app-server-side-table #table></app-server-side-table>
-  </mat-card>
+  <app-server-side-table #table></app-server-side-table>
 </div>
+
+<ng-template #actionTemplate let-element="element">
+  <mat-slide-toggle
+    [checked]="element.id != undefined"
+    (change)="onToggled(element)"
+  ></mat-slide-toggle>
+</ng-template>

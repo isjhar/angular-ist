@@ -102,14 +102,14 @@ export class MainComponent implements OnInit {
 
   filterAccessibleMenu(): void {
     this.menus.forEach((x) => {
-      let isShow = false;
-      for (let index = 0; index < this.loggedUser.roles.length; index++) {
-        const element = this.loggedUser.roles[index];
-        if (element.menus.map((x) => x.name).includes(x.name)) {
-          isShow = true;
-          break;
-        }
-      }
+      let isShow = true;
+      // for (let index = 0; index < this.loggedUser.roles.length; index++) {
+      //   const element = this.loggedUser.roles[index];
+      //   if (element.menus.map((x) => x.name).includes(x.name)) {
+      //     isShow = true;
+      //     break;
+      //   }
+      // }
       x.isShow = isShow;
     });
   }

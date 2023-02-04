@@ -38,19 +38,8 @@ export class MainGuard implements CanActivate {
     let url = state.url;
     return this.getLoggedUserUseCase.execute().pipe(
       map<User, boolean>((user) => {
-        for (let i = 0; i < user.roles.length; i++) {
-          const role = user.roles[i];
-          for (let j = 0; j < role.menus.length; j++) {
-            const menu = role.menus[j];
-            if (menu.url) {
-              let regex = new RegExp(`${menu.url}.*`);
-              if (regex.exec(url)) {
-                return true;
-              }
-            } else {
-              return true;
-            }
-          }
+        if (user) {
+          return true;
         }
         this.router.navigate(['']);
         return false;
