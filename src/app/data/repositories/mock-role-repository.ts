@@ -21,6 +21,11 @@ export class MockRoleRepository implements RoleRepository {
       name: 'Admin',
       accessControls: [...MockAccessControlRepository.items],
     },
+    {
+      id: 3,
+      name: 'Resident',
+      accessControls: [MockAccessControlRepository.items[0]],
+    },
   ];
 
   get(params: PaginationParams): Observable<Pagination<Role>> {

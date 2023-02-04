@@ -33,6 +33,11 @@ export class MockRoleAccessControlRepository
       roleId: 2,
       accessControlId: 2,
     },
+    {
+      id: 5,
+      roleId: 3,
+      accessControlId: 1,
+    },
   ];
 
   get(

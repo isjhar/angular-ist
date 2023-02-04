@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -22,16 +23,21 @@ export class RoleTableService extends ServerSideTableService<
   GetRoleAccessControlsUseCaseParams,
   RoleAccessControlRow
 > {
+  roleId: number = 0;
   getRoleAccessControlUseCase: GetRoleAccessControlsUseCase;
   constructor(
     @Inject(ROLE_ACCESS_CONTROL_REPOSITORY)
-    roleAccessControlRepository: RoleAccessControlRepository
+    roleAccessControlRepository: RoleAccessControlRepository,
+    private route: ActivatedRoute
   ) {
     super();
 
     this.getRoleAccessControlUseCase = new GetRoleAccessControlsUseCase(
       roleAccessControlRepository
     );
+    if (this.route.snapshot.paramMap.has('id')) {
+      this.roleId = parseInt(this.route.snapshot.paramMap.get('id')!);
+    }
   }
   getParams(): GetRoleAccessControlsUseCaseParams {
     return {
@@ -40,7 +46,7 @@ export class RoleTableService extends ServerSideTableService<
       sort: this.table.sort,
       order: this.table.order,
       search: this.search,
-      roleId: 1,
+      roleId: this.roleId,
     };
   }
   get(params: any): Observable<ServerSideTablePagination<any>> {
