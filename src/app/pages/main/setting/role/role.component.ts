@@ -10,14 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 import { ROLE_ACCESS_CONTROL_REPOSITORY } from 'src/app/app.module';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { RoleAccessControlRepository } from 'src/app/domain/repositories/role-access-control-repository';
-import { StoreAccessControlUseCase } from 'src/app/domain/use-cases/store-access-control-use-case';
 import { StoreRoleAccessControlUseCase } from 'src/app/domain/use-cases/store-role-access-control-use-case';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
 import {
   ServerSideTableService,
   TABLE_SERVICE,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
-import { AccessControlRow } from '../access-controls/access-controls-table.service';
 import { RoleAccessControlRow, RoleTableService } from './role-table.service';
 
 @Component({
@@ -39,6 +37,7 @@ export class RoleComponent implements OnInit {
 
   storeRoleAccessControlUseCase: StoreRoleAccessControlUseCase;
   deleteRoleAccessControluseCase: DeleteUseCase;
+  roleId: number = 0;
   constructor(
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
@@ -53,6 +52,10 @@ export class RoleComponent implements OnInit {
     this.deleteRoleAccessControluseCase = new DeleteUseCase(
       roleAccessControlRepository
     );
+
+    if (this.route.snapshot.paramMap.has('id')) {
+      this.roleId = parseInt(this.route.snapshot.paramMap.get('id')!);
+    }
   }
 
   ngOnInit(): void {
@@ -88,7 +91,10 @@ export class RoleComponent implements OnInit {
     }
 
     this.storeRoleAccessControlUseCase
-      .execute({ accessControlId: element.accessControlId, roleId: 1 })
+      .execute({
+        accessControlId: element.accessControlId,
+        roleId: this.roleId,
+      })
       .subscribe(
         (response) => {
           this.table.refreshData();
