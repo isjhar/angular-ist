@@ -5,7 +5,7 @@ import { StoreRoleAccessControlRequestParams } from '../repositories/role-access
 export class StoreRoleAccessControlUseCase extends StoreUseCase<
   StoreRoleAccessControlUseCaseParams,
   StoreRoleAccessControlRequestParams,
-  RoleAccessControl
+  void
 > {
   mapParams(
     params: StoreRoleAccessControlUseCaseParams

@@ -46,6 +46,7 @@ export class MockRoleAccessControlRepository
     if (search != undefined) {
       items = items.filter((element) => element.name.includes(search!));
     }
+    let total = items.length;
     let paginatedAccessControls = items.splice((page - 1) * limit, limit);
     let data: RoleAccessControl[] = paginatedAccessControls.map((element) => {
       return {
@@ -57,7 +58,7 @@ export class MockRoleAccessControlRepository
         )?.id,
       };
     });
-    return of({ total: items.length, data: data });
+    return of({ total: total, data: data });
   }
 
   store(params: StoreRoleAccessControlRequestParams): Observable<void> {

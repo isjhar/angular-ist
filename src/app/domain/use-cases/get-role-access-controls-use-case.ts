@@ -5,7 +5,7 @@ import { RoleAccessControl } from '../entities/role-access-control';
 import { GetRoleAccessControlsRequestParams } from '../repositories/role-access-control-repository';
 
 export class GetRoleAccessControlsUseCase extends GetUseCase<
-  GetRoleAccessControlsUseCaseParamsParams,
+  GetRoleAccessControlsUseCaseParams,
   GetRoleAccessControlsRequestParams,
   RoleAccessControl
 > {
@@ -15,13 +15,12 @@ export class GetRoleAccessControlsUseCase extends GetUseCase<
     super(getableRepository);
   }
   mapParams(
-    params: GetRoleAccessControlsUseCaseParamsParams
+    params: GetRoleAccessControlsUseCaseParams
   ): GetRoleAccessControlsRequestParams {
     return params;
   }
 }
 
-export interface GetRoleAccessControlsUseCaseParamsParams
-  extends GetUseCaseParams {
+export interface GetRoleAccessControlsUseCaseParams extends GetUseCaseParams {
   roleId: number;
 }

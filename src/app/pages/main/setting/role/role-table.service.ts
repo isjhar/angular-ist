@@ -5,13 +5,13 @@ import {
   ROLE_ACCESS_CONTROL_REPOSITORY,
   ROLE_REPOSITORY,
 } from 'src/app/app.module';
-import {
-  GetUseCaseParams,
-  GetUseCaseResponse,
-} from 'src/app/domain/base-use-cases/get-use-case';
+import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
 import { RoleAccessControl } from 'src/app/domain/entities/role-access-control';
 import { RoleAccessControlRepository } from 'src/app/domain/repositories/role-access-control-repository';
-import { GetRoleAccessControlsUseCase } from 'src/app/domain/use-cases/get-role-access-controls-use-case';
+import {
+  GetRoleAccessControlsUseCase,
+  GetRoleAccessControlsUseCaseParams,
+} from 'src/app/domain/use-cases/get-role-access-controls-use-case';
 import {
   ServerSideTablePagination,
   ServerSideTableService,
@@ -19,7 +19,7 @@ import {
 
 @Injectable()
 export class RoleTableService extends ServerSideTableService<
-  GetUseCaseParams,
+  GetRoleAccessControlsUseCaseParams,
   RoleAccessControlRow
 > {
   getRoleAccessControlUseCase: GetRoleAccessControlsUseCase;
@@ -33,13 +33,14 @@ export class RoleTableService extends ServerSideTableService<
       roleAccessControlRepository
     );
   }
-  getParams() {
+  getParams(): GetRoleAccessControlsUseCaseParams {
     return {
       limit: this.table.pageSize,
       page: this.table.pageIndex + 1,
       sort: this.table.sort,
       order: this.table.order,
       search: this.search,
+      roleId: 1,
     };
   }
   get(params: any): Observable<ServerSideTablePagination<any>> {
