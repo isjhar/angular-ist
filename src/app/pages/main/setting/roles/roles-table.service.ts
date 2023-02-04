@@ -44,16 +44,6 @@ export class RolesTableService extends ServerSideTableService<
               return {
                 id: element.id,
                 name: element.name,
-                menu_names: element.menus
-                  .map((element) => element.name)
-                  .join(', '),
-                menus: element.menus.map<MenuRow>((element) => {
-                  return {
-                    id: element.id,
-                    name: element.name,
-                    url: element.url,
-                  };
-                }),
               };
             }),
             total: response.pagination.total,
@@ -67,6 +57,4 @@ export class RolesTableService extends ServerSideTableService<
 export interface RoleRow {
   id: number;
   name: string;
-  menus: MenuRow[];
-  menu_names: string;
 }
