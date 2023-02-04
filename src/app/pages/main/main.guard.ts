@@ -7,7 +7,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app.module';
 import { User } from 'src/app/domain/entities/user';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
