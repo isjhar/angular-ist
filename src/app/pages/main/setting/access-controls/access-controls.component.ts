@@ -29,8 +29,6 @@ import {
   providers: [{ provide: TABLE_SERVICE, useClass: AccessControlsTableService }],
 })
 export class AccessControlsComponent implements OnInit {
-  @ViewChild('actionTemplate', { static: true })
-  actionTemplate!: TemplateRef<any>;
   @ViewChild('table', { static: true })
   table!: ServerSideTableComponent;
 
@@ -65,55 +63,6 @@ export class AccessControlsComponent implements OnInit {
         show: true,
         title: 'Description',
       },
-      {
-        prop: 'id',
-        show: true,
-        title: 'Action',
-        cellTemplate: this.actionTemplate,
-      },
     ]);
-  }
-
-  onAddClicked(): void {
-    const data: AddDialogData = {
-      name: '',
-      description: '',
-    };
-    const matConfig = Object.assign({}, this.matConifg, {
-      data: data,
-    });
-    const dialogRef = this.dialog.open(AddDialogComponent, matConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.table.refreshData();
-        this.snackBar.open('Access control added successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
-      }
-    });
-  }
-
-  onDeleteClicked(element: any): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '30%',
-      maxWidth: 500,
-      height: 'auto ',
-      data: {
-        message: 'Are you sure?',
-        yes$: this.deleteUseCase.execute({
-          id: element.id,
-        }),
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.table.refreshData();
-        this.snackBar.open('Access control deleted successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
-      }
-    });
   }
 }
