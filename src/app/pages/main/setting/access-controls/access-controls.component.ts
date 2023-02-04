@@ -17,10 +17,6 @@ import {
   TABLE_SERVICE,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
 import { AccessControlsTableService } from './access-controls-table.service';
-import {
-  AddDialogComponent,
-  AddDialogData,
-} from './add-dialog/add-dialog.component';
 
 @Component({
   selector: 'app-access-controls',

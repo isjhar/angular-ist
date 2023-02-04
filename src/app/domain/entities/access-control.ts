@@ -3,3 +3,8 @@ export interface AccessControl {
   name: string;
   description: string;
 }
+
+export enum AccessControlId {
+  Dashboard = 1,
+  Setting = 2,
+}

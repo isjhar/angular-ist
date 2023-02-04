@@ -1,5 +1,8 @@
 import { Observable, of } from 'rxjs';
-import { AccessControl } from 'src/app/domain/entities/access-control';
+import {
+  AccessControl,
+  AccessControlId,
+} from 'src/app/domain/entities/access-control';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import {
@@ -10,12 +13,12 @@ import {
 export class MockAccessControlRepository implements AccessControlRepository {
   static items: AccessControl[] = [
     {
-      id: 1,
+      id: AccessControlId.Dashboard,
       name: 'Dashboard',
       description: 'View dashboard',
     },
     {
-      id: 2,
+      id: AccessControlId.Setting,
       name: 'Setting',
       description: 'View setting',
     },
