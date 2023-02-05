@@ -1,23 +1,32 @@
-import { GetUseCase, GetUseCaseParams } from '../base-use-cases/get-use-case';
-import { PaginationParams } from '../entities/pagination-params';
-import { GetableRepository } from '../base-repositories/getable-repository';
 import { RoleAccessControl } from '../entities/role-access-control';
-import { GetRoleAccessControlsRequestParams } from '../repositories/role-access-control-repository';
+import { UseCase } from '../base-use-cases/use-case';
+import {
+  GetUseCaseParams,
+  GetUseCaseResponse,
+} from '../base-use-cases/get-use-case';
+import { RoleRepository } from '../repositories/role-repository';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Pagination } from '../entities/pagination';
 
-export class GetRoleAccessControlsUseCase extends GetUseCase<
-  GetRoleAccessControlsUseCaseParams,
-  GetRoleAccessControlsRequestParams,
-  RoleAccessControl
-> {
-  constructor(
-    getableRepository: GetableRepository<PaginationParams, RoleAccessControl>
-  ) {
-    super(getableRepository);
-  }
-  mapParams(
+export class GetRoleAccessControlsUseCase
+  implements
+    UseCase<
+      GetRoleAccessControlsUseCaseParams,
+      GetUseCaseResponse<RoleAccessControl>
+    >
+{
+  constructor(private roleRepository: RoleRepository) {}
+  execute(
     params: GetRoleAccessControlsUseCaseParams
-  ): GetRoleAccessControlsRequestParams {
-    return params;
+  ): Observable<GetUseCaseResponse<RoleAccessControl>> {
+    return this.roleRepository.getRoleAccessControls(params).pipe(
+      map<Pagination<RoleAccessControl>, GetUseCaseResponse<RoleAccessControl>>(
+        (element) => {
+          return { pagination: element };
+        }
+      )
+    );
   }
 }
 

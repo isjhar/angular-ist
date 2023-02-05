@@ -1,16 +1,13 @@
-import { StoreUseCase } from '../base-use-cases/store-use-case';
-import { RoleAccessControl } from '../entities/role-access-control';
-import { StoreRoleAccessControlRequestParams } from '../repositories/role-access-control-repository';
+import { Observable } from 'rxjs';
+import { UseCase } from '../base-use-cases/use-case';
+import { RoleRepository } from '../repositories/role-repository';
 
-export class StoreRoleAccessControlUseCase extends StoreUseCase<
-  StoreRoleAccessControlUseCaseParams,
-  StoreRoleAccessControlRequestParams,
-  void
-> {
-  mapParams(
-    params: StoreRoleAccessControlUseCaseParams
-  ): StoreRoleAccessControlRequestParams {
-    return params;
+export class StoreRoleAccessControlUseCase
+  implements UseCase<StoreRoleAccessControlUseCaseParams, void>
+{
+  constructor(private roleRepository: RoleRepository) {}
+  execute(params: StoreRoleAccessControlUseCaseParams): Observable<void> {
+    return this.roleRepository.storeAccessControl(params);
   }
 }
 

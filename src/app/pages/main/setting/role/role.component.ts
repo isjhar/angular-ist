@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { ROLE_ACCESS_CONTROL_REPOSITORY } from 'src/app/app.module';
-import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
-import { RoleAccessControlRepository } from 'src/app/domain/repositories/role-access-control-repository';
+import { ROLE_REPOSITORY } from 'src/app/app.module';
+import { RoleRepository } from 'src/app/domain/repositories/role-repository';
+import { DeleteRoleAccessControlUseCase } from 'src/app/domain/use-cases/delete-role-access-control-use-case';
 import { StoreRoleAccessControlUseCase } from 'src/app/domain/use-cases/store-role-access-control-use-case';
 import { ServerSideTableComponent } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.component';
 import {
@@ -36,21 +36,21 @@ export class RoleComponent implements OnInit {
   table!: ServerSideTableComponent;
 
   storeRoleAccessControlUseCase: StoreRoleAccessControlUseCase;
-  deleteRoleAccessControluseCase: DeleteUseCase;
+  deleteRoleAccessControluseCase: DeleteRoleAccessControlUseCase;
   roleId: number = 0;
   constructor(
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
-    @Inject(ROLE_ACCESS_CONTROL_REPOSITORY)
-    roleAccessControlRepository: RoleAccessControlRepository,
+    @Inject(ROLE_REPOSITORY)
+    roleRepository: RoleRepository,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute
   ) {
     this.storeRoleAccessControlUseCase = new StoreRoleAccessControlUseCase(
-      roleAccessControlRepository
+      roleRepository
     );
-    this.deleteRoleAccessControluseCase = new DeleteUseCase(
-      roleAccessControlRepository
+    this.deleteRoleAccessControluseCase = new DeleteRoleAccessControlUseCase(
+      roleRepository
     );
 
     if (this.route.snapshot.paramMap.has('id')) {
@@ -76,17 +76,22 @@ export class RoleComponent implements OnInit {
 
   onToggled(element: RoleAccessControlRow): void {
     if (element.id != undefined) {
-      this.deleteRoleAccessControluseCase.execute({ id: element.id }).subscribe(
-        (response) => {
-          this.table.refreshData();
-        },
-        (response) => {
-          this.snackBar.open('Change access control is failed', 'Close', {
-            horizontalPosition: 'start',
-            verticalPosition: 'bottom',
-          });
-        }
-      );
+      this.deleteRoleAccessControluseCase
+        .execute({
+          accessControlId: element.accessControlId,
+          roleId: this.roleId,
+        })
+        .subscribe(
+          (response) => {
+            this.table.refreshData();
+          },
+          (response) => {
+            this.snackBar.open('Change access control is failed', 'Close', {
+              horizontalPosition: 'start',
+              verticalPosition: 'bottom',
+            });
+          }
+        );
       return;
     }
 

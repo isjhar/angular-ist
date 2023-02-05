@@ -2,13 +2,10 @@ import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  ROLE_ACCESS_CONTROL_REPOSITORY,
-  ROLE_REPOSITORY,
-} from 'src/app/app.module';
+import { ROLE_REPOSITORY } from 'src/app/app.module';
 import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
 import { RoleAccessControl } from 'src/app/domain/entities/role-access-control';
-import { RoleAccessControlRepository } from 'src/app/domain/repositories/role-access-control-repository';
+import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import {
   GetRoleAccessControlsUseCase,
   GetRoleAccessControlsUseCaseParams,
@@ -26,14 +23,14 @@ export class RoleTableService extends ServerSideTableService<
   roleId: number = 0;
   getRoleAccessControlUseCase: GetRoleAccessControlsUseCase;
   constructor(
-    @Inject(ROLE_ACCESS_CONTROL_REPOSITORY)
-    roleAccessControlRepository: RoleAccessControlRepository,
+    @Inject(ROLE_REPOSITORY)
+    roleRepository: RoleRepository,
     private route: ActivatedRoute
   ) {
     super();
 
     this.getRoleAccessControlUseCase = new GetRoleAccessControlsUseCase(
-      roleAccessControlRepository
+      roleRepository
     );
     if (this.route.snapshot.paramMap.has('id')) {
       this.roleId = parseInt(this.route.snapshot.paramMap.get('id')!);
