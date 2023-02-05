@@ -17,7 +17,14 @@ export class LocalAuthenticatedUserRepository
         observer.error('userNotFound');
         observer.complete();
       }
-      let user: User = JSON.parse(loggedUser!);
+      let userRaw = JSON.parse(loggedUser!);
+      let user = new User({
+        id: userRaw.id,
+        email: userRaw.email,
+        name: userRaw.name,
+        roles: userRaw.roles,
+        password: userRaw.password,
+      });
       observer.next(user);
       observer.complete();
     });

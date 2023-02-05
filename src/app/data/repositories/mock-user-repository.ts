@@ -10,20 +10,20 @@ import { MockRoleRepository } from './mock-role-repository';
 
 export class MockUserRepository implements UserRepository {
   static users: User[] = [
-    {
+    new User({
       id: 1,
       email: 'sysadmin@gmail.com',
       name: 'Sys Admin',
       roles: [...MockRoleRepository.roles],
       password: '1234',
-    },
-    {
+    }),
+    new User({
       id: 2,
       email: 'admin@gmail.com',
       name: 'Admin',
       roles: [...MockRoleRepository.roles],
       password: '1234',
-    },
+    }),
   ];
   get(params: PaginationParams): Observable<Pagination<User>> {
     let users = [...MockUserRepository.users];
@@ -42,7 +42,7 @@ export class MockUserRepository implements UserRepository {
       let maxId = Math.max(
         ...MockUserRepository.users.map((element) => element.id)
       );
-      let user: User = {
+      let user: User = new User({
         email: params.email,
         id: maxId,
         name: params.name,
@@ -50,7 +50,7 @@ export class MockUserRepository implements UserRepository {
           params.roles.includes(element.id)
         ),
         password: params.password,
-      };
+      });
       MockUserRepository.users.push(user);
       observer.next(user);
       observer.complete();

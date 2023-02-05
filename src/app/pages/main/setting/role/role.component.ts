@@ -16,6 +16,7 @@ import {
   ServerSideTableService,
   TABLE_SERVICE,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
+import { MainService } from '../../main.service';
 import { RoleAccessControlRow, RoleTableService } from './role-table.service';
 
 @Component({
@@ -44,7 +45,8 @@ export class RoleComponent implements OnInit {
     @Inject(ROLE_REPOSITORY)
     roleRepository: RoleRepository,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private mainService: MainService
   ) {
     this.storeRoleAccessControlUseCase = new StoreRoleAccessControlUseCase(
       roleRepository
@@ -103,6 +105,8 @@ export class RoleComponent implements OnInit {
       .subscribe(
         (response) => {
           this.table.refreshData();
+          if (this.isLoggedUserHasToggledAccessControl(element)) {
+          }
         },
         (response) => {
           this.snackBar.open('Change access control is failed', 'Close', {
@@ -111,5 +115,9 @@ export class RoleComponent implements OnInit {
           });
         }
       );
+  }
+
+  isLoggedUserHasToggledAccessControl(element: RoleAccessControlRow): boolean {
+    return false;
   }
 }

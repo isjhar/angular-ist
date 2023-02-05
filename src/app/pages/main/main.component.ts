@@ -20,6 +20,8 @@ import {
 } from 'src/app/app.module';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
+import { MainService } from './main.service';
+import { AccessControlId } from 'src/app/domain/entities/access-control';
 
 @Component({
   selector: 'app-main',
@@ -63,7 +65,7 @@ export class MainComponent implements OnInit {
       shareReplay()
     );
 
-  loggedUser!: User;
+  loggedUser?: User;
 
   getLoggedUserUseCase: GetAuthenticatedUserUseCase;
   logoutUseCase: LogoutUseCase;
@@ -75,7 +77,8 @@ export class MainComponent implements OnInit {
     @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
     private breakpointObserver: BreakpointObserver,
     private router: Router,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private mainService: MainService
   ) {
     this.menus = this.menuService.menus;
 
@@ -94,7 +97,8 @@ export class MainComponent implements OnInit {
 
   getLoggedUser(): void {
     this.getLoggedUserUseCase.execute().subscribe((user) => {
-      this.loggedUser = user;
+      this.mainService.loggedUser = user;
+      this.loggedUser = this.mainService.loggedUser;
       this.filterAccessibleMenu();
     });
   }
@@ -102,13 +106,21 @@ export class MainComponent implements OnInit {
   filterAccessibleMenu(): void {
     this.menus.forEach((x) => {
       let isShow = true;
-      // for (let index = 0; index < this.loggedUser.roles.length; index++) {
-      //   const element = this.loggedUser.roles[index];
-      //   if (element.menus.map((x) => x.name).includes(x.name)) {
-      //     isShow = true;
-      //     break;
-      //   }
-      // }
+      if (
+        x.name == 'Dashboard' &&
+        !this.loggedUser?.hasAccessControl(AccessControlId.Dashboard)
+      ) {
+        isShow = false;
+        return;
+      }
+
+      if (
+        x.name == 'Setting' &&
+        !this.loggedUser?.hasAccessControl(AccessControlId.Setting)
+      ) {
+        isShow = false;
+        return;
+      }
       x.isShow = isShow;
     });
   }
