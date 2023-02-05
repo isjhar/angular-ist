@@ -11,23 +11,20 @@ export class MockAuthRepository implements AuthRepository {
   getCsrfToken(): Observable<any> {
     return of({});
   }
-  login(data: LoginParams): Observable<any> {
-    return new Observable<any>((observer) => {
+  login(data: LoginParams): Observable<User> {
+    return new Observable<User>((observer) => {
       this.loggedInUser = MockUserRepository.users.find(
         (element) => element.email == data.email
       );
       if (this.loggedInUser) {
         this.setCookie('laravel_session', 'test', 100);
-        observer.next();
+        observer.next(this.loggedInUser);
         observer.complete();
         return;
       }
       observer.error('user not found');
       observer.complete();
     });
-  }
-  getLoggedInUser(): Observable<User> {
-    return of(this.loggedInUser!);
   }
   logout(): Observable<any> {
     return of({});

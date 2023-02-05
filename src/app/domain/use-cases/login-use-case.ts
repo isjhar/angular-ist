@@ -12,8 +12,7 @@ export class LoginUseCase implements UseCase<LoginParams, void> {
   execute(params: LoginParams): Observable<void> {
     return this.authRepository.getCsrfToken().pipe(
       concatMap((response) => this.authRepository.login(params)),
-      concatMap((response) => this.authRepository.getLoggedInUser()),
-      concatMap((response) => this.authenticatedUserRepository.store(response))
+      concatMap((user) => this.authenticatedUserRepository.store(user))
     );
   }
 }

@@ -67,6 +67,7 @@ export class MainComponent implements OnInit {
 
   getLoggedUserUseCase: GetAuthenticatedUserUseCase;
   logoutUseCase: LogoutUseCase;
+  menus: Menu[];
 
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)
@@ -86,8 +87,6 @@ export class MainComponent implements OnInit {
       authRepository
     );
   }
-
-  menus: Menu[];
 
   ngOnInit(): void {
     this.getLoggedUser();
