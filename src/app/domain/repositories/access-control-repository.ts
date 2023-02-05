@@ -17,5 +17,5 @@ export interface StoreAccessControlRequestParams {
 }
 
 export interface GetAccessControlsRequestParams extends PaginationParams {
-  roleIds?: number;
+  roleIds?: number[];
 }

@@ -24,5 +24,5 @@ export class GetAccessControlsUseCase extends GetUseCase<
 }
 
 export interface GetAccessControlsUseCaseParams extends GetUseCaseParams {
-  roleIds?: number;
+  roleIds?: number[];
 }

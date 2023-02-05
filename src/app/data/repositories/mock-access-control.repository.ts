@@ -34,7 +34,10 @@ export class MockAccessControlRepository implements AccessControlRepository {
       items = items.filter((element) => element.name.includes(search!));
     }
     let paginatedAccessControls = items.splice((page - 1) * limit, limit);
-    return of({ total: items.length, data: paginatedAccessControls });
+    return of({
+      total: paginatedAccessControls.length,
+      data: paginatedAccessControls,
+    });
   }
   store(params: StoreAccessControlRequestParams): Observable<AccessControl> {
     return new Observable<AccessControl>((observer) => {
