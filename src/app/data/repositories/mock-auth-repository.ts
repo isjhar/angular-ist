@@ -7,18 +7,17 @@ import {
 import { MockUserRepository } from './mock-user-repository';
 
 export class MockAuthRepository implements AuthRepository {
-  loggedInUser?: User;
   getCsrfToken(): Observable<any> {
     return of({});
   }
   login(data: LoginParams): Observable<User> {
     return new Observable<User>((observer) => {
-      this.loggedInUser = MockUserRepository.users.find(
+      let user = MockUserRepository.users.find(
         (element) => element.email == data.email
       );
-      if (this.loggedInUser) {
+      if (user) {
         this.setCookie('laravel_session', 'test', 100);
-        observer.next(this.loggedInUser);
+        observer.next(user);
         observer.complete();
         return;
       }
