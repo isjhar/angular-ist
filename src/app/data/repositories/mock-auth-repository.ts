@@ -16,6 +16,11 @@ export class MockAuthRepository implements AuthRepository {
         (element) => element.email == data.email
       );
       if (user) {
+        if (user.password != data.password) {
+          observer.error('wrong password');
+          observer.complete();
+          return;
+        }
         this.setCookie('laravel_session', 'test', 100);
         observer.next(user);
         observer.complete();

@@ -15,12 +15,14 @@ export class MockUserRepository implements UserRepository {
       email: 'sysadmin@gmail.com',
       name: 'Sys Admin',
       roles: [...MockRoleRepository.roles],
+      password: '1234',
     },
     {
       id: 2,
       email: 'admin@gmail.com',
       name: 'Admin',
       roles: [...MockRoleRepository.roles],
+      password: '1234',
     },
   ];
   get(params: PaginationParams): Observable<Pagination<User>> {
@@ -47,6 +49,7 @@ export class MockUserRepository implements UserRepository {
         roles: MockRoleRepository.roles.filter((element) =>
           params.roles.includes(element.id)
         ),
+        password: params.password,
       };
       MockUserRepository.users.push(user);
       observer.next(user);
