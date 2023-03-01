@@ -22,6 +22,7 @@ import { AccessControlRepository } from 'src/app/domain/repositories/access-cont
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { GetAccessControlsUseCase } from 'src/app/domain/use-cases/get-access-controls-use-case';
 import { GetAuthenticatedUserUseCase } from 'src/app/domain/use-cases/get-authenticated-user-use-case';
+import { MenuService } from '../menu.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,7 @@ export class MainGuard implements CanActivate {
     authenticatedUserRepository: AuthenticatedUserRepository,
     @Inject(ACCESS_CONTROL_REPOSITORY)
     accessControlRepository: AccessControlRepository,
+    private menuService: MenuService,
     private router: Router
   ) {
     this.getLoggedUserUseCase = new GetAuthenticatedUserUseCase(
@@ -53,20 +55,13 @@ export class MainGuard implements CanActivate {
     | UrlTree {
     let url = state.url;
     return this.getLoggedUserUseCase.execute().pipe(
-      concatMap((response) =>
-        this.getAccessControlsUseCase.execute({
-          roleIds: response.roles.map((role) => role.id),
-        })
-      ),
-      map<GetUseCaseResponse<AccessControl>, boolean>((response) => {
-        console.log(url);
-        let accessControls = response.pagination.data;
-        if (accessControls) {
+      map<User, boolean>((response) => {
+        let menu = this.menuService.findMenuByUrl(url);
+        if (menu) {
+          let menuAccessControlId = menu.accessControlId;
           if (
-            url.match('/setting*') &&
-            accessControls.find(
-              (accessControl) => accessControl.id == AccessControlId.Setting
-            ) != undefined
+            menuAccessControlId &&
+            response.hasAccessControl(menuAccessControlId)
           ) {
             return true;
           }

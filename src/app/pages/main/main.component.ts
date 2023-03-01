@@ -107,16 +107,8 @@ export class MainComponent implements OnInit {
     this.menus.forEach((x) => {
       let isShow = true;
       if (
-        x.name == 'Dashboard' &&
-        !this.loggedUser?.hasAccessControl(AccessControlId.Dashboard)
-      ) {
-        isShow = false;
-        return;
-      }
-
-      if (
-        x.name == 'Setting' &&
-        !this.loggedUser?.hasAccessControl(AccessControlId.Setting)
+        x.accessControlId &&
+        !this.loggedUser?.hasAccessControl(x.accessControlId)
       ) {
         isShow = false;
         return;
