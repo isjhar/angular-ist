@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor, authInterceptorProviders } from './auth.interceptor';
+import { HttpClientModule } from '@angular/common/http';
+import { authInterceptorProviders } from './auth.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthRepository } from './domain/repositories/auth-repository';
 import { MockAuthRepository } from './data/repositories/mock-auth-repository';
@@ -15,8 +15,6 @@ import { UserRepository } from './domain/repositories/user-repository';
 import { MockUserRepository } from './data/repositories/mock-user-repository';
 import { RoleRepository } from './domain/repositories/role-repository';
 import { MockRoleRepository } from './data/repositories/mock-role-repository';
-import { MenuRepository } from './domain/repositories/menu-repository';
-import { MockMenuRepository } from './data/repositories/mock-menu-repository';
 import { AccessControlRepository } from './domain/repositories/access-control-repository';
 import { MockAccessControlRepository } from './data/repositories/mock-access-control.repository';
 
@@ -25,7 +23,6 @@ export const AUTHENTICATED_USER_REPOSITORY =
   new InjectionToken<AuthenticatedUserRepository>('');
 export const USER_REPOSITORY = new InjectionToken<UserRepository>('');
 export const ROLE_REPOSITORY = new InjectionToken<RoleRepository>('');
-export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
 export const ACCESS_CONTROL_REPOSITORY =
   new InjectionToken<AccessControlRepository>('');
 
@@ -52,10 +49,6 @@ export const ACCESS_CONTROL_REPOSITORY =
     {
       provide: ROLE_REPOSITORY,
       useClass: MockRoleRepository,
-    },
-    {
-      provide: MENU_REPOSITORY,
-      useClass: MockMenuRepository,
     },
     {
       provide: ACCESS_CONTROL_REPOSITORY,

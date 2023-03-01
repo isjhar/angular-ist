@@ -49,10 +49,6 @@ export class MenuService {
             },
           ],
         },
-        {
-          name: 'Menus',
-          url: 'menus',
-        },
       ],
     },
   ];

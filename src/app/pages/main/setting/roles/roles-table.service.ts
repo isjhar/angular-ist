@@ -13,7 +13,6 @@ import {
   ServerSideTablePagination,
   ServerSideTableService,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
-import { MenuRow } from '../menus/menus-table.service';
 
 @Injectable()
 export class RolesTableService extends ServerSideTableService<

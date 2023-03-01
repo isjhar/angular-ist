@@ -28,11 +28,6 @@ const routes: Routes = [
           import('./roles/roles.module').then((m) => m.RolesModule),
       },
       {
-        path: 'menus',
-        loadChildren: () =>
-          import('./menus/menus.module').then((m) => m.MenusModule),
-      },
-      {
         path: 'access-controls',
         loadChildren: () =>
           import('./access-controls/access-controls.module').then(
