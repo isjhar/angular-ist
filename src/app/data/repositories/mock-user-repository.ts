@@ -14,14 +14,14 @@ export class MockUserRepository implements UserRepository {
       id: 1,
       email: 'sysadmin@gmail.com',
       name: 'Sys Admin',
-      roles: [...MockRoleRepository.roles],
+      roles: [MockRoleRepository.roles[0]],
       password: '1234',
     }),
     new User({
       id: 2,
       email: 'admin@gmail.com',
       name: 'Admin',
-      roles: [...MockRoleRepository.roles],
+      roles: [MockRoleRepository.roles[1]],
       password: '1234',
     }),
   ];
