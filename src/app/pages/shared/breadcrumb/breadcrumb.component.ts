@@ -31,8 +31,4 @@ export class BreadcrumbComponent implements OnInit {
       this.menus = response.pagination.data;
     });
   }
-
-  isChildsHasUrl(childs: any[], url: string): boolean {
-    return childs.map((x) => x.url).includes(url);
-  }
 }
