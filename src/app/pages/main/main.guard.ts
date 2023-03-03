@@ -33,12 +33,11 @@ export class MainGuard implements CanActivate {
     | UrlTree {
     let url = state.url;
     return this.isUrlAccessibleUseCase.execute(url).pipe(
-      map<boolean, boolean>((response) => {
+      map<boolean, boolean | UrlTree>((response) => {
         if (response) {
           return true;
         }
-        this.router.navigate(['']);
-        return false;
+        return this.router.createUrlTree(['']);
       })
     );
   }
