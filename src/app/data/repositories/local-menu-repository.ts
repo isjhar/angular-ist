@@ -57,13 +57,12 @@ export class LocalMenuRepository implements MenuRepository {
         return new Observable<Pagination<Menu>>((observer) => {
           let items = LocalMenuRepository.items;
           items.forEach((x) => {
-            let isShow = true;
+            let isShow = false;
             if (
-              x.accessControlId &&
-              !user?.hasAccessControl(x.accessControlId)
+              !x.accessControlId ||
+              (x.accessControlId && user?.hasAccessControl(x.accessControlId))
             ) {
-              isShow = false;
-              return;
+              isShow = true;
             }
             x.isShow = isShow;
           });
