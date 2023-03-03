@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Menu, MenuService } from 'src/app/pages/menu.service';
+import { MENU_REPOSITORY } from 'src/app/app.module';
+import { Menu } from 'src/app/domain/entities/menu';
+import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
+import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -10,8 +13,12 @@ import { Menu, MenuService } from 'src/app/pages/menu.service';
 export class BreadcrumbComponent implements OnInit {
   menus: Menu[] = [];
   paths: string[] = [];
-  constructor(private menuService: MenuService, private router: Router) {
-    this.menus = this.menuService.menus;
+  getMenusUseCase: GetMenusUseCase;
+  constructor(
+    @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
+    private router: Router
+  ) {
+    this.getMenusUseCase = new GetMenusUseCase(menuRepository);
     this.router.events.subscribe((value) => {
       if (value instanceof NavigationEnd) {
         this.paths = this.router.url.split('/');
@@ -19,27 +26,10 @@ export class BreadcrumbComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
-  get fullPath(): string {
-    let paths = this.router.url.split('/');
-    let result = '';
-    for (let index = 0; index < this.menuService.menus.length; index++) {
-      const rootMenu = this.menuService.menus[index];
-      if (rootMenu.url == paths[1]) {
-        result += rootMenu.name;
-        if (!rootMenu.childs) break;
-
-        for (let j = 0; j < rootMenu.childs.length; j++) {
-          const childMenu = rootMenu.childs[j];
-          if (childMenu.url == paths[2]) {
-            result += ' / ' + childMenu.name;
-          }
-        }
-        break;
-      }
-    }
-    return result;
+  ngOnInit(): void {
+    this.getMenusUseCase.execute({}).subscribe((response) => {
+      this.menus = response.pagination.data;
+    });
   }
 
   isChildsHasUrl(childs: any[], url: string): boolean {
