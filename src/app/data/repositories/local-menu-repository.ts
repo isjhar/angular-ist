@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
+import { Error } from 'src/app/domain/entities/error';
 import { Menu } from 'src/app/domain/entities/menu';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
@@ -93,8 +94,8 @@ export class LocalMenuRepository implements MenuRepository {
     );
   }
 
-  findMenuByUrl(url: string): Observable<Menu | undefined> {
-    return new Observable<Menu | undefined>((observer) => {
+  findMenuByUrl(url: string): Observable<Menu> {
+    return new Observable<Menu>((observer) => {
       let menus = LocalMenuRepository.items;
       for (let index = 0; index < menus.length; index++) {
         const element = menus[index];
@@ -105,7 +106,7 @@ export class LocalMenuRepository implements MenuRepository {
           return;
         }
       }
-      observer.next(undefined);
+      observer.error(Error.ItemNotFound);
       observer.complete();
       return;
     });

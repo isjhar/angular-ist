@@ -3,10 +3,10 @@ import { UseCase } from '../base-use-cases/use-case';
 import { Menu } from '../entities/menu';
 import { MenuRepository } from '../repositories/menu-repository';
 
-export class FindMenuByUrlUseCase implements UseCase<string, Menu | undefined> {
+export class FindMenuByUrlUseCase implements UseCase<string, Menu> {
   constructor(private menuRepository: MenuRepository) {}
 
-  execute(params: string): Observable<Menu | undefined> {
+  execute(params: string): Observable<Menu> {
     return this.menuRepository.findMenuByUrl(params);
   }
 }
