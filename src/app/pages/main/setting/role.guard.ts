@@ -15,12 +15,10 @@ import { BaseDetailGuardGuard } from '../../shared/base-detail-guard.guard';
 
 @Injectable()
 export class RoleGuard extends BaseDetailGuardGuard<Role> {
-  findUseCase: FindUseCase<Role>;
   constructor(
-    protected router: Router,
+    router: Router,
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository
   ) {
-    super(router);
-    this.findUseCase = new FindUseCase<Role>(roleRepository);
+    super(router, roleRepository);
   }
 }
