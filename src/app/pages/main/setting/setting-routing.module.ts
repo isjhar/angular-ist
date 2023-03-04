@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from './role.guard';
 import { SettingComponent } from './setting.component';
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
         path: 'roles/:id',
         loadChildren: () =>
           import('./role/role.module').then((m) => m.RoleModule),
+        canActivate: [RoleGuard],
       },
       {
         path: 'roles',
@@ -41,5 +43,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  providers: [RoleGuard],
 })
 export class SettingRoutingModule {}

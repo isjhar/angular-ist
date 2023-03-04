@@ -1,4 +1,5 @@
 import { Observable, of, throwError } from 'rxjs';
+import { Error } from 'src/app/domain/entities/error';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { Role } from 'src/app/domain/entities/role';
@@ -152,6 +153,19 @@ export class MockRoleRepository implements RoleRepository {
         (accessControl) => accessControl.id != params.accessControlId
       );
       observer.next();
+      observer.complete();
+    });
+  }
+
+  find(id: number): Observable<Role> {
+    return new Observable((observer) => {
+      let role = MockRoleRepository.roles.find((x) => x.id == id);
+      if (role) {
+        observer.next(role);
+        observer.complete();
+        return;
+      }
+      observer.error(Error.ItemNotFound);
       observer.complete();
     });
   }
