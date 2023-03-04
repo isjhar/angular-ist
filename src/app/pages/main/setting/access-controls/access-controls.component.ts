@@ -53,11 +53,13 @@ export class AccessControlsComponent implements OnInit {
         prop: 'name',
         show: true,
         title: 'Name',
+        showHandset: true,
       },
       {
         prop: 'description',
         show: true,
         title: 'Description',
+        showHandset: true,
       },
     ]);
   }

@@ -57,12 +57,14 @@ export class RolesComponent implements OnInit {
         prop: 'name',
         show: true,
         title: 'Name',
+        showHandset: true,
       },
       {
         prop: 'id',
         show: true,
         title: 'Action',
         cellTemplate: this.actionTemplate,
+        showHandset: true,
       },
     ]);
   }

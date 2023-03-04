@@ -51,24 +51,28 @@ export class UsersComponent implements OnInit {
         show: true,
         title: 'Name',
         sortBy: 'name',
+        showHandset: true,
       },
       {
         prop: 'email',
         show: true,
         title: 'Email',
         sortBy: 'email',
+        showHandset: true,
       },
       {
         prop: 'role_names',
         show: true,
         title: 'Roles',
         sortBy: 'role_names',
+        showHandset: false,
       },
       {
         prop: 'id',
         show: true,
         title: 'Action',
         cellTemplate: this.actionTemplate,
+        showHandset: true,
       },
     ]);
   }
