@@ -1,6 +1,9 @@
 <ng-container *ngFor="let breadcrumb of breadcrumbs">
   <ng-container *ngIf="paths.length > 0 && breadcrumb.url == paths[0]">
-    <a [routerLink]="'/' + breadcrumb.url">{{ breadcrumb.name }}</a>
+    <span class="breadcrumb first">
+      <a [routerLink]="'/' + breadcrumb.url">{{ breadcrumb.name }}</a>
+    </span>
+
     <ng-container
       *ngTemplateOutlet="
         recursion;
@@ -23,10 +26,11 @@
   <ng-container *ngFor="let child of childs">
     <ng-container *ngIf="paths.length > level">
       <ng-container *ngIf="child.url == paths[level]">
-        /
-        <a [routerLink]="'/' + parentUrl + '/' + child.url">
-          {{ child.name }}
-        </a>
+        <span class="breadcrumb">
+          <a [routerLink]="'/' + parentUrl + '/' + child.url">
+            {{ child.name }}
+          </a></span
+        >
         <ng-container
           *ngTemplateOutlet="
             recursion;
@@ -43,10 +47,11 @@
       <ng-container
         *ngIf="child.url != paths[level] && child.url.includes(':')"
       >
-        /
-        <a [routerLink]="'/' + parentUrl + '/' + paths[level]">
-          {{ paths[level] }}
-        </a>
+        <span class="breadcrumb">
+          <a [routerLink]="'/' + parentUrl + '/' + paths[level]">
+            {{ paths[level] }}
+          </a></span
+        >
         <ng-container
           *ngTemplateOutlet="
             recursion;
