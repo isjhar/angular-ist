@@ -34,8 +34,9 @@ export class MockUserRepository implements UserRepository {
     if (search != undefined) {
       users = users.filter((element) => element.name.includes(search!));
     }
+    let totalUser = users.length;
     let paginatedUsers = users.splice((page - 1) * limit, limit);
-    return of({ total: users.length, data: paginatedUsers });
+    return of({ total: totalUser, data: paginatedUsers });
   }
   store(params: StoreUserRequestParams): Observable<User> {
     return new Observable<User>((observer) => {
