@@ -1,1 +1,3 @@
-<app-admin></app-admin>
+<ng-container *ngIf="adminAccessControl$ | async">
+  <app-admin></app-admin>
+</ng-container>
