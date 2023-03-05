@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { MENU_REPOSITORY } from 'src/app/app.module';
+import { BREADCRUMB_MENU_REPOSITORY } from 'src/app/app.module';
 import { Menu } from 'src/app/domain/entities/menu';
-import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
+import { BreadcrumbMenuRepository } from 'src/app/domain/repositories/breadcrumb-menu-repository';
 import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 
 @Component({
@@ -15,7 +15,8 @@ export class BreadcrumbComponent implements OnInit {
   paths: string[] = [];
   getMenusUseCase: GetMenusUseCase;
   constructor(
-    @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
+    @Inject(BREADCRUMB_MENU_REPOSITORY)
+    menuRepository: BreadcrumbMenuRepository,
     private router: Router
   ) {
     this.getMenusUseCase = new GetMenusUseCase(menuRepository);

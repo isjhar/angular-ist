@@ -19,6 +19,8 @@ import { AccessControlRepository } from './domain/repositories/access-control-re
 import { MockAccessControlRepository } from './data/repositories/mock-access-control.repository';
 import { MenuRepository } from './domain/repositories/menu-repository';
 import { LocalMenuRepository } from './data/repositories/local-menu-repository';
+import { BreadcrumbMenuRepository } from './domain/repositories/breadcrumb-menu-repository';
+import { LocalBreadcrumbMenuRepository } from './data/repositories/local-breadcrumb-menu-repository';
 
 export const AUTH_REPOSITORY = new InjectionToken<AuthRepository>('');
 export const AUTHENTICATED_USER_REPOSITORY =
@@ -28,6 +30,8 @@ export const ROLE_REPOSITORY = new InjectionToken<RoleRepository>('');
 export const ACCESS_CONTROL_REPOSITORY =
   new InjectionToken<AccessControlRepository>('');
 export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
+export const BREADCRUMB_MENU_REPOSITORY =
+  new InjectionToken<BreadcrumbMenuRepository>('');
 
 @NgModule({
   declarations: [AppComponent],
@@ -60,6 +64,10 @@ export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
     {
       provide: MENU_REPOSITORY,
       useClass: LocalMenuRepository,
+    },
+    {
+      provide: BREADCRUMB_MENU_REPOSITORY,
+      useClass: LocalBreadcrumbMenuRepository,
     },
   ],
   bootstrap: [AppComponent],

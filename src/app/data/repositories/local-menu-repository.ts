@@ -38,13 +38,6 @@ export class LocalMenuRepository implements MenuRepository {
           name: 'Roles',
           url: 'roles',
           accessControlId: AccessControlId.Setting,
-          childs: [
-            {
-              name: 'Role',
-              url: ':id',
-              accessControlId: AccessControlId.Setting,
-            },
-          ],
         },
       ],
     },

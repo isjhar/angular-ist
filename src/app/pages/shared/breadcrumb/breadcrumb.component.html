@@ -1,10 +1,10 @@
 <ng-container *ngFor="let menu of menus">
-  <ng-container *ngIf="paths.length > 1 && menu.url == paths[1]">
+  <ng-container *ngIf="paths.length > 0 && menu.url == paths[0]">
     <a [routerLink]="'/' + menu.url">{{ menu.name }}</a>
     <ng-container
       *ngTemplateOutlet="
         recursion;
-        context: { childs: menu.childs, parentUrl: '/' + menu.url, level: 2 }
+        context: { childs: menu.childs, parentUrl: '/' + menu.url, level: 1 }
       "
     ></ng-container>
   </ng-container>
