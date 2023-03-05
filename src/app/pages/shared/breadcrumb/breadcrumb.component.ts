@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { BREADCRUMB_MENU_REPOSITORY } from 'src/app/app.module';
-import { Menu } from 'src/app/domain/entities/menu';
-import { BreadcrumbMenuRepository } from 'src/app/domain/repositories/breadcrumb-menu-repository';
+import { BREADCRUMB_REPOSITORY } from 'src/app/app.module';
+import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
+import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
+import { GetBreadcrumbsUseCase } from 'src/app/domain/use-cases/get-breadcrumbs-use-case';
 import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 
 @Component({
@@ -11,15 +12,15 @@ import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-  menus: Menu[] = [];
+  breadcrumbs: Breadcrumb[] = [];
   paths: string[] = [];
   getMenusUseCase: GetMenusUseCase;
   constructor(
-    @Inject(BREADCRUMB_MENU_REPOSITORY)
-    menuRepository: BreadcrumbMenuRepository,
+    @Inject(BREADCRUMB_REPOSITORY)
+    breadCrumbRepository: BreadcrumbRepository,
     private router: Router
   ) {
-    this.getMenusUseCase = new GetMenusUseCase(menuRepository);
+    this.getMenusUseCase = new GetBreadcrumbsUseCase(breadCrumbRepository);
     this.router.events.subscribe((value) => {
       if (value instanceof NavigationEnd) {
         this.paths = this.router.url.split('/');
@@ -29,7 +30,7 @@ export class BreadcrumbComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMenusUseCase.execute({}).subscribe((response) => {
-      this.menus = response.pagination.data;
+      this.breadcrumbs = response.pagination.data;
     });
   }
 }
