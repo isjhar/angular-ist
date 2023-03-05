@@ -6,7 +6,7 @@ a {
   position: relative;
   padding: 10px 20px 10px 25px;
 
-  & a::before, & a::after {
+  & span::before, & span::after {
     content: '';
 		position: absolute;
 		height: 50%;
@@ -14,13 +14,13 @@ a {
 		z-index: -2;
   }
 
-  & a::before {
+  & span::before {
 		top: 0px;
 		transform: skew(30deg);
     left: 5px;
 	}
 
-	& a::after {
+	& span::after {
 		bottom: 0px;
 		transform: skew(-30deg);
     left: 5px;
@@ -29,11 +29,11 @@ a {
   &:first-child {
 		box-sizing: content-box;
 
-    & a::before {
+    & span::before {
       left: 5px;
     }
 
-    & a::after {
+    & span::after {
       left: 5px;
     }
   }

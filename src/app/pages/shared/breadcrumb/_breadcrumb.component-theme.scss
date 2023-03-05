@@ -12,16 +12,16 @@
     color: mat.get-contrast-color-from-palette($primary-palette, 500);
   }
   .breadcrumb {
-    & a::before, & a::after {
+    & span::before, & span::after {
       background-color: mat.get-color-from-palette($primary-palette, 500);
     }
 
-    & a::before {
+    & span::before {
       border-right: 2px solid mat.get-contrast-color-from-palette($primary-palette, 500);;
       border-left: 2px solid mat.get-contrast-color-from-palette($primary-palette, 500);;
     }
 
-    & a::after {
+    & span::after {
       border-right: 2px solid mat.get-contrast-color-from-palette($primary-palette, 500);;
       border-left: 2px solid mat.get-contrast-color-from-palette($primary-palette, 500);;
     }
