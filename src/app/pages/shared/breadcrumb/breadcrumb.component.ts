@@ -1,5 +1,8 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 import { BREADCRUMB_REPOSITORY } from 'src/app/app.module';
 import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
@@ -15,10 +18,18 @@ export class BreadcrumbComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
   paths: string[] = [];
   getMenusUseCase: GetMenusUseCase;
+
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
   constructor(
     @Inject(BREADCRUMB_REPOSITORY)
     breadCrumbRepository: BreadcrumbRepository,
-    private router: Router
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.getMenusUseCase = new GetBreadcrumbsUseCase(breadCrumbRepository);
     this.router.events.subscribe((value) => {
