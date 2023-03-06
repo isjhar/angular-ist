@@ -8,9 +8,9 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MENU_REPOSITORY } from 'src/app/app.module';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { IsUrlAccessibleUseCase } from 'src/app/domain/use-cases/is-url-accessible-use-case';
+import { MENU_REPOSITORY } from 'src/app/local-repository.module';
 
 @Injectable({
   providedIn: 'root',

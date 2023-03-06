@@ -13,16 +13,16 @@ import {
 import { LogoutUseCase } from 'src/app/domain/use-cases/logout-use-case';
 import { User } from 'src/app/domain/entities/user';
 import { GetAuthenticatedUserUseCase } from 'src/app/domain/use-cases/get-authenticated-user-use-case';
-import {
-  AUTHENTICATED_USER_REPOSITORY,
-  AUTH_REPOSITORY,
-  MENU_REPOSITORY,
-} from 'src/app/app.module';
+import { AUTH_REPOSITORY } from 'src/app/mock-repository.module';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
 import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { Menu } from 'src/app/domain/entities/menu';
+import {
+  AUTHENTICATED_USER_REPOSITORY,
+  MENU_REPOSITORY,
+} from 'src/app/local-repository.module';
 
 @Component({
   selector: 'app-main',

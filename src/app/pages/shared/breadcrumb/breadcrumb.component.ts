@@ -3,11 +3,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { BREADCRUMB_REPOSITORY } from 'src/app/app.module';
 import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 import { GetBreadcrumbsUseCase } from 'src/app/domain/use-cases/get-breadcrumbs-use-case';
 import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
+import { BREADCRUMB_REPOSITORY } from 'src/app/local-repository.module';
 
 @Component({
   selector: 'app-breadcrumb',

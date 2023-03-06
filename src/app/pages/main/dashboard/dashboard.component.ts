@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app.module';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { HasAuthenticatedUserAccessControlUseCase } from 'src/app/domain/use-cases/has-authenticated-user-access-control-use-case';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/local-repository.module';
 
 @Component({
   selector: 'app-dashboard',

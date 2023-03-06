@@ -8,12 +8,12 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app.module';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import {
   IsLoggedInUseCaseResponse,
   IsLoggedInUseCase,
 } from 'src/app/domain/use-cases/is-logged-in-use-case';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/local-repository.module';
 
 @Injectable({
   providedIn: 'root',
