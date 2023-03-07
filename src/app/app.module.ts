@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProviders } from './auth.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MockRepositoryModule } from './mock-repository.module';
 import { LocalRepositoryModule } from './local-repository.module';
+import { ApiRepositoryModule } from './api-repository.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,8 +18,8 @@ import { LocalRepositoryModule } from './local-repository.module';
     BrowserAnimationsModule,
     HttpClientModule,
     FlexLayoutModule,
-    MockRepositoryModule,
     LocalRepositoryModule,
+    ApiRepositoryModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent],

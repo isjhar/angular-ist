@@ -6,11 +6,15 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { IsUrlAccessibleUseCase } from 'src/app/domain/use-cases/is-url-accessible-use-case';
-import { MENU_REPOSITORY } from 'src/app/local-repository.module';
+import {
+  BREADCRUMB_REPOSITORY,
+  MENU_REPOSITORY,
+} from 'src/app/local-repository.module';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +22,7 @@ import { MENU_REPOSITORY } from 'src/app/local-repository.module';
 export class MainGuard implements CanActivate {
   isUrlAccessibleUseCase: IsUrlAccessibleUseCase;
   constructor(
-    @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
+    @Inject(BREADCRUMB_REPOSITORY) menuRepository: BreadcrumbRepository,
     private router: Router
   ) {
     this.isUrlAccessibleUseCase = new IsUrlAccessibleUseCase(menuRepository);
@@ -34,10 +38,10 @@ export class MainGuard implements CanActivate {
     let url = state.url;
     return this.isUrlAccessibleUseCase.execute(url).pipe(
       map<boolean, boolean | UrlTree>((response) => {
-        if (response) {
-          return true;
-        }
-        return this.router.createUrlTree(['']);
+        return true;
+      }),
+      catchError((error) => {
+        return of(this.router.createUrlTree(['']));
       })
     );
   }

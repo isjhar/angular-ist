@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import { User } from 'src/app/domain/entities/user';
@@ -8,6 +9,7 @@ import {
 } from 'src/app/domain/repositories/auth-repository';
 import { ApiResponse } from '../entities/api-response';
 
+@Injectable()
 export class ApiAuthRepository implements AuthRepository {
   constructor(private http: HttpClient) {}
   getCsrfToken(): Observable<any> {

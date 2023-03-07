@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Pagination } from 'src/app/domain/entities/pagination';
@@ -11,6 +12,7 @@ import {
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
 
+@Injectable()
 export class ApiUserRepository implements UserRepository {
   constructor(private http: HttpClient) {}
   get(params: PaginationParams): Observable<Pagination<User>> {

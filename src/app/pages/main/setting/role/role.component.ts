@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { ROLE_REPOSITORY } from 'src/app/mock-repository.module';
+import { ROLE_REPOSITORY } from 'src/app/token-repository.module';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { DeleteRoleAccessControlUseCase } from 'src/app/domain/use-cases/delete-role-access-control-use-case';
 import { StoreRoleAccessControlUseCase } from 'src/app/domain/use-cases/store-role-access-control-use-case';

@@ -6,7 +6,7 @@ import { AccessControl } from '../entities/access-control';
 import { PaginationParams } from '../entities/pagination-params';
 
 export interface AccessControlRepository
-  extends GetableRepository<GetAccessControlsRequestParams, AccessControl>,
+  extends GetableRepository<PaginationParams, AccessControl>,
     StorableRepository<StoreAccessControlRequestParams, AccessControl>,
     UpdatableRepository<StoreAccessControlRequestParams>,
     DeletableRepository {}
@@ -14,8 +14,4 @@ export interface AccessControlRepository
 export interface StoreAccessControlRequestParams {
   name: string;
   description: string;
-}
-
-export interface GetAccessControlsRequestParams extends PaginationParams {
-  roleIds?: number[];
 }

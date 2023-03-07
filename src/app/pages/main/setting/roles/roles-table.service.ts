@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ROLE_REPOSITORY } from 'src/app/mock-repository.module';
+import { ROLE_REPOSITORY } from 'src/app/token-repository.module';
 import {
   GetUseCaseParams,
   GetUseCaseResponse,

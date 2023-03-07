@@ -24,7 +24,19 @@ export class LocalAuthenticatedUserRepository
         id: userRaw.id,
         email: userRaw.email,
         name: userRaw.name,
-        roles: userRaw.roles,
+        roles: userRaw.roles.map((role: any) => {
+          return {
+            id: role.id,
+            name: role.name,
+            accessControls: role.access_controls.map((accessControl: any) => {
+              return {
+                id: accessControl.id,
+                name: accessControl.name,
+                description: accessControl.description,
+              };
+            }),
+          };
+        }),
         password: userRaw.password,
       });
       observer.next(user);

@@ -20,7 +20,7 @@ export interface RoleRepository
   ): Observable<Pagination<RoleAccessControl>>;
   storeAccessControl(params: StoreAccessControlRequestParams): Observable<void>;
   deleteAccessControl(
-    params: StoreAccessControlRequestParams
+    params: DeleteAccessControlRequestParams
   ): Observable<void>;
 }
 

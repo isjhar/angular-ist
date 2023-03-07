@@ -5,7 +5,6 @@ import { Error } from 'src/app/domain/entities/error';
 import { Menu } from 'src/app/domain/entities/menu';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
-import { User } from 'src/app/domain/entities/user';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { LocalAuthenticatedUserRepository } from './local-authenticated-user-repository';
 
@@ -68,74 +67,5 @@ export class LocalMenuRepository implements MenuRepository {
         });
       })
     );
-  }
-
-  isUrlAccessible(url: string): Observable<boolean> {
-    return this.findMenuByUrl(url).pipe(
-      concatMap((menu) => {
-        let localAuthenticatedUserRepository =
-          new LocalAuthenticatedUserRepository();
-        return localAuthenticatedUserRepository.getAuthenticatedUser().pipe(
-          map<User, boolean>((user) => {
-            if (menu && menu.accessControlId) {
-              return user.hasAccessControl(menu.accessControlId);
-            }
-            return false;
-          })
-        );
-      })
-    );
-  }
-
-  findMenuByUrl(url: string): Observable<Menu> {
-    return new Observable<Menu>((observer) => {
-      let menus = LocalMenuRepository.items;
-      for (let index = 0; index < menus.length; index++) {
-        const element = menus[index];
-        var foundedMenu = this.findMenuOnRootByUrl(url, '', element);
-        if (foundedMenu) {
-          observer.next(foundedMenu);
-          observer.complete();
-          return;
-        }
-      }
-      observer.error(Error.ItemNotFound);
-      observer.complete();
-      return;
-    });
-  }
-
-  private findMenuOnRootByUrl(
-    url: string,
-    rootUrl: string,
-    root: Menu
-  ): Menu | undefined {
-    if (url == '') {
-      if (url == rootUrl) {
-        return root;
-      }
-      return undefined;
-    }
-    rootUrl += '/';
-    if (root.url.includes(':')) {
-      rootUrl += '[^/]+';
-    } else {
-      rootUrl += root.url;
-    }
-    let regex = '^' + rootUrl + '$';
-    if (url.match(regex)) {
-      return root;
-    }
-    let childs = root.childs;
-    if (childs) {
-      for (let index = 0; index < childs.length; index++) {
-        const child = childs[index];
-        let menu = this.findMenuOnRootByUrl(url, rootUrl, child);
-        if (menu) {
-          return menu;
-        }
-      }
-    }
-    return undefined;
   }
 }
