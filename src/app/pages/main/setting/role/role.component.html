@@ -6,5 +6,6 @@
   <mat-slide-toggle
     [checked]="element.id != undefined"
     (change)="onToggled(element)"
+    [disabled]="roleId == 1"
   ></mat-slide-toggle>
 </ng-template>
