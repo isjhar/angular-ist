@@ -10,6 +10,7 @@ import {
   UserRepository,
 } from 'src/app/domain/repositories/user-repository';
 import { ApiResponse } from '../entities/api-response';
+import { mapUserData, UserData } from '../entities/user-data';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
 
 @Injectable()
@@ -22,17 +23,24 @@ export class ApiUserRepository implements UserRepository {
     urlBuilder.pushQueryParam('sort', params.sort);
     urlBuilder.pushQueryParam('order', params.order);
     return this.http
-      .get<ApiResponse<Pagination<User>>>(urlBuilder.getUrl())
+      .get<ApiResponse<Pagination<UserData>>>(urlBuilder.getUrl())
       .pipe(
-        map<ApiResponse<Pagination<User>>, Pagination<User>>(
-          (response) => response.data
-        )
+        map<ApiResponse<Pagination<UserData>>, Pagination<User>>((response) => {
+          return {
+            total: response.data.total,
+            data: response.data.data.map(mapUserData),
+          };
+        })
       );
   }
   store(params: StoreUserRequestParams): Observable<User> {
     return this.http
       .post<ApiResponse<User>>('/api/users/', params)
-      .pipe(map<ApiResponse<User>, User>((response) => response.data));
+      .pipe(
+        map<ApiResponse<UserData>, User>((response) =>
+          mapUserData(response.data)
+        )
+      );
   }
   update(id: number, params: StoreUserRequestParams): Observable<void> {
     return this.http

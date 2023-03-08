@@ -8,6 +8,7 @@ import {
   LoginParams,
 } from 'src/app/domain/repositories/auth-repository';
 import { ApiResponse } from '../entities/api-response';
+import { mapUserData, UserData } from '../entities/user-data';
 
 @Injectable()
 export class ApiAuthRepository implements AuthRepository {
@@ -28,16 +29,9 @@ export class ApiAuthRepository implements AuthRepository {
       })
       .pipe(
         concatMap((response) =>
-          this.http.get<ApiResponse<any>>('/api/user').pipe(
-            map<ApiResponse<any>, User>((x) => {
-              var user = new User({
-                id: x.data.id,
-                name: x.data.name,
-                email: x.data.email,
-                roles: [],
-                password: x.data.password,
-              });
-              return user;
+          this.http.get<ApiResponse<UserData>>('/api/user').pipe(
+            map<ApiResponse<UserData>, User>((x) => {
+              return mapUserData(x.data);
             })
           )
         )
