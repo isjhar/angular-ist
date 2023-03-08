@@ -40,22 +40,9 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('login', () => {
-  return cy.request('get', '/sanctum/csrf-cookie').then((response) => {
-    cy.getCookie('XSRF-TOKEN').then((cookie) => {
-      cy.request({
-        method: 'POST',
-        url: '/auth/login',
-        form: true,
-        body: {
-          email: 'sysadmin@gmail.com',
-          password: '1234',
-        },
-        headers: {
-          'X-XSRF-TOKEN': decodeURIComponent(cookie?.value!),
-        },
-      }).then((respone) => {
-        localStorage.setItem('IS_LOGGED_IN', 'true');
-      });
-    });
-  });
+  cy.visit('/login');
+  cy.get('[data-test="email"]').clear().type('sysadmin@gmail.com');
+  cy.get('[data-test="password"').clear().type(`1234{enter}`);
+  cy.url().should('include', '/');
+  cy.getCookie('laravel_session').should('exist');
 });
