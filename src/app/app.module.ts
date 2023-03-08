@@ -5,10 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { authInterceptorProviders } from './app-local-repository';
+import { authInterceptorProviders } from './auth.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppLocalRepositoryModule } from './app-local-repository.module';
-import { AppApiRepositoryModule } from './app-api-repository.module';
 import { AppMockRepositoryModule } from './app-mock-repository.module';
 
 @NgModule({
