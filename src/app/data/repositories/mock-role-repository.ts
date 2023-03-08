@@ -41,6 +41,15 @@ export class MockRoleRepository implements RoleRepository {
   }
   store(params: StoreRoleRequestParams): Observable<Role> {
     return new Observable<Role>((observer) => {
+      let duplicateRole = MockRoleRepository.roles.find(
+        (x) => x.name == params.name
+      );
+      if (duplicateRole) {
+        observer.error(Error.DuplicateItem);
+        observer.complete();
+        return;
+      }
+
       let maxId = Math.max(
         ...MockRoleRepository.roles.map((element) => element.id)
       );

@@ -1,4 +1,5 @@
 import { Observable, of } from 'rxjs';
+import { Error } from 'src/app/domain/entities/error';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
@@ -40,6 +41,15 @@ export class MockUserRepository implements UserRepository {
   }
   store(params: StoreUserRequestParams): Observable<User> {
     return new Observable<User>((observer) => {
+      let emailUser = MockUserRepository.users.find(
+        (x) => x.email == params.email
+      );
+      if (emailUser) {
+        observer.error(Error.DuplicateItem);
+        observer.complete();
+        return;
+      }
+
       let maxId = Math.max(
         ...MockUserRepository.users.map((element) => element.id)
       );

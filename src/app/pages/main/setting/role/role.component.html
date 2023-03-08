@@ -4,6 +4,7 @@
 
 <ng-template #actionTemplate let-element="element">
   <mat-slide-toggle
+    data-test="btn-slide"
     [checked]="element.id != undefined"
     (change)="onToggled(element)"
     [disabled]="roleId == 1"
