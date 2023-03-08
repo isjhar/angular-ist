@@ -28,9 +28,18 @@ export class ApiAuthRepository implements AuthRepository {
       })
       .pipe(
         concatMap((response) =>
-          this.http
-            .get<ApiResponse<User>>('/api/user')
-            .pipe(map<ApiResponse<User>, User>((x) => x.data))
+          this.http.get<ApiResponse<any>>('/api/user').pipe(
+            map<ApiResponse<any>, User>((x) => {
+              var user = new User({
+                id: x.data.id,
+                name: x.data.name,
+                email: x.data.email,
+                roles: [],
+                password: x.data.password,
+              });
+              return user;
+            })
+          )
         )
       );
   }
