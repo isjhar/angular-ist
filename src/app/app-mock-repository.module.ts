@@ -8,7 +8,7 @@ import {
   AUTH_REPOSITORY,
   ROLE_REPOSITORY,
   USER_REPOSITORY,
-} from './token-repository.module';
+} from './app-token-repository.module';
 
 @NgModule({
   providers: [
@@ -27,4 +27,4 @@ import {
     },
   ],
 })
-export class MockRepositoryModule {}
+export class AppMockRepositoryModule {}

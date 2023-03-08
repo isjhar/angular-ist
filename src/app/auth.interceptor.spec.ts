@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AuthInterceptor } from './auth.interceptor';
+import { AuthInterceptor } from './app-local-repository';
 
 describe('AuthInterceptor', () => {
   let routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);

@@ -5,10 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { authInterceptorProviders } from './auth.interceptor';
+import { authInterceptorProviders } from './app-local-repository';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { LocalRepositoryModule } from './local-repository.module';
-import { ApiRepositoryModule } from './api-repository.module';
+import { AppLocalRepositoryModule } from './app-local-repository.module';
+import { AppApiRepositoryModule } from './app-api-repository.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,8 +18,8 @@ import { ApiRepositoryModule } from './api-repository.module';
     BrowserAnimationsModule,
     HttpClientModule,
     FlexLayoutModule,
-    LocalRepositoryModule,
-    ApiRepositoryModule,
+    AppLocalRepositoryModule,
+    AppApiRepositoryModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
