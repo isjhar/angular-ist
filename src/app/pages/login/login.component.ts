@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AUTH_REPOSITORY } from 'src/app/token-repository.module';
+import { AUTH_REPOSITORY } from 'src/app/app-token-repository.module';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { LoginUseCase } from 'src/app/domain/use-cases/login-use-case';
-import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/local-repository.module';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository.module';
 
 @Component({
   selector: 'app-login',

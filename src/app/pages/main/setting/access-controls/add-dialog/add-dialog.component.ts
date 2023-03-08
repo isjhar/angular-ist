@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ACCESS_CONTROL_REPOSITORY } from 'src/app/token-repository.module';
+import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository.module';
 import { AccessControlRepository } from 'src/app/domain/repositories/access-control-repository';
 import { StoreAccessControlUseCase } from 'src/app/domain/use-cases/store-access-control-use-case';
 

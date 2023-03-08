@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ROLE_REPOSITORY } from 'src/app/token-repository.module';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
 import { RoleAccessControl } from 'src/app/domain/entities/role-access-control';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';

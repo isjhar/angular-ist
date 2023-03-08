@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ROLE_REPOSITORY } from 'src/app/token-repository.module';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';

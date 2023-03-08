@@ -14,7 +14,7 @@ import { IsUrlAccessibleUseCase } from 'src/app/domain/use-cases/is-url-accessib
 import {
   BREADCRUMB_REPOSITORY,
   MENU_REPOSITORY,
-} from 'src/app/local-repository.module';
+} from 'src/app/app-local-repository.module';
 
 @Injectable({
   providedIn: 'root',
