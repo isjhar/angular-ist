@@ -1,5 +1,5 @@
 describe('Users', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login().visit('/setting/users');
   });
 
@@ -17,12 +17,9 @@ describe('Users', () => {
 
     cy.get('body').click();
 
-    cy.intercept({
-      url: '/api/users',
-      method: 'POST',
-    }).as('storeUser');
-
     cy.get('[data-test="btn-save-form"]').click();
+
+    cy.wait(500);
 
     cy.get('[data-test="error"]').should('not.exist');
   });
@@ -43,6 +40,8 @@ describe('Users', () => {
 
     cy.get('[data-test="btn-save-form"]').click();
 
+    cy.wait(500);
+
     cy.get('[data-test="error"]').should('exist');
 
     cy.get('[data-test="btn-cancel-form"]').click();
@@ -52,6 +51,8 @@ describe('Users', () => {
     cy.get('[data-test="btn-delete"]').last().click();
 
     cy.get('[data-test="btn-yes"]').click();
+
+    cy.wait(500);
 
     cy.get('[data-test="confirm-form"]').should('not.exist');
   });

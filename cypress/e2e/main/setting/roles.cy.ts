@@ -1,5 +1,5 @@
 describe('Roles', () => {
-  before(() => {
+  beforeEach(() => {
     cy.login().visit('/setting/roles');
   });
 
@@ -10,6 +10,8 @@ describe('Roles', () => {
     cy.get('body').click();
 
     cy.get('[data-test="btn-save-form"]').click();
+
+    cy.wait(500);
 
     cy.get('[data-test="error"]').should('not.exist');
   });
@@ -22,6 +24,8 @@ describe('Roles', () => {
 
     cy.get('[data-test="btn-save-form"]').click();
 
+    cy.wait(500);
+
     cy.get('[data-test="error"]').should('exist');
     cy.get('[data-test="btn-cancel-form"]').click();
   });
@@ -30,6 +34,8 @@ describe('Roles', () => {
     cy.get('[data-test="btn-delete"]').last().click();
 
     cy.get('[data-test="btn-yes"]').click();
+
+    cy.wait(500);
 
     cy.get('[data-test="error"]').should('not.exist');
 
@@ -43,11 +49,15 @@ describe('Roles', () => {
 
     cy.get('[data-test="btn-slide"]').first().click();
 
+    cy.wait(500);
+
     cy.get('[data-test="btn-slide"][ng-reflect-checked="false"]')
       .first()
       .should('exist');
 
     cy.get('[data-test="btn-slide"]').first().click();
+
+    cy.wait(500);
 
     cy.get('[data-test="btn-slide"][ng-reflect-checked="true"]')
       .first()
