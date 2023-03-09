@@ -20,7 +20,7 @@ import { AppApiRepositoryModule } from './app-api-repository.module';
     HttpClientModule,
     FlexLayoutModule,
     AppLocalRepositoryModule,
-    AppApiRepositoryModule,
+    AppMockRepositoryModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
