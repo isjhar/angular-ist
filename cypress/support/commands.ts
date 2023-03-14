@@ -35,17 +35,22 @@
 
 declare namespace Cypress {
   interface Chainable<Subject = any> {
-    login(): Chainable<any>;
+    login(username: string, password: string): Chainable<any>;
   }
 }
 
-Cypress.Commands.add('login', () => {
+const users = {
+  'sysadmin@gmail.com': '1234',
+};
+
+Cypress.Commands.add('login', (username: string, password: string) => {
   cy.session(
-    'sysadmin@gmail.com',
+    [username, password],
     () => {
       cy.visit('/login');
-      cy.get('[data-test="email"]').clear().type('sysadmin@gmail.com');
-      cy.get('[data-test="password"').clear().type(`1234{enter}`);
+      cy.get('[data-test="email"]').clear().type(username);
+      cy.get('[data-test="password"').clear().type(password);
+      cy.get('form').submit();
       cy.url().should('eq', 'http://localhost:4200/');
     },
     {

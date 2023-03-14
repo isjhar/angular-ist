@@ -1,6 +1,6 @@
 describe('Users', () => {
   beforeEach(() => {
-    cy.login().visit('/setting/users');
+    cy.login('sysadmin@gmail.com', '1234').visit('/setting/users');
   });
 
   it('Insert user', () => {

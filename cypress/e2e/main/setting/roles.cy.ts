@@ -1,6 +1,6 @@
 describe('Roles', () => {
   beforeEach(() => {
-    cy.login().visit('/setting/roles');
+    cy.login('sysadmin@gmail.com', '1234').visit('/setting/roles');
   });
 
   it('Insert role', () => {
