@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class LoadingButtonComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input() isLoading: boolean = false;
-  @Input() width: number = 100;
+  @Input() width: number | string = 100;
 
   constructor() {}
 
