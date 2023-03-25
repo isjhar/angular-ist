@@ -2,14 +2,20 @@
   <h1>User</h1>
   <div fxLayout.lt-md="column" fxLayout.gt-sm="row" fxLayoutGap="10px">
     <div fxFlex.lt-md="100%" fxFlex.gt-sm="50%" fxFlex.gt-md="25%">
-      <mat-card>
+      <mat-card
+        *ngIf="totalUser$ | async | defaultNumber as totalUser; else loading"
+      >
         <mat-card-subtitle>Total User</mat-card-subtitle>
         <mat-card-content>
           <div style="font-size: 30px; margin-top: 20px">
-            {{ totalUser$ | async }}
+            {{ totalUser }}
           </div>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
 </div>
+
+<ng-template #loading>
+  <app-skeleton height="92px"></app-skeleton>
+</ng-template>
