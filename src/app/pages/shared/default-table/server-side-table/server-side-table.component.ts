@@ -10,6 +10,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import {
@@ -32,11 +33,13 @@ export class ServerSideTableComponent
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
 
+  isLoaded = false;
   dataSource: any[] = [];
   length: number = 0;
   columns: DefaultTableColumn[] = [];
   search: string = '';
   initialized = false;
+  snackBarRef?: MatSnackBarRef<any>;
 
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
@@ -45,7 +48,8 @@ export class ServerSideTableComponent
   searchChangeSubscription!: Subscription;
 
   constructor(
-    @Inject(TABLE_SERVICE) private service: ServerSideTableService<any, any>
+    @Inject(TABLE_SERVICE) private service: ServerSideTableService<any, any>,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -76,10 +80,12 @@ export class ServerSideTableComponent
   }
 
   onPageChanged(event: any): void {
+    this.showLoadingSnackBar();
     this.get();
   }
 
   onSortChanged(event: any): void {
+    this.showLoadingSnackBar();
     this.get();
   }
 
@@ -92,10 +98,20 @@ export class ServerSideTableComponent
         this.dataSource = response.data;
         this.table.renderRows();
         this.initialized = true;
+        this.isLoaded = true;
+        this.snackBarRef?.dismiss();
       });
   }
 
   refreshData(): void {
+    this.showLoadingSnackBar();
     this.get();
+  }
+
+  showLoadingSnackBar(): void {
+    this.snackBarRef = this.snackBar.open('Loading...', undefined, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 }

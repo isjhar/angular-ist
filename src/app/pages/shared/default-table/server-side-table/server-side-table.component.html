@@ -3,6 +3,7 @@
   [placeholder]="searchPlaceholder"
 ></app-search-field>
 <app-default-table
+  [ngStyle]="{ display: isLoaded ? 'block' : 'none' }"
   [dataSource]="dataSource"
   [length]="length"
   [columns]="columns"
@@ -10,3 +11,8 @@
   (sortChange)="onSortChanged($event)"
 >
 </app-default-table>
+
+<app-skeleton
+  height="160px"
+  [ngStyle]="{ display: isLoaded ? 'none' : 'block' }"
+></app-skeleton>
