@@ -22,7 +22,6 @@ const routes: Routes = [
         path: 'roles/:id',
         loadChildren: () =>
           import('./role/role.module').then((m) => m.RoleModule),
-        canActivate: [RoleGuard],
       },
       {
         path: 'roles',
