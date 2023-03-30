@@ -10,6 +10,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppLocalRepositoryModule } from './app-local-repository.module';
 import { AppMockRepositoryModule } from './app-mock-repository.module';
 import { AppApiRepositoryModule } from './app-api-repository.module';
+import { apiInterceptorProviders } from './api.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,7 @@ import { AppApiRepositoryModule } from './app-api-repository.module';
     AppLocalRepositoryModule,
     AppMockRepositoryModule,
   ],
-  providers: [authInterceptorProviders],
+  providers: [apiInterceptorProviders, authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
