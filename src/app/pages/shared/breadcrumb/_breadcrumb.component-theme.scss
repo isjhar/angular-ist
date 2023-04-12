@@ -9,7 +9,7 @@
   $primary-palette: map.get($color-config, 'primary');
   $accent-palette: map.get($color-config, 'accent');
 
-  a {
+  app-breadcrumb a {
     color: mat.get-contrast-color-from-palette($accent-palette, 500);
   }
   .breadcrumb {
