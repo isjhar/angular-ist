@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
     email: new FormControl(''),
     password: new FormControl(''),
   });
-  error?: String;
+  error?: string;
+  isLoading: boolean = false;
 
   loginUseCase: LoginUseCase;
 
@@ -36,12 +37,14 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onLoginformSubmitted(): void {
+    this.isLoading = true;
     this.loginUseCase.execute(this.loginForm.value).subscribe(
       (response) => {
         this.router.navigate(['']);
       },
       (error) => {
         this.error = `Login failed: ${error}`;
+        this.isLoading = false;
       }
     );
   }
