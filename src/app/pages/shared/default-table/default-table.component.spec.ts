@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DefaultTableComponent } from './default-table.component';

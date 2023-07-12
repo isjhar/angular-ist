@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProviders } from './auth.interceptor';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppLocalRepositoryModule } from './app-local-repository.module';
 import { AppMockRepositoryModule } from './app-mock-repository.module';
 import { AppApiRepositoryModule } from './app-api-repository.module';
@@ -19,7 +18,6 @@ import { apiInterceptorProviders } from './api.interceptor';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FlexLayoutModule,
     AppLocalRepositoryModule,
     AppMockRepositoryModule,
   ],

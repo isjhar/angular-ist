@@ -10,7 +10,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarRef as MatSnackBarRef } from '@angular/material/legacy-snack-bar';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import {

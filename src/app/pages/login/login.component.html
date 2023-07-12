@@ -1,11 +1,5 @@
-<div style="height: 100%" fxLayout="row" fxLayoutAlign="center center">
-  <form
-    style="width: 400px"
-    fxLayout="column"
-    fxLayoutGap="20px"
-    [formGroup]="loginForm"
-    (ngSubmit)="onLoginformSubmitted()"
-  >
+<div class="app-login">
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginformSubmitted()">
     <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
