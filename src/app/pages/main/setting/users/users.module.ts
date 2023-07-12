@@ -14,7 +14,6 @@ import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [UsersComponent, AddDialogComponent],
@@ -31,7 +30,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
-    FlexLayoutModule,
   ],
 })
 export class UsersModule {}

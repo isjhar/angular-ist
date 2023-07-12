@@ -12,7 +12,6 @@ import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-l
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbModule } from '../shared/breadcrumb/breadcrumb.module';
 
 @NgModule({
@@ -29,7 +28,6 @@ import { BreadcrumbModule } from '../shared/breadcrumb/breadcrumb.module';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    FlexLayoutModule,
     BreadcrumbModule,
   ],
 })

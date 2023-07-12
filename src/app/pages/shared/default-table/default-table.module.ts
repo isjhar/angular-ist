@@ -10,7 +10,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatIconModule } from '@angular/material/icon';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { TextModule } from '../text/text.module';
 import { SkeletonModule } from '../skeleton/skeleton.module';
 import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
@@ -33,7 +32,6 @@ import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/
     MatInputModule,
     MatIconModule,
     MatSnackBarModule,
-    FlexLayoutModule,
     TextModule,
     SkeletonModule,
   ],

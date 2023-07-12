@@ -12,7 +12,6 @@ import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultFormModule } from 'src/app/pages/shared/default-form/default-form.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [AccessControlsComponent, AddDialogComponent],
@@ -23,7 +22,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     DefaultFormModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     MatIconModule,
     MatSnackBarModule,
     MatDialogModule,

@@ -8,7 +8,6 @@ import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { DefaultFormModule } from '../shared/default-form/default-form.module';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { DefaultFormModule } from '../shared/default-form/default-form.module';
     MatButtonModule,
     RouterModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     DefaultFormModule,
   ],
 })

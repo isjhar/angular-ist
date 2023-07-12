@@ -12,6 +12,7 @@
 >
 </app-default-table>
 
-<ng-container *ngIf="isLoaded">
-  <app-skeleton height="160px"></app-skeleton>
-</ng-container>
+<app-skeleton
+  height="160px"
+  [ngStyle]="{ display: isLoaded ? 'none' : 'block' }"
+></app-skeleton>

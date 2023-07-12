@@ -18,6 +18,7 @@ export class LocalAuthenticatedUserRepository
       if (loggedUser === null) {
         observer.error('userNotFound');
         observer.complete();
+        return;
       }
       let userRaw = JSON.parse(loggedUser!);
       let user = new User({
@@ -34,7 +35,8 @@ export class LocalAuthenticatedUserRepository
 
   isAuthenticated(): Observable<boolean> {
     return new Observable<boolean>((observer) => {
-      observer.next(localStorage.getItem(this.IS_LOGGED_IN) !== null);
+      let isLoggedIn = localStorage.getItem(this.IS_LOGGED_IN);
+      observer.next(isLoggedIn !== null);
       observer.complete();
     });
   }
