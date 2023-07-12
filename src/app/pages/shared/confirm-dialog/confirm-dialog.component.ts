@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -16,7 +16,7 @@ export interface ConfirmDialogData {
 export class ConfirmDialogComponent implements OnInit {
   isLoading: boolean = false;
   error: string = '';
-  formGroup = new FormGroup({});
+  formGroup = new UntypedFormGroup({});
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,

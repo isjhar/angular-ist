@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AUTH_REPOSITORY } from 'src/app/app-token-repository.module';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
@@ -13,9 +13,9 @@ import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository.modu
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+  loginForm = new UntypedFormGroup({
+    email: new UntypedFormControl(''),
+    password: new UntypedFormControl(''),
   });
   error?: string;
   isLoading: boolean = false;

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
@@ -19,17 +19,17 @@ export class AddDialogComponent implements OnInit {
   isLoading: boolean = false;
   error: string = '';
 
-  formGroup = new FormGroup({
-    id: new FormControl(0),
-    name: new FormControl('', Validators.required),
+  formGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(0),
+    name: new UntypedFormControl('', Validators.required),
   });
 
   get id() {
-    return this.formGroup.get('id') as FormControl;
+    return this.formGroup.get('id') as UntypedFormControl;
   }
 
   get name() {
-    return this.formGroup.get('name') as FormControl;
+    return this.formGroup.get('name') as UntypedFormControl;
   }
 
   storeRoleUseCase: StoreRoleUseCase;
