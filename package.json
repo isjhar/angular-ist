@@ -24,6 +24,7 @@
     "@angular/platform-browser": "~12.2.14",
     "@angular/platform-browser-dynamic": "~12.2.14",
     "@angular/router": "~12.2.14",
+    "ngx-skeleton-loader": "^5.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"

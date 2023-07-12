@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import {
   HttpRequest,
@@ -11,10 +11,25 @@ import {
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { LogoutUseCase } from './domain/use-cases/logout-use-case';
+import { AuthenticatedUserRepository } from './domain/repositories/authenticated-user-repository';
+import { AuthRepository } from './domain/repositories/auth-repository';
+import { AUTHENTICATED_USER_REPOSITORY } from './app-local-repository.module';
+import { AUTH_REPOSITORY } from './app-token-repository.module';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private logoutUseCase: LogoutUseCase) {}
+  logoutUseCase: LogoutUseCase;
+  constructor(
+    private router: Router,
+    @Inject(AUTHENTICATED_USER_REPOSITORY)
+    authenticatedUserRepository: AuthenticatedUserRepository,
+    @Inject(AUTH_REPOSITORY) authRepository: AuthRepository
+  ) {
+    this.logoutUseCase = new LogoutUseCase(
+      authenticatedUserRepository,
+      authRepository
+    );
+  }
 
   intercept(
     request: HttpRequest<unknown>,

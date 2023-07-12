@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ROLE_REPOSITORY } from 'src/app/app.module';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
@@ -57,17 +57,14 @@ export class RolesComponent implements OnInit {
         prop: 'name',
         show: true,
         title: 'Name',
-      },
-      {
-        prop: 'menu_names',
-        show: true,
-        title: 'Menus',
+        showHandset: true,
       },
       {
         prop: 'id',
         show: true,
         title: 'Action',
         cellTemplate: this.actionTemplate,
+        showHandset: true,
       },
     ]);
   }
@@ -91,29 +88,6 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  onEditClicked(element: any): void {
-    const data: AddDialogData = {
-      value: {
-        id: element.id,
-        name: element.name,
-        menus: element.menus.map((x: any) => x.id),
-      },
-    };
-    const matConfig = Object.assign({}, this.matConifg, {
-      data: data,
-    });
-    const dialogRef = this.dialog.open(AddDialogComponent, matConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.table.refreshData();
-        this.snackBar.open('Role edited successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
-      }
-    });
-  }
-
   onDeleteClicked(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '30%',
@@ -121,7 +95,7 @@ export class RolesComponent implements OnInit {
       height: 'auto ',
       data: {
         message: 'Are you sure?',
-        yes$: this.deleteRoleUseCase.execute(element.id),
+        yes$: this.deleteRoleUseCase.execute({ id: element.id }),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ROLE_REPOSITORY } from 'src/app/app.module';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import {
   GetUseCaseParams,
   GetUseCaseResponse,
@@ -13,7 +13,6 @@ import {
   ServerSideTablePagination,
   ServerSideTableService,
 } from 'src/app/pages/shared/default-table/server-side-table/server-side-table.service';
-import { MenuRow } from '../menus/menus-table.service';
 
 @Injectable()
 export class RolesTableService extends ServerSideTableService<
@@ -44,16 +43,6 @@ export class RolesTableService extends ServerSideTableService<
               return {
                 id: element.id,
                 name: element.name,
-                menu_names: element.menus
-                  .map((element) => element.name)
-                  .join(', '),
-                menus: element.menus.map<MenuRow>((element) => {
-                  return {
-                    id: element.id,
-                    name: element.name,
-                    url: element.url,
-                  };
-                }),
               };
             }),
             total: response.pagination.total,
@@ -67,6 +56,4 @@ export class RolesTableService extends ServerSideTableService<
 export interface RoleRow {
   id: number;
   name: string;
-  menus: MenuRow[];
-  menu_names: string;
 }

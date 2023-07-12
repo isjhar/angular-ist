@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   Component,
   EventEmitter,
@@ -10,6 +11,8 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
 export interface DefaultTableColumn {
   title: string;
@@ -18,6 +21,7 @@ export interface DefaultTableColumn {
   cellTemplate?: TemplateRef<any>;
   cellTemplateByType?: string;
   sortBy?: string;
+  showHandset: boolean;
 }
 
 @Component({
@@ -35,12 +39,11 @@ export class DefaultTableComponent implements OnInit {
         prop: 'position',
         show: true,
         title: 'No.',
+        showHandset: true,
       },
     ];
     this._columns.push(...values);
-    this.displayedColumns = this._columns
-      .filter((x) => x.show)
-      .map((x) => x.prop);
+    this.adjustDisplayedColumns();
   }
   get columns() {
     return this._columns;
@@ -85,9 +88,28 @@ export class DefaultTableComponent implements OnInit {
     return this.sorter.direction;
   }
 
-  constructor() {}
+  isHandset: boolean = false;
 
-  ngOnInit(): void {}
+  constructor(private breakpointObserver: BreakpointObserver) {}
+
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe(Breakpoints.Handset)
+      .pipe(
+        map((result) => result.matches),
+        shareReplay()
+      )
+      .subscribe((isHandset) => {
+        this.isHandset = isHandset;
+        this.adjustDisplayedColumns();
+      });
+  }
+
+  adjustDisplayedColumns(): void {
+    this.displayedColumns = this._columns
+      .filter((x) => x.show && (!this.isHandset || x.showHandset))
+      .map((x) => x.prop);
+  }
 
   onPageChanged(event: any): void {
     this.page.emit(event);

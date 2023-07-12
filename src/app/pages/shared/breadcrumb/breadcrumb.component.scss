@@ -1,0 +1,40 @@
+a {
+	text-decoration: none;
+}
+
+.breadcrumb {
+  position: relative;
+  padding: 10px 20px 10px 25px;
+
+  & span::before, & span::after {
+    content: '';
+		position: absolute;
+		height: 50%;
+		width: 100%;
+		z-index: -2;
+  }
+
+  & span::before {
+		top: 0px;
+		transform: skew(30deg);
+    left: 5px;
+	}
+
+	& span::after {
+		bottom: 0px;
+		transform: skew(-30deg);
+    left: 5px;
+	}
+
+  &:first-child {
+		box-sizing: content-box;
+
+    & span::before {
+      left: 5px;
+    }
+
+    & span::after {
+      left: 5px;
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormErrorTimeFormatComponent } from './form-error/form-error-time-format/form-error-time-format.component';
 import { CurrencyInputDirective } from './currency-input.directive';
+import { FormErrorGreaterThanComponent } from './form-error/form-error-greater-than/form-error-greater-than.component';
 @NgModule({
   declarations: [
     FormErrorRequiredComponent,
@@ -16,6 +17,7 @@ import { CurrencyInputDirective } from './currency-input.directive';
     LoadingButtonComponent,
     FormErrorTimeFormatComponent,
     CurrencyInputDirective,
+    FormErrorGreaterThanComponent,
   ],
   exports: [
     FormErrorRequiredComponent,
@@ -23,6 +25,7 @@ import { CurrencyInputDirective } from './currency-input.directive';
     LoadingButtonComponent,
     FormErrorTimeFormatComponent,
     CurrencyInputDirective,
+    FormErrorGreaterThanComponent,
   ],
   imports: [
     CommonModule,

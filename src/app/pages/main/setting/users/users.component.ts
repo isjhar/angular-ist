@@ -8,7 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { USER_REPOSITORY } from 'src/app/app.module';
+import { USER_REPOSITORY } from 'src/app/app-token-repository.module';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
@@ -51,24 +51,28 @@ export class UsersComponent implements OnInit {
         show: true,
         title: 'Name',
         sortBy: 'name',
+        showHandset: true,
       },
       {
         prop: 'email',
         show: true,
         title: 'Email',
         sortBy: 'email',
+        showHandset: true,
       },
       {
         prop: 'role_names',
         show: true,
         title: 'Roles',
         sortBy: 'role_names',
+        showHandset: false,
       },
       {
         prop: 'id',
         show: true,
         title: 'Action',
         cellTemplate: this.actionTemplate,
+        showHandset: true,
       },
     ]);
   }

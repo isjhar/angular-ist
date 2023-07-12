@@ -2,21 +2,19 @@ import {
   UpdateUseCase,
   UpdateUseCaseParams,
 } from '../base-use-cases/update-use-case';
-import { StoreRoleRequestParams } from '../repositories/role-repository';
+import { UpdateRoleRequestParams } from '../repositories/role-repository';
 
 export class UpdateRoleUseCase extends UpdateUseCase<
   UpdateRoleUseCaseParams,
-  StoreRoleRequestParams
+  UpdateRoleRequestParams
 > {
-  mapParams(params: UpdateRoleUseCaseParams): StoreRoleRequestParams {
+  mapParams(params: UpdateRoleUseCaseParams): UpdateRoleRequestParams {
     return {
-      name: params.name,
-      menus: params.menus,
+      accessControls: params.accessControls,
     };
   }
 }
 
 export interface UpdateRoleUseCaseParams extends UpdateUseCaseParams {
-  name: string;
-  menus: number[];
+  accessControls: number[];
 }

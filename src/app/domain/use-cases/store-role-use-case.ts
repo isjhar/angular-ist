@@ -14,5 +14,4 @@ export class StoreRoleUseCase extends StoreUseCase<
 
 export interface StoreRoleUseCaseParams {
   name: string;
-  menus: number[];
 }

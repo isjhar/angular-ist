@@ -6,26 +6,26 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app.module';
-import { User } from 'src/app/domain/entities/user';
-import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
-import { GetAuthenticatedUserUseCase } from 'src/app/domain/use-cases/get-authenticated-user-use-case';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
+import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
+import { IsUrlAccessibleUseCase } from 'src/app/domain/use-cases/is-url-accessible-use-case';
+import {
+  BREADCRUMB_REPOSITORY,
+  MENU_REPOSITORY,
+} from 'src/app/app-local-repository.module';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainGuard implements CanActivate {
-  getLoggedUserUseCase: GetAuthenticatedUserUseCase;
+  isUrlAccessibleUseCase: IsUrlAccessibleUseCase;
   constructor(
-    @Inject(AUTHENTICATED_USER_REPOSITORY)
-    authenticatedUserRepository: AuthenticatedUserRepository,
+    @Inject(BREADCRUMB_REPOSITORY) menuRepository: BreadcrumbRepository,
     private router: Router
   ) {
-    this.getLoggedUserUseCase = new GetAuthenticatedUserUseCase(
-      authenticatedUserRepository
-    );
+    this.isUrlAccessibleUseCase = new IsUrlAccessibleUseCase(menuRepository);
   }
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -36,24 +36,12 @@ export class MainGuard implements CanActivate {
     | boolean
     | UrlTree {
     let url = state.url;
-    return this.getLoggedUserUseCase.execute().pipe(
-      map<User, boolean>((user) => {
-        for (let i = 0; i < user.roles.length; i++) {
-          const role = user.roles[i];
-          for (let j = 0; j < role.menus.length; j++) {
-            const menu = role.menus[j];
-            if (menu.url) {
-              let regex = new RegExp(`${menu.url}.*`);
-              if (regex.exec(url)) {
-                return true;
-              }
-            } else {
-              return true;
-            }
-          }
-        }
-        this.router.navigate(['']);
-        return false;
+    return this.isUrlAccessibleUseCase.execute(url).pipe(
+      map<boolean, boolean | UrlTree>((response) => {
+        return true;
+      }),
+      catchError((error) => {
+        return of(this.router.createUrlTree(['']));
       })
     );
   }

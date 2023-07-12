@@ -1,4 +1,5 @@
 import { Observable, of } from 'rxjs';
+import { Error } from 'src/app/domain/entities/error';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
@@ -10,18 +11,20 @@ import { MockRoleRepository } from './mock-role-repository';
 
 export class MockUserRepository implements UserRepository {
   static users: User[] = [
-    {
+    new User({
       id: 1,
       email: 'sysadmin@gmail.com',
       name: 'Sys Admin',
-      roles: [...MockRoleRepository.roles],
-    },
-    {
+      roles: [MockRoleRepository.roles[0]],
+      password: '1234',
+    }),
+    new User({
       id: 2,
       email: 'admin@gmail.com',
       name: 'Admin',
-      roles: [...MockRoleRepository.roles],
-    },
+      roles: [MockRoleRepository.roles[1]],
+      password: '1234',
+    }),
   ];
   get(params: PaginationParams): Observable<Pagination<User>> {
     let users = [...MockUserRepository.users];
@@ -32,22 +35,33 @@ export class MockUserRepository implements UserRepository {
     if (search != undefined) {
       users = users.filter((element) => element.name.includes(search!));
     }
+    let totalUser = users.length;
     let paginatedUsers = users.splice((page - 1) * limit, limit);
-    return of({ total: users.length, data: paginatedUsers });
+    return of({ total: totalUser, data: paginatedUsers });
   }
   store(params: StoreUserRequestParams): Observable<User> {
     return new Observable<User>((observer) => {
+      let emailUser = MockUserRepository.users.find(
+        (x) => x.email == params.email
+      );
+      if (emailUser) {
+        observer.error(Error.DuplicateItem);
+        observer.complete();
+        return;
+      }
+
       let maxId = Math.max(
         ...MockUserRepository.users.map((element) => element.id)
       );
-      let user: User = {
+      let user: User = new User({
         email: params.email,
         id: maxId,
         name: params.name,
         roles: MockRoleRepository.roles.filter((element) =>
           params.roles.includes(element.id)
         ),
-      };
+        password: params.password,
+      });
       MockUserRepository.users.push(user);
       observer.next(user);
       observer.complete();

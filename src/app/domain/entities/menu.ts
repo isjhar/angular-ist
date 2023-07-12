@@ -1,5 +1,10 @@
+import { AccessControlId } from './access-control';
+
 export interface Menu {
-  id: number;
   name: string;
   url: string;
+  isShow?: boolean;
+  icon?: string;
+  childs?: Menu[];
+  accessControlId?: AccessControlId;
 }

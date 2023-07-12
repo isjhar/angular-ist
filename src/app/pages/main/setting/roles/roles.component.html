@@ -12,16 +12,16 @@
 <app-server-side-table #table> </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
-  <button
-    *ngIf="element.id != 1"
+  <a
     mat-icon-button
     color="primary"
-    aria-label="Edit"
-    data-test="btn-edit"
-    (click)="onEditClicked(element)"
+    aria-label="View"
+    data-test="btn-detail"
+    [routerLink]="'/setting/roles/' + element.id"
   >
-    <mat-icon>edit</mat-icon>
-  </button>
+    <mat-icon>visibility</mat-icon>
+  </a>
+
   <button
     *ngIf="element.id != 1"
     mat-icon-button

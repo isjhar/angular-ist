@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TextModule } from '../text/text.module';
+import { SkeletonModule } from '../skeleton/skeleton.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,10 @@ import { TextModule } from '../text/text.module';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     TextModule,
+    SkeletonModule,
   ],
 })
 export class DefaultTableModule {}

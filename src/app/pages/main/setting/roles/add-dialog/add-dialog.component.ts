@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MENU_REPOSITORY, ROLE_REPOSITORY } from 'src/app/app.module';
-import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
-import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 import { StoreRoleUseCase } from 'src/app/domain/use-cases/store-role-use-case';
 import { UpdateRoleUseCase } from 'src/app/domain/use-cases/update-role-use-case';
 
@@ -18,14 +16,12 @@ export interface AddDialogData {
   styleUrls: ['./add-dialog.component.scss'],
 })
 export class AddDialogComponent implements OnInit {
-  menuOptions: any[] = [];
   isLoading: boolean = false;
   error: string = '';
 
   formGroup = new FormGroup({
     id: new FormControl(0),
     name: new FormControl('', Validators.required),
-    menus: new FormControl([]),
   });
 
   get id() {
@@ -36,80 +32,34 @@ export class AddDialogComponent implements OnInit {
     return this.formGroup.get('name') as FormControl;
   }
 
-  get menus() {
-    return this.formGroup.get('menus') as FormControl;
-  }
-
-  getMenusUseCase: GetMenusUseCase;
   storeRoleUseCase: StoreRoleUseCase;
   updateRoleUseCase: UpdateRoleUseCase;
 
   constructor(
-    @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddDialogData
   ) {
-    this.getMenusUseCase = new GetMenusUseCase(menuRepository);
     this.storeRoleUseCase = new StoreRoleUseCase(roleRepository);
     this.updateRoleUseCase = new UpdateRoleUseCase(roleRepository);
   }
 
-  ngOnInit(): void {
-    this.getMenus();
-  }
+  ngOnInit(): void {}
 
   onSubmitted(): void {
     this.isLoading = true;
-    let menus = this.menus.value as any[];
     let params = {
       name: this.name.value,
-      menus: menus.map((x) => x.id),
     };
-    if (this.id.value == 0) {
-      this.storeRoleUseCase.execute(params).subscribe(
-        (response) => {
-          this.isLoading = false;
-          this.dialogRef.close('success');
-        },
-        (error) => {
-          this.isLoading = false;
-          this.error = error;
-        }
-      );
-    } else {
-      this.updateRoleUseCase
-        .execute(Object.assign({}, { id: this.id.value }, params))
-        .subscribe(
-          (response) => {
-            this.isLoading = false;
-            this.dialogRef.close('success');
-          },
-          (error) => {
-            this.isLoading = false;
-            this.error = error;
-          }
-        );
-    }
-  }
-
-  removeMenu(menu: any): void {
-    const menus = this.menus.value as any[];
-    let index = menus.findIndex((x) => x.id == menu.id);
-    menus.splice(index, 1);
-    this.menus.setValue(menus);
-  }
-
-  getMenus(): void {
-    this.getMenusUseCase.execute({}).subscribe((response) => {
-      this.menuOptions = response.pagination.data;
-      this.formGroup.patchValue({
-        id: this.data.value.id,
-        name: this.data.value.name,
-        menus: this.menuOptions.filter((x) =>
-          this.data.value.menus.includes(x.id)
-        ),
-      });
-    });
+    this.storeRoleUseCase.execute(params).subscribe(
+      (response) => {
+        this.isLoading = false;
+        this.dialogRef.close('success');
+      },
+      (error) => {
+        this.isLoading = false;
+        this.error = error;
+      }
+    );
   }
 }

@@ -1,14 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { concatMap, map } from 'rxjs/operators';
-import {
-  AUTHENTICATED_USER_REPOSITORY,
-  AUTH_REPOSITORY,
-} from 'src/app/app.module';
+import { AUTH_REPOSITORY } from 'src/app/app-token-repository.module';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { LoginUseCase } from 'src/app/domain/use-cases/login-use-case';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository.module';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +17,8 @@ export class LoginComponent implements OnInit {
     email: new FormControl(''),
     password: new FormControl(''),
   });
-  error?: String;
+  error?: string;
+  isLoading: boolean = false;
 
   loginUseCase: LoginUseCase;
 
@@ -39,12 +37,14 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onLoginformSubmitted(): void {
+    this.isLoading = true;
     this.loginUseCase.execute(this.loginForm.value).subscribe(
       (response) => {
         this.router.navigate(['']);
       },
       (error) => {
         this.error = `Login failed: ${error}`;
+        this.isLoading = false;
       }
     );
   }

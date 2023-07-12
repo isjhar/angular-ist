@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DefaultFormModule } from '../shared/default-form/default-form.module';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -21,6 +22,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     RouterModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    DefaultFormModule,
   ],
 })
 export class LoginModule {}

@@ -10,35 +10,6 @@
           <app-form-error-required name="name"></app-form-error-required>
         </mat-error>
       </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label i18n="menu">Menu</mat-label>
-        <mat-select formControlName="menus" multiple required data-test="menus">
-          <mat-select-trigger>
-            <mat-chip-list>
-              <mat-chip
-                *ngFor="let menu of menus.value"
-                [selectable]="true"
-                [removable]="true"
-                (removed)="removeMenu(menu)"
-              >
-                {{ menu.name }}
-                <button matChipRemove>
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
-            </mat-chip-list>
-          </mat-select-trigger>
-          <mat-option
-            *ngFor="let menuOption of menuOptions"
-            [value]="menuOption"
-            >{{ menuOption.name }}</mat-option
-          >
-        </mat-select>
-        <mat-error>
-          <app-form-error-required name="menus"></app-form-error-required>
-        </mat-error>
-      </mat-form-field>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

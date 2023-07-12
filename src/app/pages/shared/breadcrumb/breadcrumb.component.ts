@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Menu, MenuService } from 'src/app/pages/menu.service';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
+import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
+import { GetBreadcrumbsUseCase } from 'src/app/domain/use-cases/get-breadcrumbs-use-case';
+import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
+import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository.module';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -8,10 +15,23 @@ import { Menu, MenuService } from 'src/app/pages/menu.service';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-  menus: Menu[] = [];
+  breadcrumbs: Breadcrumb[] = [];
   paths: string[] = [];
-  constructor(private menuService: MenuService, private router: Router) {
-    this.menus = this.menuService.menus;
+  getMenusUseCase: GetMenusUseCase;
+
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
+  constructor(
+    @Inject(BREADCRUMB_REPOSITORY)
+    breadCrumbRepository: BreadcrumbRepository,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    this.getMenusUseCase = new GetBreadcrumbsUseCase(breadCrumbRepository);
     this.router.events.subscribe((value) => {
       if (value instanceof NavigationEnd) {
         this.paths = this.router.url.split('/');
@@ -19,30 +39,9 @@ export class BreadcrumbComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
-  get fullPath(): string {
-    let paths = this.router.url.split('/');
-    let result = '';
-    for (let index = 0; index < this.menuService.menus.length; index++) {
-      const rootMenu = this.menuService.menus[index];
-      if (rootMenu.url == paths[1]) {
-        result += rootMenu.name;
-        if (!rootMenu.childs) break;
-
-        for (let j = 0; j < rootMenu.childs.length; j++) {
-          const childMenu = rootMenu.childs[j];
-          if (childMenu.url == paths[2]) {
-            result += ' / ' + childMenu.name;
-          }
-        }
-        break;
-      }
-    }
-    return result;
-  }
-
-  isChildsHasUrl(childs: any[], url: string): boolean {
-    return childs.map((x) => x.url).includes(url);
+  ngOnInit(): void {
+    this.getMenusUseCase.execute({}).subscribe((response) => {
+      this.breadcrumbs = response.pagination.data;
+    });
   }
 }

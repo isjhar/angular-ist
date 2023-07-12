@@ -1,9 +1,8 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { concatMap, map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Menu, MenuService } from '../menu.service';
 import {
   animate,
   state,
@@ -14,12 +13,16 @@ import {
 import { LogoutUseCase } from 'src/app/domain/use-cases/logout-use-case';
 import { User } from 'src/app/domain/entities/user';
 import { GetAuthenticatedUserUseCase } from 'src/app/domain/use-cases/get-authenticated-user-use-case';
-import {
-  AUTHENTICATED_USER_REPOSITORY,
-  AUTH_REPOSITORY,
-} from 'src/app/app.module';
+import { AUTH_REPOSITORY } from 'src/app/app-token-repository.module';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
+import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
+import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
+import { Menu } from 'src/app/domain/entities/menu';
+import {
+  AUTHENTICATED_USER_REPOSITORY,
+  MENU_REPOSITORY,
+} from 'src/app/app-local-repository.module';
 
 @Component({
   selector: 'app-main',
@@ -63,21 +66,20 @@ export class MainComponent implements OnInit {
       shareReplay()
     );
 
-  loggedUser!: User;
-
   getLoggedUserUseCase: GetAuthenticatedUserUseCase;
+  getMenusUseCase: GetMenusUseCase;
   logoutUseCase: LogoutUseCase;
+  menus: Menu[] = [];
+  loggedUser?: User;
 
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)
     authenticatedUserRepository: AuthenticatedUserRepository,
     @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
+    @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
     private breakpointObserver: BreakpointObserver,
-    private router: Router,
-    private menuService: MenuService
+    private router: Router
   ) {
-    this.menus = this.menuService.menus;
-
     this.getLoggedUserUseCase = new GetAuthenticatedUserUseCase(
       authenticatedUserRepository
     );
@@ -85,32 +87,23 @@ export class MainComponent implements OnInit {
       authenticatedUserRepository,
       authRepository
     );
+    this.getMenusUseCase = new GetMenusUseCase(menuRepository);
   }
-
-  menus: Menu[];
 
   ngOnInit(): void {
     this.getLoggedUser();
+    this.getMenus();
   }
 
   getLoggedUser(): void {
     this.getLoggedUserUseCase.execute().subscribe((user) => {
       this.loggedUser = user;
-      this.filterAccessibleMenu();
     });
   }
 
-  filterAccessibleMenu(): void {
-    this.menus.forEach((x) => {
-      let isShow = false;
-      for (let index = 0; index < this.loggedUser.roles.length; index++) {
-        const element = this.loggedUser.roles[index];
-        if (element.menus.map((x) => x.name).includes(x.name)) {
-          isShow = true;
-          break;
-        }
-      }
-      x.isShow = isShow;
+  getMenus(): void {
+    this.getMenusUseCase.execute({}).subscribe((response) => {
+      this.menus = response.pagination.data;
     });
   }
 

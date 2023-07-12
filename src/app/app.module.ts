@@ -1,29 +1,16 @@
-import { InjectionToken, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor, authInterceptorProviders } from './auth.interceptor';
+import { HttpClientModule } from '@angular/common/http';
+import { authInterceptorProviders } from './auth.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AuthRepository } from './domain/repositories/auth-repository';
-import { MockAuthRepository } from './data/repositories/mock-auth-repository';
-import { AuthenticatedUserRepository } from './domain/repositories/authenticated-user-repository';
-import { LocalAuthenticatedUserRepository } from './data/repositories/local-authenticated-user-repository';
-import { UserRepository } from './domain/repositories/user-repository';
-import { MockUserRepository } from './data/repositories/mock-user-repository';
-import { RoleRepository } from './domain/repositories/role-repository';
-import { MockRoleRepository } from './data/repositories/mock-role-repository';
-import { MenuRepository } from './domain/repositories/menu-repository';
-import { MockMenuRepository } from './data/repositories/mock-menu-repository';
-
-export const AUTH_REPOSITORY = new InjectionToken<AuthRepository>('');
-export const AUTHENTICATED_USER_REPOSITORY =
-  new InjectionToken<AuthenticatedUserRepository>('');
-export const USER_REPOSITORY = new InjectionToken<UserRepository>('');
-export const ROLE_REPOSITORY = new InjectionToken<RoleRepository>('');
-export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
+import { AppLocalRepositoryModule } from './app-local-repository.module';
+import { AppMockRepositoryModule } from './app-mock-repository.module';
+import { AppApiRepositoryModule } from './app-api-repository.module';
+import { apiInterceptorProviders } from './api.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,27 +20,10 @@ export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
     BrowserAnimationsModule,
     HttpClientModule,
     FlexLayoutModule,
+    AppLocalRepositoryModule,
+    AppMockRepositoryModule,
   ],
-  providers: [
-    authInterceptorProviders,
-    { provide: AUTH_REPOSITORY, useClass: MockAuthRepository },
-    {
-      provide: AUTHENTICATED_USER_REPOSITORY,
-      useClass: LocalAuthenticatedUserRepository,
-    },
-    {
-      provide: USER_REPOSITORY,
-      useClass: MockUserRepository,
-    },
-    {
-      provide: ROLE_REPOSITORY,
-      useClass: MockRoleRepository,
-    },
-    {
-      provide: MENU_REPOSITORY,
-      useClass: MockMenuRepository,
-    },
-  ],
+  providers: [apiInterceptorProviders, authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

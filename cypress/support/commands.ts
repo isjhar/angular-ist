@@ -35,27 +35,28 @@
 
 declare namespace Cypress {
   interface Chainable<Subject = any> {
-    login(): Chainable<any>;
+    login(username: string, password: string): Chainable<any>;
   }
 }
 
-Cypress.Commands.add('login', () => {
-  return cy.request('get', '/sanctum/csrf-cookie').then((response) => {
-    cy.getCookie('XSRF-TOKEN').then((cookie) => {
-      cy.request({
-        method: 'POST',
-        url: '/auth/login',
-        form: true,
-        body: {
-          email: 'sysadmin@gmail.com',
-          password: '1234',
-        },
-        headers: {
-          'X-XSRF-TOKEN': decodeURIComponent(cookie?.value!),
-        },
-      }).then((respone) => {
-        localStorage.setItem('IS_LOGGED_IN', 'true');
-      });
-    });
-  });
+const users = {
+  'sysadmin@gmail.com': '1234',
+};
+
+Cypress.Commands.add('login', (username: string, password: string) => {
+  cy.session(
+    [username, password],
+    () => {
+      cy.visit('/login');
+      cy.get('[data-test="email"]').clear().type(username);
+      cy.get('[data-test="password"').clear().type(password);
+      cy.get('form').submit();
+      cy.url().should('eq', 'http://localhost:4200/');
+    },
+    {
+      validate: () => {
+        cy.getCookie('laravel_session').should('exist');
+      },
+    }
+  );
 });
