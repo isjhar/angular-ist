@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';

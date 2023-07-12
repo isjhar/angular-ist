@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { StoreRoleUseCase } from 'src/app/domain/use-cases/store-role-use-case';
