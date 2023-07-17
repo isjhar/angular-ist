@@ -61,21 +61,35 @@ body { margin: 0; font-family: $my-font-family }
   justify-content: center;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .column {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 }
 
-.column.main-axis-center {
+
+
+.main-axis-center {
   justify-content: center;
 }
 
-.column.cross-axis-center {
-  align-content: center;
-
+.main-axis-space-between {
+  justify-content: space-between;
 }
 
+.main-axis-space-around {
+  justify-content: space-around;
+}
+
+.cross-axis-center {
+  align-items: center;
+}
 
 
 
