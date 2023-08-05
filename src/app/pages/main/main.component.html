@@ -65,16 +65,12 @@
                 <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
                 {{ menu.name }}
               </div>
-              <div>
-                <mat-icon
-                  mat-list-icon
-                  [@openCloseIcon]="
-                    expandedMenu == menu.name ? 'open' : 'closed'
-                  "
-                >
-                  arrow_right
-                </mat-icon>
-              </div>
+              <mat-icon
+                mat-list-icon
+                [@openCloseIcon]="expandedMenu == menu.name ? 'open' : 'closed'"
+              >
+                arrow_right
+              </mat-icon>
             </div>
           </a>
           <ng-container>
