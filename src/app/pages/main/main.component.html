@@ -13,7 +13,7 @@
         <div>template-web</div>
       </div>
     </div>
-    <div *ngIf="loggedUser">
+    <div *ngIf="loggedUser" class="row cross-axis-center">
       <button mat-button color="secondary">
         <mat-icon>account_circle</mat-icon> {{ loggedUser.name }}
       </button>
@@ -55,8 +55,10 @@
       <ng-container *ngFor="let menu of menus">
         <ng-container *ngIf="menu.isShow">
           <a *ngIf="!menu.childs" mat-list-item [routerLink]="'/' + menu.url">
-            <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
-            {{ menu.name }}
+            <div class="menu-title">
+              <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
+              {{ menu.name }}
+            </div>
           </a>
 
           <a *ngIf="menu.childs" mat-list-item (click)="toggleMenu(menu.name)">
