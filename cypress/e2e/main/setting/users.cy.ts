@@ -26,8 +26,8 @@ describe('Users', () => {
 
   it('Insert duplicate user email', () => {
     cy.get('[data-test="btn-add-list"]').click();
-    cy.get('[data-test="email"]').type('ztest@gmail.com');
-    cy.get('[data-test="name"]').type('ztest');
+    cy.get('[data-test="email"]').type('sysadmin@gmail.com');
+    cy.get('[data-test="name"]').type('Sys admin');
     cy.get('[data-test="password"]').type('ztest123');
     cy.get('[data-test="confirm-password"]').type('ztest123');
     cy.get('[data-test="roles"]')

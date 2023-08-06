@@ -18,7 +18,7 @@ describe('Roles', () => {
 
   it('Insert duplicate role', () => {
     cy.get('[data-test="btn-add-role-list"]').click();
-    cy.get('[data-test="name"]').type('Perawat');
+    cy.get('[data-test="name"]').type('Admin');
 
     cy.get('body').click();
 
