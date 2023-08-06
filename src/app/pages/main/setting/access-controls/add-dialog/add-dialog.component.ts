@@ -1,9 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import {
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-} from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository.module';
 import { AccessControlRepository } from 'src/app/domain/repositories/access-control-repository';
 import { StoreAccessControlUseCase } from 'src/app/domain/use-cases/store-access-control-use-case';

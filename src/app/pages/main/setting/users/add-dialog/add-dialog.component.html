@@ -61,30 +61,45 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="example-chip-list">
         <mat-label i18n="role">Role</mat-label>
-        <mat-select formControlName="roles" multiple required data-test="roles">
-          <mat-select-trigger>
-            <mat-chip-list>
-              <mat-chip
-                *ngFor="let role of roles.value"
-                [selectable]="true"
-                [removable]="true"
-                (removed)="removeRole(role)"
-              >
-                {{ role.name }}
-                <button matChipRemove>
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
-            </mat-chip-list>
-          </mat-select-trigger>
-          <mat-option
-            *ngFor="let roleOption of roleOptions"
-            [value]="roleOption"
-            >{{ roleOption.name }}</mat-option
+        <mat-chip-grid
+          #chipGrid
+          aria-label="Role selection"
+          formControlName="roles"
+        >
+          <mat-chip-row
+            *ngFor="let role of roles.value"
+            [value]="role"
+            (removed)="removeRole(role)"
           >
-        </mat-select>
+            {{ role.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + role.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        </mat-chip-grid>
+        <input
+          placeholder="Role..."
+          #roleInput
+          [formControl]="roleControl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option
+            *ngFor="let roleOption of roleOptions | async"
+            [value]="roleOption"
+          >
+            {{ roleOption.name }}
+          </mat-option>
+        </mat-autocomplete>
+
         <mat-error>
           <app-form-error-required name="roles"></app-form-error-required>
         </mat-error>
