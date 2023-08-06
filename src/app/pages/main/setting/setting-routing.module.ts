@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RoleGuard } from './role.guard';
 import { SettingComponent } from './setting.component';
 
 const routes: Routes = [
@@ -42,6 +41,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [RoleGuard],
 })
 export class SettingRoutingModule {}

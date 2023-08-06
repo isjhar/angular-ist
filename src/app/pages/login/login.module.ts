@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { DefaultFormModule } from '../shared/default-form/default-form.module';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { DefaultFormModule } from '../shared/default-form/default-form.module';
     MatButtonModule,
     RouterModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     DefaultFormModule,
   ],
 })

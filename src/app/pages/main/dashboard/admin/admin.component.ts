@@ -1,6 +1,7 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { USER_REPOSITORY } from 'src/app/app-token-repository.module';
 import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
 import { User } from 'src/app/domain/entities/user';
@@ -14,10 +15,29 @@ import { GetUsersUseCase } from 'src/app/domain/use-cases/get-users-use-case';
 })
 export class AdminComponent implements OnInit {
   totalUser$: Observable<number>;
+  isXSmall$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.XSmall)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
+  isSmall$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Small)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
+  isMedium$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Medium)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
 
   constructor(
     @Inject(USER_REPOSITORY)
-    userRepository: UserRepository
+    userRepository: UserRepository,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.totalUser$ = new GetUsersUseCase(userRepository)
       .execute({ limit: 1 })

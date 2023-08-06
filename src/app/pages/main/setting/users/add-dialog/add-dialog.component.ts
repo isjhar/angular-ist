@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import {
   ROLE_REPOSITORY,
   USER_REPOSITORY,
@@ -26,14 +26,14 @@ export class AddDialogComponent implements OnInit {
   isLoading: boolean = false;
   error: string = '';
 
-  formGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    confirmPassword: new FormControl('', [
+  formGroup = new UntypedFormGroup({
+    name: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    password: new UntypedFormControl('', [Validators.required]),
+    confirmPassword: new UntypedFormControl('', [
       Validators.required,
       (control: AbstractControl) => {
-        let confirmPassword = control as FormControl;
+        let confirmPassword = control as UntypedFormControl;
         if (confirmPassword.value === this.currentPassword) {
           return null;
         }
@@ -42,27 +42,27 @@ export class AddDialogComponent implements OnInit {
         };
       },
     ]),
-    roles: new FormControl([]),
+    roles: new UntypedFormControl([]),
   });
 
   get name() {
-    return this.formGroup.get('name') as FormControl;
+    return this.formGroup.get('name') as UntypedFormControl;
   }
 
   get email() {
-    return this.formGroup.get('email') as FormControl;
+    return this.formGroup.get('email') as UntypedFormControl;
   }
 
   get password() {
-    return this.formGroup.get('password') as FormControl;
+    return this.formGroup.get('password') as UntypedFormControl;
   }
 
   get confirmPassword() {
-    return this.formGroup.get('confirmPassword') as FormControl;
+    return this.formGroup.get('confirmPassword') as UntypedFormControl;
   }
 
   get roles() {
-    return this.formGroup.get('roles') as FormControl;
+    return this.formGroup.get('roles') as UntypedFormControl;
   }
   getRolesUseCase: GetRolesUseCase;
   storeUserUseCase: StoreUserUseCase;

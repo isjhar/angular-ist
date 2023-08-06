@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
   UrlTree,
@@ -18,7 +17,7 @@ import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository.modu
 @Injectable({
   providedIn: 'root',
 })
-export class LoginGuard implements CanActivate {
+export class LoginGuard {
   isLoggedInUseCase: IsLoggedInUseCase;
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)

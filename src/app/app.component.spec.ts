@@ -16,9 +16,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'smirs-web'`, () => {
+  it(`should have as title 'template-web'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('smirs-web');
+    expect(app.title).toEqual('template-web');
   });
 });

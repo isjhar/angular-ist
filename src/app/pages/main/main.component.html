@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="100%">
-    <div class="flex-item">
-      <div fxLayout="row" fxLayoutAlign="space-start center">
+  <div class="navbar">
+    <div>
+      <div class="navbar-title">
         <button
           type="button"
           aria-label="Toggle sidenav"
@@ -10,10 +10,10 @@
         >
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <label>smirs-web</label>
+        <div>template-web</div>
       </div>
     </div>
-    <div *ngIf="loggedUser" class="flex-item">
+    <div *ngIf="loggedUser">
       <button mat-button color="secondary">
         <mat-icon>account_circle</mat-icon> {{ loggedUser.name }}
       </button>
@@ -60,29 +60,17 @@
           </a>
 
           <a *ngIf="menu.childs" mat-list-item (click)="toggleMenu(menu.name)">
-            <div
-              fxLayout="row"
-              style="width: 100%"
-              fxLayoutAlign="space-between center"
-            >
-              <div class="flex-item">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                  <mat-icon mat-list-icon class="icon">{{
-                    menu.icon
-                  }}</mat-icon>
-                  {{ menu.name }}
-                </div>
+            <div class="expanded-menu-item">
+              <div class="menu-title">
+                <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
+                {{ menu.name }}
               </div>
-              <div class="flex-item">
-                <mat-icon
-                  mat-list-icon
-                  [@openCloseIcon]="
-                    expandedMenu == menu.name ? 'open' : 'closed'
-                  "
-                >
-                  arrow_right
-                </mat-icon>
-              </div>
+              <mat-icon
+                mat-list-icon
+                [@openCloseIcon]="expandedMenu == menu.name ? 'open' : 'closed'"
+              >
+                arrow_right
+              </mat-icon>
             </div>
           </a>
           <ng-container>

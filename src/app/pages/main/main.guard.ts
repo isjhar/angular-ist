@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
   UrlTree,
@@ -9,17 +8,13 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
-import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { IsUrlAccessibleUseCase } from 'src/app/domain/use-cases/is-url-accessible-use-case';
-import {
-  BREADCRUMB_REPOSITORY,
-  MENU_REPOSITORY,
-} from 'src/app/app-local-repository.module';
+import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository.module';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MainGuard implements CanActivate {
+export class MainGuard {
   isUrlAccessibleUseCase: IsUrlAccessibleUseCase;
   constructor(
     @Inject(BREADCRUMB_REPOSITORY) menuRepository: BreadcrumbRepository,
