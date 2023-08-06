@@ -69,8 +69,8 @@
           formControlName="roles"
         >
           <mat-chip-row
-            *ngFor="let role of selectedRoles"
-            [value]="role.id"
+            *ngFor="let role of roles.value"
+            [value]="role"
             (removed)="removeRole(role)"
           >
             {{ role.name }}

@@ -48,7 +48,6 @@ export class AddDialogComponent implements OnInit {
 
   roleControl = new FormControl('');
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  selectedRoles: Role[] = [];
 
   formGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -66,7 +65,7 @@ export class AddDialogComponent implements OnInit {
         };
       },
     ]),
-    roles: new FormControl<number[] | null>(null, [Validators.required]),
+    roles: new FormControl<Role[]>([], [Validators.required]),
   });
 
   get name() {
@@ -86,7 +85,7 @@ export class AddDialogComponent implements OnInit {
   }
 
   get roles() {
-    return this.formGroup.get('roles') as FormControl<number[] | null>;
+    return this.formGroup.get('roles') as FormControl<Role[]>;
   }
   getRolesUseCase: GetRolesUseCase;
   storeUserUseCase: StoreUserUseCase;
@@ -120,12 +119,13 @@ export class AddDialogComponent implements OnInit {
 
   onSubmitted(): void {
     this.isLoading = true;
+    let roles = this.roles.value;
     this.storeUserUseCase
       .execute({
         email: this.email.value,
         name: this.name.value,
         password: this.password.value,
-        roles: this.roles.value ?? [],
+        roles: roles.map((x) => x.id),
       })
       .subscribe(
         (response) => {
@@ -141,12 +141,10 @@ export class AddDialogComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     let roles = this.roles.value;
-    if (roles?.filter((x) => x == event.option.value.id).length == 0) {
-      roles?.push(event.option.value.od);
-      this.selectedRoles.push(event.option.value);
+    if (roles?.filter((x) => x.id == event.option.value.id).length == 0) {
+      roles?.push(event.option.value);
+      this.roles.setValue([...roles]);
     }
-    this.roles.setValue(roles ? [...roles] : null);
-    this.selectedRoles = [...this.selectedRoles];
     this.roleInput.nativeElement.value = '';
     this.roleControl.setValue(null);
   }
@@ -156,7 +154,6 @@ export class AddDialogComponent implements OnInit {
     let index = roles?.findIndex((x) => x == role.id);
     if (index == undefined) return;
     roles?.splice(index, 1);
-    this.selectedRoles.splice(index, 1);
     this.roles.setValue(roles);
   }
 
