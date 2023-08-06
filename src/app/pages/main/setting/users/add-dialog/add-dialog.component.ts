@@ -1,11 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import {
   ROLE_REPOSITORY,
   USER_REPOSITORY,
@@ -14,6 +20,18 @@ import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { GetRolesUseCase } from 'src/app/domain/use-cases/get-roles-use-case';
 import { StoreUserUseCase } from 'src/app/domain/use-cases/store-user-use-case';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  Observable,
+  concatMap,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  startWith,
+} from 'rxjs';
+import { Role } from 'src/app/domain/entities/role';
 
 @Component({
   selector: 'app-add-dialog',
@@ -21,10 +39,16 @@ import { StoreUserUseCase } from 'src/app/domain/use-cases/store-user-use-case';
   styleUrls: ['./add-dialog.component.scss'],
 })
 export class AddDialogComponent implements OnInit {
+  @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
+
   currentPassword: string = '';
-  roleOptions: any[] = [];
+  roleOptions: Observable<Role[]>;
   isLoading: boolean = false;
   error: string = '';
+
+  roleControl = new FormControl('');
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  selectedRoles: Role[] = [];
 
   formGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -42,7 +66,7 @@ export class AddDialogComponent implements OnInit {
         };
       },
     ]),
-    roles: new FormControl([]),
+    roles: new FormControl<number[] | null>(null, [Validators.required]),
   });
 
   get name() {
@@ -62,7 +86,7 @@ export class AddDialogComponent implements OnInit {
   }
 
   get roles() {
-    return this.formGroup.get('roles') as FormControl;
+    return this.formGroup.get('roles') as FormControl<number[] | null>;
   }
   getRolesUseCase: GetRolesUseCase;
   storeUserUseCase: StoreUserUseCase;
@@ -73,24 +97,35 @@ export class AddDialogComponent implements OnInit {
   ) {
     this.getRolesUseCase = new GetRolesUseCase(roleRepository);
     this.storeUserUseCase = new StoreUserUseCase(userRepository);
+
+    this.roleOptions = this.roleControl.valueChanges.pipe(
+      startWith(''),
+      concatMap((value: any) => {
+        return this.getRolesUseCase.execute({
+          search: typeof value === 'object' ? value?.name ?? '' : value,
+          limit: 5,
+        });
+      }),
+      map((response) => {
+        return response.pagination.data;
+      })
+    );
   }
 
   ngOnInit(): void {
     this.password.valueChanges.subscribe((value) => {
       this.currentPassword = value;
     });
-    this.getRoles();
   }
 
   onSubmitted(): void {
     this.isLoading = true;
-    let roles = this.roles.value as any[];
     this.storeUserUseCase
       .execute({
         email: this.email.value,
         name: this.name.value,
         password: this.password.value,
-        roles: roles.map((x) => x.id),
+        roles: this.roles.value ?? [],
       })
       .subscribe(
         (response) => {
@@ -104,16 +139,28 @@ export class AddDialogComponent implements OnInit {
       );
   }
 
+  selected(event: MatAutocompleteSelectedEvent): void {
+    let roles = this.roles.value;
+    if (roles?.filter((x) => x == event.option.value.id).length == 0) {
+      roles?.push(event.option.value.od);
+      this.selectedRoles.push(event.option.value);
+    }
+    this.roles.setValue(roles ? [...roles] : null);
+    this.selectedRoles = [...this.selectedRoles];
+    this.roleInput.nativeElement.value = '';
+    this.roleControl.setValue(null);
+  }
+
   removeRole(role: any): void {
-    const roles = this.roles.value as any[];
-    let index = roles.findIndex((x) => x.id == role.id);
-    roles.splice(index, 1);
+    const roles = this.roles.value;
+    let index = roles?.findIndex((x) => x == role.id);
+    if (index == undefined) return;
+    roles?.splice(index, 1);
+    this.selectedRoles.splice(index, 1);
     this.roles.setValue(roles);
   }
 
-  getRoles(): void {
-    this.getRolesUseCase.execute({}).subscribe((response) => {
-      this.roleOptions = response.pagination.data;
-    });
+  displayFn(role?: Role): string {
+    return role && role.name ? role.name : '';
   }
 }

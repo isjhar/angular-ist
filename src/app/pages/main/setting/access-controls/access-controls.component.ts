@@ -5,8 +5,8 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository.module';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { AccessControlRepository } from 'src/app/domain/repositories/access-control-repository';

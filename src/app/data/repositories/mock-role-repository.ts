@@ -34,7 +34,9 @@ export class MockRoleRepository implements RoleRepository {
     let page = params.page ? params.page : 0;
 
     if (search != undefined) {
-      roles = roles.filter((element) => element.name.includes(search!));
+      roles = roles.filter((element) =>
+        element.name.toLowerCase().includes(search?.toLowerCase() ?? '')
+      );
     }
     let paginatedRoles = roles.splice((page - 1) * limit, limit);
     return of({ total: roles.length, data: paginatedRoles });
