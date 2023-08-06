@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+} from '@angular/material/legacy-dialog';
 import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository.module';
 import { AccessControlRepository } from 'src/app/domain/repositories/access-control-repository';
 import { StoreAccessControlUseCase } from 'src/app/domain/use-cases/store-access-control-use-case';
@@ -20,15 +23,14 @@ export class AddDialogComponent implements OnInit {
   error: string = '';
 
   formGroup = new UntypedFormGroup({
-    name: new UntypedFormControl('', Validators.required),
-    description: new UntypedFormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
   });
   get name() {
-    return this.formGroup.get('name') as UntypedFormControl;
+    return this.formGroup.get('name') as FormControl;
   }
-
   get description() {
-    return this.formGroup.get('description') as UntypedFormControl;
+    return this.formGroup.get('description') as FormControl;
   }
   storeAccessControlUseCase: StoreAccessControlUseCase;
 

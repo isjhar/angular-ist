@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  UntypedFormGroup,
+  FormGroup,
   FormGroupDirective,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -11,7 +11,7 @@ describe('FormErrorRequiredComponent', () => {
   let component: FormErrorRequiredComponent;
   let fixture: ComponentFixture<FormErrorRequiredComponent>;
   let formGroupDirectiveStub: Partial<FormGroupDirective> = {
-    form: new UntypedFormGroup({}),
+    form: new FormGroup({}),
   };
 
   beforeEach(async () => {

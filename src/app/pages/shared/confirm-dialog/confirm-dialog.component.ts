@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { FormGroup } from '@angular/forms';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+} from '@angular/material/legacy-dialog';
 import { Observable } from 'rxjs';
 
 export interface ConfirmDialogData {
@@ -16,7 +19,7 @@ export interface ConfirmDialogData {
 export class ConfirmDialogComponent implements OnInit {
   isLoading: boolean = false;
   error: string = '';
-  formGroup = new UntypedFormGroup({});
+  formGroup = new FormGroup({});
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,

@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
@@ -14,14 +14,14 @@ import {
 })
 export class SearchFieldComponent implements OnInit, OnDestroy {
   @Input() placeholder = '';
-  formGroup = new UntypedFormGroup({
-    search: new UntypedFormControl(''),
+  formGroup = new FormGroup({
+    search: new FormControl(''),
   });
 
   searchValueChangesSubscription!: Subscription;
 
   get search() {
-    return this.formGroup.get('search') as UntypedFormControl;
+    return this.formGroup.get('search') as FormControl;
   }
 
   constructor(
