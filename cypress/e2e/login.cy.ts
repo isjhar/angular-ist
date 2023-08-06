@@ -15,6 +15,8 @@ describe('Auth', () => {
   });
 
   it('Logout', () => {
+    cy.login('sysadmin@gmail.com', '1234').visit('/');
+
     cy.get('[data-test="btn-profile"]').click();
     cy.get('[data-test="btn-logout"').should('exist');
     cy.get('[data-test="btn-logout"').click();
