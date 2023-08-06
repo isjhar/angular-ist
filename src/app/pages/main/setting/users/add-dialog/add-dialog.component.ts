@@ -141,8 +141,8 @@ export class AddDialogComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     let roles = this.roles.value;
-    if (roles?.filter((x) => x.id == event.option.value.id).length == 0) {
-      roles?.push(event.option.value);
+    if (roles.filter((x) => x.id == event.option.value.id).length == 0) {
+      roles.push(event.option.value);
       this.roles.setValue([...roles]);
     }
     this.roleInput.nativeElement.value = '';
@@ -150,10 +150,10 @@ export class AddDialogComponent implements OnInit {
   }
 
   removeRole(role: any): void {
-    const roles = this.roles.value;
-    let index = roles?.findIndex((x) => x == role.id);
+    let roles = this.roles.value;
+    let index = roles?.findIndex((x) => x.id == role.id);
     if (index == undefined) return;
-    roles?.splice(index, 1);
+    roles.splice(index, 1);
     this.roles.setValue(roles);
   }
 
