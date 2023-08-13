@@ -6,12 +6,15 @@
   style="height: 36px"
   [ngStyle]="{ width: width }"
 >
-  <ng-container *ngIf="!isLoading">
+  <div class="row main-axis-center cross-axis-center" style="gap: 10px">
+    <ng-container *ngIf="isLoading">
+      <mat-spinner
+        *ngIf="isLoading"
+        [diameter]="14"
+        style="margin: 0 auto"
+      ></mat-spinner>
+    </ng-container>
+
     <ng-content></ng-content>
-  </ng-container>
-  <mat-spinner
-    *ngIf="isLoading"
-    [diameter]="14"
-    style="margin: 0 auto"
-  ></mat-spinner>
+  </div>
 </button>
