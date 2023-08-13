@@ -6,9 +6,11 @@ import { MockUserRepository } from './data/repositories/mock-user-repository';
 import {
   ACCESS_CONTROL_REPOSITORY,
   AUTH_REPOSITORY,
+  JOB_REPOSITORY,
   ROLE_REPOSITORY,
   USER_REPOSITORY,
 } from './app-token-repository.module';
+import { ApiJobRepository } from './data/repositories/api-job-repository';
 
 @NgModule({
   providers: [
@@ -24,6 +26,10 @@ import {
     {
       provide: ACCESS_CONTROL_REPOSITORY,
       useClass: MockAccessControlRepository,
+    },
+    {
+      provide: JOB_REPOSITORY,
+      useClass: ApiJobRepository,
     },
   ],
 })
