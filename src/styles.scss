@@ -109,9 +109,17 @@ body { margin: 0; font-family: $my-font-family }
   flex: 0 0 100%;
 }
 
+.dashboard .group .chart {
+  flex: 0 0 100%;
+}
+
 @media (min-width: 959.98px) {
 
   .dashboard .group .item {
+    flex: 0 0 calc(50% - 10px);
+  }
+
+  .dashboard .group .chart {
     flex: 0 0 calc(50% - 10px);
   }
 }
