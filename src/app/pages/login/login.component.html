@@ -1,5 +1,9 @@
 <div class="app-login">
-  <form [formGroup]="loginForm" (ngSubmit)="onLoginformSubmitted()">
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="onLoginformSubmitted()"
+    style="padding: 20px"
+  >
     <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
