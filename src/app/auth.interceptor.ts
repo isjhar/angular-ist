@@ -52,11 +52,8 @@ export class AuthInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('');
         return EMPTY;
       }
-
-      // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
-      return this.throwMessageError(err);
     }
-    return this.throwMessageError(err);
+    return throwError(() => err);
   }
 
   throwMessageError(err: HttpErrorResponse): Observable<never> {
