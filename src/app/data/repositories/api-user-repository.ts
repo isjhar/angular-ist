@@ -35,7 +35,7 @@ export class ApiUserRepository implements UserRepository {
   }
   store(params: StoreUserRequestParams): Observable<User> {
     return this.http
-      .post<ApiResponse<User>>('/api/users/', params)
+      .post<ApiResponse<User>>('/api/users', params)
       .pipe(
         map<ApiResponse<UserData>, User>((response) =>
           mapUserData(response.data)
