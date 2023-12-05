@@ -36,6 +36,7 @@
             'center-cell':
               column.cellTemplate ||
               column.cellTemplateByType == 'date' ||
+              column.cellTemplateByType == 'dateTime' ||
               column.cellTemplateByType == 'category' ||
               column.cellTemplateByType == 'number' ||
               column.cellTemplateByType == 'currency'
@@ -66,7 +67,17 @@
           *ngIf="!column.cellTemplate && column.cellTemplateByType == 'date'"
           class="date-cell"
         >
-          {{ element[column.prop] | date: "M/d/yyyy" }}
+          {{ element[column.prop] | date : "M/d/yyyy" }}
+        </td>
+
+        <td
+          mat-cell
+          *ngIf="
+            !column.cellTemplate && column.cellTemplateByType == 'dateTime'
+          "
+          class="date-cell"
+        >
+          {{ element[column.prop] | date : "M/d/yyyy HH:mm:ss" }}
         </td>
 
         <td
