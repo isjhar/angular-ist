@@ -60,7 +60,7 @@ import {
 })
 export class MainComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
+    .observe([Breakpoints.XSmall, Breakpoints.Small])
     .pipe(
       map((result) => result.matches),
       shareReplay()
