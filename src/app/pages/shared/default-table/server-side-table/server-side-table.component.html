@@ -1,18 +1,24 @@
 <app-search-field
   *ngIf="searchable"
-  [placeholder]="searchPlaceholder"
-></app-search-field>
+  [placeholder]="searchPlaceholder"></app-search-field>
 <app-default-table
   [ngStyle]="{ display: isLoaded ? 'block' : 'none' }"
   [dataSource]="dataSource"
   [length]="length"
   [columns]="columns"
   (page)="onPageChanged($event)"
-  (sortChange)="onSortChanged($event)"
->
+  (sortChange)="onSortChanged($event)">
+  <ng-container *ngIf="mobileItemView">
+    <ng-template appDefaultTableMobileItemView let-data let-i="index">
+      <ng-container
+        *ngTemplateOutlet="
+          mobileItemView.templateRef;
+          context: { $implicit: data, index: i }
+        "></ng-container>
+    </ng-template>
+  </ng-container>
 </app-default-table>
 
 <app-skeleton
   height="160px"
-  [ngStyle]="{ display: isLoaded ? 'none' : 'block' }"
-></app-skeleton>
+  [ngStyle]="{ display: isLoaded ? 'none' : 'block' }"></app-skeleton>

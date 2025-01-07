@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   Inject,
   InjectionToken,
   Input,
@@ -21,6 +22,7 @@ import {
   ServerSideTableService,
   TABLE_SERVICE,
 } from './server-side-table.service';
+import { DefaultTableMobileItemViewDirective } from '../default-table-mobile-item-view.directive';
 
 @Component({
   selector: 'app-server-side-table',
@@ -43,6 +45,9 @@ export class ServerSideTableComponent
 
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
+
+  @ContentChild(DefaultTableMobileItemViewDirective)
+  mobileItemView?: DefaultTableMobileItemViewDirective;
 
   columnsChangeSubscription!: Subscription;
   searchChangeSubscription!: Subscription;

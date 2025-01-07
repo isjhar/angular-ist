@@ -13,14 +13,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { TextModule } from '../text/text.module';
 import { SkeletonModule } from '../skeleton/skeleton.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DefaultTableMobileItemViewDirective } from './default-table-mobile-item-view.directive';
 
 @NgModule({
   declarations: [
     DefaultTableComponent,
     ServerSideTableComponent,
     SearchFieldComponent,
+    DefaultTableMobileItemViewDirective,
   ],
-  exports: [DefaultTableComponent, ServerSideTableComponent],
+  exports: [
+    DefaultTableComponent,
+    ServerSideTableComponent,
+    DefaultTableMobileItemViewDirective,
+  ],
   imports: [
     CommonModule,
     MatTableModule,
