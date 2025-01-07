@@ -8,29 +8,24 @@ import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-rep
 import { GetBreadcrumbsUseCase } from 'src/app/domain/use-cases/get-breadcrumbs-use-case';
 import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository.module';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss'],
 })
-export class BreadcrumbComponent implements OnInit {
+export class BreadcrumbComponent extends BaseComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
   paths: string[] = [];
   getMenusUseCase: GetMenusUseCase;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
   constructor(
     @Inject(BREADCRUMB_REPOSITORY)
     breadCrumbRepository: BreadcrumbRepository,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver
+    private router: Router
   ) {
+    super();
     this.getMenusUseCase = new GetBreadcrumbsUseCase(breadCrumbRepository);
     this.router.events.subscribe((value) => {
       if (value instanceof NavigationEnd) {
