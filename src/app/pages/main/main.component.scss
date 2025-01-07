@@ -1,61 +1,76 @@
-.sidenav-container {
-  height: calc(100% - 64px);
+app-main {
+  .sidenav-container {
+    height: calc(100% - 64px);
+
+    .mdc-list {
+      padding: 0;
+    }
+
+    .mdc-list-item.mdc-list-item--with-one-line {
+      height: 36px;
+    }
+  }
+  
+  .sidenav {
+    width: 250px;
+  }
+  
+  .sidenav .mat-toolbar {
+    background: inherit;
+  }
+  
+  .mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .sidenav .icon {
+    margin-right: 18px
+  }
+  
+  .sidenav .child-label {
+    margin-left: 34px
+  }
+  
+  
+  .mat-list-base {
+    padding-top: 0px;
+  }
+  
+  .navbar  {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+  }
+  
+  .navbar-title  {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .expanded-menu-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+  }
+  
+  .menu-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    .mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+  }  
 }
-
-.sidenav {
-  width: 250px;
-}
-
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.sidenav .icon {
-  margin-right: 18px
-}
-
-.sidenav .child-label {
-  margin-left: 42px
-}
-
-
-.mat-list-base {
-  padding-top: 0px;
-}
-
-.navbar  {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: center;
-}
-
-.navbar-title  {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.expanded-menu-item {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: center;
-}
-
-.menu-title{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
