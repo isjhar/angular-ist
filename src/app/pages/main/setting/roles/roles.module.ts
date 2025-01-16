@@ -14,6 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [RolesComponent, AddDialogComponent],
@@ -30,6 +31,7 @@ import { MatInputModule } from '@angular/material/input';
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
+    MatCardModule,
   ],
 })
 export class RolesModule {}

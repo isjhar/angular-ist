@@ -4,12 +4,32 @@
     mat-raised-button
     color="primary"
     (click)="onTambahClicked()"
-    i18n="add"
-  >
+    i18n="add">
     Add
   </button>
 </div>
-<app-server-side-table #table> </app-server-side-table>
+<app-server-side-table #table>
+  <ng-template appDefaultTableMobileItemView let-data>
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
+          <div style="flex: 1">
+            <div>{{ data.name }}</div>
+          </div>
+          <div class="row main-axis-end" style="width: 100px">
+            <ng-container
+              *ngTemplateOutlet="
+                actionTemplate;
+                context: {
+                  element: data
+                }
+              "></ng-container>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+</app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
   <a
@@ -17,8 +37,7 @@
     color="primary"
     aria-label="View"
     data-test="btn-detail"
-    [routerLink]="'/setting/roles/' + element.id"
-  >
+    [routerLink]="'/setting/roles/' + element.id">
     <mat-icon>visibility</mat-icon>
   </a>
 
@@ -28,8 +47,7 @@
     color="primary"
     aria-label="Delete"
     data-test="btn-delete"
-    (click)="onDeleteClicked(element)"
-  >
+    (click)="onDeleteClicked(element)">
     <mat-icon>delete</mat-icon>
   </button>
 </ng-template>

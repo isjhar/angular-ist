@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultFormModule } from 'src/app/pages/shared/default-form/default-form.module';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [AccessControlsComponent, AddDialogComponent],
@@ -27,6 +28,7 @@ import { DefaultFormModule } from 'src/app/pages/shared/default-form/default-for
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
+    MatCardModule,
   ],
 })
 export class AccessControlsModule {}
