@@ -20,9 +20,9 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     HttpClientModule,
     AppLocalRepositoryModule,
-    environment.dataSource == 'mock'
-      ? AppMockRepositoryModule
-      : AppApiRepositoryModule,
+    ...(environment.dataSource == 'mock'
+      ? [AppMockRepositoryModule]
+      : [AppApiRepositoryModule]),
   ],
   providers: [apiInterceptorProviders, authInterceptorProviders],
   bootstrap: [AppComponent],
