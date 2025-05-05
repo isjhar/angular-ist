@@ -20,22 +20,26 @@ export class ApiAuthRepository implements AuthRepository {
     let headers = new HttpHeaders({
       Accept: 'text/html',
     });
-    return this.http
-      .post('/auth/login', data, {
-        headers: headers,
-        withCredentials: true,
-        responseType: 'text',
-        observe: 'response',
-      })
-      .pipe(
-        concatMap((response) =>
-          this.http.get<ApiResponse<UserData>>('/api/user').pipe(
-            map<ApiResponse<UserData>, User>((x) => {
-              return mapUserData(x.data);
-            })
+    return this.getCsrfToken().pipe(
+      concatMap((response) =>
+        this.http
+          .post('/auth/login', data, {
+            headers: headers,
+            withCredentials: true,
+            responseType: 'text',
+            observe: 'response',
+          })
+          .pipe(
+            concatMap((response) =>
+              this.http.get<ApiResponse<UserData>>('/api/user').pipe(
+                map<ApiResponse<UserData>, User>((x) => {
+                  return mapUserData(x.data);
+                })
+              )
+            )
           )
-        )
-      );
+      )
+    );
   }
 
   logout(): Observable<any> {
