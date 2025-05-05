@@ -1,4 +1,4 @@
-# TemplateWeb
+# Information System Web Template
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.1.
 This project structure based on Clean Architecture
