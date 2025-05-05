@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   animate,
@@ -32,7 +32,7 @@ import {
     trigger('openClose', [
       transition(':enter', [
         style({ height: '0px', opacity: 0 }),
-        animate('0.1s', style({ height: '48px' })),
+        animate('0.1s', style({ height: '36px' })),
         animate('0.1s', style({ opacity: 1 })),
       ]),
       transition(':leave', [
@@ -57,10 +57,11 @@ import {
       transition('closed => open', [animate('0.2s')]),
     ]),
   ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MainComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
+    .observe([Breakpoints.XSmall, Breakpoints.Small])
     .pipe(
       map((result) => result.matches),
       shareReplay()

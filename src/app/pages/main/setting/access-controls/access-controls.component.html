@@ -1,1 +1,14 @@
-<app-server-side-table #table> </app-server-side-table>
+<app-server-side-table #table>
+  <ng-template appDefaultTableMobileItemView let-data>
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
+          <div style="flex: 1">
+            <div>{{ data.name }}</div>
+            <div>{{ data.description }}</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+</app-server-side-table>

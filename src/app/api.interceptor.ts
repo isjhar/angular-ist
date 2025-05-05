@@ -5,8 +5,9 @@ import {
   HttpEvent,
   HttpInterceptor,
   HTTP_INTERCEPTORS,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -20,7 +21,20 @@ export class ApiInterceptor implements HttpInterceptor {
     const apiReq = request.clone({
       url: `${environment.apiUrl}${request.url}`,
     });
-    return next.handle(apiReq);
+    return next
+      .handle(apiReq)
+      .pipe(catchError((x) => this.throwMessageError(x)));
+  }
+
+  throwMessageError(err: HttpErrorResponse): Observable<never> {
+    let error = err.error;
+    let message = 'internal server error';
+    if (error && typeof error === 'string') {
+      message = JSON.parse(error).message;
+    } else if (error) {
+      message = error.message;
+    }
+    return throwError(() => message);
   }
 }
 

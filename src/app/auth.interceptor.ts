@@ -52,15 +52,19 @@ export class AuthInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('');
         return EMPTY;
       }
-
-      // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
-      return throwError(
-        err.error.message ? err.error.message : 'internal server error'
-      );
     }
-    return throwError(
-      err.error.message ? err.error.message : 'internal server error'
-    );
+    return throwError(() => err);
+  }
+
+  throwMessageError(err: HttpErrorResponse): Observable<never> {
+    let error = err.error;
+    let message = 'internal server error';
+    if (error && typeof error === 'string') {
+      message = JSON.parse(error).message;
+    } else if (error) {
+      message = error.message;
+    }
+    return throwError(() => message);
   }
 }
 

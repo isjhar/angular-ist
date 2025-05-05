@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   Component,
+  ContentChild,
   EventEmitter,
   Input,
   OnInit,
@@ -11,8 +12,9 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { DefaultTableMobileItemViewDirective } from './default-table-mobile-item-view.directive';
+import { BaseComponent } from '../base.component';
 
 export interface DefaultTableColumn {
   title: string;
@@ -29,7 +31,7 @@ export interface DefaultTableColumn {
   templateUrl: './default-table.component.html',
   styleUrls: ['./default-table.component.scss'],
 })
-export class DefaultTableComponent implements OnInit {
+export class DefaultTableComponent extends BaseComponent implements OnInit {
   @Input() length: number = 0;
 
   private _columns: DefaultTableColumn[] = [];
@@ -69,6 +71,9 @@ export class DefaultTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sorter!: MatSort;
 
+  @ContentChild(DefaultTableMobileItemViewDirective)
+  mobileItemView?: DefaultTableMobileItemViewDirective;
+
   pageSizeOptions: number[] = [5, 10, 20];
   displayedColumns: string[] = [];
 
@@ -88,21 +93,21 @@ export class DefaultTableComponent implements OnInit {
     return this.sorter.direction;
   }
 
+  get isTableView(): boolean {
+    return !this.isHandset || this.mobileItemView == undefined;
+  }
+
   isHandset: boolean = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
-    this.breakpointObserver
-      .observe(Breakpoints.Handset)
-      .pipe(
-        map((result) => result.matches),
-        shareReplay()
-      )
-      .subscribe((isHandset) => {
-        this.isHandset = isHandset;
-        this.adjustDisplayedColumns();
-      });
+    this.isHandset$.subscribe((isHandset) => {
+      this.isHandset = isHandset;
+      this.adjustDisplayedColumns();
+    });
   }
 
   adjustDisplayedColumns(): void {

@@ -6,8 +6,7 @@
           type="button"
           aria-label="Toggle sidenav"
           mat-icon-button
-          (click)="sidenav.toggle()"
-        >
+          (click)="sidenav.toggle()">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
         <div>template-web</div>
@@ -15,27 +14,20 @@
     </div>
     <div *ngIf="loggedUser" class="row cross-axis-center">
       <button mat-button color="secondary">
-        <mat-icon>account_circle</mat-icon> {{ loggedUser.name }}
+        <mat-icon>account_circle</mat-icon>
+        {{ loggedUser.name }}
       </button>
 
-      <button
-        mat-icon-button
-        color="secondary"
-        [matMenuTriggerFor]="menu"
-        data-test="btn-profile"
-      >
+      <button mat-icon-button color="secondary" [matMenuTriggerFor]="menu" data-test="btn-profile">
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
-          <mat-icon>email</mat-icon> {{ loggedUser.email }}
+          <mat-icon>email</mat-icon>
+          {{ loggedUser.email }}
         </button>
         <mat-divider></mat-divider>
-        <button
-          mat-menu-item
-          (click)="onLogoutClicked()"
-          data-test="btn-logout"
-        >
+        <button mat-menu-item (click)="onLogoutClicked()" data-test="btn-logout">
           <mat-icon>logout</mat-icon>
           <ng-container i18n="logout">Logout</ng-container>
         </button>
@@ -49,14 +41,15 @@
     class="sidenav"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
-  >
+    [opened]="(isHandset$ | async) === false">
     <mat-nav-list>
       <ng-container *ngFor="let menu of menus">
         <ng-container *ngIf="menu.isShow">
           <a *ngIf="!menu.childs" mat-list-item [routerLink]="'/' + menu.url">
             <div class="menu-title">
-              <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
+              <mat-icon mat-list-icon class="icon">
+                {{ menu.icon }}
+              </mat-icon>
               {{ menu.name }}
             </div>
           </a>
@@ -64,13 +57,14 @@
           <a *ngIf="menu.childs" mat-list-item (click)="toggleMenu(menu.name)">
             <div class="expanded-menu-item">
               <div class="menu-title">
-                <mat-icon mat-list-icon class="icon">{{ menu.icon }}</mat-icon>
+                <mat-icon mat-list-icon class="icon">
+                  {{ menu.icon }}
+                </mat-icon>
                 {{ menu.name }}
               </div>
               <mat-icon
                 mat-list-icon
-                [@openCloseIcon]="expandedMenu == menu.name ? 'open' : 'closed'"
-              >
+                [@openCloseIcon]="expandedMenu == menu.name ? 'open' : 'closed'">
                 arrow_right
               </mat-icon>
             </div>
@@ -82,8 +76,7 @@
                   @openClose
                   *ngIf="expandedMenu == menu.name"
                   mat-list-item
-                  [routerLink]="'/' + menu.url + '/' + child.url"
-                >
+                  [routerLink]="'/' + menu.url + '/' + child.url">
                   <span class="child-label">
                     {{ child.name }}
                   </span>

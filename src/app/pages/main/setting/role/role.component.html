@@ -1,5 +1,26 @@
 <div class="column">
-  <app-server-side-table #table></app-server-side-table>
+  <app-server-side-table #table>
+    <ng-template appDefaultTableMobileItemView let-data>
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <div style="flex: 1">
+              <div>{{ data.name }}</div>
+            </div>
+            <div class="row main-axis-end" style="width: 50px">
+              <ng-container
+                *ngTemplateOutlet="
+                  actionTemplate;
+                  context: {
+                    element: data
+                  }
+                "></ng-container>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+  </app-server-side-table>
 </div>
 
 <ng-template #actionTemplate let-element="element">
@@ -7,6 +28,5 @@
     data-test="btn-slide"
     [checked]="element.id != undefined"
     (change)="onToggled(element)"
-    [disabled]="roleId == 1"
-  ></mat-slide-toggle>
+    [disabled]="roleId == 1"></mat-slide-toggle>
 </ng-template>

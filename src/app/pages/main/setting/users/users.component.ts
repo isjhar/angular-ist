@@ -96,7 +96,7 @@ export class UsersComponent implements OnInit {
 
   onDeleteClicked(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '30%',
+      width: '90%',
       maxWidth: 500,
       height: 'auto ',
       data: {
