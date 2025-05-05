@@ -4,16 +4,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 This project structure based on Clean Architecture
 
 ## Dependencies
-Material UI
-NGX Skeleton Loader
+- Material UI
+- NGX Skeleton Loader
 
 ## Features
-Login Page
-Dashboard Page
-Setting Page
-  - Users
-  - Access Controls
-  - Roles
+- Login Page
+- Dashboard Page
+ - Setting Page
+ - Users
+ - Access Controls
+ - Roles
 
 ## Development server
 
