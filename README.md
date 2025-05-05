@@ -3,11 +3,11 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.1.
 This project structure based on Clean Architecture
 
-# Dependencies
+## Dependencies
 Material UI
 NGX Skeleton Loader
 
-# Features
+## Features
 Login Page
 Dashboard Page
 Setting Page
