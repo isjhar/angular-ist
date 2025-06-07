@@ -1,13 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { LogoutUseCase } from './domain/use-cases/logout-use-case';
