@@ -2,20 +2,20 @@
   <h1>User</h1>
   <div class="group">
     <div class="item">
-      <mat-card
-        *ngIf="totalUser$ | async | defaultNumber as totalUser; else loading"
-      >
-        <mat-card-content>
-          <mat-card-subtitle>Total User</mat-card-subtitle>
-          <div style="font-size: 30px; margin-top: 20px">
-            {{ totalUser }}
-          </div>
-        </mat-card-content>
-      </mat-card>
+      @if (totalUser$ | async | defaultNumber; as totalUser) {
+        <mat-card
+          >
+          <mat-card-content>
+            <mat-card-subtitle>Total User</mat-card-subtitle>
+            <div style="font-size: 30px; margin-top: 20px">
+              {{ totalUser }}
+            </div>
+          </mat-card-content>
+        </mat-card>
+      } @else {
+        <app-skeleton height="92px"></app-skeleton>
+      }
     </div>
   </div>
 </div>
 
-<ng-template #loading>
-  <app-skeleton height="92px"></app-skeleton>
-</ng-template>

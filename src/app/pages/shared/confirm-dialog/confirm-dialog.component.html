@@ -2,9 +2,11 @@
   [formGroup]="formGroup"
   (ngSubmit)="onSubmitted()"
   data-test="confirm-form"
->
+  >
   <h1 mat-dialog-title>Confirmation</h1>
-  <mat-error *ngIf="error" data-test="error"> {{ error }} </mat-error>
+  @if (error) {
+    <mat-error data-test="error"> {{ error }} </mat-error>
+  }
   <div mat-dialog-content>
     <p>{{ data.message }}</p>
   </div>
@@ -14,7 +16,7 @@
       mat-button
       mat-dialog-close
       data-test="btn-no"
-    >
+      >
       Cancel
     </button>
     <app-loading-button [isLoading]="isLoading" data-test="btn-yes">

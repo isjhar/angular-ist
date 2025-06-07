@@ -24,11 +24,11 @@
                   element: data
                 }
               "></ng-container>
-          </div>
         </div>
-      </mat-card-content>
-    </mat-card>
-  </ng-template>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
 </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
@@ -41,13 +41,14 @@
     <mat-icon>visibility</mat-icon>
   </a>
 
-  <button
-    *ngIf="element.id != 1"
-    mat-icon-button
-    color="primary"
-    aria-label="Delete"
-    data-test="btn-delete"
-    (click)="onDeleteClicked(element)">
-    <mat-icon>delete</mat-icon>
-  </button>
+  @if (element.id != 1) {
+    <button
+      mat-icon-button
+      color="primary"
+      aria-label="Delete"
+      data-test="btn-delete"
+      (click)="onDeleteClicked(element)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  }
 </ng-template>

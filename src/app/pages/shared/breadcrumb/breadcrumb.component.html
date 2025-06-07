@@ -1,10 +1,9 @@
-<ng-container *ngIf="!(isHandset$ | async)">
-  <ng-container *ngFor="let breadcrumb of breadcrumbs">
-    <ng-container *ngIf="paths.length > 0 && breadcrumb.url == paths[0]">
+@if (!(isHandset$ | async)) {
+  @for (breadcrumb of breadcrumbs; track breadcrumb) {
+    @if (paths.length > 0 && breadcrumb.url == paths[0]) {
       <a class="breadcrumb" [routerLink]="'/' + breadcrumb.url">
         <span>{{ breadcrumb.name }}</span>
       </a>
-
       <ng-container
         *ngTemplateOutlet="
           recursion;
@@ -14,20 +13,20 @@
             level: 1
           }
         "
-      ></ng-container>
-    </ng-container>
-  </ng-container>
-</ng-container>
+    ></ng-container>
+  }
+}
+}
 
 <ng-template
   #recursion
   let-childs="childs"
   let-parentUrl="parentUrl"
   let-level="level"
->
-  <ng-container *ngFor="let child of childs">
-    <ng-container *ngIf="paths.length > level">
-      <ng-container *ngIf="child.url == paths[level]">
+  >
+  @for (child of childs; track child) {
+    @if (paths.length > level) {
+      @if (child.url == paths[level]) {
         <a class="breadcrumb" [routerLink]="'/' + parentUrl + '/' + child.url">
           <span>{{ child.name }}</span>
         </a>
@@ -41,19 +40,16 @@
             }
           "
         >
-        </ng-container>
       </ng-container>
-
-      <ng-container
-        *ngIf="child.url != paths[level] && child.url.includes(':')"
-      >
-        <a
-          class="breadcrumb"
-          [routerLink]="'/' + parentUrl + '/' + paths[level]"
+    }
+    @if (child.url != paths[level] && child.url.includes(':')) {
+      <a
+        class="breadcrumb"
+        [routerLink]="'/' + parentUrl + '/' + paths[level]"
         >
-          <span>{{ paths[level] }}</span>
-        </a>
-        <ng-container
+        <span>{{ paths[level] }}</span>
+      </a>
+      <ng-container
           *ngTemplateOutlet="
             recursion;
             context: {
@@ -62,9 +58,9 @@
               level: level + 1
             }
           "
-        >
-        </ng-container>
-      </ng-container>
+      >
     </ng-container>
-  </ng-container>
+  }
+}
+}
 </ng-template>

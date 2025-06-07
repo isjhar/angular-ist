@@ -1,6 +1,8 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
   <h1 mat-dialog-title i18n="user">User</h1>
-  <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
+  @if (error) {
+    <mat-error data-test="error"> {{ error }} </mat-error>
+  }
   <mat-dialog-content class="mat-typography">
     <div class="column">
       <mat-form-field appearance="fill">
@@ -11,7 +13,7 @@
           type="email"
           required
           data-test="email"
-        />
+          />
         <mat-error>
           <app-form-error-email name="email"></app-form-error-email>
         </mat-error>
@@ -35,7 +37,7 @@
           required
           data-test="password"
           autocomplete="kata sandi"
-        />
+          />
         <mat-error>
           <app-form-error-required name="password"></app-form-error-required>
         </mat-error>
@@ -50,10 +52,12 @@
           required
           data-test="confirm-password"
           autocomplete="confirm-password"
-        />
-        <mat-error *ngIf="confirmPassword.hasError('passwordMismatch')">
-          Password do not match
-        </mat-error>
+          />
+        @if (confirmPassword.hasError('passwordMismatch')) {
+          <mat-error>
+            Password do not match
+          </mat-error>
+        }
         <mat-error>
           <app-form-error-required
             name="confirmPassword"
@@ -67,17 +71,18 @@
           #chipGrid
           aria-label="Role selection"
           formControlName="roles"
-        >
-          <mat-chip-row
-            *ngFor="let role of roles.value"
-            [value]="role"
-            (removed)="removeRole(role)"
           >
-            {{ role.name }}
-            <button matChipRemove [attr.aria-label]="'remove ' + role.name">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip-row>
+          @for (role of roles.value; track role) {
+            <mat-chip-row
+              [value]="role"
+              (removed)="removeRole(role)"
+              >
+              {{ role.name }}
+              <button matChipRemove [attr.aria-label]="'remove ' + role.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
         </mat-chip-grid>
         <input
           placeholder="Role..."
@@ -86,18 +91,19 @@
           [matAutocomplete]="auto"
           [matChipInputFor]="chipGrid"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        />
+          />
         <mat-autocomplete
           #auto="matAutocomplete"
           [displayWith]="displayFn"
           (optionSelected)="selected($event)"
-        >
-          <mat-option
-            *ngFor="let roleOption of roleOptions | async"
-            [value]="roleOption"
           >
-            {{ roleOption.name }}
-          </mat-option>
+          @for (roleOption of roleOptions | async; track roleOption) {
+            <mat-option
+              [value]="roleOption"
+              >
+              {{ roleOption.name }}
+            </mat-option>
+          }
         </mat-autocomplete>
 
         <mat-error>
@@ -112,7 +118,7 @@
       mat-dialog-close
       data-test="btn-cancel-form"
       i18n="cancel"
-    >
+      >
       Cancel
     </button>
     <app-loading-button
@@ -120,7 +126,7 @@
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
       i18n="save"
-    >
+      >
       Save
     </app-loading-button>
   </mat-dialog-actions>
