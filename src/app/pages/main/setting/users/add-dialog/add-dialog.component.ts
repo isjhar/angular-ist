@@ -34,9 +34,10 @@ import {
 import { Role } from 'src/app/domain/entities/role';
 
 @Component({
-  selector: 'app-add-dialog',
-  templateUrl: './add-dialog.component.html',
-  styleUrls: ['./add-dialog.component.scss'],
+    selector: 'app-add-dialog',
+    templateUrl: './add-dialog.component.html',
+    styleUrls: ['./add-dialog.component.scss'],
+    standalone: false
 })
 export class AddDialogComponent implements OnInit {
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;

@@ -20,15 +20,16 @@ import { MainService } from '../../main.service';
 import { RoleAccessControlRow, RoleTableService } from './role-table.service';
 
 @Component({
-  selector: 'app-role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss'],
-  providers: [
-    {
-      provide: TABLE_SERVICE,
-      useClass: RoleTableService,
-    },
-  ],
+    selector: 'app-role',
+    templateUrl: './role.component.html',
+    styleUrls: ['./role.component.scss'],
+    providers: [
+        {
+            provide: TABLE_SERVICE,
+            useClass: RoleTableService,
+        },
+    ],
+    standalone: false
 })
 export class RoleComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })

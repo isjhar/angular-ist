@@ -2,7 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'defaultDateTime',
+    name: 'defaultDateTime',
+    standalone: false
 })
 export class DefaultDateTimePipe implements PipeTransform {
   datePipe = new DatePipe('en');

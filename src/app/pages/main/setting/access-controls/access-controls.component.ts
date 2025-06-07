@@ -19,10 +19,11 @@ import {
 import { AccessControlsTableService } from './access-controls-table.service';
 
 @Component({
-  selector: 'app-access-controls',
-  templateUrl: './access-controls.component.html',
-  styleUrls: ['./access-controls.component.scss'],
-  providers: [{ provide: TABLE_SERVICE, useClass: AccessControlsTableService }],
+    selector: 'app-access-controls',
+    templateUrl: './access-controls.component.html',
+    styleUrls: ['./access-controls.component.scss'],
+    providers: [{ provide: TABLE_SERVICE, useClass: AccessControlsTableService }],
+    standalone: false
 })
 export class AccessControlsComponent implements OnInit {
   @ViewChild('table', { static: true })

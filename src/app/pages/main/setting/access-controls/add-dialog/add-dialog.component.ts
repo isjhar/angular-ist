@@ -11,9 +11,10 @@ export interface AddDialogData {
 }
 
 @Component({
-  selector: 'app-add-dialog',
-  templateUrl: './add-dialog.component.html',
-  styleUrls: ['./add-dialog.component.scss'],
+    selector: 'app-add-dialog',
+    templateUrl: './add-dialog.component.html',
+    styleUrls: ['./add-dialog.component.scss'],
+    standalone: false
 })
 export class AddDialogComponent implements OnInit {
   isLoading: boolean = false;

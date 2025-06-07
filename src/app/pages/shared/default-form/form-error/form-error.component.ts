@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective } from '@angular/forms';
 
 @Component({
-  template: '',
+    template: '',
+    standalone: false
 })
 export abstract class FormErrorComponent implements OnInit {
   @Input() name: string = '';

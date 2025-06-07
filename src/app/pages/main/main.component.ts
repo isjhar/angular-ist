@@ -25,39 +25,34 @@ import {
 } from 'src/app/app-local-repository.module';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
-  animations: [
-    trigger('openClose', [
-      transition(':enter', [
-        style({ height: '0px', opacity: 0 }),
-        animate('0.1s', style({ height: '36px' })),
-        animate('0.1s', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [
-        animate('0.1s', style({ opacity: 0 })),
-        animate('0.1s', style({ height: '0px' })),
-      ]),
-    ]),
-    trigger('openCloseIcon', [
-      state(
-        'open',
-        style({
-          transform: 'rotate(90deg)',
-        })
-      ),
-      state(
-        'closed',
-        style({
-          transform: 'rotate(0deg)',
-        })
-      ),
-      transition('open => closed', [animate('0.2s')]),
-      transition('closed => open', [animate('0.2s')]),
-    ]),
-  ],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-main',
+    templateUrl: './main.component.html',
+    styleUrls: ['./main.component.scss'],
+    animations: [
+        trigger('openClose', [
+            transition(':enter', [
+                style({ height: '0px', opacity: 0 }),
+                animate('0.1s', style({ height: '36px' })),
+                animate('0.1s', style({ opacity: 1 })),
+            ]),
+            transition(':leave', [
+                animate('0.1s', style({ opacity: 0 })),
+                animate('0.1s', style({ height: '0px' })),
+            ]),
+        ]),
+        trigger('openCloseIcon', [
+            state('open', style({
+                transform: 'rotate(90deg)',
+            })),
+            state('closed', style({
+                transform: 'rotate(0deg)',
+            })),
+            transition('open => closed', [animate('0.2s')]),
+            transition('closed => open', [animate('0.2s')]),
+        ]),
+    ],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MainComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver

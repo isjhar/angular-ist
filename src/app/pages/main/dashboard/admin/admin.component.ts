@@ -9,9 +9,10 @@ import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { GetUsersUseCase } from 'src/app/domain/use-cases/get-users-use-case';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
+    selector: 'app-admin',
+    templateUrl: './admin.component.html',
+    styleUrls: ['./admin.component.scss'],
+    standalone: false
 })
 export class AdminComponent implements OnInit {
   totalUser$: Observable<number>;

@@ -11,9 +11,10 @@ import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository.module';
 import { BaseComponent } from '../base.component';
 
 @Component({
-  selector: 'app-breadcrumb',
-  templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss'],
+    selector: 'app-breadcrumb',
+    templateUrl: './breadcrumb.component.html',
+    styleUrls: ['./breadcrumb.component.scss'],
+    standalone: false
 })
 export class BreadcrumbComponent extends BaseComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];

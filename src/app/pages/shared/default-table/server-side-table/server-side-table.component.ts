@@ -25,9 +25,10 @@ import {
 import { DefaultTableMobileItemViewDirective } from '../default-table-mobile-item-view.directive';
 
 @Component({
-  selector: 'app-server-side-table',
-  templateUrl: './server-side-table.component.html',
-  styleUrls: ['./server-side-table.component.scss'],
+    selector: 'app-server-side-table',
+    templateUrl: './server-side-table.component.html',
+    styleUrls: ['./server-side-table.component.scss'],
+    standalone: false
 })
 export class ServerSideTableComponent
   implements OnInit, OnDestroy, AfterViewInit

@@ -8,9 +8,10 @@ import { LoginUseCase } from 'src/app/domain/use-cases/login-use-case';
 import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository.module';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({

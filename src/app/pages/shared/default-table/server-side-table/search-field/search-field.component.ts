@@ -8,9 +8,10 @@ import {
 } from '../server-side-table.service';
 
 @Component({
-  selector: 'app-search-field',
-  templateUrl: './search-field.component.html',
-  styleUrls: ['./search-field.component.scss'],
+    selector: 'app-search-field',
+    templateUrl: './search-field.component.html',
+    styleUrls: ['./search-field.component.scss'],
+    standalone: false
 })
 export class SearchFieldComponent implements OnInit, OnDestroy {
   @Input() placeholder = '';

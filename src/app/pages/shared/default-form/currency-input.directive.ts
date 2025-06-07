@@ -10,18 +10,19 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DefaultCurrencyPipe } from '../text/default-currency.pipe';
 
 @Directive({
-  selector: 'input[appCurrencyInput]',
-  host: {
-    '[style.text-align]': '"right"',
-  },
-  providers: [
-    // TODO: { provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: CurrencyInputDirective }, disable for upgrade
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CurrencyInputDirective),
-      multi: true,
+    selector: 'input[appCurrencyInput]',
+    host: {
+        '[style.text-align]': '"right"',
     },
-  ],
+    providers: [
+        // TODO: { provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: CurrencyInputDirective }, disable for upgrade
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CurrencyInputDirective),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class CurrencyInputDirective {
   private _value!: number | null;

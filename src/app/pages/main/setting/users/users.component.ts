@@ -21,10 +21,11 @@ import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import { UsersTableService } from './users-table.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
-  providers: [{ provide: TABLE_SERVICE, useClass: UsersTableService }],
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    providers: [{ provide: TABLE_SERVICE, useClass: UsersTableService }],
+    standalone: false
 })
 export class UsersComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })

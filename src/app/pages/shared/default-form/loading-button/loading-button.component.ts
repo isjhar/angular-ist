@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-loading-button',
-  templateUrl: './loading-button.component.html',
-  styleUrls: ['./loading-button.component.scss'],
+    selector: 'app-loading-button',
+    templateUrl: './loading-button.component.html',
+    styleUrls: ['./loading-button.component.scss'],
+    standalone: false
 })
 export class LoadingButtonComponent implements OnInit {
   @Input() disabled: boolean = false;

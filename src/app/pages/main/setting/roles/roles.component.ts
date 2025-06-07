@@ -23,10 +23,11 @@ import {
 import { RolesTableService } from './roles-table.service';
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss'],
-  providers: [{ provide: TABLE_SERVICE, useClass: RolesTableService }],
+    selector: 'app-roles',
+    templateUrl: './roles.component.html',
+    styleUrls: ['./roles.component.scss'],
+    providers: [{ provide: TABLE_SERVICE, useClass: RolesTableService }],
+    standalone: false
 })
 export class RolesComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })
