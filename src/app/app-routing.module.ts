@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: '**', redirectTo: '' },
 ];
 
+// TODO: change this to provideRouter
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
