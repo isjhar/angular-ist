@@ -70,22 +70,22 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "template-web:build:production"
+              "buildTarget": "template-web:build:production"
             },
             "development": {
-              "browserTarget": "template-web:build:development"
+              "buildTarget": "template-web:build:development"
             }
           },
           "options": {
-            "browserTarget": "template-web:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json",
+            "buildTarget": "template-web:build"
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "template-web:build"
+            "buildTarget": "template-web:build"
           }
         },
         "test": {
