@@ -1,8 +1,17 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {
+  BreakpointObserver,
+  Breakpoints,
+  LayoutModule,
+} from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterOutlet,
+  provideRouter,
+} from '@angular/router';
 import {
   animate,
   state,
@@ -23,36 +32,66 @@ import {
   AUTHENTICATED_USER_REPOSITORY,
   MENU_REPOSITORY,
 } from 'src/app/app-local-repository.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { BreadcrumbModule } from '../shared/breadcrumb/breadcrumb.module';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-main',
-    templateUrl: './main.component.html',
-    styleUrls: ['./main.component.scss'],
-    animations: [
-        trigger('openClose', [
-            transition(':enter', [
-                style({ height: '0px', opacity: 0 }),
-                animate('0.1s', style({ height: '36px' })),
-                animate('0.1s', style({ opacity: 1 })),
-            ]),
-            transition(':leave', [
-                animate('0.1s', style({ opacity: 0 })),
-                animate('0.1s', style({ height: '0px' })),
-            ]),
-        ]),
-        trigger('openCloseIcon', [
-            state('open', style({
-                transform: 'rotate(90deg)',
-            })),
-            state('closed', style({
-                transform: 'rotate(0deg)',
-            })),
-            transition('open => closed', [animate('0.2s')]),
-            transition('closed => open', [animate('0.2s')]),
-        ]),
-    ],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: 'app-main',
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    AsyncPipe,
+    MatButtonModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    BreadcrumbModule,
+  ],
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss'],
+  animations: [
+    trigger('openClose', [
+      transition(':enter', [
+        style({ height: '0px', opacity: 0 }),
+        animate('0.1s', style({ height: '36px' })),
+        animate('0.1s', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('0.1s', style({ opacity: 0 })),
+        animate('0.1s', style({ height: '0px' })),
+      ]),
+    ]),
+    trigger('openCloseIcon', [
+      state(
+        'open',
+        style({
+          transform: 'rotate(90deg)',
+        })
+      ),
+      state(
+        'closed',
+        style({
+          transform: 'rotate(0deg)',
+        })
+      ),
+      transition('open => closed', [animate('0.2s')]),
+      transition('closed => open', [animate('0.2s')]),
+    ]),
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MainComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
