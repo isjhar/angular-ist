@@ -3,6 +3,8 @@
 @use "app/pages/shared/breadcrumb/_breadcrumb.component-theme.scss" as
   breadcrumb;
 
+@use "tailwindcss";
+
 // TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
 //  The following line adds:
 //    1. Default typography styles for all components
