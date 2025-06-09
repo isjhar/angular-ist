@@ -1,24 +1,43 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { AUTH_REPOSITORY } from 'src/app/app-token-repository.module';
+import { AUTH_REPOSITORY } from 'src/app/app-token-repository';
 import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 import { LoginUseCase } from 'src/app/domain/use-cases/login-use-case';
-import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository.module';
-import { MatError, MatFormField, MatLabel, MatInput } from '@angular/material/input';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository';
+import {
+  MatError,
+  MatFormField,
+  MatLabel,
+  MatInput,
+} from '@angular/material/input';
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
+import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    imports: [ReactiveFormsModule, MatError, MatFormField, MatLabel, MatInput, LoadingButtonComponent]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    MatError,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    LoadingButtonComponent,
+    FormErrorRequiredComponent,
+  ],
 })
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
   error?: string;
   isLoading: boolean = false;
