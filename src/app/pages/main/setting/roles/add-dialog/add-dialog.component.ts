@@ -18,6 +18,7 @@ import { UpdateRoleUseCase } from 'src/app/domain/use-cases/update-role-use-case
 
 import { FormErrorRequiredComponent } from '../../../../shared/default-form/form-error/form-error-required/form-error-required.component';
 import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface AddDialogData {
   value: any;
@@ -29,9 +30,10 @@ export interface AddDialogData {
     ReactiveFormsModule,
     MatInputModule,
     MatDialogModule,
+    MatButtonModule,
     FormErrorRequiredComponent,
-    LoadingButtonComponent
-],
+    LoadingButtonComponent,
+  ],
   templateUrl: './add-dialog.component.html',
   styleUrls: ['./add-dialog.component.scss'],
   standalone: true,

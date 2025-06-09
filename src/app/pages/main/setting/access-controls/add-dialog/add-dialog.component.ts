@@ -6,6 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -31,6 +32,7 @@ export interface AddDialogData {
     MatInputModule,
     FormsModule,
     MatDialogModule,
+    MatButtonModule,
     FormErrorRequiredComponent,
     LoadingButtonComponent,
   ],

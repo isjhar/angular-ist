@@ -44,6 +44,7 @@ import { AsyncPipe } from '@angular/common';
 import { FormErrorRequiredComponent } from '../../../../shared/default-form/form-error/form-error-required/form-error-required.component';
 import { FormErrorEmailComponent } from '../../../../shared/default-form/form-error/form-error-email/form-error-email.component';
 import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-add-dialog',
@@ -53,13 +54,14 @@ import { LoadingButtonComponent } from '../../../../shared/default-form/loading-
     MatChipsModule,
     MatIconModule,
     MatAutocompleteModule,
+    MatButtonModule,
     FormErrorRequiredComponent,
     FormErrorEmailComponent,
     LoadingButtonComponent,
     ReactiveFormsModule,
     AsyncPipe,
-    FormsModule
-],
+    FormsModule,
+  ],
   templateUrl: './add-dialog.component.html',
   styleUrls: ['./add-dialog.component.scss'],
   standalone: true,
