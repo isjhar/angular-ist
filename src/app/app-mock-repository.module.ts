@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { MockAccessControlRepository } from './data/repositories/mock-access-control.repository';
 import { MockAuthRepository } from './data/repositories/mock-auth-repository';
 import { MockRoleRepository } from './data/repositories/mock-role-repository';
@@ -12,25 +12,22 @@ import {
 } from './app-token-repository.module';
 import { ApiJobRepository } from './data/repositories/api-job-repository';
 
-@NgModule({
-  providers: [
-    { provide: AUTH_REPOSITORY, useClass: MockAuthRepository },
-    {
-      provide: USER_REPOSITORY,
-      useClass: MockUserRepository,
-    },
-    {
-      provide: ROLE_REPOSITORY,
-      useClass: MockRoleRepository,
-    },
-    {
-      provide: ACCESS_CONTROL_REPOSITORY,
-      useClass: MockAccessControlRepository,
-    },
-    {
-      provide: JOB_REPOSITORY,
-      useClass: ApiJobRepository,
-    },
-  ],
-})
-export class AppMockRepositoryModule {}
+export const appMockRepositoryProviders: Provider = [
+  { provide: AUTH_REPOSITORY, useClass: MockAuthRepository },
+  {
+    provide: USER_REPOSITORY,
+    useClass: MockUserRepository,
+  },
+  {
+    provide: ROLE_REPOSITORY,
+    useClass: MockRoleRepository,
+  },
+  {
+    provide: ACCESS_CONTROL_REPOSITORY,
+    useClass: MockAccessControlRepository,
+  },
+  {
+    provide: JOB_REPOSITORY,
+    useClass: ApiJobRepository,
+  },
+];

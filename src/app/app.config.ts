@@ -11,14 +11,21 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { appLocalRepositoryProviders } from './app-local-repository.module';
+import { environment } from 'src/environments/environment';
+import { appMockRepositoryProviders } from './app-mock-repository.module';
+import { appApiRepositoryProviders } from './app-api-repository.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
+    provideHttpClient(withInterceptorsFromDi()),
+    appLocalRepositoryProviders,
+    environment.dataSource == 'mock'
+      ? appMockRepositoryProviders
+      : appApiRepositoryProviders,
     authInterceptorProviders,
     apiInterceptorProviders,
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
   ],
 };
