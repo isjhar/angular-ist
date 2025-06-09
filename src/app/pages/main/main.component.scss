@@ -68,4 +68,28 @@ app-main {
       height: 16px;
     }
   }
+
+  .arrow-icon {
+    transform: rotate(0deg);
+    transition: all 0.2s;
+
+    &.open {
+      transform: rotate(90deg);
+      transition: all 0.2s;
+    }
+  }
+
+  mat-nav-list.sub-menu {
+    a[mat-list-item] {
+      opacity: 0;
+      height: 0;
+      transition: all 0.1s;
+
+      &.open {
+        opacity: 1;
+        height: 48px;
+        transition: all 0.1s;
+      }
+    }
+  }
 }

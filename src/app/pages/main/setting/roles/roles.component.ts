@@ -5,7 +5,11 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
@@ -22,12 +26,41 @@ import {
 } from './add-dialog/add-dialog.component';
 import { RolesTableService } from './roles-table.service';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { NgTemplateOutlet } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
+import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
+
 @Component({
-    selector: 'app-roles',
-    templateUrl: './roles.component.html',
-    styleUrls: ['./roles.component.scss'],
-    providers: [{ provide: TABLE_SERVICE, useClass: RolesTableService }],
-    standalone: false
+  selector: 'app-roles',
+  imports: [
+    ServerSideTableComponent_1,
+    DefaultTableMobileItemViewDirective,
+    MatIconModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatInputModule,
+    MatCardModule,
+    NgTemplateOutlet,
+    RouterLink,
+  ],
+  templateUrl: './roles.component.html',
+  styleUrls: ['./roles.component.scss'],
+  providers: [{ provide: TABLE_SERVICE, useClass: RolesTableService }],
+  standalone: true,
 })
 export class RolesComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })

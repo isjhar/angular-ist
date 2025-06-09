@@ -40,8 +40,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { BreadcrumbModule } from '../shared/breadcrumb/breadcrumb.module';
-import { AsyncPipe } from '@angular/common';
+
+import { AsyncPipe, NgClass } from '@angular/common';
+import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-main',
@@ -58,48 +59,16 @@ import { AsyncPipe } from '@angular/common';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    BreadcrumbModule,
+    BreadcrumbComponent,
+    NgClass,
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  animations: [
-    trigger('openClose', [
-      transition(':enter', [
-        style({ height: '0px', opacity: 0 }),
-        animate('0.1s', style({ height: '36px' })),
-        animate('0.1s', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [
-        animate('0.1s', style({ opacity: 0 })),
-        animate('0.1s', style({ height: '0px' })),
-      ]),
-    ]),
-    trigger('openCloseIcon', [
-      state(
-        'open',
-        style({
-          transform: 'rotate(90deg)',
-        })
-      ),
-      state(
-        'closed',
-        style({
-          transform: 'rotate(0deg)',
-        })
-      ),
-      transition('open => closed', [animate('0.2s')]),
-      transition('closed => open', [animate('0.2s')]),
-    ]),
-  ],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class MainComponent implements OnInit {
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe([Breakpoints.XSmall, Breakpoints.Small])
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
+  isHandset$: Observable<boolean>;
 
   getLoggedUserUseCase: GetAuthenticatedUserUseCase;
   getMenusUseCase: GetMenusUseCase;
@@ -123,6 +92,13 @@ export class MainComponent implements OnInit {
       authRepository
     );
     this.getMenusUseCase = new GetMenusUseCase(menuRepository);
+
+    this.isHandset$ = this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
+      .pipe(
+        map((result) => result.matches),
+        shareReplay()
+      );
   }
 
   ngOnInit(): void {

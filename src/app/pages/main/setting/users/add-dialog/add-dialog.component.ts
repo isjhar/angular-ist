@@ -9,9 +9,11 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {
   ROLE_REPOSITORY,
   USER_REPOSITORY,
@@ -21,8 +23,11 @@ import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { GetRolesUseCase } from 'src/app/domain/use-cases/get-roles-use-case';
 import { StoreUserUseCase } from 'src/app/domain/use-cases/store-user-use-case';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import {
   Observable,
   concatMap,
@@ -32,12 +37,32 @@ import {
   startWith,
 } from 'rxjs';
 import { Role } from 'src/app/domain/entities/role';
+import { MatInputModule } from '@angular/material/input';
+
+import { MatIconModule } from '@angular/material/icon';
+import { AsyncPipe } from '@angular/common';
+import { FormErrorRequiredComponent } from '../../../../shared/default-form/form-error/form-error-required/form-error-required.component';
+import { FormErrorEmailComponent } from '../../../../shared/default-form/form-error/form-error-email/form-error-email.component';
+import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
 
 @Component({
-    selector: 'app-add-dialog',
-    templateUrl: './add-dialog.component.html',
-    styleUrls: ['./add-dialog.component.scss'],
-    standalone: false
+  selector: 'app-add-dialog',
+  imports: [
+    MatInputModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    FormErrorRequiredComponent,
+    FormErrorEmailComponent,
+    LoadingButtonComponent,
+    ReactiveFormsModule,
+    AsyncPipe,
+    FormsModule
+],
+  templateUrl: './add-dialog.component.html',
+  styleUrls: ['./add-dialog.component.scss'],
+  standalone: true,
 })
 export class AddDialogComponent implements OnInit {
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;

@@ -1,10 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-    name: 'defaultNumber',
-    standalone: false
-})
+@Pipe({ name: 'defaultNumber' })
 export class DefaultNumberPipe implements PipeTransform {
   numberPipe = new DecimalPipe('en');
 

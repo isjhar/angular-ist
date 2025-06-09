@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { USER_REPOSITORY } from 'src/app/app-token-repository.module';
@@ -20,12 +20,42 @@ import {
 import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import { UsersTableService } from './users-table.service';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { NgTemplateOutlet } from '@angular/common';
+import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
+import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
+
 @Component({
-    selector: 'app-users',
-    templateUrl: './users.component.html',
-    styleUrls: ['./users.component.scss'],
-    providers: [{ provide: TABLE_SERVICE, useClass: UsersTableService }],
-    standalone: false
+  selector: 'app-users',
+  imports: [
+    ServerSideTableComponent_1,
+    DefaultTableMobileItemViewDirective,
+    MatIconModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatCardModule,
+    MatIconModule,
+    NgTemplateOutlet,
+  ],
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss'],
+  providers: [{ provide: TABLE_SERVICE, useClass: UsersTableService }],
+  standalone: true,
 })
 export class UsersComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })

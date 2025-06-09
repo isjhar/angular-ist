@@ -15,16 +15,16 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterTestingModule.withRoutes([]),
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-      ],
-      declarations: [LoginComponent],
-      providers: [{ provide: Router, useValue: routerSpy }],
-    }).compileComponents();
+        LoginComponent,
+    ],
+    providers: [{ provide: Router, useValue: routerSpy }],
+}).compileComponents();
   });
 
   beforeEach(() => {

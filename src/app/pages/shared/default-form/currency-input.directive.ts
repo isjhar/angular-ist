@@ -10,19 +10,18 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DefaultCurrencyPipe } from '../text/default-currency.pipe';
 
 @Directive({
-    selector: 'input[appCurrencyInput]',
-    host: {
-        '[style.text-align]': '"right"',
+  selector: 'input[appCurrencyInput]',
+  host: {
+    '[style.text-align]': '"right"',
+  },
+  providers: [
+    // TODO: { provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: CurrencyInputDirective }, disable for upgrade
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CurrencyInputDirective),
+      multi: true,
     },
-    providers: [
-        // TODO: { provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: CurrencyInputDirective }, disable for upgrade
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => CurrencyInputDirective),
-            multi: true,
-        },
-    ],
-    standalone: false
+  ],
 })
 export class CurrencyInputDirective {
   private _value!: number | null;
@@ -46,9 +45,10 @@ export class CurrencyInputDirective {
 
   constructor(private elementRef: ElementRef<HTMLInputElement>) {}
 
-  @HostListener('input', ['$event.target.value'])
-  onInput(value: string) {
-    let parsedValue = value.replace(/[^\d]/g, '');
+  @HostListener('input', ['$event'])
+  onInput(event?: Event) {
+    const inputElement = event?.target as HTMLInputElement;
+    let parsedValue = inputElement.value.replace(/[^\d]/g, '');
     this._value = null;
     if (parsedValue != '') {
       this._value = Number(parsedValue);

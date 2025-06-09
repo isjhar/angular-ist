@@ -8,8 +8,8 @@ describe('AccessControlsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccessControlsComponent ]
-    })
+    imports: [AccessControlsComponent]
+})
     .compileComponents();
   });
 

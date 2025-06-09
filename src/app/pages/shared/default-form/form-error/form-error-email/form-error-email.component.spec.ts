@@ -16,12 +16,11 @@ describe('FormErrorEmailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [FormErrorEmailComponent],
-      providers: [
+    imports: [ReactiveFormsModule, FormErrorEmailComponent],
+    providers: [
         { provide: FormGroupDirective, useValue: formGroupDirectiveStub },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

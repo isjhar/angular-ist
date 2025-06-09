@@ -11,9 +11,8 @@ describe('DefaultTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatTableModule, MatPaginatorModule, BrowserAnimationsModule],
-      declarations: [DefaultTableComponent],
-    }).compileComponents();
+    imports: [MatTableModule, MatPaginatorModule, BrowserAnimationsModule, DefaultTableComponent],
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -8,11 +8,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DefaultFormModule } from '../shared/default-form/default-form.module';
+
 
 @NgModule({
-  declarations: [LoginComponent],
-  imports: [
+    imports: [
     CommonModule,
     LoginRoutingModule,
     MatFormFieldModule,
@@ -20,7 +19,7 @@ import { DefaultFormModule } from '../shared/default-form/default-form.module';
     MatButtonModule,
     RouterModule,
     ReactiveFormsModule,
-    DefaultFormModule,
-  ],
+    LoginComponent,
+],
 })
 export class LoginModule {}

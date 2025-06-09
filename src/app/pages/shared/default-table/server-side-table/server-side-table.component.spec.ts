@@ -8,8 +8,8 @@ describe('ServerSideTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ServerSideTableComponent ]
-    })
+    imports: [ServerSideTableComponent]
+})
     .compileComponents();
   });
 
