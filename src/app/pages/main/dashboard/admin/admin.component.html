@@ -1,21 +1,33 @@
-<div class="dashboard">
-  <h1>User</h1>
-  <div class="group">
-    <div class="item">
+<div>
+  <h2>User</h2>
+  <div class="flex flex-col md:flex-row gap-2">
+    <div class="flex-1">
       @if (totalUser$ | async | defaultNumber; as totalUser) {
-        <mat-card
-          >
-          <mat-card-content>
-            <mat-card-subtitle>Total User</mat-card-subtitle>
-            <div style="font-size: 30px; margin-top: 20px">
-              {{ totalUser }}
-            </div>
-          </mat-card-content>
-        </mat-card>
+      <mat-card>
+        <mat-card-content>
+          <mat-card-subtitle>Total User</mat-card-subtitle>
+          <div style="font-size: 30px; margin-top: 20px">
+            {{ totalUser }}
+          </div>
+        </mat-card-content>
+      </mat-card>
       } @else {
-        <app-skeleton height="92px"></app-skeleton>
+      <app-skeleton height="92px"></app-skeleton>
+      }
+    </div>
+    <div class="flex-1">
+      @if (totalUser$ | async | defaultNumber; as totalUser) {
+      <mat-card>
+        <mat-card-content>
+          <mat-card-subtitle>New User</mat-card-subtitle>
+          <div style="font-size: 30px; margin-top: 20px">
+            {{ totalUser }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+      } @else {
+      <app-skeleton height="92px"></app-skeleton>
       }
     </div>
   </div>
 </div>
-
