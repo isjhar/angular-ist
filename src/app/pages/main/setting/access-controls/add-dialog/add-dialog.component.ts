@@ -13,7 +13,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository.module';
+import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository';
 import { AccessControlRepository } from 'src/app/domain/repositories/access-control-repository';
 import { StoreAccessControlUseCase } from 'src/app/domain/use-cases/store-access-control-use-case';
 import { FormErrorRequiredComponent } from 'src/app/pages/shared/default-form/form-error/form-error-required/form-error-required.component';

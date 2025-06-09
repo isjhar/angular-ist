@@ -9,7 +9,7 @@ import {
   JOB_REPOSITORY,
   ROLE_REPOSITORY,
   USER_REPOSITORY,
-} from './app-token-repository.module';
+} from './app-token-repository';
 import { ApiJobRepository } from './data/repositories/api-job-repository';
 
 export const appMockRepositoryProviders: Provider = [

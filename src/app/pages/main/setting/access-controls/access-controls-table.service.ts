@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository.module';
+import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository';
 import {
   ServerSideTablePagination,
   ServerSideTableService,

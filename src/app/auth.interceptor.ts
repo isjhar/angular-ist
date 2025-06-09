@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { LogoutUseCase } from './domain/use-cases/logout-use-case';
 import { AuthenticatedUserRepository } from './domain/repositories/authenticated-user-repository';
 import { AuthRepository } from './domain/repositories/auth-repository';
-import { AUTHENTICATED_USER_REPOSITORY } from './app-local-repository.module';
-import { AUTH_REPOSITORY } from './app-token-repository.module';
+import { AUTHENTICATED_USER_REPOSITORY } from './app-local-repository';
+import { AUTH_REPOSITORY } from './app-token-repository';
 import { Inject, Injectable } from '@angular/core';
 import {
   HTTP_INTERCEPTORS,

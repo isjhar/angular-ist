@@ -12,7 +12,7 @@ import {
   IsLoggedInUseCaseResponse,
   IsLoggedInUseCase,
 } from 'src/app/domain/use-cases/is-logged-in-use-case';
-import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository.module';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository';
 
 @Injectable({
   providedIn: 'root',

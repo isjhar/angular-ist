@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { DeleteRoleAccessControlUseCase } from 'src/app/domain/use-cases/delete-role-access-control-use-case';
 import { StoreRoleAccessControlUseCase } from 'src/app/domain/use-cases/store-role-access-control-use-case';
@@ -33,8 +33,8 @@ import { DefaultTableMobileItemViewDirective } from '../../../shared/default-tab
     MatCardModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    NgTemplateOutlet
-],
+    NgTemplateOutlet,
+  ],
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
   providers: [

@@ -11,7 +11,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository.module';
+import { ACCESS_CONTROL_REPOSITORY } from 'src/app/app-token-repository';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { AccessControlRepository } from 'src/app/domain/repositories/access-control-repository';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';

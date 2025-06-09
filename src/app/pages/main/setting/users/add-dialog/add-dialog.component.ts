@@ -14,10 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import {
-  ROLE_REPOSITORY,
-  USER_REPOSITORY,
-} from 'src/app/app-token-repository.module';
+import { ROLE_REPOSITORY, USER_REPOSITORY } from 'src/app/app-token-repository';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { GetRolesUseCase } from 'src/app/domain/use-cases/get-roles-use-case';

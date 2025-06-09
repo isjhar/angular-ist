@@ -11,7 +11,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { StoreRoleUseCase } from 'src/app/domain/use-cases/store-role-use-case';
 import { UpdateRoleUseCase } from 'src/app/domain/use-cases/update-role-use-case';

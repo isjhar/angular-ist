@@ -11,10 +11,10 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { appLocalRepositoryProviders } from './app-local-repository.module';
+import { appLocalRepositoryProviders } from './app-local-repository';
 import { environment } from 'src/environments/environment';
-import { appMockRepositoryProviders } from './app-mock-repository.module';
-import { appApiRepositoryProviders } from './app-api-repository.module';
+import { appMockRepositoryProviders } from './app-mock-repository';
+import { appApiRepositoryProviders } from './app-api-repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
