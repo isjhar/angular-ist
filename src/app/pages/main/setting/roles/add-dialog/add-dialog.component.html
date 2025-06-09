@@ -1,9 +1,9 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h1 mat-dialog-title i18n="role">Role</h1>
-  @if (error) {
-  <mat-error data-test="error">{{ error }}</mat-error>
-  }
+  <div mat-dialog-title i18n="role">Role</div>
   <mat-dialog-content class="mat-typography">
+    @if (error) {
+    <mat-error class="mb-4" data-test="error">{{ error }}</mat-error>
+    }
     <div class="column">
       <mat-form-field appearance="fill">
         <mat-label i18n="name">Name</mat-label>
