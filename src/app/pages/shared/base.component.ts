@@ -3,8 +3,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
 })
 export class BaseComponent implements OnInit, OnDestroy {
   protected breakpointObserver = inject(BreakpointObserver);
