@@ -1,7 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
-
+@use "./styles/_theme-colors.scss" as theme;
 @use "tailwindcss";
+
+html {
+  color-scheme: light dark;
+  @include mat.theme(
+    (
+      color: theme.$primary-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+:root {
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: var(--mat-sys-primary),
+      container-text-color: var(--mat-sys-on-primary),
+    )
+  );
+
+  @include mat.table-overrides(
+    (
+      background-color: var(--mat-sys-surface-container-low),
+    )
+  );
+
+  @include mat.paginator-overrides(
+    (
+      container-background-color: var(--mat-sys-surface-container-low),
+    )
+  );
+}
 
 html,
 body {

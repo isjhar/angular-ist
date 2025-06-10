@@ -1,10 +1,6 @@
-a {
-  text-decoration: none;
-}
-
 .breadcrumb {
-  background: var(--mat-badge-background-color);
-  color: var(--mat-badge-text-color);
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
   padding: 10px 20px 10px 20px;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 
@@ -36,5 +32,10 @@ a {
 
   &:last-child:not(:first-child) {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, calc(0% + 10px) 50%);
+  }
+
+  &:last-child {
+    background: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
   }
 }

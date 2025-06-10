@@ -1,11 +1,12 @@
 <mat-toolbar color="primary">
   <div class="navbar">
     <div>
-      <div class="navbar-title">
+      <div class="navbar-title gap-2">
         <button
+          class="toolbar-button"
           type="button"
           aria-label="Toggle sidenav"
-          mat-icon-button
+          matIconButton
           (click)="sidenav.toggle()">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
@@ -19,8 +20,8 @@
           {{ loggedUser.name }}
         </span>
         <button
-          mat-icon-button
-          color="secondary"
+          matIconButton
+          class="toolbar-button"
           [matMenuTriggerFor]="menu"
           data-test="btn-profile">
           <mat-icon>arrow_drop_down</mat-icon>
@@ -99,7 +100,7 @@
       }
     </mat-nav-list>
   </mat-sidenav>
-  <div class="p-6">
+  <div class="sidenav-content p-6">
     <app-breadcrumb></app-breadcrumb>
     <div style="margin-top: 20px">
       <router-outlet></router-outlet>

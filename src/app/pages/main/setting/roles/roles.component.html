@@ -1,8 +1,7 @@
 <div style="margin-bottom: 10px">
   <button
     data-test="btn-add-role-list"
-    mat-raised-button
-    color="primary"
+    matButton="filled"
     (click)="onTambahClicked()"
     i18n="add">
     Add
@@ -21,14 +20,14 @@
               *ngTemplateOutlet="
                 actionTemplate;
                 context: {
-                  element: data
+                  element: data,
                 }
               "></ng-container>
+          </div>
         </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</ng-template>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
 </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
@@ -43,8 +42,7 @@
 
   @if (element.id != 1) {
     <button
-      mat-icon-button
-      color="primary"
+      matIconButton
       aria-label="Delete"
       data-test="btn-delete"
       (click)="onDeleteClicked(element)">

@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 app-main {
   .sidenav-container {
     height: calc(100% - 64px);
@@ -8,6 +10,7 @@ app-main {
   }
 
   .sidenav {
+    background-color: var(--mat-sys-surface-container-high);
     width: 250px;
   }
 
@@ -91,5 +94,9 @@ app-main {
         transition: all 0.1s;
       }
     }
+  }
+
+  .toolbar-button {
+    color: var(--mat-sys-on-primary);
   }
 }
