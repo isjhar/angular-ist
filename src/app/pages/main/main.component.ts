@@ -1,24 +1,11 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  LayoutModule,
-} from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { LayoutModule } from '@angular/cdk/layout';
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import {
+  NavigationEnd,
   Router,
   RouterLink,
   RouterOutlet,
-  provideRouter,
 } from '@angular/router';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { LogoutUseCase } from 'src/app/domain/use-cases/logout-use-case';
 import { User } from 'src/app/domain/entities/user';
 import { GetAuthenticatedUserUseCase } from 'src/app/domain/use-cases/get-authenticated-user-use-case';
@@ -42,7 +29,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { AsyncPipe, NgClass } from '@angular/common';
-import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
+import { BaseComponent } from 'src/app/pages/shared/base.component';
+import { BreadcrumbComponent } from 'src/app/pages/shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-main',
@@ -67,41 +55,40 @@ import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
 })
-export class MainComponent implements OnInit {
-  isHandset$: Observable<boolean>;
-
+export class MainComponent extends BaseComponent implements OnInit {
   getLoggedUserUseCase: GetAuthenticatedUserUseCase;
   getMenusUseCase: GetMenusUseCase;
   logoutUseCase: LogoutUseCase;
   menus: Menu[] = [];
   loggedUser?: User;
+  url?: String;
 
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)
     authenticatedUserRepository: AuthenticatedUserRepository,
     @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
     @Inject(MENU_REPOSITORY) menuRepository: MenuRepository,
-    private breakpointObserver: BreakpointObserver,
-    private router: Router
+    private router: Router,
   ) {
+    super();
+
     this.getLoggedUserUseCase = new GetAuthenticatedUserUseCase(
-      authenticatedUserRepository
+      authenticatedUserRepository,
     );
     this.logoutUseCase = new LogoutUseCase(
       authenticatedUserRepository,
-      authRepository
+      authRepository,
     );
     this.getMenusUseCase = new GetMenusUseCase(menuRepository);
 
-    this.isHandset$ = this.breakpointObserver
-      .observe([Breakpoints.XSmall, Breakpoints.Small])
-      .pipe(
-        map((result) => result.matches),
-        shareReplay()
-      );
+    this.router.events.subscribe((value) => {
+      if (value instanceof NavigationEnd) {
+        this.url = this.router.url;
+      }
+    });
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.getLoggedUser();
     this.getMenus();
   }

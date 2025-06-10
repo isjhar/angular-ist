@@ -55,7 +55,12 @@
       @for (menu of menus; track menu) {
         @if (menu.isShow) {
           @if (!menu.childs) {
-            <a mat-list-item [routerLink]="'/' + menu.url">
+            <a
+              mat-list-item
+              [routerLink]="'/' + menu.url"
+              [ngClass]="{
+                selected: menu.url == url || (url == '/' && menu.url == ''),
+              }">
               <div class="menu-title">
                 <mat-icon mat-list-icon class="icon">
                   {{ menu.icon }}
@@ -86,7 +91,10 @@
             <mat-nav-list class="sub-menu">
               @for (child of menu.childs; track child) {
                 <a
-                  [ngClass]="{ open: expandedMenu == menu.name }"
+                  [ngClass]="{
+                    open: expandedMenu == menu.name,
+                    selected: '/' + menu.url + '/' + child.url == url,
+                  }"
                   mat-list-item
                   [routerLink]="'/' + menu.url + '/' + child.url">
                   <span class="child-label">
