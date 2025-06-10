@@ -4,15 +4,11 @@
   type="submit"
   [disabled]="disabled || isLoading"
   style="height: 36px"
-  [ngStyle]="{ width: width }"
-  >
+  [ngStyle]="{ width: width }">
   <div class="row main-axis-center cross-axis-center" style="gap: 10px">
     @if (isLoading) {
       @if (isLoading) {
-        <mat-spinner
-          [diameter]="14"
-          style="margin: 0 auto"
-        ></mat-spinner>
+        <mat-spinner [diameter]="14" style="margin: 0 auto"></mat-spinner>
       }
     }
 

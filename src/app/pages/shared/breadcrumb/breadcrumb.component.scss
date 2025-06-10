@@ -1,40 +1,40 @@
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .breadcrumb {
-  position: relative;
-  padding: 10px 20px 10px 25px;
+  background: var(--mat-badge-background-color);
+  color: var(--mat-badge-text-color);
+  padding: 10px 20px 10px 20px;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 
-  & span::before, & span::after {
-    content: '';
-		position: absolute;
-		height: 50%;
-		width: 100%;
-		z-index: -2;
+  &:not(:first-child) {
+    margin-left: -8px;
+    padding-left: 25px;
   }
 
-  & span::before {
-		top: 0px;
-		transform: skew(30deg);
-    left: 5px;
-	}
+  &:not(:first-child):not(:last-child) {
+    clip-path: polygon(
+      0% 0%,
+      calc(100% - 10px) 0%,
+      100% 50%,
+      calc(100% - 10px) 100%,
+      0% 100%,
+      calc(0% + 10px) 50%
+    );
+  }
 
-	& span::after {
-		bottom: 0px;
-		transform: skew(-30deg);
-    left: 5px;
-	}
+  &:first-child:not(:last-child) {
+    clip-path: polygon(
+      0% 0%,
+      calc(100% - 10px) 0%,
+      100% 50%,
+      calc(100% - 10px) 100%,
+      0% 100%
+    );
+  }
 
-  &:first-child {
-		box-sizing: content-box;
-
-    & span::before {
-      left: 5px;
-    }
-
-    & span::after {
-      left: 5px;
-    }
+  &:last-child:not(:first-child) {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, calc(0% + 10px) 50%);
   }
 }

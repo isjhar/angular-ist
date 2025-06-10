@@ -10,20 +10,18 @@
           context: {
             childs: breadcrumb.childs,
             parentUrl: '/' + breadcrumb.url,
-            level: 1
+            level: 1,
           }
-        "
-    ></ng-container>
+        "></ng-container>
+    }
   }
-}
 }
 
 <ng-template
   #recursion
   let-childs="childs"
   let-parentUrl="parentUrl"
-  let-level="level"
-  >
+  let-level="level">
   @for (child of childs; track child) {
     @if (paths.length > level) {
       @if (child.url == paths[level]) {
@@ -36,31 +34,26 @@
             context: {
               childs: child.childs,
               parentUrl: '/' + parentUrl + '/' + child.url,
-              level: level + 1
+              level: level + 1,
             }
-          "
-        >
-      </ng-container>
-    }
-    @if (child.url != paths[level] && child.url.includes(':')) {
-      <a
-        class="breadcrumb"
-        [routerLink]="'/' + parentUrl + '/' + paths[level]"
-        >
-        <span>{{ paths[level] }}</span>
-      </a>
-      <ng-container
+          "></ng-container>
+      }
+      @if (child.url != paths[level] && child.url.includes(":")) {
+        <a
+          class="breadcrumb"
+          [routerLink]="'/' + parentUrl + '/' + paths[level]">
+          <span>{{ paths[level] }}</span>
+        </a>
+        <ng-container
           *ngTemplateOutlet="
             recursion;
             context: {
               childs: child.childs,
               parentUrl: '/' + parentUrl + '/' + paths[level],
-              level: level + 1
+              level: level + 1,
             }
-          "
-      >
-    </ng-container>
+          "></ng-container>
+      }
+    }
   }
-}
-}
 </ng-template>

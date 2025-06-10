@@ -9,37 +9,37 @@
           (click)="sidenav.toggle()">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <div>template-web</div>
+        <div>Template Web</div>
       </div>
     </div>
     @if (loggedUser) {
-    <div class="row cross-axis-center" style="gap: 0.5em">
-      <mat-icon>account_circle</mat-icon>
-      <span style="font-size: 16px">
-        {{ loggedUser.name }}
-      </span>
-      <button
-        mat-icon-button
-        color="secondary"
-        [matMenuTriggerFor]="menu"
-        data-test="btn-profile">
-        <mat-icon>arrow_drop_down</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>email</mat-icon>
-          {{ loggedUser.email }}
-        </button>
-        <mat-divider></mat-divider>
+      <div class="row cross-axis-center" style="gap: 0.5em">
+        <mat-icon>account_circle</mat-icon>
+        <span style="font-size: 16px">
+          {{ loggedUser.name }}
+        </span>
         <button
-          mat-menu-item
-          (click)="onLogoutClicked()"
-          data-test="btn-logout">
-          <mat-icon>logout</mat-icon>
-          <ng-container i18n="logout">Logout</ng-container>
+          mat-icon-button
+          color="secondary"
+          [matMenuTriggerFor]="menu"
+          data-test="btn-profile">
+          <mat-icon>arrow_drop_down</mat-icon>
         </button>
-      </mat-menu>
-    </div>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>email</mat-icon>
+            {{ loggedUser.email }}
+          </button>
+          <mat-divider></mat-divider>
+          <button
+            mat-menu-item
+            (click)="onLogoutClicked()"
+            data-test="btn-logout">
+            <mat-icon>logout</mat-icon>
+            <ng-container i18n="logout">Logout</ng-container>
+          </button>
+        </mat-menu>
+      </div>
     }
   </div>
 </mat-toolbar>
@@ -51,49 +51,52 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
     <mat-nav-list>
-      @for (menu of menus; track menu) { @if (menu.isShow) { @if (!menu.childs)
-      {
-      <a mat-list-item [routerLink]="'/' + menu.url">
-        <div class="menu-title">
-          <mat-icon mat-list-icon class="icon">
-            {{ menu.icon }}
-          </mat-icon>
-          {{ menu.name }}
-        </div>
-      </a>
-      } @if (menu.childs) {
-      <a mat-list-item (click)="toggleMenu(menu.name)">
-        <div class="expanded-menu-item">
-          <div class="menu-title">
-            <mat-icon mat-list-icon class="icon">
-              {{ menu.icon }}
-            </mat-icon>
-            {{ menu.name }}
-          </div>
-          <mat-icon
-            class="arrow-icon"
-            [ngClass]="{ open: expandedMenu == menu.name }"
-            mat-list-icon>
-            arrow_right
-          </mat-icon>
-        </div>
-      </a>
-      }
-      <ng-container>
-        <mat-nav-list class="sub-menu">
-          @for (child of menu.childs; track child) {
-          <a
-            [ngClass]="{ open: expandedMenu == menu.name }"
-            mat-list-item
-            [routerLink]="'/' + menu.url + '/' + child.url">
-            <span class="child-label">
-              {{ child.name }}
-            </span>
-          </a>
+      @for (menu of menus; track menu) {
+        @if (menu.isShow) {
+          @if (!menu.childs) {
+            <a mat-list-item [routerLink]="'/' + menu.url">
+              <div class="menu-title">
+                <mat-icon mat-list-icon class="icon">
+                  {{ menu.icon }}
+                </mat-icon>
+                {{ menu.name }}
+              </div>
+            </a>
           }
-        </mat-nav-list>
-      </ng-container>
-      } }
+          @if (menu.childs) {
+            <a mat-list-item (click)="toggleMenu(menu.name)">
+              <div class="expanded-menu-item">
+                <div class="menu-title">
+                  <mat-icon mat-list-icon class="icon">
+                    {{ menu.icon }}
+                  </mat-icon>
+                  {{ menu.name }}
+                </div>
+                <mat-icon
+                  class="arrow-icon"
+                  [ngClass]="{ open: expandedMenu == menu.name }"
+                  mat-list-icon>
+                  arrow_right
+                </mat-icon>
+              </div>
+            </a>
+          }
+          <ng-container>
+            <mat-nav-list class="sub-menu">
+              @for (child of menu.childs; track child) {
+                <a
+                  [ngClass]="{ open: expandedMenu == menu.name }"
+                  mat-list-item
+                  [routerLink]="'/' + menu.url + '/' + child.url">
+                  <span class="child-label">
+                    {{ child.name }}
+                  </span>
+                </a>
+              }
+            </mat-nav-list>
+          </ng-container>
+        }
+      }
     </mat-nav-list>
   </mat-sidenav>
   <div class="p-6">
