@@ -14,5 +14,6 @@
       "editor.formatOnSave": true
     },
     "typescript.tsdk": "node_modules/typescript/lib",
-    "prettier.resolveGlobalModules": false
+    "prettier.resolveGlobalModules": false,
+    "typescript.preferences.importModuleSpecifier": "non-relative"
 }
