@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   Inject,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -27,6 +28,7 @@ import {
 } from '@angular/material/autocomplete';
 import {
   Observable,
+  Subscription,
   concatMap,
   debounceTime,
   distinctUntilChanged,
@@ -63,7 +65,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./add-dialog.component.scss'],
   standalone: true,
 })
-export class AddDialogComponent implements OnInit {
+export class AddDialogComponent implements OnInit, OnDestroy {
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
 
   currentPassword: string = '';
@@ -114,10 +116,12 @@ export class AddDialogComponent implements OnInit {
   }
   getRolesUseCase: GetRolesUseCase;
   storeUserUseCase: StoreUserUseCase;
+
+  confirmPasswordSubscription?: Subscription;
   constructor(
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
     @Inject(USER_REPOSITORY) userRepository: UserRepository,
-    private dialogRef: MatDialogRef<AddDialogComponent>
+    private dialogRef: MatDialogRef<AddDialogComponent>,
   ) {
     this.getRolesUseCase = new GetRolesUseCase(roleRepository);
     this.storeUserUseCase = new StoreUserUseCase(userRepository);
@@ -126,13 +130,13 @@ export class AddDialogComponent implements OnInit {
       startWith(''),
       concatMap((value: any) => {
         return this.getRolesUseCase.execute({
-          search: typeof value === 'object' ? value?.name ?? '' : value,
+          search: typeof value === 'object' ? (value?.name ?? '') : value,
           limit: 5,
         });
       }),
       map((response) => {
         return response.pagination.data;
-      })
+      }),
     );
   }
 
@@ -140,6 +144,16 @@ export class AddDialogComponent implements OnInit {
     this.password.valueChanges.subscribe((value) => {
       this.currentPassword = value;
     });
+
+    this.confirmPasswordSubscription = this.password.valueChanges
+      .pipe(distinctUntilChanged(), debounceTime(500))
+      .subscribe((value) => {
+        this.confirmPassword.updateValueAndValidity();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.confirmPasswordSubscription?.unsubscribe();
   }
 
   onSubmitted(): void {
@@ -160,7 +174,7 @@ export class AddDialogComponent implements OnInit {
         (response) => {
           this.isLoading = false;
           this.error = response;
-        }
+        },
       );
   }
 
