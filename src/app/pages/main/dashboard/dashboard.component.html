@@ -1,3 +1,6 @@
-@if (adminAccessControl$ | async) {
-<app-admin></app-admin>
-}
+<div class="flex flex-col gap-4">
+  <app-filter></app-filter>
+  @if (adminAccessControl$ | async) {
+    <app-admin></app-admin>
+  }
+</div>

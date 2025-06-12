@@ -12,12 +12,14 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideRepositories } from './app-repository';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withInterceptorsFromDi()),
     provideRepositories(),
+    provideMomentDateAdapter(),
     authInterceptorProviders,
     apiInterceptorProviders,
     provideRouter(routes),

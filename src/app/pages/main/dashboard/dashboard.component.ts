@@ -8,10 +8,11 @@ import { MatCardModule } from '@angular/material/card';
 
 import { AsyncPipe } from '@angular/common';
 import { AdminComponent } from './admin/admin.component';
+import { FilterComponent } from 'src/app/pages/main/dashboard/filter/filter.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatCardModule, AsyncPipe, AdminComponent],
+  imports: [MatCardModule, AsyncPipe, AdminComponent, FilterComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   standalone: true,
@@ -21,12 +22,12 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)
-    authenticatedUserRepository: AuthenticatedUserRepository
+    authenticatedUserRepository: AuthenticatedUserRepository,
   ) {
     let hasAuthenticatedUserAccessControlUseCase =
       new HasAuthenticatedUserAccessControlUseCase(authenticatedUserRepository);
     this.adminAccessControl$ = hasAuthenticatedUserAccessControlUseCase.execute(
-      AccessControlId.Setting
+      AccessControlId.Setting,
     );
   }
 
