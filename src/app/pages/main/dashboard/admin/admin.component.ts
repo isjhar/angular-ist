@@ -12,13 +12,9 @@ import { SkeletonComponent } from 'src/app/pages/shared/skeleton/skeleton.compon
 
 import { DefaultNumberPipe } from '../../../shared/text/default-number.pipe';
 import { UserActivityInHourComponent } from 'src/app/pages/main/dashboard/admin/user-activity-in-hour/user-activity-in-hour.component';
-import { ChartData } from 'chart.js';
-import {
-  MatSlideToggle,
-  MatSlideToggleChange,
-} from '@angular/material/slide-toggle';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { UserTrendsComponent } from 'src/app/pages/main/dashboard/admin/user-trends/user-trends.component';
-import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
+import 'chartjs-adapter-moment';
 
 @Component({
   selector: 'app-admin',
@@ -38,82 +34,6 @@ import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
 export class AdminComponent implements OnInit {
   totalUser$: Observable<number>;
 
-  userInTimeData?: ChartData<'bar'>;
-
-  primary = getCssVar('--mat-sys-primary');
-  secondary = getCssVar('--mat-sys-secondary');
-
-  public hourlyBarChartData: ChartData<'bar'> = {
-    labels: [
-      '00:00',
-      '01:00',
-      '02:00',
-      '03:00',
-      '04:00',
-      '05:00',
-      '06:00',
-      '07:00',
-      '08:00',
-      '09:00',
-      '10:00',
-      '11:00',
-      '12:00',
-      '13:00',
-      '14:00',
-      '15:00',
-      '16:00',
-      '17:00',
-      '18:00',
-      '19:00',
-      '20:00',
-      '21:00',
-      '22:00',
-      '23:00',
-    ],
-    datasets: [
-      {
-        data: [
-          65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80,
-          81, 56, 55, 40, 56, 55, 65,
-        ],
-        label: 'New Users',
-        backgroundColor: this.primary,
-      },
-      {
-        data: [
-          23, 67, 89, 12, 45, 98, 56, 33, 71, 20, 90, 66, 5, 38, 72, 14, 59, 80,
-          91, 3, 44, 77, 64, 26,
-        ],
-        label: 'Active Users',
-        backgroundColor: this.secondary,
-      },
-    ],
-  };
-
-  public dailyBarChartData: ChartData<'bar'> = {
-    labels: [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ],
-    datasets: [
-      {
-        data: [431, 205, 379, 122, 498, 316, 243],
-        label: 'New Users',
-        backgroundColor: this.primary,
-      },
-      {
-        data: [324, 472, 198, 389, 441, 278, 356],
-        label: 'Active Users',
-        backgroundColor: this.secondary,
-      },
-    ],
-  };
-
   constructor(
     @Inject(USER_REPOSITORY)
     userRepository: UserRepository,
@@ -127,14 +47,5 @@ export class AdminComponent implements OnInit {
       );
   }
 
-  ngOnInit(): void {
-    this.userInTimeData = Object.assign({}, this.hourlyBarChartData);
-  }
-
-  onDailyToggleChanged(value: MatSlideToggleChange): void {
-    const newData = value.checked
-      ? this.dailyBarChartData
-      : this.hourlyBarChartData;
-    this.userInTimeData = Object.assign({}, newData);
-  }
+  ngOnInit(): void {}
 }

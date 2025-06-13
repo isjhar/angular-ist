@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
+import 'chartjs-adapter-moment';
 
 @Component({
   selector: 'app-user-trends',
@@ -13,31 +14,38 @@ export class UserTrendsComponent {
   primary = getCssVar('--mat-sys-primary');
   secondary = getCssVar('--mat-sys-secondary');
 
-  @Input() data: ChartData<'line'> = {
+  @Input() data: ChartData<'line', { x: string | Date; y: number }[]> = {
     datasets: [
       {
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: [
+          { x: '2025-06-07', y: 65 },
+          { x: '2025-06-08', y: 59 },
+          { x: '2025-06-09', y: 80 },
+          { x: '2025-06-10', y: 81 },
+          { x: '2025-06-11', y: 56 },
+          { x: '2025-06-12', y: 55 },
+          { x: '2025-06-13', y: 40 },
+        ],
         label: 'New Users',
         fill: 'origin',
         borderColor: this.primary,
         backgroundColor: this.primary + '33',
       },
       {
-        data: [28, 48, 40, 19, 86, 27, 90],
+        data: [
+          { x: '2025-06-07', y: 28 },
+          { x: '2025-06-08', y: 48 },
+          { x: '2025-06-09', y: 40 },
+          { x: '2025-06-10', y: 19 },
+          { x: '2025-06-11', y: 86 },
+          { x: '2025-06-12', y: 27 },
+          { x: '2025-06-13', y: 90 },
+        ],
         label: 'Active Users',
         fill: 'origin',
         borderColor: this.secondary,
         backgroundColor: this.secondary + '33',
       },
-    ],
-    labels: [
-      '2025-06-07',
-      '2025-06-08',
-      '2025-06-09',
-      '2025-06-10',
-      '2025-06-11',
-      '2025-06-12',
-      '2025-06-13',
     ],
   };
 
@@ -50,6 +58,17 @@ export class UserTrendsComponent {
       },
     },
     scales: {
+      x: {
+        type: 'time',
+        time: {
+          parser: 'YYYY-MM-DD',
+          unit: 'day',
+          tooltipFormat: 'MMM DD, YYYY',
+        },
+        title: {
+          display: true,
+        },
+      },
       // We use this empty structure as a placeholder for dynamic theming.
       y: {
         position: 'left',
