@@ -48,16 +48,21 @@
     <div class="flex-1">
       <mat-card>
         <mat-card-content>
-          <mat-card-subtitle>Hourly New User</mat-card-subtitle>
-          <app-user-activity-in-hour></app-user-activity-in-hour>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="flex-1">
-      <mat-card>
-        <mat-card-content>
-          <mat-card-subtitle>Hourly New User</mat-card-subtitle>
-          <app-user-activity-in-hour></app-user-activity-in-hour>
+          <mat-card-subtitle>
+            <div class="flex flex-row justify-between">
+              Hourly or Daily User Activity
+              <div class="flex flex-row gap-2 items-center daily-toggle">
+                Hourly
+                <mat-slide-toggle (change)="onDailyToggleChanged($event)">
+                  Daily
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </mat-card-subtitle>
+          @if (userInTimeData) {
+            <app-user-activity-in-hour
+              [data]="userInTimeData"></app-user-activity-in-hour>
+          }
         </mat-card-content>
       </mat-card>
     </div>
