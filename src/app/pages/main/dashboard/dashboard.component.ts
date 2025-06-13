@@ -9,10 +9,12 @@ import { MatCardModule } from '@angular/material/card';
 import { AsyncPipe } from '@angular/common';
 import { AdminComponent } from './admin/admin.component';
 import { FilterComponent } from 'src/app/pages/main/dashboard/filter/filter.component';
+import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
 
 @Component({
   selector: 'app-dashboard',
   imports: [MatCardModule, AsyncPipe, AdminComponent, FilterComponent],
+  providers: [FilterService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   standalone: true,

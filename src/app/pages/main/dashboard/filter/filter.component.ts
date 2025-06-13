@@ -7,6 +7,8 @@ import {
   isSameDate,
 } from 'src/app/pages/shared/utils/date.utils';
 import {
+  DateRange,
+  MatDatepickerModule,
   MatDatepickerToggle,
   MatDateRangeInput,
   MatDateRangePicker,
@@ -18,6 +20,10 @@ import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { SelectOption } from 'src/app/pages/shared/view-models/select-option.view-model';
+import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
+import moment from 'moment';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-filter',
@@ -34,12 +40,15 @@ import { SelectOption } from 'src/app/pages/shared/view-models/select-option.vie
     MatFormField,
     MatLabel,
     MatOption,
+    MatIconModule,
+    MatInputModule,
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss',
 })
 export class FilterComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
+  private filterService = inject(FilterService);
 
   quickRanges: SelectOption<number>[] = [
     {
@@ -62,7 +71,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   formGroup = this.formBuilder.group({
     startDate: [getLast7DaysDate()],
-    endDate: [new Date()],
+    endDate: [moment()],
     quickRange: [QuickRange.Last7Days],
   });
 
@@ -98,6 +107,13 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.updateQuickRange();
       },
     );
+
+    this.filterService.dateRange$.subscribe((value) => {
+      this.formGroup.patchValue({
+        startDate: value.start,
+        endDate: value.end,
+      });
+    });
   }
 
   ngOnDestroy(): void {
@@ -108,13 +124,14 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   updateDateRange(): void {
     const quickRange = this.quickRange.value;
+    const today = moment();
 
     switch (quickRange) {
       case QuickRange.Today:
         this.formGroup.patchValue(
           {
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: moment(),
+            endDate: moment(),
           },
           {
             emitEvent: false,
@@ -125,7 +142,7 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.formGroup.patchValue(
           {
             startDate: getLast7DaysDate(),
-            endDate: new Date(),
+            endDate: moment(),
           },
           {
             emitEvent: false,
@@ -136,7 +153,7 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.formGroup.patchValue(
           {
             startDate: getLast30DaysDate(),
-            endDate: new Date(),
+            endDate: moment(),
           },
           {
             emitEvent: false,
@@ -149,7 +166,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   updateQuickRange(): void {
     const startDate = this.startDate.value;
     const endDate = this.endDate.value;
-    const today = new Date();
+    const today = moment();
     const last7Days = getLast7DaysDate();
     const last30Days = getLast30DaysDate();
 
@@ -168,7 +185,11 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.quickRange.setValue(quickRange, { emitEvent: false });
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    this.filterService.setDateRange(
+      new DateRange(this.startDate.value, this.endDate.value),
+    );
+  }
 }
 
 enum QuickRange {
