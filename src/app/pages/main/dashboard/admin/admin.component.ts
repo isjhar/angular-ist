@@ -17,6 +17,8 @@ import {
   MatSlideToggle,
   MatSlideToggleChange,
 } from '@angular/material/slide-toggle';
+import { UserTrendsComponent } from 'src/app/pages/main/dashboard/admin/user-trends/user-trends.component';
+import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
 
 @Component({
   selector: 'app-admin',
@@ -27,6 +29,7 @@ import {
     SkeletonComponent,
     UserActivityInHourComponent,
     MatSlideToggle,
+    UserTrendsComponent,
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
@@ -36,6 +39,9 @@ export class AdminComponent implements OnInit {
   totalUser$: Observable<number>;
 
   userInTimeData?: ChartData<'bar'>;
+
+  primary = getCssVar('--mat-sys-primary');
+  secondary = getCssVar('--mat-sys-secondary');
 
   public hourlyBarChartData: ChartData<'bar'> = {
     labels: [
@@ -70,14 +76,16 @@ export class AdminComponent implements OnInit {
           65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80,
           81, 56, 55, 40, 56, 55, 65,
         ],
-        label: 'New User',
+        label: 'New Users',
+        backgroundColor: this.primary,
       },
       {
         data: [
           23, 67, 89, 12, 45, 98, 56, 33, 71, 20, 90, 66, 5, 38, 72, 14, 59, 80,
           91, 3, 44, 77, 64, 26,
         ],
-        label: 'Active User',
+        label: 'Active Users',
+        backgroundColor: this.secondary,
       },
     ],
   };
@@ -95,11 +103,13 @@ export class AdminComponent implements OnInit {
     datasets: [
       {
         data: [431, 205, 379, 122, 498, 316, 243],
-        label: 'New User',
+        label: 'New Users',
+        backgroundColor: this.primary,
       },
       {
         data: [324, 472, 198, 389, 441, 278, 356],
-        label: 'Active User',
+        label: 'Active Users',
+        backgroundColor: this.secondary,
       },
     ],
   };
