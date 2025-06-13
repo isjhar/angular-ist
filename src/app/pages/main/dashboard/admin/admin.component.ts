@@ -11,10 +11,17 @@ import { GetUsersUseCase } from 'src/app/domain/use-cases/get-users-use-case';
 import { SkeletonComponent } from 'src/app/pages/shared/skeleton/skeleton.component';
 
 import { DefaultNumberPipe } from '../../../shared/text/default-number.pipe';
+import { UserActivityInHourComponent } from 'src/app/pages/main/dashboard/admin/user-activity-in-hour/user-activity-in-hour.component';
 
 @Component({
   selector: 'app-admin',
-  imports: [MatCardModule, DefaultNumberPipe, AsyncPipe, SkeletonComponent],
+  imports: [
+    MatCardModule,
+    DefaultNumberPipe,
+    AsyncPipe,
+    SkeletonComponent,
+    UserActivityInHourComponent,
+  ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
   standalone: true,
@@ -24,14 +31,14 @@ export class AdminComponent implements OnInit {
 
   constructor(
     @Inject(USER_REPOSITORY)
-    userRepository: UserRepository
+    userRepository: UserRepository,
   ) {
     this.totalUser$ = new GetUsersUseCase(userRepository)
       .execute({ limit: 1 })
       .pipe(
         map<GetUseCaseResponse<User>, number>(
-          (response) => response.pagination.total
-        )
+          (response) => response.pagination.total,
+        ),
       );
   }
 
