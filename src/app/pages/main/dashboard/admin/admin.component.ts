@@ -15,6 +15,7 @@ import { UserActivityInHourComponent } from 'src/app/pages/main/dashboard/admin/
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { UserTrendsComponent } from 'src/app/pages/main/dashboard/admin/user-trends/user-trends.component';
 import 'chartjs-adapter-moment';
+import { UserRolesComponent } from 'src/app/pages/main/dashboard/admin/user-roles/user-roles.component';
 
 @Component({
   selector: 'app-admin',
@@ -26,6 +27,7 @@ import 'chartjs-adapter-moment';
     UserActivityInHourComponent,
     MatSlideToggle,
     UserTrendsComponent,
+    UserRolesComponent,
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
