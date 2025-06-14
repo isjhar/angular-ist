@@ -6,9 +6,9 @@
       [formGroup]="loginForm"
       (ngSubmit)="onLoginformSubmitted()">
       @if (error) {
-      <mat-error class="m-1 text-center" data-test="error">
-        {{ error }}
-      </mat-error>
+        <mat-error class="m-1 text-center" data-test="error">
+          {{ error }}
+        </mat-error>
       }
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
@@ -36,6 +36,10 @@
         [disabled]="!loginForm.valid">
         Login
       </app-loading-button>
+
+      <button class="mt-4" type="button" matButton (click)="loginDemoClicked()">
+        Try Login with Demo Account
+      </button>
     </form>
   </div>
   <div class="mat-caption mb-6">

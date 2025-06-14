@@ -19,6 +19,7 @@ import {
 } from '@angular/material/input';
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
 import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ import { FormErrorRequiredComponent } from '../shared/default-form/form-error/fo
     MatFormField,
     MatLabel,
     MatInput,
+    MatButton,
     LoadingButtonComponent,
     FormErrorRequiredComponent,
   ],
@@ -48,11 +50,11 @@ export class LoginComponent implements OnInit {
     @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
     @Inject(AUTHENTICATED_USER_REPOSITORY)
     authenticatedUserRepository: AuthenticatedUserRepository,
-    private router: Router
+    private router: Router,
   ) {
     this.loginUseCase = new LoginUseCase(
       authenticatedUserRepository,
-      authRepository
+      authRepository,
     );
   }
 
@@ -72,7 +74,15 @@ export class LoginComponent implements OnInit {
         (error) => {
           this.error = `Login failed: ${error}`;
           this.isLoading = false;
-        }
+        },
       );
+  }
+
+  loginDemoClicked(): void {
+    this.loginForm.patchValue({
+      email: 'demo@gmail.com',
+      password: '1234',
+    });
+    this.onLoginformSubmitted();
   }
 }
