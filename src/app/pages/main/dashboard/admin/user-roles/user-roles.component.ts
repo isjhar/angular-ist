@@ -6,6 +6,7 @@ import {
   ChartType,
 } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
 
 @Component({
   selector: 'app-user-roles',
@@ -14,6 +15,9 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrl: './user-roles.component.scss',
 })
 export class UserRolesComponent {
+  primary = getCssVar('--neutral-variant-1');
+  secondary = getCssVar('--neutral-variant-2');
+
   // Pie
   public options: ChartConfiguration['options'] = {
     responsive: true,
@@ -30,6 +34,7 @@ export class UserRolesComponent {
     datasets: [
       {
         data: [1, 2],
+        backgroundColor: [this.primary, this.secondary],
       },
     ],
   };

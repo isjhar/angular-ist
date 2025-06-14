@@ -12,7 +12,7 @@ import 'chartjs-adapter-moment';
 })
 export class UserTrendsComponent {
   primary = getCssVar('--mat-sys-primary');
-  secondary = getCssVar('--mat-sys-secondary');
+  secondary = getCssVar('--mat-sys-secondary-fixed-dim');
 
   @Input() data: ChartData<'line', { x: string | Date; y: number }[]> = {
     datasets: [

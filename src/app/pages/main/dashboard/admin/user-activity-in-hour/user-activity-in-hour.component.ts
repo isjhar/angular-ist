@@ -18,7 +18,7 @@ export class UserActivityInHourComponent {
     }
   }
   primary = getCssVar('--mat-sys-primary');
-  secondary = getCssVar('--mat-sys-secondary');
+  secondary = getCssVar('--mat-sys-secondary-fixed-dim');
 
   data: ChartData<'bar', any> = {
     datasets: [],

@@ -45,7 +45,7 @@
     </div>
   </div>
   <div class="flex flex-col lg:flex-row gap-6">
-    <div class="flex-1">
+    <div class="flex-[0.97]">
       <mat-card>
         <mat-card-content>
           <mat-card-subtitle class="min-h-[32px]">User Roles</mat-card-subtitle>
@@ -54,6 +54,18 @@
       </mat-card>
     </div>
     <div class="flex-2">
+      <mat-card>
+        <mat-card-content>
+          <mat-card-subtitle class="min-h-[32px]">
+            User Trends
+          </mat-card-subtitle>
+          <app-user-trends></app-user-trends>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="flex flex-col md:flex-row gap-6">
+    <div class="flex-1">
       <mat-card>
         <mat-card-content>
           <mat-card-subtitle>
@@ -67,17 +79,6 @@
           </mat-card-subtitle>
           <app-user-activity-in-hour
             [showDaily]="dailyTogle.checked"></app-user-activity-in-hour>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="flex-2">
-      <mat-card>
-        <mat-card-content>
-          <mat-card-subtitle class="min-h-[32px]">
-            User Trends
-          </mat-card-subtitle>
-          <app-user-trends></app-user-trends>
         </mat-card-content>
       </mat-card>
     </div>
