@@ -6,6 +6,7 @@ This project structure based on Clean Architecture
 ## Dependencies
 - Material UI
 - NGX Skeleton Loader
+- Ng2-Charts
 
 ## Features
 - Login Page
