@@ -1,17 +1,6 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject, Inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import {
-  ADMIN_DASHBOARD_REPOSITORY,
-  USER_REPOSITORY,
-} from 'src/app/app-token-repository';
-import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
-import { User } from 'src/app/domain/entities/user';
-import { UserRepository } from 'src/app/domain/repositories/user-repository';
-import { GetUsersUseCase } from 'src/app/domain/use-cases/get-users-use-case';
-import { SkeletonComponent } from 'src/app/pages/shared/skeleton/skeleton.component';
+import { ADMIN_DASHBOARD_REPOSITORY } from 'src/app/app-token-repository';
 
 import { DefaultNumberPipe } from '../../../shared/text/default-number.pipe';
 import { UserActivityInHourComponent } from 'src/app/pages/main/dashboard/admin/user-activity-in-hour/user-activity-in-hour.component';
@@ -21,19 +10,13 @@ import 'chartjs-adapter-moment';
 import { UserRolesComponent } from 'src/app/pages/main/dashboard/admin/user-roles/user-roles.component';
 import { GetAdminDashboardUseCase } from 'src/app/domain/use-cases/get-admin-dashboard-use-case';
 import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
-import {
-  UserActivity,
-  UserRole,
-  UserTrend,
-} from 'src/app/domain/entities/admin-dashboard';
+import { AdminDashboard } from 'src/app/domain/entities/admin-dashboard';
 
 @Component({
   selector: 'app-admin',
   imports: [
     MatCardModule,
     DefaultNumberPipe,
-    AsyncPipe,
-    SkeletonComponent,
     UserActivityInHourComponent,
     MatSlideToggle,
     UserTrendsComponent,
@@ -44,35 +27,28 @@ import {
   standalone: true,
 })
 export class AdminComponent implements OnInit {
-  totalUser$: Observable<number>;
-  activeUserTrends = signal<UserTrend[]>([]);
-  newUserTrends = signal<UserTrend[]>([]);
-  userRoles = signal<UserRole[]>([]);
-  hourlyUserActivities = signal<UserActivity>({
-    activeActivities: [],
-    newActivties: [],
-  });
-  dailyUserActivities = signal<UserActivity>({
-    activeActivities: [],
-    newActivties: [],
+  adminDashboard = signal<AdminDashboard>({
+    totalUsers: 0,
+    newUsers: 0,
+    activeUsers: 0,
+    newUserTrends: [],
+    activeUserTrends: [],
+    userRoles: [],
+    dailyUserActivities: {
+      activeActivities: [],
+      newActivties: [],
+    },
+    hourlyUserActivities: {
+      activeActivities: [],
+      newActivties: [],
+    },
   });
 
   private _filterService = inject(FilterService);
   private _adminDashboardRepository = inject(ADMIN_DASHBOARD_REPOSITORY);
   private _getAdminDashboardUseCase: GetAdminDashboardUseCase;
 
-  constructor(
-    @Inject(USER_REPOSITORY)
-    userRepository: UserRepository,
-  ) {
-    this.totalUser$ = new GetUsersUseCase(userRepository)
-      .execute({ limit: 1 })
-      .pipe(
-        map<GetUseCaseResponse<User>, number>(
-          (response) => response.pagination.total,
-        ),
-      );
-
+  constructor() {
     this._getAdminDashboardUseCase = new GetAdminDashboardUseCase(
       this._adminDashboardRepository,
     );
@@ -90,11 +66,7 @@ export class AdminComponent implements OnInit {
           endDate: value.end?.toDate() ?? today,
         })
         .subscribe((response) => {
-          this.activeUserTrends.set(response.activeUserTrends);
-          this.newUserTrends.set(response.newUserTrends);
-          this.userRoles.set(response.userRoles);
-          this.dailyUserActivities.set(response.dailyUserActivities);
-          this.hourlyUserActivities.set(response.hourlyUserActivities);
+          this.adminDashboard.set(response);
         });
     });
   }

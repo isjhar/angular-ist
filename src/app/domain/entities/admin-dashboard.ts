@@ -1,4 +1,7 @@
 export interface AdminDashboard {
+  totalUsers: number;
+  newUsers: number;
+  activeUsers: number;
   newUserTrends: UserTrend[];
   activeUserTrends: UserTrend[];
   userRoles: UserRole[];

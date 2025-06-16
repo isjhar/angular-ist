@@ -26,6 +26,9 @@ export class MockAdminDashboardRepository implements AdminDashboardRepository {
       const roles = ['Sys Admin', 'Admin', 'Employement'];
 
       observer.next({
+        totalUsers: Math.floor(Math.random() * (1 < 2 ? 1000 : 2000) + 1),
+        newUsers: Math.floor(Math.random() * (2 < 2 ? 100 : 1000) + 1),
+        activeUsers: Math.floor(Math.random() * (3 < 2 ? 100 : 1000) + 1),
         userRoles: roles.map((r, index) => {
           return {
             role: r,

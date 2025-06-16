@@ -1,47 +1,35 @@
 <div class="flex flex-col gap-6">
   <div class="flex flex-col md:flex-row gap-6">
     <div class="flex-1">
-      @if (totalUser$ | async | defaultNumber; as totalUser) {
-        <mat-card>
-          <mat-card-content>
-            <mat-card-subtitle>Total User</mat-card-subtitle>
-            <div style="font-size: 30px; margin-top: 20px">
-              {{ totalUser }}
-            </div>
-          </mat-card-content>
-        </mat-card>
-      } @else {
-        <app-skeleton height="92px"></app-skeleton>
-      }
+      <mat-card>
+        <mat-card-content>
+          <mat-card-subtitle>Total Users</mat-card-subtitle>
+          <div style="font-size: 30px; margin-top: 20px">
+            {{ adminDashboard().totalUsers | defaultNumber }}
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div class="flex-1">
-      @if (totalUser$ | async | defaultNumber; as totalUser) {
-        <mat-card>
-          <mat-card-content>
-            <mat-card-subtitle>New User</mat-card-subtitle>
-            <div style="font-size: 30px; margin-top: 20px">
-              {{ totalUser }}
-            </div>
-          </mat-card-content>
-        </mat-card>
-      } @else {
-        <app-skeleton height="92px"></app-skeleton>
-      }
+      <mat-card>
+        <mat-card-content>
+          <mat-card-subtitle>New Users</mat-card-subtitle>
+          <div style="font-size: 30px; margin-top: 20px">
+            {{ adminDashboard().newUsers | defaultNumber }}
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
 
     <div class="flex-1">
-      @if (totalUser$ | async | defaultNumber; as totalUser) {
-        <mat-card>
-          <mat-card-content>
-            <mat-card-subtitle>Active User</mat-card-subtitle>
-            <div style="font-size: 30px; margin-top: 20px">
-              {{ totalUser }}
-            </div>
-          </mat-card-content>
-        </mat-card>
-      } @else {
-        <app-skeleton height="92px"></app-skeleton>
-      }
+      <mat-card>
+        <mat-card-content>
+          <mat-card-subtitle>Active User</mat-card-subtitle>
+          <div style="font-size: 30px; margin-top: 20px">
+            {{ adminDashboard().activeUsers | defaultNumber }}
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
   <div class="flex flex-col lg:flex-row gap-6">
@@ -49,7 +37,7 @@
       <mat-card>
         <mat-card-content>
           <mat-card-subtitle class="min-h-[32px]">User Roles</mat-card-subtitle>
-          <app-user-roles [data]="userRoles()"></app-user-roles>
+          <app-user-roles [data]="adminDashboard().userRoles"></app-user-roles>
         </mat-card-content>
       </mat-card>
     </div>
@@ -60,8 +48,8 @@
             User Trends
           </mat-card-subtitle>
           <app-user-trends
-            [activeUserTrends]="activeUserTrends()"
-            [newUserTrends]="newUserTrends()"></app-user-trends>
+            [activeUserTrends]="adminDashboard().activeUserTrends"
+            [newUserTrends]="adminDashboard().newUserTrends"></app-user-trends>
         </mat-card-content>
       </mat-card>
     </div>
@@ -81,9 +69,9 @@
           </mat-card-subtitle>
           <app-user-activity-in-hour
             [showDaily]="dailyTogle.checked"
-            [dailyUserActivities]="dailyUserActivities()"
+            [dailyUserActivities]="adminDashboard().dailyUserActivities"
             [hourlyUserActivities]="
-              hourlyUserActivities()
+              adminDashboard().hourlyUserActivities
             "></app-user-activity-in-hour>
         </mat-card-content>
       </mat-card>
