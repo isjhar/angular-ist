@@ -23,13 +23,15 @@ export class MockAdminDashboardRepository implements AdminDashboardRepository {
         dates.push(date);
       }
 
+      const roles = ['Sys Admin', 'Admin', 'Employement'];
+
       observer.next({
-        userRoles: [
-          {
-            role: 'SuperAdmin',
-            total: 1,
-          },
-        ],
+        userRoles: roles.map((r, index) => {
+          return {
+            role: r,
+            total: Math.floor(Math.random() * (index < 2 ? 100 : 1000) + 1),
+          };
+        }),
         newUserTrends: dates.map((d, index) => {
           return {
             date: d,

@@ -23,7 +23,7 @@ import { AdminDashboardRepository } from 'src/app/domain/repositories/admin-dash
 import { ChartData } from 'chart.js';
 import { GetAdminDashboardUseCase } from 'src/app/domain/use-cases/get-admin-dashboard-use-case';
 import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
-import { UserTrend } from 'src/app/domain/entities/admin-dashboard';
+import { UserRole, UserTrend } from 'src/app/domain/entities/admin-dashboard';
 
 @Component({
   selector: 'app-admin',
@@ -45,6 +45,7 @@ export class AdminComponent implements OnInit {
   totalUser$: Observable<number>;
   activeUserTrends = signal<UserTrend[]>([]);
   newUserTrends = signal<UserTrend[]>([]);
+  userRoles = signal<UserRole[]>([]);
 
   private _filterService = inject(FilterService);
   private _adminDashboardRepository = inject(ADMIN_DASHBOARD_REPOSITORY);
@@ -81,6 +82,7 @@ export class AdminComponent implements OnInit {
         .subscribe((response) => {
           this.activeUserTrends.set(response.activeUserTrends);
           this.newUserTrends.set(response.newUserTrends);
+          this.userRoles.set(response.userRoles);
         });
     });
   }

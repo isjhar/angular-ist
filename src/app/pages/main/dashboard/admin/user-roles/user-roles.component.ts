@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import {
   ChartConfiguration,
   ChartData,
@@ -6,6 +6,7 @@ import {
   ChartType,
 } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { UserRole } from 'src/app/domain/entities/admin-dashboard';
 import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
 
 @Component({
@@ -15,6 +16,13 @@ import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
   styleUrl: './user-roles.component.scss',
 })
 export class UserRolesComponent {
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+  @Input() set data(value: UserRole[]) {
+    this.chartData.labels = value.map((u) => u.role);
+    this.chartData.datasets[0].data = value.map((u) => u.total);
+    this.chart?.update();
+  }
+
   primary = getCssVar('--neutral-variant-1');
   secondary = getCssVar('--neutral-variant-2');
 
@@ -29,12 +37,12 @@ export class UserRolesComponent {
       },
     },
   };
-  public data: ChartData<'pie', number[], string | string[]> = {
+  public chartData: ChartData<'pie', number[], string | string[]> = {
     labels: ['Sys Admin', 'Admin'],
     datasets: [
       {
         data: [1, 2],
-        backgroundColor: [this.primary, this.secondary],
+        // backgroundColor: [this.primary, this.secondary],
       },
     ],
   };
