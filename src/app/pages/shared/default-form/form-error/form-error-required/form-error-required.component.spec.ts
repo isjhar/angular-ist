@@ -16,12 +16,11 @@ describe('FormErrorRequiredComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [FormErrorRequiredComponent],
-      providers: [
+    imports: [ReactiveFormsModule, FormErrorRequiredComponent],
+    providers: [
         { provide: FormGroupDirective, useValue: formGroupDirectiveStub },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

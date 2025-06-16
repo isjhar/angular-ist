@@ -8,8 +8,8 @@ describe('FormErrorTimeFormatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormErrorTimeFormatComponent ]
-    })
+    imports: [FormErrorTimeFormatComponent]
+})
     .compileComponents();
   });
 

@@ -1,3 +1,7 @@
-<ng-container *ngIf="formControl && formControl.hasError('email')">
+@if (
+  formControl &&
+  formControl.hasError("email") &&
+  !formControl.hasError("required")
+) {
   Email is not valid
-</ng-container>
+}

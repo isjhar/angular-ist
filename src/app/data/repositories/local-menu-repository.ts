@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
-import { Error } from 'src/app/domain/entities/error';
 import { Menu } from 'src/app/domain/entities/menu';
 import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';

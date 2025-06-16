@@ -10,11 +10,26 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTable } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import {
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow,
+  MatNoDataRow,
+} from '@angular/material/table';
 import { map, shareReplay } from 'rxjs/operators';
 import { DefaultTableMobileItemViewDirective } from './default-table-mobile-item-view.directive';
 import { BaseComponent } from '../base.component';
+import { NgStyle, NgClass, NgTemplateOutlet, DatePipe } from '@angular/common';
+import { DefaultCurrencyPipe } from '../text/default-currency.pipe';
+import { DefaultNumberPipe } from '../text/default-number.pipe';
 
 export interface DefaultTableColumn {
   title: string;
@@ -30,6 +45,28 @@ export interface DefaultTableColumn {
   selector: 'app-default-table',
   templateUrl: './default-table.component.html',
   styleUrls: ['./default-table.component.scss'],
+  imports: [
+    NgStyle,
+    MatTable,
+    MatSort,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    NgClass,
+    MatSortHeader,
+    MatCellDef,
+    MatCell,
+    NgTemplateOutlet,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatNoDataRow,
+    MatPaginator,
+    DatePipe,
+    DefaultCurrencyPipe,
+    DefaultNumberPipe,
+  ],
 })
 export class DefaultTableComponent extends BaseComponent implements OnInit {
   @Input() length: number = 0;
@@ -103,7 +140,7 @@ export class DefaultTableComponent extends BaseComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.isHandset$.subscribe((isHandset) => {
       this.isHandset = isHandset;
       this.adjustDisplayedColumns();

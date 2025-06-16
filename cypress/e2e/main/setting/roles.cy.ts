@@ -31,7 +31,7 @@ describe('Roles', () => {
   });
 
   it('Delete Role', () => {
-    cy.get('[data-test="btn-delete"]').last().click();
+    cy.get('[data-test="btn-delete"]').eq(0).click();
 
     cy.get('[data-test="btn-yes"]').click();
 
@@ -43,24 +43,24 @@ describe('Roles', () => {
   });
 
   it('Insert access control', () => {
-    cy.get('[data-test="btn-detail"]').last().click();
+    cy.get('[data-test="btn-detail"]').eq(1).click();
 
     cy.url().should('match', /\/setting\/roles\/*/);
 
-    cy.get('[data-test="btn-slide"]').first().click();
+    cy.get('[data-test="btn-slide"]').eq(0).click();
 
     cy.wait(500);
 
-    cy.get('[data-test="btn-slide"][ng-reflect-checked="false"]')
-      .first()
+    cy.get('[data-test="btn-slide"]:has([aria-checked="false"])')
+      .eq(0)
       .should('exist');
 
-    cy.get('[data-test="btn-slide"]').first().click();
+    cy.get('[data-test="btn-slide"]').eq(0).click();
 
     cy.wait(500);
 
-    cy.get('[data-test="btn-slide"][ng-reflect-checked="true"]')
-      .first()
+    cy.get('[data-test="btn-slide"]:has([aria-checked="true"])')
+      .eq(0)
       .should('exist');
   });
 });

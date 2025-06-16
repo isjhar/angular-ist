@@ -58,7 +58,7 @@ export class MockAccessControlRepository implements AccessControlRepository {
     id: number,
     params: StoreAccessControlRequestParams
   ): Observable<void> {
-    return new Observable<any>((observer) => {
+    return new Observable<void>((observer) => {
       let menu = MockAccessControlRepository.items.find(
         (element) => element.id == id
       );
@@ -73,7 +73,7 @@ export class MockAccessControlRepository implements AccessControlRepository {
     });
   }
   delete(id: number): Observable<void> {
-    return new Observable<any>((observer) => {
+    return new Observable<void>((observer) => {
       MockAccessControlRepository.items =
         MockAccessControlRepository.items.filter((element) => element.id != id);
       observer.next();

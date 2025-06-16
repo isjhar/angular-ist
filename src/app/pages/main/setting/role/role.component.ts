@@ -5,9 +5,9 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { DeleteRoleAccessControlUseCase } from 'src/app/domain/use-cases/delete-role-access-control-use-case';
 import { StoreRoleAccessControlUseCase } from 'src/app/domain/use-cases/store-role-access-control-use-case';
@@ -19,8 +19,22 @@ import {
 import { MainService } from '../../main.service';
 import { RoleAccessControlRow, RoleTableService } from './role-table.service';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NgTemplateOutlet } from '@angular/common';
+import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
+import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
+
 @Component({
   selector: 'app-role',
+  imports: [
+    ServerSideTableComponent_1,
+    DefaultTableMobileItemViewDirective,
+    MatCardModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    NgTemplateOutlet,
+  ],
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
   providers: [
@@ -29,6 +43,7 @@ import { RoleAccessControlRow, RoleTableService } from './role-table.service';
       useClass: RoleTableService,
     },
   ],
+  standalone: true,
 })
 export class RoleComponent implements OnInit {
   @ViewChild('actionTemplate', { static: true })

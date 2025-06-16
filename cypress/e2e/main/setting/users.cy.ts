@@ -48,7 +48,9 @@ describe('Users', () => {
   });
 
   it('Delete User', () => {
-    cy.get('[data-test="btn-delete"]').last().click();
+    cy.get('[data-test="btn-delete"]').eq(0).click();
+
+    cy.wait(500);
 
     cy.get('[data-test="btn-yes"]').click();
 

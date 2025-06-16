@@ -25,6 +25,13 @@ export class MockUserRepository implements UserRepository {
       roles: [MockRoleRepository.roles[1]],
       password: '1234',
     }),
+    new User({
+      id: 3,
+      email: 'demo@gmail.com',
+      name: 'Demo',
+      roles: [MockRoleRepository.roles[1]],
+      password: '1234',
+    }),
   ];
   get(params: PaginationParams): Observable<Pagination<User>> {
     let users = [...MockUserRepository.users];
@@ -42,7 +49,7 @@ export class MockUserRepository implements UserRepository {
   store(params: StoreUserRequestParams): Observable<User> {
     return new Observable<User>((observer) => {
       let emailUser = MockUserRepository.users.find(
-        (x) => x.email == params.email
+        (x) => x.email == params.email,
       );
       if (emailUser) {
         observer.error(Error.DuplicateItem);
@@ -51,14 +58,14 @@ export class MockUserRepository implements UserRepository {
       }
 
       let maxId = Math.max(
-        ...MockUserRepository.users.map((element) => element.id)
+        ...MockUserRepository.users.map((element) => element.id),
       );
       let user: User = new User({
         email: params.email,
         id: maxId,
         name: params.name,
         roles: MockRoleRepository.roles.filter((element) =>
-          params.roles.includes(element.id)
+          params.roles.includes(element.id),
         ),
         password: params.password,
       });
@@ -75,7 +82,7 @@ export class MockUserRepository implements UserRepository {
       }
       user!.name = params.name;
       user!.roles = MockRoleRepository.roles.filter((element) =>
-        params.roles.includes(element.id)
+        params.roles.includes(element.id),
       );
       observer.next();
       observer.complete();
@@ -84,7 +91,7 @@ export class MockUserRepository implements UserRepository {
   delete(id: number): Observable<void> {
     return new Observable<void>((observer) => {
       MockUserRepository.users = MockUserRepository.users.filter(
-        (element) => element.id != id
+        (element) => element.id != id,
       );
       observer.next();
       observer.complete();

@@ -1,0 +1,31 @@
+<form
+  class="flex flex-row justify-start items-center flex-wrap gap-2"
+  [formGroup]="formGroup"
+  (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input
+        matStartDate
+        placeholder="Start date"
+        formControlName="startDate" />
+      <input matEndDate placeholder="End date" formControlName="endDate" />
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Quick Ranges</mat-label>
+    <mat-select formControlName="quickRange">
+      @for (quickRange of quickRanges; track quickRange) {
+        <mat-option [value]="quickRange.value">
+          {{ quickRange.label }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <button matButton="" class="mb-3">Apply</button>
+</form>

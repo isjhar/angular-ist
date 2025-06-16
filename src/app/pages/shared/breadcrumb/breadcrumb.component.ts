@@ -1,19 +1,21 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Inject, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 import { GetBreadcrumbsUseCase } from 'src/app/domain/use-cases/get-breadcrumbs-use-case';
 import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
-import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository.module';
+import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository';
 import { BaseComponent } from '../base.component';
+import { NgTemplateOutlet, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss'],
+  imports: [RouterLink, NgTemplateOutlet, AsyncPipe],
 })
 export class BreadcrumbComponent extends BaseComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
@@ -34,7 +36,7 @@ export class BreadcrumbComponent extends BaseComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.getMenusUseCase.execute({}).subscribe((response) => {
       this.breadcrumbs = response.pagination.data;
     });

@@ -1,7 +1,9 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h1 mat-dialog-title i18n="role">Role</h1>
-  <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
+  <div mat-dialog-title i18n="role">Role</div>
   <mat-dialog-content class="mat-typography">
+    @if (error) {
+    <mat-error class="mb-4" data-test="error">{{ error }}</mat-error>
+    }
     <div class="column">
       <mat-form-field appearance="fill">
         <mat-label i18n="name">Name</mat-label>
@@ -17,16 +19,14 @@
       mat-button
       mat-dialog-close
       data-test="btn-cancel-form"
-      i18n="cancel"
-    >
+      i18n="cancel">
       Cancel
     </button>
     <app-loading-button
       data-test="btn-save-form"
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
-      i18n="save"
-    >
+      i18n="save">
       Save
     </app-loading-button>
   </mat-dialog-actions>

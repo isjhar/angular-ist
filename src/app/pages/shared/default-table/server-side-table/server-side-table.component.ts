@@ -23,11 +23,15 @@ import {
   TABLE_SERVICE,
 } from './server-side-table.service';
 import { DefaultTableMobileItemViewDirective } from '../default-table-mobile-item-view.directive';
+import { SearchFieldComponent } from './search-field/search-field.component';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { SkeletonComponent } from '../../skeleton/skeleton.component';
 
 @Component({
-  selector: 'app-server-side-table',
-  templateUrl: './server-side-table.component.html',
-  styleUrls: ['./server-side-table.component.scss'],
+    selector: 'app-server-side-table',
+    templateUrl: './server-side-table.component.html',
+    styleUrls: ['./server-side-table.component.scss'],
+    imports: [SearchFieldComponent, DefaultTableComponent, NgStyle, DefaultTableMobileItemViewDirective, NgTemplateOutlet, SkeletonComponent]
 })
 export class ServerSideTableComponent
   implements OnInit, OnDestroy, AfterViewInit

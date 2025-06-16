@@ -1,10 +1,24 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ROLE_REPOSITORY } from 'src/app/app-token-repository.module';
+import {
+  FormControl,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { ROLE_REPOSITORY } from 'src/app/app-token-repository';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
 import { StoreRoleUseCase } from 'src/app/domain/use-cases/store-role-use-case';
 import { UpdateRoleUseCase } from 'src/app/domain/use-cases/update-role-use-case';
+
+import { FormErrorRequiredComponent } from '../../../../shared/default-form/form-error/form-error-required/form-error-required.component';
+import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface AddDialogData {
   value: any;
@@ -12,8 +26,17 @@ export interface AddDialogData {
 
 @Component({
   selector: 'app-add-dialog',
+  imports: [
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
+    FormErrorRequiredComponent,
+    LoadingButtonComponent,
+  ],
   templateUrl: './add-dialog.component.html',
   styleUrls: ['./add-dialog.component.scss'],
+  standalone: true,
 })
 export class AddDialogComponent implements OnInit {
   isLoading: boolean = false;

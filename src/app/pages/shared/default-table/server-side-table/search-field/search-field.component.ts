@@ -1,16 +1,19 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
   ServerSideTableService,
   TABLE_SERVICE,
 } from '../server-side-table.service';
+import { MatFormField, MatLabel, MatInput, MatSuffix } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-search-field',
-  templateUrl: './search-field.component.html',
-  styleUrls: ['./search-field.component.scss'],
+    selector: 'app-search-field',
+    templateUrl: './search-field.component.html',
+    styleUrls: ['./search-field.component.scss'],
+    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIcon, MatSuffix]
 })
 export class SearchFieldComponent implements OnInit, OnDestroy {
   @Input() placeholder = '';

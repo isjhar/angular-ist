@@ -1,6 +1,7 @@
-<ng-container
-  *ngIf="formControl && formControl.hasError('timeFormat')"
-  i18n="format-not-valid"
->
+@if (formControl && formControl.hasError('timeFormat')) {
+  <ng-container
+    i18n="format-not-valid"
+    >
   Format is not valid
 </ng-container>
+}

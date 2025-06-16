@@ -65,8 +65,8 @@ export class MockRoleRepository implements RoleRepository {
       observer.complete();
     });
   }
-  update(id: number, params: UpdateRoleRequestParams): Observable<any> {
-    return new Observable<any>((observer) => {
+  update(id: number, params: UpdateRoleRequestParams): Observable<void> {
+    return new Observable<void>((observer) => {
       let role = MockRoleRepository.roles.find((element) => element.id == id);
       if (role == undefined) {
         observer.error('role not found');
@@ -79,8 +79,8 @@ export class MockRoleRepository implements RoleRepository {
       observer.complete();
     });
   }
-  delete(id: number): Observable<any> {
-    return new Observable<any>((observer) => {
+  delete(id: number): Observable<void> {
+    return new Observable<void>((observer) => {
       MockRoleRepository.roles = MockRoleRepository.roles.filter(
         (element) => element.id != id
       );
@@ -151,7 +151,7 @@ export class MockRoleRepository implements RoleRepository {
   deleteAccessControl(
     params: StoreAccessControlRequestParams
   ): Observable<void> {
-    return new Observable<any>((observer) => {
+    return new Observable<void>((observer) => {
       let role = MockRoleRepository.roles.find(
         (role) => role.id == params.roleId
       );

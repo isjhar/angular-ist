@@ -9,7 +9,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 import { IsUrlAccessibleUseCase } from 'src/app/domain/use-cases/is-url-accessible-use-case';
-import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository.module';
+import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository';
 
 @Injectable({
   providedIn: 'root',

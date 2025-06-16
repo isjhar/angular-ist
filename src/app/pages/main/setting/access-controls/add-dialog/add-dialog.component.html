@@ -1,6 +1,8 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
   <h1 mat-dialog-title i18n="menu">Access Control</h1>
-  <mat-error data-test="error" *ngIf="error"> {{ error }} </mat-error>
+  @if (error) {
+    <mat-error data-test="error"> {{ error }} </mat-error>
+  }
   <mat-dialog-content class="mat-typography">
     <div class="column">
       <mat-form-field appearance="fill">
@@ -32,7 +34,7 @@
       mat-dialog-close
       data-test="btn-cancel-form"
       i18n="cancel"
-    >
+      >
       Cancel
     </button>
     <app-loading-button
@@ -40,7 +42,7 @@
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
       i18n="save"
-    >
+      >
       Save
     </app-loading-button>
   </mat-dialog-actions>

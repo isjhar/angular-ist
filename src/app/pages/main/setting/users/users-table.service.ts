@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { USER_REPOSITORY } from 'src/app/app-token-repository.module';
+import { USER_REPOSITORY } from 'src/app/app-token-repository';
 import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
 import { User } from 'src/app/domain/entities/user';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';

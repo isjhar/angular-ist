@@ -1,52 +1,73 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { USER_REPOSITORY } from 'src/app/app-token-repository.module';
-import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
-import { User } from 'src/app/domain/entities/user';
-import { UserRepository } from 'src/app/domain/repositories/user-repository';
-import { GetUsersUseCase } from 'src/app/domain/use-cases/get-users-use-case';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ADMIN_DASHBOARD_REPOSITORY } from 'src/app/app-token-repository';
+
+import { DefaultNumberPipe } from '../../../shared/text/default-number.pipe';
+import { UserActivityInHourComponent } from 'src/app/pages/main/dashboard/admin/user-activity-in-hour/user-activity-in-hour.component';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { UserTrendsComponent } from 'src/app/pages/main/dashboard/admin/user-trends/user-trends.component';
+import 'chartjs-adapter-moment';
+import { UserRolesComponent } from 'src/app/pages/main/dashboard/admin/user-roles/user-roles.component';
+import { GetAdminDashboardUseCase } from 'src/app/domain/use-cases/get-admin-dashboard-use-case';
+import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
+import { AdminDashboard } from 'src/app/domain/entities/admin-dashboard';
 
 @Component({
   selector: 'app-admin',
+  imports: [
+    MatCardModule,
+    DefaultNumberPipe,
+    UserActivityInHourComponent,
+    MatSlideToggle,
+    UserTrendsComponent,
+    UserRolesComponent,
+  ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
+  standalone: true,
 })
 export class AdminComponent implements OnInit {
-  totalUser$: Observable<number>;
-  isXSmall$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.XSmall)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
-  isSmall$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Small)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
-  isMedium$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Medium)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
+  adminDashboard = signal<AdminDashboard>({
+    totalUsers: 0,
+    newUsers: 0,
+    activeUsers: 0,
+    newUserTrends: [],
+    activeUserTrends: [],
+    userRoles: [],
+    dailyUserActivities: {
+      activeActivities: [],
+      newActivties: [],
+    },
+    hourlyUserActivities: {
+      activeActivities: [],
+      newActivties: [],
+    },
+  });
 
-  constructor(
-    @Inject(USER_REPOSITORY)
-    userRepository: UserRepository,
-    private breakpointObserver: BreakpointObserver
-  ) {
-    this.totalUser$ = new GetUsersUseCase(userRepository)
-      .execute({ limit: 1 })
-      .pipe(
-        map<GetUseCaseResponse<User>, number>(
-          (response) => response.pagination.total
-        )
-      );
+  private _filterService = inject(FilterService);
+  private _adminDashboardRepository = inject(ADMIN_DASHBOARD_REPOSITORY);
+  private _getAdminDashboardUseCase: GetAdminDashboardUseCase;
+
+  constructor() {
+    this._getAdminDashboardUseCase = new GetAdminDashboardUseCase(
+      this._adminDashboardRepository,
+    );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._filterService.dateRange$.subscribe((value) => {
+      const today = new Date();
+      const yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
+
+      this._getAdminDashboardUseCase
+        .execute({
+          startDate: value.start?.toDate() ?? yesterday,
+          endDate: value.end?.toDate() ?? today,
+        })
+        .subscribe((response) => {
+          this.adminDashboard.set(response);
+        });
+    });
+  }
 }

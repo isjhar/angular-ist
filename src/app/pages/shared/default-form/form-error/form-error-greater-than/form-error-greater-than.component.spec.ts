@@ -8,8 +8,8 @@ describe('FormErrorGreaterThanComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormErrorGreaterThanComponent ]
-    })
+    imports: [FormErrorGreaterThanComponent]
+})
     .compileComponents();
   });
 

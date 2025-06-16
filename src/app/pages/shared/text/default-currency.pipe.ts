@@ -1,9 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'defaultCurrency',
-})
+@Pipe({ name: 'defaultCurrency' })
 export class DefaultCurrencyPipe implements PipeTransform {
   numberPipe = new DecimalPipe('en');
 

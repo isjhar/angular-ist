@@ -1,7 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { LoadingButtonComponent } from '../default-form/loading-button/loading-button.component';
 
 export interface ConfirmDialogData {
   message: string;
@@ -10,8 +18,17 @@ export interface ConfirmDialogData {
 
 @Component({
   selector: 'app-confirm-dialog',
+  imports: [
+    MatDialogModule,
+    MatButtonModule,
+    LoadingButtonComponent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    FormsModule
+],
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.scss'],
+  standalone: true,
 })
 export class ConfirmDialogComponent implements OnInit {
   isLoading: boolean = false;

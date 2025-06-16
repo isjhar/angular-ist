@@ -26,8 +26,7 @@ describe('MainComponent', () => {
     authServiceStub = jasmine.createSpyObj(['getUser']);
 
     await TestBed.configureTestingModule({
-      declarations: [MainComponent],
-      imports: [
+    imports: [
         NoopAnimationsModule,
         LayoutModule,
         MatButtonModule,
@@ -37,12 +36,13 @@ describe('MainComponent', () => {
         MatToolbarModule,
         MatMenuModule,
         RouterTestingModule.withRoutes([]),
-      ],
-      providers: [
+        MainComponent,
+    ],
+    providers: [
         { provide: Router, useValue: routerSpy },
         { provide: BreakpointObserver, useValue: breakPointObserverStub },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {
