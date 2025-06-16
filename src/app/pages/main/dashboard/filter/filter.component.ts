@@ -21,7 +21,7 @@ import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { SelectOption } from 'src/app/pages/shared/view-models/select-option.view-model';
 import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
@@ -84,11 +84,11 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   get startDate() {
-    return this.formGroup.get('startDate') as FormControl;
+    return this.formGroup.get('startDate') as FormControl<moment.Moment>;
   }
 
   get endDate() {
-    return this.formGroup.get('endDate') as FormControl;
+    return this.formGroup.get('endDate') as FormControl<moment.Moment>;
   }
 
   ngOnInit(): void {
@@ -187,7 +187,13 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.filterService.setDateRange(
-      new DateRange(this.startDate.value, this.endDate.value),
+      new DateRange(
+        this.startDate.value.startOf('day'),
+        this.endDate.value
+          .startOf('day')
+          .add(1, 'days')
+          .subtract(1, 'milliseconds'),
+      ),
     );
   }
 }

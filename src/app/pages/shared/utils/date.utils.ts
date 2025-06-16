@@ -1,11 +1,11 @@
 import moment from 'moment';
 
 export function getLast7DaysDate(): moment.Moment {
-  return getLastNDaysDate(7);
+  return getLastNDaysDate(6);
 }
 
 export function getLast30DaysDate(): moment.Moment {
-  return getLastNDaysDate(30);
+  return getLastNDaysDate(29);
 }
 
 export function getLastNDaysDate(days: number): moment.Moment {

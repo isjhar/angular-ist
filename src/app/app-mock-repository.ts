@@ -5,12 +5,12 @@ import { MockRoleRepository } from './data/repositories/mock-role-repository';
 import { MockUserRepository } from './data/repositories/mock-user-repository';
 import {
   ACCESS_CONTROL_REPOSITORY,
+  ADMIN_DASHBOARD_REPOSITORY,
   AUTH_REPOSITORY,
-  JOB_REPOSITORY,
   ROLE_REPOSITORY,
   USER_REPOSITORY,
 } from './app-token-repository';
-import { ApiJobRepository } from './data/repositories/api-job-repository';
+import { MockAdminDashboardRepository } from 'src/app/data/repositories/mock-admin-dashboard-repository';
 
 export const appMockRepositoryProviders: Provider = [
   { provide: AUTH_REPOSITORY, useClass: MockAuthRepository },
@@ -27,7 +27,7 @@ export const appMockRepositoryProviders: Provider = [
     useClass: MockAccessControlRepository,
   },
   {
-    provide: JOB_REPOSITORY,
-    useClass: ApiJobRepository,
+    provide: ADMIN_DASHBOARD_REPOSITORY,
+    useClass: MockAdminDashboardRepository,
   },
 ];

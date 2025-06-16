@@ -59,7 +59,9 @@
           <mat-card-subtitle class="min-h-[32px]">
             User Trends
           </mat-card-subtitle>
-          <app-user-trends></app-user-trends>
+          <app-user-trends
+            [activeUserTrends]="activeUserTrends()"
+            [newUserTrends]="newUserTrends()"></app-user-trends>
         </mat-card-content>
       </mat-card>
     </div>

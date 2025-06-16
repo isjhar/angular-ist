@@ -5,12 +5,11 @@ import { ApiRoleRepository } from './data/repositories/api-role-repository';
 import { ApiAccessControlRepository } from './data/repositories/api-access-control-repository';
 import {
   ACCESS_CONTROL_REPOSITORY,
+  ADMIN_DASHBOARD_REPOSITORY,
   AUTH_REPOSITORY,
-  JOB_REPOSITORY,
   ROLE_REPOSITORY,
   USER_REPOSITORY,
 } from './app-token-repository';
-import { ApiJobRepository } from './data/repositories/api-job-repository';
 
 export const appApiRepositoryProviders: Provider = [
   { provide: AUTH_REPOSITORY, useClass: ApiAuthRepository },
@@ -25,9 +24,5 @@ export const appApiRepositoryProviders: Provider = [
   {
     provide: ACCESS_CONTROL_REPOSITORY,
     useClass: ApiAccessControlRepository,
-  },
-  {
-    provide: JOB_REPOSITORY,
-    useClass: ApiJobRepository,
   },
 ];

@@ -1,9 +1,12 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { USER_REPOSITORY } from 'src/app/app-token-repository';
+import {
+  ADMIN_DASHBOARD_REPOSITORY,
+  USER_REPOSITORY,
+} from 'src/app/app-token-repository';
 import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
 import { User } from 'src/app/domain/entities/user';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
@@ -16,6 +19,11 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { UserTrendsComponent } from 'src/app/pages/main/dashboard/admin/user-trends/user-trends.component';
 import 'chartjs-adapter-moment';
 import { UserRolesComponent } from 'src/app/pages/main/dashboard/admin/user-roles/user-roles.component';
+import { AdminDashboardRepository } from 'src/app/domain/repositories/admin-dashboard-repository';
+import { ChartData } from 'chart.js';
+import { GetAdminDashboardUseCase } from 'src/app/domain/use-cases/get-admin-dashboard-use-case';
+import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
+import { UserTrend } from 'src/app/domain/entities/admin-dashboard';
 
 @Component({
   selector: 'app-admin',
@@ -35,6 +43,12 @@ import { UserRolesComponent } from 'src/app/pages/main/dashboard/admin/user-role
 })
 export class AdminComponent implements OnInit {
   totalUser$: Observable<number>;
+  activeUserTrends = signal<UserTrend[]>([]);
+  newUserTrends = signal<UserTrend[]>([]);
+
+  private _filterService = inject(FilterService);
+  private _adminDashboardRepository = inject(ADMIN_DASHBOARD_REPOSITORY);
+  private _getAdminDashboardUseCase: GetAdminDashboardUseCase;
 
   constructor(
     @Inject(USER_REPOSITORY)
@@ -47,7 +61,27 @@ export class AdminComponent implements OnInit {
           (response) => response.pagination.total,
         ),
       );
+
+    this._getAdminDashboardUseCase = new GetAdminDashboardUseCase(
+      this._adminDashboardRepository,
+    );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._filterService.dateRange$.subscribe((value) => {
+      const today = new Date();
+      const yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
+
+      this._getAdminDashboardUseCase
+        .execute({
+          startDate: value.start?.toDate() ?? yesterday,
+          endDate: value.end?.toDate() ?? today,
+        })
+        .subscribe((response) => {
+          this.activeUserTrends.set(response.activeUserTrends);
+          this.newUserTrends.set(response.newUserTrends);
+        });
+    });
+  }
 }
