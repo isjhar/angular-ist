@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
+import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { UserActivity } from 'src/app/domain/entities/admin-dashboard';
 import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
 
 @Component({
@@ -10,6 +11,8 @@ import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
   styleUrl: './user-activity-in-hour.component.scss',
 })
 export class UserActivityInHourComponent {
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
   @Input() set showDaily(value: boolean) {
     if (value) {
       this.data = Object.assign({}, this.dailyBarChartData);
@@ -17,14 +20,25 @@ export class UserActivityInHourComponent {
       this.data = Object.assign({}, this.hourlyBarChartData);
     }
   }
+
+  @Input() set hourlyUserActivities(value: UserActivity) {
+    this.hourlyBarChartData.datasets[0].data = value.newActivties;
+    this.hourlyBarChartData.datasets[1].data = value.activeActivities;
+    this.chart?.update();
+  }
+
+  @Input() set dailyUserActivities(value: UserActivity) {
+    this.dailyBarChartData.datasets[0].data = value.newActivties;
+    this.dailyBarChartData.datasets[1].data = value.activeActivities;
+    this.chart?.update();
+  }
+
   primary = getCssVar('--mat-sys-primary');
   secondary = getCssVar('--mat-sys-secondary-fixed-dim');
 
   data: ChartData<'bar', any> = {
     datasets: [],
   };
-
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   public hourlyBarChartData: ChartData<'bar'> = {
     labels: [
@@ -55,18 +69,12 @@ export class UserActivityInHourComponent {
     ],
     datasets: [
       {
-        data: [
-          65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80,
-          81, 56, 55, 40, 56, 55, 65,
-        ],
+        data: [],
         label: 'New Users',
         backgroundColor: this.primary,
       },
       {
-        data: [
-          23, 67, 89, 12, 45, 98, 56, 33, 71, 20, 90, 66, 5, 38, 72, 14, 59, 80,
-          91, 3, 44, 77, 64, 26,
-        ],
+        data: [],
         label: 'Active Users',
         backgroundColor: this.secondary,
       },
@@ -114,9 +122,4 @@ export class UserActivityInHourComponent {
   };
 
   public barChartType = 'bar' as const;
-}
-
-enum UserActivityPeriod {
-  daily,
-  hourly,
 }

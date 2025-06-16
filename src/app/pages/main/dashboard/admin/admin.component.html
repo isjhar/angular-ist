@@ -80,7 +80,11 @@
             </div>
           </mat-card-subtitle>
           <app-user-activity-in-hour
-            [showDaily]="dailyTogle.checked"></app-user-activity-in-hour>
+            [showDaily]="dailyTogle.checked"
+            [dailyUserActivities]="dailyUserActivities()"
+            [hourlyUserActivities]="
+              hourlyUserActivities()
+            "></app-user-activity-in-hour>
         </mat-card-content>
       </mat-card>
     </div>

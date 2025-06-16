@@ -19,11 +19,13 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { UserTrendsComponent } from 'src/app/pages/main/dashboard/admin/user-trends/user-trends.component';
 import 'chartjs-adapter-moment';
 import { UserRolesComponent } from 'src/app/pages/main/dashboard/admin/user-roles/user-roles.component';
-import { AdminDashboardRepository } from 'src/app/domain/repositories/admin-dashboard-repository';
-import { ChartData } from 'chart.js';
 import { GetAdminDashboardUseCase } from 'src/app/domain/use-cases/get-admin-dashboard-use-case';
 import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
-import { UserRole, UserTrend } from 'src/app/domain/entities/admin-dashboard';
+import {
+  UserActivity,
+  UserRole,
+  UserTrend,
+} from 'src/app/domain/entities/admin-dashboard';
 
 @Component({
   selector: 'app-admin',
@@ -46,6 +48,14 @@ export class AdminComponent implements OnInit {
   activeUserTrends = signal<UserTrend[]>([]);
   newUserTrends = signal<UserTrend[]>([]);
   userRoles = signal<UserRole[]>([]);
+  hourlyUserActivities = signal<UserActivity>({
+    activeActivities: [],
+    newActivties: [],
+  });
+  dailyUserActivities = signal<UserActivity>({
+    activeActivities: [],
+    newActivties: [],
+  });
 
   private _filterService = inject(FilterService);
   private _adminDashboardRepository = inject(ADMIN_DASHBOARD_REPOSITORY);
@@ -83,6 +93,8 @@ export class AdminComponent implements OnInit {
           this.activeUserTrends.set(response.activeUserTrends);
           this.newUserTrends.set(response.newUserTrends);
           this.userRoles.set(response.userRoles);
+          this.dailyUserActivities.set(response.dailyUserActivities);
+          this.hourlyUserActivities.set(response.hourlyUserActivities);
         });
     });
   }

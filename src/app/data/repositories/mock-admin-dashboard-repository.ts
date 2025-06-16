@@ -44,6 +44,22 @@ export class MockAdminDashboardRepository implements AdminDashboardRepository {
             total: Math.floor(Math.random() * (index < 2 ? 100 : 1000) + 1),
           };
         }),
+        hourlyUserActivities: {
+          activeActivities: Array.from({ length: 24 }).map((_, index) => {
+            return Math.floor(Math.random() * (index < 2 ? 100 : 1000) + 1);
+          }),
+          newActivties: Array.from({ length: 24 }).map((_, index) => {
+            return Math.floor(Math.random() * (index < 2 ? 100 : 1000) + 1);
+          }),
+        },
+        dailyUserActivities: {
+          activeActivities: Array.from({ length: 7 }).map((_, index) => {
+            return Math.floor(Math.random() * (index < 2 ? 1000 : 10000) + 1);
+          }),
+          newActivties: Array.from({ length: 7 }).map((_, index) => {
+            return Math.floor(Math.random() * (index < 2 ? 1000 : 10000) + 1);
+          }),
+        },
       });
     });
   }
