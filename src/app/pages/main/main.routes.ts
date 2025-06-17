@@ -1,6 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MainComponent } from './main.component';
+import { Routes } from '@angular/router';
 import { MainGuard } from './main.guard';
 import { settingRoutes } from './setting/setting.routes';
 
@@ -9,7 +7,7 @@ export const mainRoutes: Routes = [
     path: '',
     loadComponent: () =>
       import('./dashboard/dashboard.component').then(
-        (m) => m.DashboardComponent
+        (m) => m.DashboardComponent,
       ),
   },
   {

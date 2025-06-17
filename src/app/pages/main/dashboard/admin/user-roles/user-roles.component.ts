@@ -1,10 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import {
-  ChartConfiguration,
-  ChartData,
-  ChartOptions,
-  ChartType,
-} from 'chart.js';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { UserRole } from 'src/app/domain/entities/admin-dashboard';
 import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
