@@ -16,14 +16,14 @@
             <th
               mat-header-cell
               *matHeaderCellDef
-            [ngClass]="{
-              'center-cell':
-                column.cellTemplate ||
-                column.cellTemplateByType == 'date' ||
-                column.cellTemplateByType == 'category' ||
-                column.cellTemplateByType == 'number' ||
-                column.cellTemplateByType == 'currency'
-            }">
+              [ngClass]="{
+                'center-cell':
+                  column.cellTemplate ||
+                  column.cellTemplateByType == 'date' ||
+                  column.cellTemplateByType == 'category' ||
+                  column.cellTemplateByType == 'number' ||
+                  column.cellTemplateByType == 'currency',
+              }">
               {{ column.title }}
             </th>
           }
@@ -32,23 +32,21 @@
               mat-header-cell
               *matHeaderCellDef
               [mat-sort-header]="column.sortBy"
-            [ngClass]="{
-              'center-cell':
-                column.cellTemplate ||
-                column.cellTemplateByType == 'date' ||
-                column.cellTemplateByType == 'dateTime' ||
-                column.cellTemplateByType == 'category' ||
-                column.cellTemplateByType == 'number' ||
-                column.cellTemplateByType == 'currency'
-            }">
+              [ngClass]="{
+                'center-cell':
+                  column.cellTemplate ||
+                  column.cellTemplateByType == 'date' ||
+                  column.cellTemplateByType == 'dateTime' ||
+                  column.cellTemplateByType == 'category' ||
+                  column.cellTemplateByType == 'number' ||
+                  column.cellTemplateByType == 'currency',
+              }">
               {{ column.title }}
             </th>
           }
           <ng-container *matCellDef="let element">
             @if (!column.cellTemplate && !column.cellTemplateByType) {
-              <td
-                mat-cell
-                >
+              <td mat-cell>
                 <ng-container>
                   {{ element[column.prop] }}
                 </ng-container>
@@ -57,52 +55,42 @@
             @if (column.cellTemplate) {
               <td mat-cell class="category-cell">
                 <ng-container
-              *ngTemplateOutlet="
-                column.cellTemplate;
-                context: { element: element }
-              "></ng-container>
+                  *ngTemplateOutlet="
+                    column.cellTemplate;
+                    context: { element: element }
+                  "></ng-container>
               </td>
             }
-            @if (!column.cellTemplate && column.cellTemplateByType == 'date') {
-              <td
-                mat-cell
-                class="date-cell">
-                {{ element[column.prop] | date : "M/d/yyyy" }}
-              </td>
-            }
-            @if (
-              !column.cellTemplate && column.cellTemplateByType == 'dateTime'
-              ) {
-              <td
-                mat-cell
-                class="date-cell">
-                {{ element[column.prop] | date : "M/d/yyyy HH:mm:ss" }}
+            @if (!column.cellTemplate && column.cellTemplateByType == "date") {
+              <td mat-cell class="date-cell">
+                {{ element[column.prop] | date: "M/d/yyyy" }}
               </td>
             }
             @if (
-              !column.cellTemplate && column.cellTemplateByType == 'category'
-              ) {
-              <td
-                mat-cell
-                class="category-cell">
+              !column.cellTemplate && column.cellTemplateByType == "dateTime"
+            ) {
+              <td mat-cell class="date-cell">
+                {{ element[column.prop] | date: "M/d/yyyy HH:mm:ss" }}
+              </td>
+            }
+            @if (
+              !column.cellTemplate && column.cellTemplateByType == "category"
+            ) {
+              <td mat-cell class="category-cell">
                 {{ element[column.prop] }}
               </td>
             }
             @if (
-              !column.cellTemplate && column.cellTemplateByType == 'number'
-              ) {
-              <td
-                mat-cell
-                class="number-cell">
+              !column.cellTemplate && column.cellTemplateByType == "number"
+            ) {
+              <td mat-cell class="number-cell">
                 {{ element[column.prop] | defaultNumber }}
               </td>
             }
             @if (
-              !column.cellTemplate && column.cellTemplateByType == 'currency'
-              ) {
-              <td
-                mat-cell
-                class="number-cell">
+              !column.cellTemplate && column.cellTemplateByType == "currency"
+            ) {
+              <td mat-cell class="number-cell">
                 {{ element[column.prop] | defaultCurrency }}
               </td>
             }
@@ -123,15 +111,17 @@
     </table>
   </div>
 
-  <div class="card-view" [ngStyle]="{ display: isTableView ? 'none' : 'flex' }">
+  <div
+    class="card-view mb-4"
+    [ngStyle]="{ display: isTableView ? 'none' : 'flex' }">
     @for (data of dataSource; track data; let i = $index) {
       <div>
         @if (mobileItemView) {
           <ng-container
-          *ngTemplateOutlet="
-            mobileItemView.templateRef;
-            context: { $implicit: data, index: i }
-          "></ng-container>
+            *ngTemplateOutlet="
+              mobileItemView.templateRef;
+              context: { $implicit: data, index: i }
+            "></ng-container>
         }
       </div>
     }
@@ -142,5 +132,5 @@
     [length]="length"
     (page)="onPageChanged($event)"
     showFirstLastButtons
-  aria-label="Select page of periodic elements"></mat-paginator>
+    aria-label="Select page of periodic elements"></mat-paginator>
 </div>
