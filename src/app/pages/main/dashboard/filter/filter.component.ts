@@ -20,7 +20,6 @@ import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { SelectOption } from 'src/app/pages/shared/view-models/select-option.view-model';
 import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
-import moment, { Moment } from 'moment';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
@@ -70,7 +69,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   formGroup = this.formBuilder.group({
     startDate: [getLast7DaysDate()],
-    endDate: [moment()],
+    endDate: [new Date()],
     quickRange: [QuickRange.Last7Days],
   });
 
@@ -83,11 +82,11 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   get startDate() {
-    return this.formGroup.get('startDate') as FormControl<moment.Moment>;
+    return this.formGroup.get('startDate') as FormControl<Date>;
   }
 
   get endDate() {
-    return this.formGroup.get('endDate') as FormControl<moment.Moment>;
+    return this.formGroup.get('endDate') as FormControl<Date>;
   }
 
   ngOnInit(): void {
@@ -123,14 +122,13 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   updateDateRange(): void {
     const quickRange = this.quickRange.value;
-    const today = moment();
 
     switch (quickRange) {
       case QuickRange.Today:
         this.formGroup.patchValue(
           {
-            startDate: moment(),
-            endDate: moment(),
+            startDate: new Date(),
+            endDate: new Date(),
           },
           {
             emitEvent: false,
@@ -141,7 +139,7 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.formGroup.patchValue(
           {
             startDate: getLast7DaysDate(),
-            endDate: moment(),
+            endDate: new Date(),
           },
           {
             emitEvent: false,
@@ -152,7 +150,7 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.formGroup.patchValue(
           {
             startDate: getLast30DaysDate(),
-            endDate: moment(),
+            endDate: new Date(),
           },
           {
             emitEvent: false,
@@ -165,7 +163,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   updateQuickRange(): void {
     const startDate = this.startDate.value;
     const endDate = this.endDate.value;
-    const today = moment();
+    const today = new Date();
     const last7Days = getLast7DaysDate();
     const last30Days = getLast30DaysDate();
 
@@ -185,15 +183,12 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.filterService.setDateRange(
-      new DateRange(
-        this.startDate.value.startOf('day'),
-        this.endDate.value
-          .startOf('day')
-          .add(1, 'days')
-          .subtract(1, 'milliseconds'),
-      ),
-    );
+    const startDate = new Date(this.startDate.value);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(this.endDate.value);
+    endDate.setHours(23, 59, 59, 999);
+    this.filterService.setDateRange(new DateRange(startDate, endDate));
   }
 }
 

@@ -1,23 +1,31 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, inject, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
 import 'chartjs-adapter-moment';
 import { UserTrend } from 'src/app/domain/entities/admin-dashboard';
-import moment from 'moment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-trends',
   imports: [BaseChartDirective],
+  providers: [DatePipe],
   templateUrl: './user-trends.component.html',
   styleUrl: './user-trends.component.scss',
 })
 export class UserTrendsComponent {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
+  datePipe = inject(DatePipe);
+
   @Input() set activeUserTrends(value: UserTrend[]) {
     this.data.datasets[1].data = value.map((userTrend) => {
+      let date = this.datePipe.transform(userTrend.date, 'yyyy-MM-dd');
+      if (date == null) {
+        date = '';
+      }
       return {
-        x: moment(userTrend.date).format('YYYY-MM-DD'),
+        x: date,
         y: userTrend.total,
       };
     });
@@ -25,8 +33,12 @@ export class UserTrendsComponent {
   }
   @Input() set newUserTrends(value: UserTrend[]) {
     this.data.datasets[0].data = value.map((userTrend) => {
+      let date = this.datePipe.transform(userTrend.date, 'yyyy-MM-dd');
+      if (date == null) {
+        date = '';
+      }
       return {
-        x: moment(userTrend.date).format('YYYY-MM-DD'),
+        x: date,
         y: userTrend.total,
       };
     });

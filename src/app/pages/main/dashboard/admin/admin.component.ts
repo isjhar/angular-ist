@@ -62,8 +62,8 @@ export class AdminComponent implements OnInit {
 
       this._getAdminDashboardUseCase
         .execute({
-          startDate: value.start?.toDate() ?? yesterday,
-          endDate: value.end?.toDate() ?? today,
+          startDate: value.start ?? yesterday,
+          endDate: value.end ?? today,
         })
         .subscribe((response) => {
           this.adminDashboard.set(response);

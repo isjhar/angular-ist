@@ -1,18 +1,22 @@
-import moment from 'moment';
-
-export function getLast7DaysDate(): moment.Moment {
+export function getLast7DaysDate(): Date {
   return getLastNDaysDate(6);
 }
 
-export function getLast30DaysDate(): moment.Moment {
+export function getLast30DaysDate(): Date {
   return getLastNDaysDate(29);
 }
 
-export function getLastNDaysDate(days: number): moment.Moment {
-  return moment().subtract(days, 'days');
+export function getLastNDaysDate(days: number): Date {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  return date;
 }
 
-export function isSameDate(d1: moment.Moment, d2: moment.Moment): boolean {
+export function isSameDate(d1: Date, d2: Date): boolean {
   if (!d1 || !d2) return false;
-  return d1.isSame(d2, 'day');
+  return (
+    d1.getFullYear() == d2.getFullYear() &&
+    d1.getMonth() == d2.getMonth() &&
+    d1.getDay() == d2.getDay()
+  );
 }
