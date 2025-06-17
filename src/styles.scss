@@ -164,3 +164,33 @@ body {
     }
   }
 }
+
+// material font size
+.text-display-small {
+  font: var(--mat-sys-display-small);
+}
+
+.text-headline-small {
+  font: var(--mat-sys-headline-small);
+}
+
+.text-headline-medium {
+  font: var(--mat-sys-headline-medium);
+}
+
+.text-title-small {
+  font: var(--mat-sys-title-small);
+}
+
+.text-title-medium {
+  font: var(--mat-sys-title-medium);
+}
+
+.text-title-large {
+  font: var(--mat-sys-title-large);
+}
+
+// material font color
+.text-on-secondary-container {
+  color: var(--mat-sys-on-secondary-container);
+}

@@ -8,7 +8,6 @@ import {
 } from 'src/app/pages/shared/utils/date.utils';
 import {
   DateRange,
-  MatDatepickerModule,
   MatDatepickerToggle,
   MatDateRangeInput,
   MatDateRangePicker,
