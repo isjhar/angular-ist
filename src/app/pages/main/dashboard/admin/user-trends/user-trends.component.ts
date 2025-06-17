@@ -2,7 +2,7 @@ import { Component, inject, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { getCssVar } from 'src/app/pages/shared/utils/style.utils';
-import 'chartjs-adapter-moment';
+import 'chartjs-adapter-date-fns';
 import { UserTrend } from 'src/app/domain/entities/admin-dashboard';
 import { DatePipe } from '@angular/common';
 
@@ -94,9 +94,9 @@ export class UserTrendsComponent {
       x: {
         type: 'time',
         time: {
-          parser: 'YYYY-MM-DD',
+          parser: 'yyyy-MM-dd',
           unit: 'day',
-          tooltipFormat: 'MMM DD, YYYY',
+          tooltipFormat: 'MMM dd, yyyy',
         },
         title: {
           display: true,

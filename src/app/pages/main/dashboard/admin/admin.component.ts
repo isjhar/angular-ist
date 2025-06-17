@@ -6,7 +6,7 @@ import { DefaultNumberPipe } from '../../../shared/text/default-number.pipe';
 import { UserActivityInHourComponent } from 'src/app/pages/main/dashboard/admin/user-activity-in-hour/user-activity-in-hour.component';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { UserTrendsComponent } from 'src/app/pages/main/dashboard/admin/user-trends/user-trends.component';
-import 'chartjs-adapter-moment';
+import 'chartjs-adapter-date-fns';
 import { UserRolesComponent } from 'src/app/pages/main/dashboard/admin/user-roles/user-roles.component';
 import { GetAdminDashboardUseCase } from 'src/app/domain/use-cases/get-admin-dashboard-use-case';
 import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
