@@ -42,6 +42,7 @@ import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../..
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
 import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
+import { MatRipple } from '@angular/material/core';
 
 @Component({
   selector: 'app-roles',
@@ -59,6 +60,7 @@ import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/defau
     MatInputModule,
     MatCardModule,
     NgTemplateOutlet,
+    MatRipple,
   ],
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
@@ -141,7 +143,7 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  onRowClicked(event: RowClickEvent) {
-    this.router.navigate(['/setting/roles/' + event.row.id]);
+  onRowClicked(row: any) {
+    this.router.navigate(['/setting/roles/' + row.id]);
   }
 }

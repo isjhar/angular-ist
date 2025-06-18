@@ -7,10 +7,10 @@
     Add
   </button>
 </div>
-<app-server-side-table #table (rowClick)="onRowClicked($event)">
+<app-server-side-table #table (rowClick)="onRowClicked($event.row)">
   <ng-template appDefaultTableMobileItemView let-data>
-    <mat-card>
-      <mat-card-content>
+    <mat-card class="relative" (click)="onRowClicked(data)">
+      <mat-card-content matRipple>
         <div class="row">
           <div style="flex: 1">
             <div>{{ data.name }}</div>
