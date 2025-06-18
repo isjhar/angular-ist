@@ -1,10 +1,10 @@
 # Information System Web Template
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 20.0.2.
 This project structure based on Clean Architecture
 
 ## Dependencies
-- Material UI
+- Material UI 3
 - NGX Skeleton Loader
 - Ng2-Charts
 
@@ -43,4 +43,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Demo
 
-[Demo Link](https://angular-ist.isjhar.web.id). 
+[Demo Link](https://angular-ist.isjhar.web.id) 
