@@ -110,6 +110,8 @@ export class DefaultTableComponent
     return this._dataSource;
   }
 
+  @Input() trackBy: string = 'id';
+
   @Output() page = new EventEmitter<any>();
   @Output() sortChange = new EventEmitter<any>();
   @Output() rowClick = new EventEmitter<RowClickEvent>();

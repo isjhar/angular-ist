@@ -132,7 +132,7 @@
   <div
     class="card-view mb-4"
     [ngStyle]="{ display: isTableView ? 'none' : 'flex' }">
-    @for (data of dataSource; track data; let i = $index) {
+    @for (data of dataSource; track data[trackBy]; let i = $index) {
       <div>
         @if (mobileItemView) {
           <ng-container

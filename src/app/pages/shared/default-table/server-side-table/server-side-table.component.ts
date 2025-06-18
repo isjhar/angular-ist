@@ -50,6 +50,8 @@ export class ServerSideTableComponent
 {
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
+  @Input() trackBy: string = 'id';
+
   @Output() rowClick = new EventEmitter<RowClickEvent>();
 
   isLoaded = false;
