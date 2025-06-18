@@ -7,7 +7,7 @@
     Add
   </button>
 </div>
-<app-server-side-table #table>
+<app-server-side-table #table (rowClick)="onRowClicked($event)">
   <ng-template appDefaultTableMobileItemView let-data>
     <mat-card>
       <mat-card-content>
@@ -28,25 +28,27 @@
       </mat-card-content>
     </mat-card>
   </ng-template>
+  <ng-template appDefaultTableActionContainer let-data>
+    <div class="mt-[6px]">
+      <ng-container
+        *ngTemplateOutlet="
+          actionTemplate;
+          context: {
+            element: data,
+          }
+        "></ng-container>
+    </div>
+  </ng-template>
 </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
-  <a
-    mat-icon-button
-    color="primary"
-    aria-label="View"
-    data-test="btn-detail"
-    [routerLink]="'/setting/roles/' + element.id">
-    <mat-icon>visibility</mat-icon>
-  </a>
-
   @if (element.id != 1) {
     <button
       matIconButton
-      aria-label="Delete"
+      aria-label="Icon button with a delete icon"
       data-test="btn-delete"
-      (click)="onDeleteClicked(element)">
-      <mat-icon>delete</mat-icon>
+      (click)="onDeleteClicked($event, element)">
+      <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
     </button>
   }
 </ng-template>

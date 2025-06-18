@@ -30,6 +30,17 @@
       </mat-card-content>
     </mat-card>
   </ng-template>
+  <ng-template appDefaultTableActionContainer let-data>
+    <div class="mt-[6px]">
+      <ng-container
+        *ngTemplateOutlet="
+          actionTemplate;
+          context: {
+            element: data,
+          }
+        "></ng-container>
+    </div>
+  </ng-template>
 </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
@@ -38,8 +49,8 @@
       matIconButton
       aria-label="Example icon button with a delete icon"
       data-test="btn-delete"
-      (click)="onDeleteClicked(element)">
-      <mat-icon>delete</mat-icon>
+      (click)="onDeleteClicked($event, element)">
+      <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
     </button>
   }
 </ng-template>

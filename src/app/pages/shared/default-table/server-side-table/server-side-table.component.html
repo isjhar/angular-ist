@@ -1,6 +1,5 @@
 @if (searchable) {
-  <app-search-field
-  [placeholder]="searchPlaceholder"></app-search-field>
+  <app-search-field [placeholder]="searchPlaceholder"></app-search-field>
 }
 <app-default-table
   [ngStyle]="{ display: isLoaded ? 'block' : 'none' }"
@@ -8,7 +7,8 @@
   [length]="length"
   [columns]="columns"
   (page)="onPageChanged($event)"
-  (sortChange)="onSortChanged($event)">
+  (sortChange)="onSortChanged($event)"
+  (rowClick)="onRowClicked($event)">
   @if (mobileItemView) {
     <ng-template appDefaultTableMobileItemView let-data let-i="index">
       <ng-container
@@ -18,8 +18,17 @@
         "></ng-container>
     </ng-template>
   }
+  @if (actionContainer) {
+    <ng-template appDefaultTableActionContainer let-data>
+      <ng-container
+        *ngTemplateOutlet="
+          actionContainer.templateRef;
+          context: { $implicit: data }
+        "></ng-container>
+    </ng-template>
+  }
 </app-default-table>
 
 <app-skeleton
   height="160px"
-[ngStyle]="{ display: isLoaded ? 'none' : 'block' }"></app-skeleton>
+  [ngStyle]="{ display: isLoaded ? 'none' : 'block' }"></app-skeleton>

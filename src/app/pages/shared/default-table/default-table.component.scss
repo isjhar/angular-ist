@@ -1,13 +1,38 @@
-table {
-  width: 100%;
-}
+@use "@angular/material" as mat;
 
-.mat-column-position {
-  flex: 0 0 10%;
-}
+app-default-table {
+  table {
+    width: 100%;
+  }
 
-.card-view {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  .mat-column-position {
+    flex: 0 0 10%;
+  }
+
+  .card-view {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mat-mdc-cell,
+  .mat-mdc-header-cell {
+    border-bottom: var(--mat-table-row-item-outline-width, 1px)
+      var(
+        --mat-table-row-item-outline-color,
+        var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12))
+      )
+      solid;
+  }
+
+  .mdc-data-table__row {
+    &:last-child > .mat-mdc-cell {
+      border-bottom: var(--mat-table-row-item-outline-width, 1px)
+        var(
+          --mat-table-row-item-outline-color,
+          var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12))
+        )
+        solid;
+    }
+  }
 }

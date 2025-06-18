@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   Inject,
   OnInit,
   TemplateRef,
@@ -36,15 +37,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { NgTemplateOutlet } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
+import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
+import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 
 @Component({
   selector: 'app-roles',
   imports: [
     ServerSideTableComponent_1,
     DefaultTableMobileItemViewDirective,
+    DefaultTableActionContainerDirective,
     MatIconModule,
     MatFormFieldModule,
     ReactiveFormsModule,
@@ -55,7 +59,6 @@ import { DefaultTableMobileItemViewDirective } from '../../../shared/default-tab
     MatInputModule,
     MatCardModule,
     NgTemplateOutlet,
-    RouterLink,
   ],
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
@@ -63,8 +66,6 @@ import { DefaultTableMobileItemViewDirective } from '../../../shared/default-tab
   standalone: true,
 })
 export class RolesComponent implements OnInit {
-  @ViewChild('actionTemplate', { static: true })
-  actionTemplate!: TemplateRef<any>;
   @ViewChild('table', { static: true })
   table!: ServerSideTableComponent;
 
@@ -75,12 +76,15 @@ export class RolesComponent implements OnInit {
   };
 
   deleteRoleUseCase: DeleteUseCase;
+
+  router = inject(Router);
+
   constructor(
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.deleteRoleUseCase = new DeleteUseCase(roleRepository);
   }
@@ -91,13 +95,6 @@ export class RolesComponent implements OnInit {
         prop: 'name',
         show: true,
         title: 'Name',
-        showHandset: true,
-      },
-      {
-        prop: 'id',
-        show: true,
-        title: 'Action',
-        cellTemplate: this.actionTemplate,
         showHandset: true,
       },
     ]);
@@ -122,7 +119,8 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  onDeleteClicked(element: any): void {
+  onDeleteClicked(event: Event, element: any): void {
+    event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '90%',
       maxWidth: 500,
@@ -141,5 +139,9 @@ export class RolesComponent implements OnInit {
         });
       }
     });
+  }
+
+  onRowClicked(event: RowClickEvent) {
+    this.router.navigate(['/setting/roles/' + event.row.id]);
   }
 }

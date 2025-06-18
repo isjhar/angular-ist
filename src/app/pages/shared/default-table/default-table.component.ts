@@ -1,5 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
+  AfterContentInit,
+  AfterViewInit,
   Component,
   ContentChild,
   EventEmitter,
@@ -8,6 +10,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortHeader } from '@angular/material/sort';
@@ -30,6 +33,8 @@ import { BaseComponent } from '../base.component';
 import { NgStyle, NgClass, NgTemplateOutlet, DatePipe } from '@angular/common';
 import { DefaultCurrencyPipe } from '../text/default-currency.pipe';
 import { DefaultNumberPipe } from '../text/default-number.pipe';
+import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
+import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
 
 export interface DefaultTableColumn {
   title: string;
@@ -67,8 +72,12 @@ export interface DefaultTableColumn {
     DefaultCurrencyPipe,
     DefaultNumberPipe,
   ],
+  encapsulation: ViewEncapsulation.None,
 })
-export class DefaultTableComponent extends BaseComponent implements OnInit {
+export class DefaultTableComponent
+  extends BaseComponent
+  implements OnInit, AfterViewInit, AfterContentInit
+{
   @Input() length: number = 0;
 
   private _columns: DefaultTableColumn[] = [];
@@ -103,6 +112,7 @@ export class DefaultTableComponent extends BaseComponent implements OnInit {
 
   @Output() page = new EventEmitter<any>();
   @Output() sortChange = new EventEmitter<any>();
+  @Output() rowClick = new EventEmitter<RowClickEvent>();
 
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -111,8 +121,13 @@ export class DefaultTableComponent extends BaseComponent implements OnInit {
   @ContentChild(DefaultTableMobileItemViewDirective)
   mobileItemView?: DefaultTableMobileItemViewDirective;
 
+  @ContentChild(DefaultTableActionContainerDirective)
+  actionContainer?: DefaultTableActionContainerDirective;
+
   pageSizeOptions: number[] = [5, 10, 20];
   displayedColumns: string[] = [];
+
+  actionColumnName = '_actionColumn';
 
   get pageSize() {
     return this.paginator.pageSize;
@@ -134,11 +149,24 @@ export class DefaultTableComponent extends BaseComponent implements OnInit {
     return !this.isHandset || this.mobileItemView == undefined;
   }
 
+  get isRowClickHasListener(): boolean {
+    return this.rowClick.observed;
+  }
+
   isHandset: boolean = false;
 
   constructor() {
     super();
   }
+
+  ngAfterContentInit(): void {
+    if (this.actionContainer) {
+      this.displayedColumns.push(this.actionColumnName);
+
+      this.displayedColumns = [...this.displayedColumns];
+    }
+  }
+  ngAfterViewInit(): void {}
 
   override ngOnInit(): void {
     this.isHandset$.subscribe((isHandset) => {
@@ -148,9 +176,14 @@ export class DefaultTableComponent extends BaseComponent implements OnInit {
   }
 
   adjustDisplayedColumns(): void {
-    this.displayedColumns = this._columns
+    const columns = this._columns
       .filter((x) => x.show && (!this.isHandset || x.showHandset))
       .map((x) => x.prop);
+    if (this.actionContainer) {
+      columns.push(this.actionColumnName);
+    }
+
+    this.displayedColumns = columns;
   }
 
   onPageChanged(event: any): void {
@@ -163,5 +196,13 @@ export class DefaultTableComponent extends BaseComponent implements OnInit {
 
   renderRows(): void {
     this.table.renderRows();
+  }
+
+  onRowClicked(event: Event, row: any): void {
+    event.preventDefault();
+    this.rowClick.emit({
+      clickEvent: event,
+      row: row,
+    });
   }
 }

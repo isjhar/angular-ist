@@ -4,11 +4,13 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  EventEmitter,
   Inject,
   InjectionToken,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
@@ -26,18 +28,29 @@ import { DefaultTableMobileItemViewDirective } from '../default-table-mobile-ite
 import { SearchFieldComponent } from './search-field/search-field.component';
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { SkeletonComponent } from '../../skeleton/skeleton.component';
+import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
+import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
 
 @Component({
-    selector: 'app-server-side-table',
-    templateUrl: './server-side-table.component.html',
-    styleUrls: ['./server-side-table.component.scss'],
-    imports: [SearchFieldComponent, DefaultTableComponent, NgStyle, DefaultTableMobileItemViewDirective, NgTemplateOutlet, SkeletonComponent]
+  selector: 'app-server-side-table',
+  templateUrl: './server-side-table.component.html',
+  styleUrls: ['./server-side-table.component.scss'],
+  imports: [
+    SearchFieldComponent,
+    DefaultTableComponent,
+    NgStyle,
+    DefaultTableMobileItemViewDirective,
+    DefaultTableActionContainerDirective,
+    NgTemplateOutlet,
+    SkeletonComponent,
+  ],
 })
 export class ServerSideTableComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
+  @Output() rowClick = new EventEmitter<RowClickEvent>();
 
   isLoaded = false;
   dataSource: any[] = [];
@@ -53,12 +66,15 @@ export class ServerSideTableComponent
   @ContentChild(DefaultTableMobileItemViewDirective)
   mobileItemView?: DefaultTableMobileItemViewDirective;
 
+  @ContentChild(DefaultTableActionContainerDirective)
+  actionContainer?: DefaultTableActionContainerDirective;
+
   columnsChangeSubscription!: Subscription;
   searchChangeSubscription!: Subscription;
 
   constructor(
     @Inject(TABLE_SERVICE) private service: ServerSideTableService<any, any>,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -67,14 +83,14 @@ export class ServerSideTableComponent
       (columns) => {
         this.columns = columns;
         this.table.renderRows();
-      }
+      },
     );
     this.search = this.service.search;
     this.searchChangeSubscription = this.service.searchChange.subscribe(
       (search) => {
         this.search = search;
         this.refreshData();
-      }
+      },
     );
     this.service.setTable(this.table);
   }
@@ -96,6 +112,10 @@ export class ServerSideTableComponent
   onSortChanged(event: any): void {
     this.showLoadingSnackBar();
     this.get();
+  }
+
+  onRowClicked(event: RowClickEvent): void {
+    this.rowClick.emit(event);
   }
 
   get(): void {

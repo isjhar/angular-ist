@@ -33,12 +33,14 @@ import { MatCardModule } from '@angular/material/card';
 import { NgTemplateOutlet } from '@angular/common';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
+import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 
 @Component({
   selector: 'app-users',
   imports: [
     ServerSideTableComponent_1,
     DefaultTableMobileItemViewDirective,
+    DefaultTableActionContainerDirective,
     MatIconModule,
     MatFormFieldModule,
     ReactiveFormsModule,
@@ -58,8 +60,6 @@ import { DefaultTableMobileItemViewDirective } from '../../../shared/default-tab
   standalone: true,
 })
 export class UsersComponent implements OnInit {
-  @ViewChild('actionTemplate', { static: true })
-  actionTemplate!: TemplateRef<any>;
   @ViewChild('table', { static: true })
   table!: ServerSideTableComponent;
 
@@ -70,7 +70,7 @@ export class UsersComponent implements OnInit {
     private tableService: ServerSideTableService<any, any>,
     @Inject(USER_REPOSITORY) userRepository: UserRepository,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.deleteUserUseCase = new DeleteUseCase(userRepository);
   }
@@ -98,13 +98,6 @@ export class UsersComponent implements OnInit {
         sortBy: 'role_names',
         showHandset: false,
       },
-      {
-        prop: 'id',
-        show: true,
-        title: 'Action',
-        cellTemplate: this.actionTemplate,
-        showHandset: true,
-      },
     ]);
   }
 
@@ -125,7 +118,8 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  onDeleteClicked(element: any): void {
+  onDeleteClicked(event: Event, element: any): void {
+    event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '90%',
       maxWidth: 500,
