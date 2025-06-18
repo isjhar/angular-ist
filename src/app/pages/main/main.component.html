@@ -70,7 +70,10 @@
                 selected: menu.url == url || (url == '/' && menu.url == ''),
               }">
               <div class="menu-title">
-                <mat-icon mat-list-icon class="icon">
+                <mat-icon
+                  mat-list-icon
+                  class="icon"
+                  fontSet="material-symbols-outlined">
                   {{ menu.icon }}
                 </mat-icon>
                 {{ menu.name }}
@@ -81,7 +84,10 @@
             <a mat-list-item (click)="toggleMenu(menu.name)">
               <div class="expanded-menu-item">
                 <div class="menu-title">
-                  <mat-icon mat-list-icon class="icon">
+                  <mat-icon
+                    mat-list-icon
+                    class="icon"
+                    fontSet="material-symbols-outlined">
                     {{ menu.icon }}
                   </mat-icon>
                   {{ menu.name }}
