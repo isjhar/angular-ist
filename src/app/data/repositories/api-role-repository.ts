@@ -33,7 +33,7 @@ export class ApiRoleRepository implements RoleRepository {
     return this.http
       .get<ApiResponse<Pagination<Role>>>(urlBuilder.getUrl())
       .pipe(
-        map<ApiResponse<Pagination<Role>>, Pagination<Role>>((e) => e.data)
+        map<ApiResponse<Pagination<Role>>, Pagination<Role>>((e) => e.data),
       );
   }
   store(params: StoreRoleRequestParams): Observable<Role> {
@@ -53,10 +53,10 @@ export class ApiRoleRepository implements RoleRepository {
   }
 
   getRoleAccessControls(
-    params: GetRoleAccessControlsRequestParams
+    params: GetRoleAccessControlsRequestParams,
   ): Observable<Pagination<RoleAccessControl>> {
     let urlBuilder = new ApiUrlBuilder(
-      `/api/roles/${params.roleId}/access-controls`
+      `/api/roles/${params.roleId}/access-controls`,
     );
     urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
@@ -66,7 +66,7 @@ export class ApiRoleRepository implements RoleRepository {
         map<ApiResponse<Pagination<any>>, Pagination<RoleAccessControl>>(
           (e) => {
             return {
-              data: e.data.data.map((x) => {
+              items: e.data.items.map((x) => {
                 return {
                   id: x.roleId,
                   accessControl: {
@@ -78,29 +78,28 @@ export class ApiRoleRepository implements RoleRepository {
               }),
               total: e.data.total,
             };
-          }
-        )
+          },
+        ),
       );
   }
 
   storeAccessControl(
-    params: StoreAccessControlRequestParams
+    params: StoreAccessControlRequestParams,
   ): Observable<void> {
     return this.http
-      .post<ApiResponse<void>>(
-        `/api/roles/${params.roleId}/access-controls`,
-        params
-      )
+      .post<
+        ApiResponse<void>
+      >(`/api/roles/${params.roleId}/access-controls`, params)
       .pipe(map<ApiResponse<void>, void>((e) => e.data));
   }
 
   deleteAccessControl(
-    params: DeleteAccessControlRequestParams
+    params: DeleteAccessControlRequestParams,
   ): Observable<void> {
     return this.http
-      .delete<ApiResponse<void>>(
-        `/api/roles/${params.roleId}/access-controls/${params.accessControlId}`
-      )
+      .delete<
+        ApiResponse<void>
+      >(`/api/roles/${params.roleId}/access-controls/${params.accessControlId}`)
       .pipe(map<ApiResponse<void>, void>((e) => e.data));
   }
 }

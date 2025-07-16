@@ -25,12 +25,12 @@ export class RoleTableService extends ServerSideTableService<
   constructor(
     @Inject(ROLE_REPOSITORY)
     roleRepository: RoleRepository,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     super();
 
     this.getRoleAccessControlUseCase = new GetRoleAccessControlsUseCase(
-      roleRepository
+      roleRepository,
     );
     if (this.route.snapshot.paramMap.has('id')) {
       this.roleId = parseInt(this.route.snapshot.paramMap.get('id')!);
@@ -53,18 +53,18 @@ export class RoleTableService extends ServerSideTableService<
         ServerSideTablePagination<RoleAccessControlRow>
       >((response) => {
         return {
-          data: response.pagination.data.map<RoleAccessControlRow>(
+          data: response.pagination.items.map<RoleAccessControlRow>(
             (element) => {
               return {
                 id: element.id,
                 name: element.accessControl.name,
                 accessControlId: element.accessControl.id,
               };
-            }
+            },
           ),
           total: response.pagination.total,
         };
-      })
+      }),
     );
   }
 }

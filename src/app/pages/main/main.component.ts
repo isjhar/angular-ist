@@ -101,7 +101,7 @@ export class MainComponent extends BaseComponent implements OnInit {
 
   getMenus(): void {
     this.getMenusUseCase.execute({}).subscribe((response) => {
-      this.menus = response.pagination.data;
+      this.menus = response.pagination.items;
     });
   }
 

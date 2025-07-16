@@ -60,11 +60,11 @@ export class LocalMenuRepository implements MenuRepository {
           });
           observer.next({
             total: items.length,
-            data: items,
+            items: items,
           });
           observer.complete();
         });
-      })
+      }),
     );
   }
 }

@@ -33,14 +33,14 @@ export class UsersTableService extends ServerSideTableService<
     };
   }
   get(
-    params: GetServerSideTableParams
+    params: GetServerSideTableParams,
   ): Observable<ServerSideTablePagination<UserRow>> {
     return this.getUsersUseCase.execute(params).pipe(
       map<GetUseCaseResponse<User>, ServerSideTablePagination<UserRow>>(
         (element) => {
           return {
             total: element.pagination.total,
-            data: element.pagination.data.map<UserRow>((element) => {
+            data: element.pagination.items.map<UserRow>((element) => {
               let role_names = element.roles
                 .map<String>((element) => element.name)
                 .join(', ');
@@ -52,8 +52,8 @@ export class UsersTableService extends ServerSideTableService<
               };
             }),
           };
-        }
-      )
+        },
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  dataSource: 'api',
+  dataSource: 'mock',
   apiUrl: '',
 };

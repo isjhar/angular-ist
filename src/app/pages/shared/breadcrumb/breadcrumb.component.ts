@@ -25,7 +25,7 @@ export class BreadcrumbComponent extends BaseComponent implements OnInit {
   constructor(
     @Inject(BREADCRUMB_REPOSITORY)
     breadCrumbRepository: BreadcrumbRepository,
-    private router: Router
+    private router: Router,
   ) {
     super();
     this.getMenusUseCase = new GetBreadcrumbsUseCase(breadCrumbRepository);
@@ -38,7 +38,7 @@ export class BreadcrumbComponent extends BaseComponent implements OnInit {
 
   override ngOnInit(): void {
     this.getMenusUseCase.execute({}).subscribe((response) => {
-      this.breadcrumbs = response.pagination.data;
+      this.breadcrumbs = response.pagination.items;
     });
   }
 }

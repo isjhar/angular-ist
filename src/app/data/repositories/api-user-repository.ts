@@ -28,9 +28,9 @@ export class ApiUserRepository implements UserRepository {
         map<ApiResponse<Pagination<UserData>>, Pagination<User>>((response) => {
           return {
             total: response.data.total,
-            data: response.data.data.map(mapUserData),
+            items: response.data.items.map(mapUserData),
           };
-        })
+        }),
       );
   }
   store(params: StoreUserRequestParams): Observable<User> {
@@ -38,8 +38,8 @@ export class ApiUserRepository implements UserRepository {
       .post<ApiResponse<User>>('/api/users', params)
       .pipe(
         map<ApiResponse<UserData>, User>((response) =>
-          mapUserData(response.data)
-        )
+          mapUserData(response.data),
+        ),
       );
   }
   update(id: number, params: StoreUserRequestParams): Observable<void> {

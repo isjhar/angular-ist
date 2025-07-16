@@ -39,7 +39,7 @@ export class RolesTableService extends ServerSideTableService<
       map<GetUseCaseResponse<Role>, ServerSideTablePagination<RoleRow>>(
         (response) => {
           return {
-            data: response.pagination.data.map<RoleRow>((element) => {
+            data: response.pagination.items.map<RoleRow>((element) => {
               return {
                 id: element.id,
                 name: element.name,
@@ -47,8 +47,8 @@ export class RolesTableService extends ServerSideTableService<
             }),
             total: response.pagination.total,
           };
-        }
-      )
+        },
+      ),
     );
   }
 }

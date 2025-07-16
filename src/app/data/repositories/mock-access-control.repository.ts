@@ -36,13 +36,13 @@ export class MockAccessControlRepository implements AccessControlRepository {
     let paginatedAccessControls = items.splice((page - 1) * limit, limit);
     return of({
       total: paginatedAccessControls.length,
-      data: paginatedAccessControls,
+      items: paginatedAccessControls,
     });
   }
   store(params: StoreAccessControlRequestParams): Observable<AccessControl> {
     return new Observable<AccessControl>((observer) => {
       let maxId = Math.max(
-        ...MockAccessControlRepository.items.map((element) => element.id)
+        ...MockAccessControlRepository.items.map((element) => element.id),
       );
       let menu: AccessControl = {
         id: maxId + 1,
@@ -56,11 +56,11 @@ export class MockAccessControlRepository implements AccessControlRepository {
   }
   update(
     id: number,
-    params: StoreAccessControlRequestParams
+    params: StoreAccessControlRequestParams,
   ): Observable<void> {
     return new Observable<void>((observer) => {
       let menu = MockAccessControlRepository.items.find(
-        (element) => element.id == id
+        (element) => element.id == id,
       );
       if (menu == undefined) {
         observer.error('menu not found');

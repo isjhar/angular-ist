@@ -35,16 +35,16 @@ export class MockRoleRepository implements RoleRepository {
 
     if (search != undefined) {
       roles = roles.filter((element) =>
-        element.name.toLowerCase().includes(search?.toLowerCase() ?? '')
+        element.name.toLowerCase().includes(search?.toLowerCase() ?? ''),
       );
     }
     let paginatedRoles = roles.splice((page - 1) * limit, limit);
-    return of({ total: roles.length, data: paginatedRoles });
+    return of({ total: roles.length, items: paginatedRoles });
   }
   store(params: StoreRoleRequestParams): Observable<Role> {
     return new Observable<Role>((observer) => {
       let duplicateRole = MockRoleRepository.roles.find(
-        (x) => x.name == params.name
+        (x) => x.name == params.name,
       );
       if (duplicateRole) {
         observer.error(Error.DuplicateItem);
@@ -53,7 +53,7 @@ export class MockRoleRepository implements RoleRepository {
       }
 
       let maxId = Math.max(
-        ...MockRoleRepository.roles.map((element) => element.id)
+        ...MockRoleRepository.roles.map((element) => element.id),
       );
       let role: Role = {
         id: maxId + 1,
@@ -72,7 +72,7 @@ export class MockRoleRepository implements RoleRepository {
         observer.error('role not found');
       }
       role!.accessControls = MockAccessControlRepository.items.filter((e) =>
-        params.accessControls.includes(e.id)
+        params.accessControls.includes(e.id),
       );
 
       observer.next();
@@ -82,7 +82,7 @@ export class MockRoleRepository implements RoleRepository {
   delete(id: number): Observable<void> {
     return new Observable<void>((observer) => {
       MockRoleRepository.roles = MockRoleRepository.roles.filter(
-        (element) => element.id != id
+        (element) => element.id != id,
       );
       observer.next();
       observer.complete();
@@ -90,7 +90,7 @@ export class MockRoleRepository implements RoleRepository {
   }
 
   getRoleAccessControls(
-    params: GetRoleAccessControlsRequestParams
+    params: GetRoleAccessControlsRequestParams,
   ): Observable<Pagination<RoleAccessControl>> {
     return new Observable<Pagination<RoleAccessControl>>((observer) => {
       let items = [...MockAccessControlRepository.items];
@@ -104,7 +104,7 @@ export class MockRoleRepository implements RoleRepository {
       let total = items.length;
       let paginatedAccessControls = items.splice((page - 1) * limit, limit);
       let role = MockRoleRepository.roles.find(
-        (role) => role.id == params.roleId
+        (role) => role.id == params.roleId,
       );
       if (role == undefined) {
         observer.error('not found');
@@ -115,20 +115,20 @@ export class MockRoleRepository implements RoleRepository {
         return {
           accessControl: element,
           id: role?.accessControls.find(
-            (accessControl) => accessControl.id == element.id
+            (accessControl) => accessControl.id == element.id,
           )?.id,
         };
       });
-      observer.next({ total: total, data: data });
+      observer.next({ total: total, items: data });
       observer.complete();
     });
   }
   storeAccessControl(
-    params: StoreAccessControlRequestParams
+    params: StoreAccessControlRequestParams,
   ): Observable<void> {
     return new Observable<void>((observer) => {
       let role = MockRoleRepository.roles.find(
-        (role) => role.id == params.roleId
+        (role) => role.id == params.roleId,
       );
       if (role == undefined) {
         observer.error('not found');
@@ -136,7 +136,7 @@ export class MockRoleRepository implements RoleRepository {
         return;
       }
       let accessControl = MockAccessControlRepository.items.find(
-        (accessControl) => accessControl.id == params.accessControlId
+        (accessControl) => accessControl.id == params.accessControlId,
       );
       if (accessControl == undefined) {
         observer.error('not found');
@@ -149,11 +149,11 @@ export class MockRoleRepository implements RoleRepository {
     });
   }
   deleteAccessControl(
-    params: StoreAccessControlRequestParams
+    params: StoreAccessControlRequestParams,
   ): Observable<void> {
     return new Observable<void>((observer) => {
       let role = MockRoleRepository.roles.find(
-        (role) => role.id == params.roleId
+        (role) => role.id == params.roleId,
       );
       if (role == undefined) {
         observer.error('not found');
@@ -161,7 +161,7 @@ export class MockRoleRepository implements RoleRepository {
         return;
       }
       role.accessControls = role.accessControls.filter(
-        (accessControl) => accessControl.id != params.accessControlId
+        (accessControl) => accessControl.id != params.accessControlId,
       );
       observer.next();
       observer.complete();

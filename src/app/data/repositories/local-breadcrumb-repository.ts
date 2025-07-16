@@ -58,7 +58,7 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
       items = items.filter((element) => element.name.includes(search!));
     }
     let paginatedItems = items.splice((page - 1) * limit, limit);
-    return of({ total: items.length, data: paginatedItems });
+    return of({ total: items.length, items: paginatedItems });
   }
 
   isUrlAccessible(url: string): Observable<boolean> {
@@ -72,9 +72,9 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
               return user.hasAccessControl(menu.accessControlId);
             }
             return false;
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -86,7 +86,7 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
         var foundedBreadcrumb = this.findBreadcrumbOnRootByUrl(
           url,
           '',
-          element
+          element,
         );
         if (foundedBreadcrumb) {
           observer.next(foundedBreadcrumb);
@@ -103,7 +103,7 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
   private findBreadcrumbOnRootByUrl(
     url: string,
     rootUrl: string,
-    root: Breadcrumb
+    root: Breadcrumb,
   ): Breadcrumb | undefined {
     if (url == '') {
       if (url == rootUrl) {

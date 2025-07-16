@@ -44,7 +44,7 @@ export class MockUserRepository implements UserRepository {
     }
     let totalUser = users.length;
     let paginatedUsers = users.splice((page - 1) * limit, limit);
-    return of({ total: totalUser, data: paginatedUsers });
+    return of({ total: totalUser, items: paginatedUsers });
   }
   store(params: StoreUserRequestParams): Observable<User> {
     return new Observable<User>((observer) => {

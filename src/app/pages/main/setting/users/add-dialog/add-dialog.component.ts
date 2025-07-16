@@ -135,7 +135,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
         });
       }),
       map((response) => {
-        return response.pagination.data;
+        return response.pagination.items;
       }),
     );
   }

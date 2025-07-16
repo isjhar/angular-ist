@@ -21,12 +21,12 @@ export class AccessControlsTableService extends ServerSideTableService<
 > {
   getAccessControlsUseCase: GetAccessControlsUseCase;
   constructor(
-    @Inject(ACCESS_CONTROL_REPOSITORY) menuRepository: AccessControlRepository
+    @Inject(ACCESS_CONTROL_REPOSITORY) menuRepository: AccessControlRepository,
   ) {
     super();
 
     this.getAccessControlsUseCase = new GetAccessControlsUseCase(
-      menuRepository
+      menuRepository,
     );
   }
 
@@ -41,7 +41,7 @@ export class AccessControlsTableService extends ServerSideTableService<
   }
 
   get(
-    params: GetUseCaseParams
+    params: GetUseCaseParams,
   ): Observable<ServerSideTablePagination<AccessControlRow>> {
     return this.getAccessControlsUseCase.execute(params).pipe(
       map<
@@ -49,7 +49,7 @@ export class AccessControlsTableService extends ServerSideTableService<
         ServerSideTablePagination<AccessControlRow>
       >((element) => {
         return {
-          data: element.pagination.data.map<AccessControlRow>((element) => {
+          data: element.pagination.items.map<AccessControlRow>((element) => {
             return {
               id: element.id,
               name: element.name,
@@ -58,7 +58,7 @@ export class AccessControlsTableService extends ServerSideTableService<
           }),
           total: element.pagination.total,
         };
-      })
+      }),
     );
   }
 }
