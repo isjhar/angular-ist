@@ -43,7 +43,7 @@ export interface DefaultTableColumn {
   cellTemplate?: TemplateRef<any>;
   cellTemplateByType?: string;
   sortBy?: string;
-  showHandset: boolean;
+  showHandset?: boolean;
 }
 
 @Component({
