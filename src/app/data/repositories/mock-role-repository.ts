@@ -38,7 +38,7 @@ export class MockRoleRepository implements RoleRepository {
         element.name.toLowerCase().includes(search?.toLowerCase() ?? ''),
       );
     }
-    let paginatedRoles = roles.splice((page - 1) * limit, limit);
+    let paginatedRoles = roles.splice(page * limit, limit);
     return of({ total: roles.length, items: paginatedRoles });
   }
   store(params: StoreRoleRequestParams): Observable<Role> {
@@ -102,7 +102,7 @@ export class MockRoleRepository implements RoleRepository {
         items = items.filter((element) => element.name.includes(search!));
       }
       let total = items.length;
-      let paginatedAccessControls = items.splice((page - 1) * limit, limit);
+      let paginatedAccessControls = items.splice(page * limit, limit);
       let role = MockRoleRepository.roles.find(
         (role) => role.id == params.roleId,
       );

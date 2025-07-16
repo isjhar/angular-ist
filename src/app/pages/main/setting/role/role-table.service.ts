@@ -39,7 +39,7 @@ export class RoleTableService extends ServerSideTableService<
   getParams(): GetRoleAccessControlsUseCaseParams {
     return {
       limit: this.table.pageSize,
-      page: this.table.pageIndex + 1,
+      page: this.table.pageIndex,
       sort: this.table.sort,
       order: this.table.order,
       search: this.search,

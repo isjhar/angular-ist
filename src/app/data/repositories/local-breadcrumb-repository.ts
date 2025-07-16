@@ -57,7 +57,7 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
     if (search != undefined) {
       items = items.filter((element) => element.name.includes(search!));
     }
-    let paginatedItems = items.splice((page - 1) * limit, limit);
+    let paginatedItems = items.splice(page * limit, limit);
     return of({ total: items.length, items: paginatedItems });
   }
 

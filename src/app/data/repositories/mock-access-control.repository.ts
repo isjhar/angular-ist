@@ -33,7 +33,7 @@ export class MockAccessControlRepository implements AccessControlRepository {
     if (search != undefined) {
       items = items.filter((element) => element.name.includes(search!));
     }
-    let paginatedAccessControls = items.splice((page - 1) * limit, limit);
+    let paginatedAccessControls = items.splice(page * limit, limit);
     return of({
       total: paginatedAccessControls.length,
       items: paginatedAccessControls,
