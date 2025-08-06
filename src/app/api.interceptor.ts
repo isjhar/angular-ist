@@ -1,5 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
+import { Injectable, Provider } from '@angular/core';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -9,7 +16,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     const apiReq = request.clone({
       url: `${environment.apiUrl}${request.url}`,
@@ -22,8 +29,13 @@ export class ApiInterceptor implements HttpInterceptor {
   throwMessageError(err: HttpErrorResponse): Observable<never> {
     let error = err.error;
     let message = 'internal server error';
+
     if (error && typeof error === 'string') {
-      message = JSON.parse(error).message;
+      const contentType = err.headers.get('Content-Type');
+      const isJson = contentType?.includes('application/json');
+      if (isJson) {
+        message = JSON.parse(error).message;
+      }
     } else if (error) {
       message = error.message;
     }
@@ -31,7 +43,7 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 }
 
-export const apiInterceptorProviders = [
+export const apiInterceptorProviders: Provider = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: ApiInterceptor,
