@@ -6,7 +6,9 @@ import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { MenuRepository } from 'src/app/domain/repositories/menu-repository';
 import { LocalAuthenticatedUserRepository } from './local-authenticated-user-repository';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class LocalMenuRepository implements MenuRepository {
   static items: Menu[] = [
     {

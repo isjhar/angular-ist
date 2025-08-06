@@ -10,6 +10,7 @@ import {
   ROLE_REPOSITORY,
   USER_REPOSITORY,
 } from './app-token-repository';
+import { MockAdminDashboardRepository } from 'src/app/data/repositories/mock-admin-dashboard-repository';
 
 export const appApiRepositoryProviders: Provider = [
   { provide: AUTH_REPOSITORY, useClass: ApiAuthRepository },
@@ -24,5 +25,9 @@ export const appApiRepositoryProviders: Provider = [
   {
     provide: ACCESS_CONTROL_REPOSITORY,
     useClass: ApiAccessControlRepository,
+  },
+  {
+    provide: ADMIN_DASHBOARD_REPOSITORY,
+    useClass: MockAdminDashboardRepository,
   },
 ];

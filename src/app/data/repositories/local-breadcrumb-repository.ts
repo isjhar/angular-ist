@@ -8,7 +8,9 @@ import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 import { LocalAuthenticatedUserRepository } from './local-authenticated-user-repository';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class LocalBreadcrumbRepository implements BreadcrumbRepository {
   static items: Breadcrumb[] = [
     {

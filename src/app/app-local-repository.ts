@@ -1,4 +1,4 @@
-import { InjectionToken, NgModule, Provider } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { LocalAuthenticatedUserRepository } from './data/repositories/local-authenticated-user-repository';
 import { LocalBreadcrumbRepository } from './data/repositories/local-breadcrumb-repository';
 import { LocalMenuRepository } from './data/repositories/local-menu-repository';
@@ -10,10 +10,10 @@ export const AUTHENTICATED_USER_REPOSITORY =
   new InjectionToken<AuthenticatedUserRepository>('');
 export const MENU_REPOSITORY = new InjectionToken<MenuRepository>('');
 export const BREADCRUMB_REPOSITORY = new InjectionToken<BreadcrumbRepository>(
-  ''
+  '',
 );
 
-export const appLocalRepositoryProviders = [
+export const appLocalRepositoryProviders: Provider = [
   {
     provide: AUTHENTICATED_USER_REPOSITORY,
     useClass: LocalAuthenticatedUserRepository,

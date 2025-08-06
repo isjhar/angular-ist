@@ -9,18 +9,19 @@ import { authInterceptorProviders } from './auth.interceptor';
 import { apiInterceptorProviders } from './api.interceptor';
 import {
   provideHttpClient,
+  withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideRepositories } from './app-repository';
 import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { enUS } from 'date-fns/locale';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideRepositories(),
     provideDateAdapter(),
     provideCharts(withDefaultRegisterables()),

@@ -17,7 +17,6 @@ import { FilterService } from 'src/app/pages/main/dashboard/filter.service';
   providers: [FilterService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  standalone: true,
 })
 export class DashboardComponent implements OnInit {
   adminAccessControl$: Observable<boolean>;
