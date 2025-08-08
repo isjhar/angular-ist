@@ -116,6 +116,11 @@ export class ServerSideTableComponent
     this.get();
   }
 
+  onSearchChanged(search: string): void {
+    this.showLoadingSnackBar();
+    this.get();
+  }
+
   onRowClicked(event: RowClickEvent): void {
     this.rowClick.emit(event);
   }
@@ -124,13 +129,18 @@ export class ServerSideTableComponent
     this.service
       .get(this.service.getParams())
       .pipe(delay(0))
-      .subscribe((response) => {
-        this.length = response.total;
-        this.dataSource = response.data;
-        this.table.renderRows();
-        this.initialized = true;
-        this.isLoaded = true;
-        this.snackBarRef?.dismiss();
+      .subscribe({
+        next: (response) => {
+          this.length = response.total;
+          this.dataSource = response.data;
+          this.table.renderRows();
+          this.initialized = true;
+          this.isLoaded = true;
+          this.snackBarRef?.dismiss();
+        },
+        error: (response) => {
+          this.snackBarRef?.dismiss();
+        },
       });
   }
 

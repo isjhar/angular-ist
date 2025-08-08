@@ -1,4 +1,50 @@
 <div class="mat-elevation-z8">
+  <div
+    [ngClass]="{ 'flex-col': !isTableView, 'flex-row gap-2': isTableView }"
+    class="flex">
+    @if (searchable) {
+      <form [formGroup]="searchForm" class="flex-1">
+        <mat-form-field class="w-full">
+          <mat-label i18n="search">Search</mat-label>
+          <input matInput formControlName="search" [placeholder]="'Test'" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+    }
+    @if (!isTableView) {
+      <div class="flex flex-1 flex-row gap-2">
+        <mat-form-field class="flex-1">
+          <mat-label>Sort By</mat-label>
+          <mat-select
+            [value]="sort"
+            (selectionChange)="changeSort($event.value)">
+            <mat-option [value]="">---None---</mat-option>
+            @for (column of columns; track column) {
+              @if (column.sortBy) {
+                <mat-option [value]="column.sortBy">
+                  {{ column.title }}
+                </mat-option>
+              }
+            }
+          </mat-select>
+        </mat-form-field>
+        <button
+          matMiniFab
+          aria-label="Order by"
+          (click)="toggleOrder()"
+          class="mt-2">
+          <mat-icon
+            [ngClass]="{
+              'scale-y-100': order == 'desc',
+              '-scale-y-100': order == 'asc',
+            }">
+            sort
+          </mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+
   <div [ngStyle]="{ display: isTableView ? 'block' : 'none' }">
     <table
       mat-table

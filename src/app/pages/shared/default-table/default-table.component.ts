@@ -6,6 +6,7 @@ import {
   ContentChild,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
@@ -13,7 +14,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatSort, MatSortHeader, SortDirection } from '@angular/material/sort';
 import {
   MatTable,
   MatColumnDef,
@@ -27,7 +28,12 @@ import {
   MatRow,
   MatNoDataRow,
 } from '@angular/material/table';
-import { map, shareReplay } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  shareReplay,
+} from 'rxjs/operators';
 import { DefaultTableMobileItemViewDirective } from './default-table-mobile-item-view.directive';
 import { BaseComponent } from '../base.component';
 import { NgStyle, NgClass, NgTemplateOutlet, DatePipe } from '@angular/common';
@@ -35,6 +41,17 @@ import { DefaultCurrencyPipe } from '../text/default-currency.pipe';
 import { DefaultNumberPipe } from '../text/default-number.pipe';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
+import {
+  MatFormField,
+  MatLabel,
+  MatSuffix,
+} from '@angular/material/form-field';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton } from '@angular/material/button';
+import { MatInput } from '@angular/material/input';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 export interface DefaultTableColumn {
   title: string;
@@ -71,14 +88,25 @@ export interface DefaultTableColumn {
     DatePipe,
     DefaultCurrencyPipe,
     DefaultNumberPipe,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatIcon,
+    MatMiniFabButton,
+    MatSuffix,
+    MatInput,
+    ReactiveFormsModule,
   ],
   encapsulation: ViewEncapsulation.None,
 })
 export class DefaultTableComponent
   extends BaseComponent
-  implements OnInit, AfterViewInit, AfterContentInit
+  implements OnInit, AfterViewInit, AfterContentInit, OnDestroy
 {
   @Input() length: number = 0;
+  @Input() searchable: boolean = false;
+  @Input() searchPlaceholder: string = '';
 
   private _columns: DefaultTableColumn[] = [];
   @Input() set columns(values: DefaultTableColumn[]) {
@@ -115,6 +143,7 @@ export class DefaultTableComponent
   @Output() page = new EventEmitter<any>();
   @Output() sortChange = new EventEmitter<any>();
   @Output() rowClick = new EventEmitter<RowClickEvent>();
+  @Output() searchChange = new EventEmitter<string>();
 
   @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -139,12 +168,19 @@ export class DefaultTableComponent
     return this.paginator.pageIndex;
   }
 
-  get sort() {
-    return this.sorter.active;
+  sort: string = '';
+  order: SortDirection = 'asc';
+
+  searchForm = new FormGroup({
+    search: new FormControl(''),
+  });
+
+  get searchControl() {
+    return this.searchForm.get('search') as FormControl;
   }
 
-  get order() {
-    return this.sorter.direction;
+  get search() {
+    return this.searchControl.value;
   }
 
   get isTableView(): boolean {
@@ -156,6 +192,7 @@ export class DefaultTableComponent
   }
 
   isHandset: boolean = false;
+  searchValueChangesSubscription!: Subscription;
 
   constructor() {
     super();
@@ -177,6 +214,18 @@ export class DefaultTableComponent
       this.isHandset = isHandset;
       this.adjustDisplayedColumns();
     });
+
+    this.searchValueChangesSubscription = this.searchControl.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => {
+        this.paginator.pageIndex = 0;
+        this.searchChange.emit(value);
+      });
+  }
+
+  override ngOnDestroy(): void {
+    this.searchValueChangesSubscription.unsubscribe();
+    super.ngOnDestroy();
   }
 
   adjustDisplayedColumns(): void {
@@ -195,6 +244,10 @@ export class DefaultTableComponent
   }
 
   onSortChanged(event: any): void {
+    this.sort = event.active;
+    this.order = event.direction;
+    this.sorter.active = this.sort;
+    this.sorter.direction = this.order;
     this.sortChange.emit(event);
   }
 
@@ -207,6 +260,22 @@ export class DefaultTableComponent
     this.rowClick.emit({
       clickEvent: event,
       row: row,
+    });
+  }
+
+  changeSort(value: any): void {
+    this.sort = value;
+    this.onSortChanged({
+      active: this.sort,
+      direction: this.order,
+    });
+  }
+
+  toggleOrder(): void {
+    this.order = this.order === 'asc' ? 'desc' : 'asc';
+    this.onSortChanged({
+      active: this.sort,
+      direction: this.order,
     });
   }
 }
