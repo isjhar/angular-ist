@@ -34,6 +34,8 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
+import { MatDivider } from '@angular/material/divider';
+import { DisplayMode } from 'src/app/pages/shared/default-table/default-table.component';
 
 @Component({
   selector: 'app-users',
@@ -64,6 +66,8 @@ export class UsersComponent implements OnInit {
   table!: ServerSideTableComponent;
 
   deleteUserUseCase: DeleteUseCase;
+
+  displayMode = DisplayMode;
 
   constructor(
     @Inject(TABLE_SERVICE)
@@ -125,7 +129,8 @@ export class UsersComponent implements OnInit {
       maxWidth: 500,
       height: 'auto ',
       data: {
-        message: 'Are you sure?',
+        title: `Delete "${element.name}"?`,
+        message: `"${element.name}" will be deleted permanently.`,
         yes$: this.delete(element.id),
       },
     });

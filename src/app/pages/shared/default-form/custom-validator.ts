@@ -1,4 +1,9 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 export class CustomValidator {
   static timeFormat(control: AbstractControl): ValidationErrors | null {
@@ -24,5 +29,59 @@ export class CustomValidator {
         ? { greaterThan: { value: control.value, threshold: threshold } }
         : null;
     };
+  }
+
+  static atLeastContainsOneUpperCase(
+    control: AbstractControl,
+  ): ValidationErrors | null {
+    const value = control.value;
+    let found = value.match(/[A-Z]/g);
+    return !found || found.length == 0
+      ? { atLeastContainsOneUpperCase: { value: control.value } }
+      : null;
+  }
+
+  static atLeastContainsOneLowerCase(
+    control: AbstractControl,
+  ): ValidationErrors | null {
+    const value = control.value;
+    let found = value.match(/[a-z]/g);
+    return !found || found.length == 0
+      ? { atLeastContainsOneLowerCase: { value: control.value } }
+      : null;
+  }
+
+  static atLeastContainsOneNumber(
+    control: AbstractControl,
+  ): ValidationErrors | null {
+    const value = control.value;
+    let found = value.match(/[0-9]/g);
+    return !found || found.length == 0
+      ? { atLeastContainsOneNumber: { value: control.value } }
+      : null;
+  }
+
+  static password(control: AbstractControl): ValidationErrors | null {
+    const minLength = Validators.minLength(8)(control);
+    if (minLength) {
+      return minLength;
+    }
+    const atLeastContainsOneUpperCase =
+      CustomValidator.atLeastContainsOneUpperCase(control);
+    if (atLeastContainsOneUpperCase) {
+      return atLeastContainsOneUpperCase;
+    }
+    const atLeastContainsOneLowerCase =
+      CustomValidator.atLeastContainsOneLowerCase(control);
+    if (atLeastContainsOneLowerCase) {
+      return atLeastContainsOneLowerCase;
+    }
+    const atLeastContainsOneNumber =
+      CustomValidator.atLeastContainsOneNumber(control);
+    if (atLeastContainsOneNumber) {
+      return atLeastContainsOneNumber;
+    }
+
+    return null;
   }
 }

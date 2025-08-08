@@ -7,25 +7,26 @@
     Add
   </button>
 </div>
-<app-server-side-table #table [searchable]="true">
+<app-server-side-table
+  #table
+  [searchable]="true"
+  [displayMode]="displayMode.Hybrid">
   <ng-template appDefaultTableMobileItemView let-data>
     <mat-card>
       <mat-card-content>
-        <div class="row">
-          <div style="flex: 1">
+        <div class="flex flex-col gap-2">
+          <div class="flex flex-col">
             <div>{{ data.name }}</div>
             <div>Email : {{ data.email }}</div>
             <div>Role : {{ data.role_names }}</div>
           </div>
-          <div class="row main-axis-end" style="width: 50px">
-            <ng-container
-              *ngTemplateOutlet="
-                actionTemplate;
-                context: {
-                  element: data,
-                }
-              "></ng-container>
-          </div>
+          @if (data.id != 1) {
+            <div class="flex flex-row justify-end">
+              <button matButton (click)="onDeleteClicked($event, data)">
+                Delete
+              </button>
+            </div>
+          }
         </div>
       </mat-card-content>
     </mat-card>

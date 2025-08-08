@@ -36,6 +36,9 @@
           autocomplete="kata sandi" />
         <mat-error>
           <app-form-error-required name="password"></app-form-error-required>
+          @if (!password.hasError("required")) {
+            <app-form-error-password name="password"></app-form-error-password>
+          }
         </mat-error>
       </mat-form-field>
 

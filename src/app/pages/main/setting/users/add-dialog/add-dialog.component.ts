@@ -44,6 +44,8 @@ import { FormErrorRequiredComponent } from '../../../../shared/default-form/form
 import { FormErrorEmailComponent } from '../../../../shared/default-form/form-error/form-error-email/form-error-email.component';
 import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
 import { MatButtonModule } from '@angular/material/button';
+import { CustomValidator } from 'src/app/pages/shared/default-form/custom-validator';
+import { FormErrorPasswordComponent } from 'src/app/pages/shared/default-form/form-error/form-error-password/form-error-password.component';
 
 @Component({
   selector: 'app-add-dialog',
@@ -56,6 +58,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     FormErrorRequiredComponent,
     FormErrorEmailComponent,
+    FormErrorPasswordComponent,
     LoadingButtonComponent,
     ReactiveFormsModule,
     AsyncPipe,
@@ -79,7 +82,10 @@ export class AddDialogComponent implements OnInit, OnDestroy {
   formGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
+      Validators.required,
+      CustomValidator.password,
+    ]),
     confirmPassword: new FormControl('', [
       Validators.required,
       (control: AbstractControl) => {
