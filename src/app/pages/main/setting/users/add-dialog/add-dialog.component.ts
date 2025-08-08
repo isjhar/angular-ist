@@ -46,6 +46,7 @@ import { LoadingButtonComponent } from '../../../../shared/default-form/loading-
 import { MatButtonModule } from '@angular/material/button';
 import { CustomValidator } from 'src/app/pages/shared/default-form/custom-validator';
 import { FormErrorPasswordComponent } from 'src/app/pages/shared/default-form/form-error/form-error-password/form-error-password.component';
+import { RoleList } from 'src/app/domain/entities/role-list';
 
 @Component({
   selector: 'app-add-dialog',
@@ -72,7 +73,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
 
   currentPassword: string = '';
-  roleOptions: Observable<Role[]>;
+  roleOptions: Observable<RoleList[]>;
   isLoading: boolean = false;
   error: string = '';
 

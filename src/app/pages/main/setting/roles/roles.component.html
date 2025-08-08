@@ -7,7 +7,10 @@
     Add
   </button>
 </div>
-<app-server-side-table #table (rowClick)="onRowClicked($event.row)">
+<app-server-side-table
+  #table
+  (rowClick)="onRowClicked($event.row)"
+  [searchable]="true">
   <ng-template appDefaultTableMobileItemView let-data>
     <mat-card class="relative" (click)="onRowClicked(data)">
       <mat-card-content matRipple>

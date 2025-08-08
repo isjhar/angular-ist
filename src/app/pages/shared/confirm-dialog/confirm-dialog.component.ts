@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoadingButtonComponent } from '../default-form/loading-button/loading-button.component';
+import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
 
 export interface ConfirmDialogData {
   title: string;
@@ -36,6 +37,8 @@ export class ConfirmDialogComponent implements OnInit {
   error: string = '';
   formGroup = new FormGroup({});
 
+  snackbar = inject(SnackBarService);
+
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData,
@@ -52,7 +55,7 @@ export class ConfirmDialogComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-        this.error = error;
+        this.snackbar.showError(`Process failed: ${error}`);
       },
     });
   }

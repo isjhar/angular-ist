@@ -61,13 +61,13 @@ export class RoleComponent implements OnInit {
     roleRepository: RoleRepository,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private mainService: MainService
+    private mainService: MainService,
   ) {
     this.storeRoleAccessControlUseCase = new StoreRoleAccessControlUseCase(
-      roleRepository
+      roleRepository,
     );
     this.deleteRoleAccessControluseCase = new DeleteRoleAccessControlUseCase(
-      roleRepository
+      roleRepository,
     );
 
     if (this.route.snapshot.paramMap.has('id')) {
@@ -82,6 +82,7 @@ export class RoleComponent implements OnInit {
         show: true,
         title: 'Name',
         showHandset: true,
+        sortBy: 'name',
       },
       {
         prop: 'id',
@@ -109,7 +110,7 @@ export class RoleComponent implements OnInit {
               horizontalPosition: 'start',
               verticalPosition: 'bottom',
             });
-          }
+          },
         );
       return;
     }
@@ -130,7 +131,7 @@ export class RoleComponent implements OnInit {
             horizontalPosition: 'start',
             verticalPosition: 'bottom',
           });
-        }
+        },
       );
   }
 

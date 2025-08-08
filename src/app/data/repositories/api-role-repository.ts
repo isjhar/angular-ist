@@ -17,6 +17,7 @@ import {
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
 import { toApiPageIndex } from 'src/app/data/utilities/api-param-modifier';
+import { RoleList } from 'src/app/domain/entities/role-list';
 
 @Injectable()
 export class ApiRoleRepository implements RoleRepository {
@@ -27,14 +28,19 @@ export class ApiRoleRepository implements RoleRepository {
       .pipe(map<ApiResponse<Role>, Role>((e) => e.data));
   }
 
-  get(params: PaginationParams): Observable<Pagination<Role>> {
+  get(params: PaginationParams): Observable<Pagination<RoleList>> {
     let urlBuilder = new ApiUrlBuilder('/api/roles');
     urlBuilder.pushQueryParam('page', toApiPageIndex(params.page));
     urlBuilder.pushQueryParam('limit', params.limit);
+    urlBuilder.pushQueryParam('search', params.search);
+    urlBuilder.pushQueryParam('order', params.order);
+    urlBuilder.pushQueryParam('sort', params.sort);
     return this.http
-      .get<ApiResponse<Pagination<Role>>>(urlBuilder.getUrl())
+      .get<ApiResponse<Pagination<RoleList>>>(urlBuilder.getUrl())
       .pipe(
-        map<ApiResponse<Pagination<Role>>, Pagination<Role>>((e) => e.data),
+        map<ApiResponse<Pagination<RoleList>>, Pagination<RoleList>>(
+          (e) => e.data,
+        ),
       );
   }
   store(params: StoreRoleRequestParams): Observable<Role> {

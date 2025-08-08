@@ -61,7 +61,7 @@ export class AddDialogComponent implements OnInit {
   constructor(
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
     private dialogRef: MatDialogRef<AddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AddDialogData
+    @Inject(MAT_DIALOG_DATA) public data: AddDialogData,
   ) {
     this.storeRoleUseCase = new StoreRoleUseCase(roleRepository);
     this.updateRoleUseCase = new UpdateRoleUseCase(roleRepository);
@@ -82,7 +82,7 @@ export class AddDialogComponent implements OnInit {
       (error) => {
         this.isLoading = false;
         this.error = error;
-      }
+      },
     );
   }
 }

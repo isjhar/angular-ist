@@ -12,6 +12,7 @@ import {
   UpdateRoleRequestParams,
 } from 'src/app/domain/repositories/role-repository';
 import { MockAccessControlRepository } from './mock-access-control.repository';
+import { RoleList } from 'src/app/domain/entities/role-list';
 
 export class MockRoleRepository implements RoleRepository {
   static roles: Role[] = [
@@ -27,7 +28,7 @@ export class MockRoleRepository implements RoleRepository {
     },
   ];
 
-  get(params: PaginationParams): Observable<Pagination<Role>> {
+  get(params: PaginationParams): Observable<Pagination<RoleList>> {
     let roles = [...MockRoleRepository.roles];
     let search = params.search;
     let limit = params.limit ? params.limit : roles.length;

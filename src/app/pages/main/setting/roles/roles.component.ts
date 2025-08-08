@@ -98,6 +98,7 @@ export class RolesComponent implements OnInit {
         show: true,
         title: 'Name',
         showHandset: true,
+        sortBy: 'name',
       },
     ]);
   }
@@ -128,7 +129,8 @@ export class RolesComponent implements OnInit {
       maxWidth: 500,
       height: 'auto ',
       data: {
-        message: 'Are you sure?',
+        title: `Delete "${element.name}"?`,
+        message: `"${element.name}" will be deleted permanently.`,
         yes$: this.deleteRoleUseCase.execute({ id: element.id }),
       },
     });

@@ -42,7 +42,7 @@ export class RoleTableService extends ServerSideTableService<
       page: this.table.pageIndex,
       sort: this.table.sort,
       order: this.table.order,
-      search: this.search,
+      search: this.table.search,
       roleId: this.roleId,
     };
   }
