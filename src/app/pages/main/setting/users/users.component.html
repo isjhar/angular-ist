@@ -7,7 +7,7 @@
     Add
   </button>
 </div>
-<app-server-side-table #table>
+<app-server-side-table #table [searchable]="true">
   <ng-template appDefaultTableMobileItemView let-data>
     <mat-card>
       <mat-card-content>

@@ -1,7 +1,7 @@
 import { AccessControlId } from './access-control';
 import { Role } from './role';
 
-export class User {
+export class AuthenticatedUser {
   id: number;
   email: string;
   name: string;

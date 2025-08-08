@@ -6,10 +6,12 @@ import { UpdatableRepository } from '../base-repositories/updatable-repository';
 import { Pagination } from '../entities/pagination';
 import { PaginationParams } from '../entities/pagination-params';
 import { User } from '../entities/user';
+import { UserList } from 'src/app/domain/entities/user-list';
+import { UserDetail } from 'src/app/domain/entities/user-detail';
 
 export interface UserRepository
-  extends GetableRepository<PaginationParams, User>,
-    StorableRepository<StoreUserRequestParams, User>,
+  extends GetableRepository<PaginationParams, UserList>,
+    StorableRepository<StoreUserRequestParams, UserList>,
     UpdatableRepository<StoreUserRequestParams>,
     DeletableRepository {}
 

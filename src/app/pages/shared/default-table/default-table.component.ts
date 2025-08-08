@@ -168,7 +168,9 @@ export class DefaultTableComponent
       this.displayedColumns = [...this.displayedColumns];
     }
   }
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.paginator.pageSize = 10;
+  }
 
   override ngOnInit(): void {
     this.isHandset$.subscribe((isHandset) => {

@@ -5,15 +5,16 @@ import {
   LoginParams,
 } from 'src/app/domain/repositories/auth-repository';
 import { MockUserRepository } from './mock-user-repository';
+import { AuthenticatedUser } from 'src/app/domain/entities/authenticated-user';
 
 export class MockAuthRepository implements AuthRepository {
   getCsrfToken(): Observable<any> {
     return of({});
   }
-  login(data: LoginParams): Observable<User> {
+  login(data: LoginParams): Observable<AuthenticatedUser> {
     return new Observable<User>((observer) => {
       let user = MockUserRepository.users.find(
-        (element) => element.email == data.email
+        (element) => element.email == data.email,
       );
       if (user) {
         if (user.password != data.password) {
@@ -22,7 +23,14 @@ export class MockAuthRepository implements AuthRepository {
           return;
         }
         this.setCookie('laravel_session', 'test', 100);
-        observer.next(user);
+        observer.next(
+          new AuthenticatedUser({
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            roles: user.roles,
+          }),
+        );
         observer.complete();
         return;
       }
@@ -38,7 +46,7 @@ export class MockAuthRepository implements AuthRepository {
     name: string,
     value: string,
     expireDays: number,
-    path: string = ''
+    path: string = '',
   ) {
     let d: Date = new Date();
     d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);

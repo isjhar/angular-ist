@@ -16,6 +16,7 @@ import {
 } from 'src/app/domain/repositories/role-repository';
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
+import { toApiPageIndex } from 'src/app/data/utilities/api-param-modifier';
 
 @Injectable()
 export class ApiRoleRepository implements RoleRepository {
@@ -28,7 +29,7 @@ export class ApiRoleRepository implements RoleRepository {
 
   get(params: PaginationParams): Observable<Pagination<Role>> {
     let urlBuilder = new ApiUrlBuilder('/api/roles');
-    urlBuilder.pushQueryParam('page', params.page);
+    urlBuilder.pushQueryParam('page', toApiPageIndex(params.page));
     urlBuilder.pushQueryParam('limit', params.limit);
     return this.http
       .get<ApiResponse<Pagination<Role>>>(urlBuilder.getUrl())

@@ -95,7 +95,7 @@ export class UsersComponent implements OnInit {
         prop: 'role_names',
         show: true,
         title: 'Roles',
-        sortBy: 'role_names',
+        sortBy: 'role',
         showHandset: false,
       },
     ]);

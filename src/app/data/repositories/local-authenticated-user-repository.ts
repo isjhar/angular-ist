@@ -28,7 +28,6 @@ export class LocalAuthenticatedUserRepository
         email: userRaw.email,
         name: userRaw.name,
         roles: userRaw.roles,
-        password: userRaw.password,
       });
       observer.next(user);
       observer.complete();
