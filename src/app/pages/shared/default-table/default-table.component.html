@@ -1,6 +1,6 @@
 <div class="mat-elevation-z8">
   <div
-    [ngClass]="{ 'flex-col': !isTableView, 'flex-row gap-2': isTableView }"
+    [ngClass]="{ 'flex-col': isCardView, 'flex-row gap-2': isTableView }"
     class="flex">
     @if (searchable) {
       <form [formGroup]="searchForm" class="flex-1">
@@ -11,7 +11,7 @@
         </mat-form-field>
       </form>
     }
-    @if (!isTableView) {
+    @if (isCardView) {
       <div class="flex flex-1 flex-row gap-2">
         <mat-form-field class="flex-1">
           <mat-label>Sort By</mat-label>
@@ -174,10 +174,9 @@
       </tr>
     </table>
   </div>
-
   <div
     class="card-view mb-4"
-    [ngStyle]="{ display: isTableView ? 'none' : 'flex' }">
+    [ngStyle]="{ display: isCardView ? 'flex' : 'none' }">
     @for (data of dataSource; track data[trackBy]; let i = $index) {
       <div>
         @if (mobileItemView) {

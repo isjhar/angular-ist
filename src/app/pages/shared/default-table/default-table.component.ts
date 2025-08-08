@@ -63,6 +63,12 @@ export interface DefaultTableColumn {
   showHandset?: boolean;
 }
 
+export enum DisplayMode {
+  Table,
+  Card,
+  Hybrid,
+}
+
 @Component({
   selector: 'app-default-table',
   templateUrl: './default-table.component.html',
@@ -107,6 +113,7 @@ export class DefaultTableComponent
   @Input() length: number = 0;
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
+  @Input() displayMode: DisplayMode = DisplayMode.Hybrid;
 
   private _columns: DefaultTableColumn[] = [];
   @Input() set columns(values: DefaultTableColumn[]) {
@@ -184,11 +191,23 @@ export class DefaultTableComponent
   }
 
   get isTableView(): boolean {
-    return !this.isHandset || this.mobileItemView == undefined;
+    return (
+      this.displayMode == DisplayMode.Table ||
+      (this.displayMode == DisplayMode.Hybrid &&
+        (!this.isHandset || this.mobileItemView == undefined))
+    );
   }
 
   get isRowClickHasListener(): boolean {
     return this.rowClick.observed;
+  }
+
+  get isCardView(): boolean {
+    return (
+      this.mobileItemView != undefined &&
+      (this.displayMode == DisplayMode.Card ||
+        (this.isHandset && this.displayMode == DisplayMode.Hybrid))
+    );
   }
 
   isHandset: boolean = false;
