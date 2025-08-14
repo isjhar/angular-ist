@@ -15,11 +15,10 @@
   <ng-template appDefaultTableMobileItemView let-data>
     <mat-card class="relative" (click)="onRowClicked(data)">
       <mat-card-content matRipple>
-        <div class="row">
-          <div style="flex: 1">
-            <div>{{ data.name }}</div>
-          </div>
-          <div class="row main-axis-end" style="width: 100px">
+        <div class="flex flex-row items-center">
+          <div class="flex-1">{{ data.name }}</div>
+
+          @if (data.isEditable) {
             <ng-container
               *ngTemplateOutlet="
                 actionTemplate;
@@ -27,7 +26,7 @@
                   element: data,
                 }
               "></ng-container>
-          </div>
+          }
         </div>
       </mat-card-content>
     </mat-card>

@@ -71,6 +71,7 @@ export class ApiRoleRepository implements RoleRepository {
     urlBuilder.pushQueryParam('limit', params.limit);
     urlBuilder.pushQueryParam('order', params.order);
     urlBuilder.pushQueryParam('sort', params.sort);
+    urlBuilder.pushQueryParam('search', params.search);
     return this.http
       .get<ApiResponse<Pagination<RoleAccessControlData>>>(urlBuilder.getUrl())
       .pipe(

@@ -48,7 +48,7 @@ import {
 } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
-import { MatMiniFabButton } from '@angular/material/button';
+import { MatIconButton, MatMiniFabButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -99,7 +99,7 @@ export enum DisplayMode {
     MatSelect,
     MatOption,
     MatIcon,
-    MatMiniFabButton,
+    MatIconButton,
     MatSuffix,
     MatInput,
     ReactiveFormsModule,
