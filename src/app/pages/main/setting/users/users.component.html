@@ -51,12 +51,21 @@
 
 <ng-template #actionTemplate let-element="element">
   @if (element.isEditable) {
-    <button
-      matIconButton
-      aria-label="Example icon button with a delete icon"
-      data-test="btn-delete"
-      (click)="onDeleteClicked($event, element)">
-      <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
-    </button>
+    <div class="flex-row gap-2">
+      <button
+        matIconButton
+        aria-label="Example icon button with a delete icon"
+        data-test="btn-edit"
+        (click)="onEditClicked($event, element)">
+        <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+      </button>
+      <button
+        matIconButton
+        aria-label="Example icon button with a delete icon"
+        data-test="btn-delete"
+        (click)="onDeleteClicked($event, element)">
+        <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+      </button>
+    </div>
   }
 </ng-template>

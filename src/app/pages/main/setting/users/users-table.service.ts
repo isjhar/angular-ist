@@ -37,15 +37,18 @@ export class UsersTableService extends ServerSideTableService<
           return {
             total: element.total,
             data: element.items.map<UserRow>((element) => {
-              let role_names = element.roles
+              let roleNames = element.roles
                 .map<String>((element) => element.name)
                 .join(', ');
+
+              const roleIds = element.roles.map((element) => element.id);
               return {
                 id: element.id,
                 email: element.email,
                 name: element.name,
-                roleNames: role_names,
+                roleNames: roleNames,
                 isEditable: element.isEditable,
+                roleIds: roleIds,
               };
             }),
           };
@@ -61,4 +64,5 @@ export interface UserRow {
   name: string;
   roleNames: string;
   isEditable: boolean;
+  roleIds: number[];
 }

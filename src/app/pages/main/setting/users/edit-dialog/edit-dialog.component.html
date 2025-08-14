@@ -1,0 +1,68 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
+  <div mat-dialog-title i18n="user">User</div>
+  <mat-dialog-content class="mat-typography">
+    <div class="column">
+      <mat-form-field appearance="fill">
+        <mat-label i18n="name">Name</mat-label>
+        <input matInput formControlName="name" required data-test="name" />
+        <mat-error>
+          <app-form-error-required name="name"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="example-chip-list">
+        <mat-label i18n="role">Role</mat-label>
+        <mat-chip-grid
+          #chipGrid
+          aria-label="Role selection"
+          formControlName="roles">
+          @for (role of roles.value; track role) {
+            <mat-chip-row [value]="role" (removed)="removeRole(role)">
+              {{ role.name }}
+              <button matChipRemove [attr.aria-label]="'remove ' + role.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+        </mat-chip-grid>
+        <input
+          placeholder="Role..."
+          #roleInput
+          [formControl]="roleControl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          data-test="roles" />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="selected($event)">
+          @for (roleOption of roleOptions | async; track roleOption) {
+            <mat-option [value]="roleOption">
+              {{ roleOption.name }}
+            </mat-option>
+          }
+        </mat-autocomplete>
+
+        <mat-error>
+          <app-form-error-required name="roles"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button
+      mat-button
+      mat-dialog-close
+      data-test="btn-cancel-form"
+      i18n="cancel">
+      Cancel
+    </button>
+    <app-loading-button
+      data-test="btn-save-form"
+      [disabled]="!formGroup.valid"
+      [isLoading]="isLoading"
+      i18n="save">
+      Save
+    </app-loading-button>
+  </mat-dialog-actions>
+</form>

@@ -21,7 +21,7 @@ import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { GetRolesUseCase } from 'src/app/domain/use-cases/get-roles-use-case';
 import { StoreUserUseCase } from 'src/app/domain/use-cases/store-user-use-case';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import {
   MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
@@ -35,7 +35,6 @@ import {
   map,
   startWith,
 } from 'rxjs';
-import { Role } from 'src/app/domain/entities/role';
 import { MatInputModule } from '@angular/material/input';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -99,7 +98,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
         };
       },
     ]),
-    roles: new FormControl<Role[]>([], [Validators.required]),
+    roles: new FormControl<RoleList[]>([], [Validators.required]),
   });
 
   get name() {
@@ -119,7 +118,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
   }
 
   get roles() {
-    return this.formGroup.get('roles') as FormControl<Role[]>;
+    return this.formGroup.get('roles') as FormControl<RoleList[]>;
   }
   getRolesUseCase: GetRolesUseCase;
   storeUserUseCase: StoreUserUseCase;
@@ -203,7 +202,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
     this.roles.setValue(roles);
   }
 
-  displayFn(role?: Role): string {
+  displayFn(role?: RoleList): string {
     return role && role.name ? role.name : '';
   }
 }

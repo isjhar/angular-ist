@@ -12,12 +12,17 @@ import { UserDetail } from 'src/app/domain/entities/user-detail';
 export interface UserRepository
   extends GetableRepository<PaginationParams, UserList>,
     StorableRepository<StoreUserRequestParams, UserList>,
-    UpdatableRepository<StoreUserRequestParams>,
+    UpdatableRepository<UpdateUserRequestParams>,
     DeletableRepository {}
 
 export interface StoreUserRequestParams {
   email: string;
   name: string;
   password: string;
+  roles: number[];
+}
+
+export interface UpdateUserRequestParams {
+  name: string;
   roles: number[];
 }

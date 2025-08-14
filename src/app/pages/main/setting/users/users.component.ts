@@ -5,7 +5,11 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { USER_REPOSITORY } from 'src/app/app-token-repository';
@@ -36,6 +40,10 @@ import { DefaultTableMobileItemViewDirective } from '../../../shared/default-tab
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { MatDivider } from '@angular/material/divider';
 import { DisplayMode } from 'src/app/pages/shared/default-table/default-table.component';
+import {
+  EdiDialogData,
+  EditDialogComponent,
+} from 'src/app/pages/main/setting/users/edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -148,5 +156,32 @@ export class UsersComponent implements OnInit {
 
   delete(id: number): Observable<void> {
     return this.deleteUserUseCase.execute({ id: id });
+  }
+
+  onEditClicked(event: Event, element: any): void {
+    event.stopPropagation();
+
+    const config: MatDialogConfig<EdiDialogData> = {
+      width: '90%',
+      maxWidth: 500,
+      height: 'auto',
+      data: {
+        value: {
+          id: element.id,
+          name: element.name,
+          roles: element.roleIds,
+        },
+      },
+    };
+    const dialogRef = this.dialog.open(EditDialogComponent, config);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.table.refreshData();
+        this.snackBar.open('User deleted successfully', 'Close', {
+          horizontalPosition: 'start',
+          verticalPosition: 'bottom',
+        });
+      }
+    });
   }
 }

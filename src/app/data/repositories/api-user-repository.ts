@@ -7,6 +7,7 @@ import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
 import {
   StoreUserRequestParams,
+  UpdateUserRequestParams,
   UserRepository,
 } from 'src/app/domain/repositories/user-repository';
 import { ApiResponse } from '../entities/api-response';
@@ -44,9 +45,9 @@ export class ApiUserRepository implements UserRepository {
       .pipe(map<ApiResponse<UserList>, UserList>((response) => response.data));
   }
 
-  update(id: number, params: StoreUserRequestParams): Observable<void> {
+  update(id: number, params: UpdateUserRequestParams): Observable<void> {
     return this.http
-      .patch<ApiResponse<void>>('/api/users/${id}', params)
+      .patch<ApiResponse<void>>(`/api/users/${id}`, params)
       .pipe(map<ApiResponse<void>, void>((response) => response.data));
   }
   delete(id: number): Observable<void> {

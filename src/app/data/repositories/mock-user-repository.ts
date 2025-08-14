@@ -5,6 +5,7 @@ import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
 import {
   StoreUserRequestParams,
+  UpdateUserRequestParams,
   UserRepository,
 } from 'src/app/domain/repositories/user-repository';
 import { MockRoleRepository } from './mock-role-repository';
@@ -96,7 +97,7 @@ export class MockUserRepository implements UserRepository {
       observer.complete();
     });
   }
-  update(id: number, params: StoreUserRequestParams): Observable<void> {
+  update(id: number, params: UpdateUserRequestParams): Observable<void> {
     return new Observable<void>((observer) => {
       let user = MockUserRepository.users.find((element) => element.id == id);
       if (user == undefined) {
