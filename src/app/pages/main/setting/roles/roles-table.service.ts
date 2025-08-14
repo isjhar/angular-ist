@@ -44,6 +44,7 @@ export class RolesTableService extends ServerSideTableService<
               return {
                 id: element.id,
                 name: element.name,
+                isEditable: element.isEditable,
               };
             }),
             total: response.pagination.total,
@@ -57,4 +58,5 @@ export class RolesTableService extends ServerSideTableService<
 export interface RoleRow {
   id: number;
   name: string;
+  isEditable: boolean;
 }

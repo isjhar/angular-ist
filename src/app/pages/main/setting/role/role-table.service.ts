@@ -3,13 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ROLE_REPOSITORY } from 'src/app/app-token-repository';
-import { GetUseCaseResponse } from 'src/app/domain/base-use-cases/get-use-case';
+import { Pagination } from 'src/app/domain/entities/pagination';
 import { RoleAccessControl } from 'src/app/domain/entities/role-access-control';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
-import {
-  GetRoleAccessControlsUseCase,
-  GetRoleAccessControlsUseCaseParams,
-} from 'src/app/domain/use-cases/get-role-access-controls-use-case';
+import { GetRoleAccessControlsUseCaseParams } from 'src/app/domain/use-cases/get-role-access-controls-use-case';
 import {
   ServerSideTablePagination,
   ServerSideTableService,
@@ -21,17 +18,13 @@ export class RoleTableService extends ServerSideTableService<
   RoleAccessControlRow
 > {
   roleId: number = 0;
-  getRoleAccessControlUseCase: GetRoleAccessControlsUseCase;
   constructor(
     @Inject(ROLE_REPOSITORY)
-    roleRepository: RoleRepository,
+    private roleRepository: RoleRepository,
     private route: ActivatedRoute,
   ) {
     super();
 
-    this.getRoleAccessControlUseCase = new GetRoleAccessControlsUseCase(
-      roleRepository,
-    );
     if (this.route.snapshot.paramMap.has('id')) {
       this.roleId = parseInt(this.route.snapshot.paramMap.get('id')!);
     }
@@ -47,22 +40,21 @@ export class RoleTableService extends ServerSideTableService<
     };
   }
   get(params: any): Observable<ServerSideTablePagination<any>> {
-    return this.getRoleAccessControlUseCase.execute(params).pipe(
+    return this.roleRepository.getRoleAccessControls(params).pipe(
       map<
-        GetUseCaseResponse<RoleAccessControl>,
+        Pagination<RoleAccessControl>,
         ServerSideTablePagination<RoleAccessControlRow>
       >((response) => {
         return {
-          data: response.pagination.items.map<RoleAccessControlRow>(
-            (element) => {
-              return {
-                id: element.id,
-                name: element.accessControl.name,
-                accessControlId: element.accessControl.id,
-              };
-            },
-          ),
-          total: response.pagination.total,
+          data: response.items.map<RoleAccessControlRow>((element) => {
+            return {
+              id: element.id,
+              name: element.accessControl.name,
+              description: element.accessControl.description,
+              accessControlId: element.accessControl.id,
+            };
+          }),
+          total: response.total,
         };
       }),
     );
@@ -73,4 +65,5 @@ export interface RoleAccessControlRow {
   id?: number;
   name: string;
   accessControlId: number;
+  description: string;
 }

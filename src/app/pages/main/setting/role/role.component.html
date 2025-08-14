@@ -1,4 +1,23 @@
-<div class="column">
+<div class="flex flex-col gap-2">
+  <div class="flex flex-row items-center justify-between">
+    @if (role) {
+      <div class="text-title-large">{{ role.name }}</div>
+
+      @if (role.isEditable) {
+        <button
+          matIconButton
+          aria-label="Icon button with a delete icon"
+          data-test="btn-delete"
+          (click)="onDeleteClicked()">
+          <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+        </button>
+      }
+    }
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="text-title-medium">Access Controls</div>
+
   <app-server-side-table #table trackBy="accessControlId">
     <ng-template appDefaultTableMobileItemView let-data>
       <mat-card>
@@ -28,5 +47,5 @@
     data-test="btn-slide"
     [checked]="element.id != undefined"
     (change)="onToggled(element)"
-    [disabled]="roleId == 1"></mat-slide-toggle>
+    [disabled]="role?.isEditable != true"></mat-slide-toggle>
 </ng-template>

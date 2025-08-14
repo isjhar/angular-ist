@@ -1,4 +1,4 @@
-export interface RoleList {
+export interface RoleDetail {
   id: number;
   name: string;
   isEditable: boolean;

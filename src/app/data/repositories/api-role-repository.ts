@@ -18,14 +18,16 @@ import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
 import { toApiPageIndex } from 'src/app/data/utilities/api-param-modifier';
 import { RoleList } from 'src/app/domain/entities/role-list';
+import { RoleAccessControlData } from 'src/app/data/entities/role-access-control-data';
+import { RoleDetail } from 'src/app/domain/entities/role-detail';
 
 @Injectable()
 export class ApiRoleRepository implements RoleRepository {
   constructor(private http: HttpClient) {}
-  find(id: number): Observable<Role> {
+  find(id: number): Observable<RoleDetail> {
     return this.http
-      .get<ApiResponse<Role>>(`/api/roles/${id}`)
-      .pipe(map<ApiResponse<Role>, Role>((e) => e.data));
+      .get<ApiResponse<RoleDetail>>(`/api/roles/${id}`)
+      .pipe(map<ApiResponse<RoleDetail>, RoleDetail>((e) => e.data));
   }
 
   get(params: PaginationParams): Observable<Pagination<RoleList>> {
@@ -67,26 +69,29 @@ export class ApiRoleRepository implements RoleRepository {
     );
     urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
+    urlBuilder.pushQueryParam('order', params.order);
+    urlBuilder.pushQueryParam('sort', params.sort);
     return this.http
-      .get<ApiResponse<Pagination<any>>>(urlBuilder.getUrl())
+      .get<ApiResponse<Pagination<RoleAccessControlData>>>(urlBuilder.getUrl())
       .pipe(
-        map<ApiResponse<Pagination<any>>, Pagination<RoleAccessControl>>(
-          (e) => {
-            return {
-              items: e.data.items.map((x) => {
-                return {
-                  id: x.roleId,
-                  accessControl: {
-                    id: x.id,
-                    name: x.name,
-                    description: x.description,
-                  },
-                };
-              }),
-              total: e.data.total,
-            };
-          },
-        ),
+        map<
+          ApiResponse<Pagination<RoleAccessControlData>>,
+          Pagination<RoleAccessControl>
+        >((e) => {
+          return {
+            items: e.data.items.map((x) => {
+              return {
+                id: x.roleId,
+                accessControl: {
+                  id: x.id,
+                  name: x.name,
+                  description: x.description,
+                },
+              };
+            }),
+            total: e.data.total,
+          };
+        }),
       );
   }
 

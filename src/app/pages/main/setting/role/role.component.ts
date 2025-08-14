@@ -24,6 +24,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgTemplateOutlet } from '@angular/common';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
+import { Role } from 'src/app/domain/entities/role';
+import { MatDivider } from '@angular/material/divider';
+import { RoleDetail } from 'src/app/domain/entities/role-detail';
+import { MatIcon } from '@angular/material/icon';
+import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-role',
@@ -34,6 +41,9 @@ import { DefaultTableMobileItemViewDirective } from '../../../shared/default-tab
     MatSlideToggleModule,
     MatSnackBarModule,
     NgTemplateOutlet,
+    MatDivider,
+    MatIcon,
+    MatIconButton,
   ],
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
@@ -54,14 +64,16 @@ export class RoleComponent implements OnInit {
   storeRoleAccessControlUseCase: StoreRoleAccessControlUseCase;
   deleteRoleAccessControluseCase: DeleteRoleAccessControlUseCase;
   roleId: number = 0;
+  role?: RoleDetail;
   constructor(
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
     @Inject(ROLE_REPOSITORY)
-    roleRepository: RoleRepository,
+    private roleRepository: RoleRepository,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private mainService: MainService,
+    private dialog: MatDialog,
   ) {
     this.storeRoleAccessControlUseCase = new StoreRoleAccessControlUseCase(
       roleRepository,
@@ -85,6 +97,13 @@ export class RoleComponent implements OnInit {
         sortBy: 'name',
       },
       {
+        prop: 'description',
+        show: true,
+        title: 'Description',
+        showHandset: true,
+        sortBy: 'description',
+      },
+      {
         prop: 'id',
         show: true,
         title: 'Action',
@@ -92,6 +111,15 @@ export class RoleComponent implements OnInit {
         showHandset: true,
       },
     ]);
+    this.findRole();
+  }
+
+  findRole(): void {
+    this.roleRepository.find(this.roleId).subscribe({
+      next: (response) => {
+        this.role = response;
+      },
+    });
   }
 
   onToggled(element: RoleAccessControlRow): void {
@@ -101,17 +129,17 @@ export class RoleComponent implements OnInit {
           accessControlId: element.accessControlId,
           roleId: this.roleId,
         })
-        .subscribe(
-          (response) => {
+        .subscribe({
+          next: (response) => {
             this.table.refreshData();
           },
-          (response) => {
+          error: (response) => {
             this.snackBar.open('Change access control is failed', 'Close', {
               horizontalPosition: 'start',
               verticalPosition: 'bottom',
             });
           },
-        );
+        });
       return;
     }
 
@@ -120,22 +148,46 @@ export class RoleComponent implements OnInit {
         accessControlId: element.accessControlId,
         roleId: this.roleId,
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.table.refreshData();
           if (this.isLoggedUserHasToggledAccessControl(element)) {
           }
         },
-        (response) => {
+        error: (response) => {
           this.snackBar.open('Change access control is failed', 'Close', {
             horizontalPosition: 'start',
             verticalPosition: 'bottom',
           });
         },
-      );
+      });
   }
 
   isLoggedUserHasToggledAccessControl(element: RoleAccessControlRow): boolean {
     return false;
+  }
+
+  onDeleteClicked(): void {
+    const element = this.role;
+    if (!element) return;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '90%',
+      maxWidth: 500,
+      height: 'auto ',
+      data: {
+        title: `Delete "${element.name}"?`,
+        message: `"${element.name}" will be deleted permanently.`,
+        yes$: this.roleRepository.delete(element.id),
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.table.refreshData();
+        this.snackBar.open('Role deleted successfully', 'Close', {
+          horizontalPosition: 'start',
+          verticalPosition: 'bottom',
+        });
+      }
+    });
   }
 }
