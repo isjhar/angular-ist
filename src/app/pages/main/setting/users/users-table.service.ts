@@ -44,7 +44,8 @@ export class UsersTableService extends ServerSideTableService<
                 id: element.id,
                 email: element.email,
                 name: element.name,
-                role_names: role_names,
+                roleNames: role_names,
+                isEditable: element.isEditable,
               };
             }),
           };
@@ -58,5 +59,6 @@ export interface UserRow {
   id: number;
   email: string;
   name: string;
-  role_names: string;
+  roleNames: string;
+  isEditable: boolean;
 }

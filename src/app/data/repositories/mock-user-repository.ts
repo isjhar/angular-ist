@@ -18,6 +18,7 @@ interface MockUser {
   name: string;
   roles: Role[];
   password: string;
+  isEditable: boolean;
 }
 
 export class MockUserRepository implements UserRepository {
@@ -28,6 +29,7 @@ export class MockUserRepository implements UserRepository {
       name: 'Sys Admin',
       roles: [MockRoleRepository.roles[0]],
       password: '1234',
+      isEditable: false,
     },
     {
       id: 2,
@@ -35,6 +37,7 @@ export class MockUserRepository implements UserRepository {
       name: 'Admin',
       roles: [MockRoleRepository.roles[1]],
       password: '1234',
+      isEditable: true,
     },
     {
       id: 3,
@@ -42,6 +45,7 @@ export class MockUserRepository implements UserRepository {
       name: 'Demo',
       roles: [MockRoleRepository.roles[1]],
       password: '1234',
+      isEditable: true,
     },
   ];
   get(params: PaginationParams): Observable<Pagination<UserList>> {
@@ -79,6 +83,7 @@ export class MockUserRepository implements UserRepository {
           params.roles.includes(element.id),
         ),
         password: params.password,
+        isEditable: true,
       };
       MockUserRepository.users.push(user);
       observer.next({
@@ -86,6 +91,7 @@ export class MockUserRepository implements UserRepository {
         email: user.email,
         name: user.name,
         roles: user.roles,
+        isEditable: user.isEditable,
       });
       observer.complete();
     });

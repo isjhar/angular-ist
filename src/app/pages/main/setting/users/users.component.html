@@ -15,18 +15,23 @@
     <mat-card>
       <mat-card-content>
         <div class="flex flex-col gap-2">
-          <div class="flex flex-col">
-            <div>{{ data.name }}</div>
-            <div>Email : {{ data.email }}</div>
-            <div>Role : {{ data.role_names }}</div>
+          <div class="flex flex-row items-center justify-between">
+            {{ data.name }}
+            @if (data.isEditable) {
+              <ng-container
+                *ngTemplateOutlet="
+                  actionTemplate;
+                  context: {
+                    element: data,
+                  }
+                "></ng-container>
+            }
           </div>
-          @if (data.id != 1) {
-            <div class="flex flex-row justify-end">
-              <button matButton (click)="onDeleteClicked($event, data)">
-                Delete
-              </button>
-            </div>
-          }
+          <mat-divider></mat-divider>
+          <div class="text-body-medium">
+            <div>Email : {{ data.email }}</div>
+            <div>Role : {{ data.roleNames }}</div>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -45,7 +50,7 @@
 </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
-  @if (element.id != 1) {
+  @if (element.isEditable) {
     <button
       matIconButton
       aria-label="Example icon button with a delete icon"

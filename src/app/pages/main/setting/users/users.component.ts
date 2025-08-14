@@ -55,6 +55,7 @@ import { DisplayMode } from 'src/app/pages/shared/default-table/default-table.co
     MatCardModule,
     MatIconModule,
     NgTemplateOutlet,
+    MatDivider,
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
@@ -96,7 +97,7 @@ export class UsersComponent implements OnInit {
         showHandset: true,
       },
       {
-        prop: 'role_names',
+        prop: 'roleNames',
         show: true,
         title: 'Roles',
         sortBy: 'role',
