@@ -6,6 +6,7 @@ import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
 import {
+  ChangePasswordRequestParams,
   StoreUserRequestParams,
   UpdateUserRequestParams,
   UserRepository,
@@ -53,6 +54,14 @@ export class ApiUserRepository implements UserRepository {
   delete(id: number): Observable<void> {
     return this.http
       .delete<ApiResponse<void>>(`/api/users/${id}`)
+      .pipe(map<ApiResponse<void>, void>((response) => response.data));
+  }
+
+  changePassword(params: ChangePasswordRequestParams): Observable<void> {
+    return this.http
+      .patch<ApiResponse<void>>(`/api/users/${params.id}`, {
+        password: params.password,
+      })
       .pipe(map<ApiResponse<void>, void>((response) => response.data));
   }
 }

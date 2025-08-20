@@ -13,7 +13,9 @@ export interface UserRepository
   extends GetableRepository<PaginationParams, UserList>,
     StorableRepository<StoreUserRequestParams, UserList>,
     UpdatableRepository<UpdateUserRequestParams>,
-    DeletableRepository {}
+    DeletableRepository {
+  changePassword(params: ChangePasswordRequestParams): Observable<void>;
+}
 
 export interface StoreUserRequestParams {
   email: string;
@@ -25,4 +27,9 @@ export interface StoreUserRequestParams {
 export interface UpdateUserRequestParams {
   name: string;
   roles: number[];
+}
+
+export interface ChangePasswordRequestParams {
+  id: number;
+  password: string;
 }

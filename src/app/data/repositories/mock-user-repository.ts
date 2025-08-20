@@ -4,6 +4,7 @@ import { Pagination } from 'src/app/domain/entities/pagination';
 import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
 import {
+  ChangePasswordRequestParams,
   StoreUserRequestParams,
   UpdateUserRequestParams,
   UserRepository,
@@ -23,6 +24,10 @@ interface MockUser {
 }
 
 export class MockUserRepository implements UserRepository {
+  changePassword(params: ChangePasswordRequestParams): Observable<void> {
+    return of();
+  }
+
   static users: MockUser[] = [
     {
       id: 1,

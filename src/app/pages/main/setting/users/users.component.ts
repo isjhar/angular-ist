@@ -44,6 +44,10 @@ import {
   EdiDialogData,
   EditDialogComponent,
 } from 'src/app/pages/main/setting/users/edit-dialog/edit-dialog.component';
+import {
+  ChangePasswordDialogComponent,
+  ChangePasswordDialogData,
+} from 'src/app/pages/main/setting/users/change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -181,6 +185,35 @@ export class UsersComponent implements OnInit {
           horizontalPosition: 'start',
           verticalPosition: 'bottom',
         });
+      }
+    });
+  }
+
+  onChangePasswordClicked(event: Event, element: any): void {
+    event.stopPropagation();
+
+    const config: MatDialogConfig<ChangePasswordDialogData> = {
+      width: '90%',
+      maxWidth: 500,
+      height: 'auto',
+      data: {
+        value: {
+          id: element.id,
+        },
+      },
+    };
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, config);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.table.refreshData();
+        this.snackBar.open(
+          `Change ${element.name} password successfully`,
+          'Close',
+          {
+            horizontalPosition: 'start',
+            verticalPosition: 'bottom',
+          },
+        );
       }
     });
   }
