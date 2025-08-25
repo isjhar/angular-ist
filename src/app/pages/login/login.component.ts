@@ -20,6 +20,8 @@ import {
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
 import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
 import { MatButton } from '@angular/material/button';
+import { PasswordInputComponent } from '../shared/default-form/password-input/password-input.component';
+import { InputErrorComponent } from 'src/app/pages/shared/default-form/input-error/input-error.component';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +36,8 @@ import { MatButton } from '@angular/material/button';
     MatButton,
     LoadingButtonComponent,
     FormErrorRequiredComponent,
+    PasswordInputComponent,
+    InputErrorComponent,
   ],
 })
 export class LoginComponent implements OnInit {

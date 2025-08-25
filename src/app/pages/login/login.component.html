@@ -1,8 +1,8 @@
-<div class="h-full w-full flex flex-col place-content-center items-center">
-  <div class="flex-1 flex flex-col place-content-center items-center">
+<div class="flex h-full w-full flex-col place-content-center items-center">
+  <div class="flex flex-1 flex-col place-content-center items-center">
     <h1 class="text-display-small">Welcome to App</h1>
     <form
-      class="flex flex-col place-content-center w-[400px] p-6"
+      class="flex w-[400px] flex-col place-content-center p-6"
       [formGroup]="loginForm"
       (ngSubmit)="onLoginformSubmitted()">
       @if (error) {
@@ -17,17 +17,11 @@
           <app-form-error-required name="email"></app-form-error-required>
         </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label i18n="password">Password</mat-label>
-        <input
-          matInput
-          type="password"
-          formControlName="password"
-          data-test="password" />
-        <mat-error>
+      <app-password-input formControlName="password">
+        <app-input-error>
           <app-form-error-required name="password"></app-form-error-required>
-        </mat-error>
-      </mat-form-field>
+        </app-input-error>
+      </app-password-input>
 
       <app-loading-button
         [isLoading]="isLoading"
