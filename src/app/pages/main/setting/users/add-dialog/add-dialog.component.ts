@@ -46,6 +46,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CustomValidator } from 'src/app/pages/shared/default-form/custom-validator';
 import { FormErrorPasswordComponent } from 'src/app/pages/shared/default-form/form-error/form-error-password/form-error-password.component';
 import { RoleList } from 'src/app/domain/entities/role-list';
+import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
 
 @Component({
   selector: 'app-add-dialog',
@@ -63,6 +64,7 @@ import { RoleList } from 'src/app/domain/entities/role-list';
     ReactiveFormsModule,
     AsyncPipe,
     FormsModule,
+    TogglePasswordDirective,
   ],
   templateUrl: './add-dialog.component.html',
   styleUrls: ['./add-dialog.component.scss'],

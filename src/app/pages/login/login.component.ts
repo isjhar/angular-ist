@@ -16,13 +16,14 @@ import {
   MatFormField,
   MatLabel,
   MatInput,
+  MatSuffix,
 } from '@angular/material/input';
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
 import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
-import { MatButton } from '@angular/material/button';
-import { PasswordInputComponent } from '../shared/default-form/password-input/password-input.component';
-import { InputErrorComponent } from 'src/app/pages/shared/default-form/input-error/input-error.component';
-import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { BaseComponent } from 'src/app/pages/shared/base.component';
+import { MatIcon } from '@angular/material/icon';
+import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
 
 @Component({
   selector: 'app-login',
@@ -35,13 +36,15 @@ import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
     MatLabel,
     MatInput,
     MatButton,
+    MatIcon,
+    MatIconButton,
+    MatSuffix,
     LoadingButtonComponent,
     FormErrorRequiredComponent,
-    PasswordInputComponent,
-    InputErrorComponent,
+    TogglePasswordDirective,
   ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent {
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -49,7 +52,6 @@ export class LoginComponent implements OnInit {
   isLoading: boolean = false;
 
   loginUseCase: LoginUseCase;
-  snackbarService = inject(SnackBarService);
 
   constructor(
     @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
@@ -57,13 +59,12 @@ export class LoginComponent implements OnInit {
     authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router,
   ) {
+    super();
     this.loginUseCase = new LoginUseCase(
       authenticatedUserRepository,
       authRepository,
     );
   }
-
-  ngOnInit(): void {}
 
   onLoginformSubmitted(): void {
     this.isLoading = true;
@@ -77,7 +78,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         },
         error: (error) => {
-          this.snackbarService.showError(`Login failed: ${error}`);
+          this.snackBarService.showError(`Login failed: ${error}`);
           this.isLoading = false;
         },
       });

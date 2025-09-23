@@ -12,11 +12,29 @@
           <app-form-error-required name="email"></app-form-error-required>
         </mat-error>
       </mat-form-field>
-      <app-password-input formControlName="password">
-        <app-input-error>
+
+      <mat-form-field appearance="fill">
+        <mat-label i18n="password">Password</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          autocomplete="off"
+          data-test="password" />
+
+        <button
+          matIconButton
+          matSuffix
+          appTogglePassword
+          type="button"
+          [attr.aria-label]="'Toggle password visibility'">
+          <mat-icon></mat-icon>
+        </button>
+
+        <mat-error>
           <app-form-error-required name="password"></app-form-error-required>
-        </app-input-error>
-      </app-password-input>
+        </mat-error>
+      </mat-form-field>
 
       <app-loading-button
         [isLoading]="isLoading"

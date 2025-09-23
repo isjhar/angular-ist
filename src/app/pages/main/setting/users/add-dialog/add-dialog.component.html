@@ -1,9 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
   <div mat-dialog-title i18n="user">User</div>
   <mat-dialog-content class="mat-typography">
-    @if (error) {
-      <mat-error class="mb-4" data-test="error">{{ error }}</mat-error>
-    }
     <div class="column">
       <mat-form-field appearance="fill">
         <mat-label i18n="email">Email</mat-label>
@@ -18,6 +15,7 @@
           <app-form-error-required name="email"></app-form-error-required>
         </mat-error>
       </mat-form-field>
+
       <mat-form-field appearance="fill">
         <mat-label i18n="name">Name</mat-label>
         <input matInput formControlName="name" required data-test="name" />
@@ -25,15 +23,25 @@
           <app-form-error-required name="name"></app-form-error-required>
         </mat-error>
       </mat-form-field>
+
       <mat-form-field appearance="fill">
         <mat-label i18n="password">Password</mat-label>
         <input
           matInput
           type="password"
           formControlName="password"
-          required
-          data-test="password"
-          autocomplete="kata sandi" />
+          autocomplete="off"
+          data-test="password" />
+
+        <button
+          matIconButton
+          matSuffix
+          appTogglePassword
+          type="button"
+          [attr.aria-label]="'Toggle password visibility'">
+          <mat-icon></mat-icon>
+        </button>
+
         <mat-error>
           <app-form-error-required name="password"></app-form-error-required>
           @if (!password.hasError("required")) {
@@ -50,7 +58,16 @@
           formControlName="confirmPassword"
           required
           data-test="confirm-password"
-          autocomplete="confirm-password" />
+          autocomplete="off" />
+
+        <button
+          matIconButton
+          matSuffix
+          appTogglePassword
+          type="button"
+          [attr.aria-label]="'Toggle password visibility'">
+          <mat-icon></mat-icon>
+        </button>
 
         <mat-error>
           @if (
