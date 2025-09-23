@@ -160,17 +160,20 @@
       }
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
         class="group item-row relative cursor-pointer hover:shadow-[var(--mat-sys-level5)]"
         (click)="onRowClicked($event, row)"></tr>
+
       <tr class="mat-row" *matNoDataRow>
         <td
           class="mat-cell"
           [attr.colspan]="displayedColumns.length"
-          i18n="noDataFound"></td>
-        No data found
+          i18n="noDataFound">
+          No data found
+        </td>
       </tr>
     </table>
   </div>

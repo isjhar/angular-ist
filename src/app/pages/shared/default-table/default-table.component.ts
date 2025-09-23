@@ -1,4 +1,3 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -27,13 +26,9 @@ import {
   MatRowDef,
   MatRow,
   MatNoDataRow,
+  MatTableModule,
 } from '@angular/material/table';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  shareReplay,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DefaultTableMobileItemViewDirective } from './default-table-mobile-item-view.directive';
 import { BaseComponent } from '../base.component';
 import { NgStyle, NgClass, NgTemplateOutlet, DatePipe } from '@angular/common';
@@ -48,7 +43,7 @@ import {
 } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
-import { MatIconButton, MatMiniFabButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -84,6 +79,7 @@ export enum DisplayMode {
     MatSortHeader,
     MatCellDef,
     MatCell,
+    MatNoDataRow,
     NgTemplateOutlet,
     MatHeaderRowDef,
     MatHeaderRow,
@@ -103,6 +99,7 @@ export enum DisplayMode {
     MatSuffix,
     MatInput,
     ReactiveFormsModule,
+    MatTableModule,
   ],
   encapsulation: ViewEncapsulation.None,
 })
