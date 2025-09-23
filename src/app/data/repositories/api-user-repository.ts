@@ -59,7 +59,7 @@ export class ApiUserRepository implements UserRepository {
 
   changePassword(params: ChangePasswordRequestParams): Observable<void> {
     return this.http
-      .patch<ApiResponse<void>>(`/api/users/${params.id}`, {
+      .patch<ApiResponse<void>>(`/api/users/${params.id}/change-password`, {
         password: params.password,
       })
       .pipe(map<ApiResponse<void>, void>((response) => response.data));

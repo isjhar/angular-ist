@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -17,12 +17,14 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Subscription } from 'rxjs';
 import { USER_REPOSITORY } from 'src/app/app-token-repository';
 import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { CustomValidator } from 'src/app/pages/shared/default-form/custom-validator';
 import { FormErrorPasswordComponent } from 'src/app/pages/shared/default-form/form-error/form-error-password/form-error-password.component';
 import { FormErrorRequiredComponent } from 'src/app/pages/shared/default-form/form-error/form-error-required/form-error-required.component';
 import { LoadingButtonComponent } from 'src/app/pages/shared/default-form/loading-button/loading-button.component';
+import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
 import { FormDialogComponent } from 'src/app/pages/shared/form-dialog-component';
 
 export interface ChangePasswordDialogData {
@@ -45,11 +47,15 @@ export interface ChangePasswordDialogData {
     ReactiveFormsModule,
     FormsModule,
     FormErrorPasswordComponent,
+    TogglePasswordDirective,
   ],
   templateUrl: './change-password-dialog.component.html',
   styleUrl: './change-password-dialog.component.scss',
 })
-export class ChangePasswordDialogComponent extends FormDialogComponent {
+export class ChangePasswordDialogComponent
+  extends FormDialogComponent
+  implements OnInit, OnDestroy
+{
   currentPassword: string = '';
   formGroup = new FormGroup({
     password: new FormControl('', [
@@ -78,12 +84,28 @@ export class ChangePasswordDialogComponent extends FormDialogComponent {
     return this.formGroup.get('confirmPassword') as FormControl;
   }
 
+  passwordSubscription?: Subscription;
+
   constructor(
     dialogRef: MatDialogRef<ChangePasswordDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ChangePasswordDialogData,
     @Inject(USER_REPOSITORY) private userRepository: UserRepository,
   ) {
     super(dialogRef);
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.passwordSubscription = this.password.valueChanges.subscribe(
+      (value) => {
+        this.currentPassword = value;
+      },
+    );
+  }
+
+  override ngOnDestroy(): void {
+    this.passwordSubscription?.unsubscribe();
+    super.ngOnDestroy();
   }
 
   onSubmitted(): void {

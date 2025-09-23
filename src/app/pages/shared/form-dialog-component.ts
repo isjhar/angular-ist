@@ -1,15 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
-import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
 
 @Component({
   template: '',
 })
 export class FormDialogComponent extends BaseComponent {
   isLoading: boolean = false;
-
-  snackBar = inject(SnackBarService);
 
   constructor(protected dialogRef: MatDialogRef<any>) {
     super();
@@ -22,6 +19,6 @@ export class FormDialogComponent extends BaseComponent {
 
   onError(response: any): void {
     this.isLoading = false;
-    this.snackBar.showError(`Process failed: ${response}`);
+    this.snackBarService.showError(`Process failed: ${response}`);
   }
 }
