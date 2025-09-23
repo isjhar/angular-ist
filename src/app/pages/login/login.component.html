@@ -5,11 +5,6 @@
       class="flex w-[400px] flex-col place-content-center p-6"
       [formGroup]="loginForm"
       (ngSubmit)="onLoginformSubmitted()">
-      @if (error) {
-        <mat-error class="m-1 text-center" data-test="error">
-          {{ error }}
-        </mat-error>
-      }
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" data-test="email" />

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -22,6 +22,7 @@ import { FormErrorRequiredComponent } from '../shared/default-form/form-error/fo
 import { MatButton } from '@angular/material/button';
 import { PasswordInputComponent } from '../shared/default-form/password-input/password-input.component';
 import { InputErrorComponent } from 'src/app/pages/shared/default-form/input-error/input-error.component';
+import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -45,10 +46,10 @@ export class LoginComponent implements OnInit {
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
-  error?: string;
   isLoading: boolean = false;
 
   loginUseCase: LoginUseCase;
+  snackbarService = inject(SnackBarService);
 
   constructor(
     @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
@@ -71,15 +72,15 @@ export class LoginComponent implements OnInit {
         email: this.loginForm.value.email ?? '',
         password: this.loginForm.value.password ?? '',
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.router.navigate(['']);
         },
-        (error) => {
-          this.error = `Login failed: ${error}`;
+        error: (error) => {
+          this.snackbarService.showError(`Login failed: ${error}`);
           this.isLoading = false;
         },
-      );
+      });
   }
 
   loginDemoClicked(): void {
