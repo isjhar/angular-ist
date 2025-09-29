@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   Inject,
   OnInit,
   TemplateRef,
@@ -24,13 +25,16 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgTemplateOutlet } from '@angular/common';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
-import { Role } from 'src/app/domain/entities/role';
 import { MatDivider } from '@angular/material/divider';
 import { RoleDetail } from 'src/app/domain/entities/role-detail';
 import { MatIcon } from '@angular/material/icon';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconButton } from '@angular/material/button';
+import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
+import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository';
+import { AccessControlId } from 'src/app/domain/entities/access-control';
+import { DefaultTableColumn } from 'src/app/pages/shared/default-table/default-table.component';
 
 @Component({
   selector: 'app-role',
@@ -65,6 +69,11 @@ export class RoleComponent implements OnInit {
   deleteRoleAccessControluseCase: DeleteRoleAccessControlUseCase;
   roleId: number = 0;
   role?: RoleDetail;
+
+  private authenticatedUserRepository = inject<AuthenticatedUserRepository>(
+    AUTHENTICATED_USER_REPOSITORY,
+  );
+
   constructor(
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
@@ -88,7 +97,7 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tableService.changeColumns([
+    const columns: DefaultTableColumn[] = [
       {
         prop: 'name',
         show: true,
@@ -103,14 +112,23 @@ export class RoleComponent implements OnInit {
         showHandset: true,
         sortBy: 'description',
       },
-      {
-        prop: 'id',
-        show: true,
-        title: 'Action',
-        cellTemplate: this.actionTemplate,
-        showHandset: true,
-      },
-    ]);
+    ];
+
+    this.authenticatedUserRepository
+      .hasAccessControl(AccessControlId.EditRole)
+      .subscribe((hasAccess) => {
+        if (hasAccess) {
+          columns.push({
+            prop: 'id',
+            show: true,
+            title: 'Action',
+            cellTemplate: this.actionTemplate,
+            showHandset: true,
+          });
+        }
+        this.tableService.changeColumns(columns);
+      });
+
     this.findRole();
   }
 

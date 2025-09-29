@@ -1,4 +1,4 @@
-<div style="margin-bottom: 10px">
+<div style="margin-bottom: 10px" *appHasAccessControl="AccessControlId.AddRole">
   <button
     data-test="btn-add-role-list"
     matButton="filled"
@@ -47,6 +47,7 @@
 <ng-template #actionTemplate let-element="element">
   @if (element.isEditable) {
     <button
+      *appHasAccessControl="AccessControlId.DeleteRole"
       matIconButton
       aria-label="Icon button with a delete icon"
       data-test="btn-delete"

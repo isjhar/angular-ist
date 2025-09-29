@@ -1,4 +1,4 @@
-<div style="margin-bottom: 10px">
+<div style="margin-bottom: 10px" *appHasAccessControl="AccessControlId.AddUser">
   <button
     matButton="filled"
     data-test="btn-add-list"
@@ -53,6 +53,7 @@
   @if (element.isEditable) {
     <div class="flex-row gap-2">
       <button
+        *appHasAccessControl="AccessControlId.EditUser"
         matIconButton
         aria-label="Example icon button with a delete icon"
         data-test="btn-edit"
@@ -60,13 +61,15 @@
         <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
       </button>
       <button
+        *appHasAccessControl="AccessControlId.EditUser"
         matIconButton
-        aria-label="Example icon button with a delete icon"
+        aria-label="Example icon button with a edit icon"
         data-test="btn-edit"
         (click)="onChangePasswordClicked($event, element)">
         <mat-icon fontSet="material-symbols-outlined">lock</mat-icon>
       </button>
       <button
+        *appHasAccessControl="AccessControlId.DeleteUser"
         matIconButton
         aria-label="Example icon button with a delete icon"
         data-test="btn-delete"

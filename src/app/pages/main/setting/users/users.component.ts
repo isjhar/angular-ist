@@ -48,6 +48,8 @@ import {
   ChangePasswordDialogComponent,
   ChangePasswordDialogData,
 } from 'src/app/pages/main/setting/users/change-password-dialog/change-password-dialog.component';
+import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
+import { AccessControlId } from 'src/app/domain/entities/access-control';
 
 @Component({
   selector: 'app-users',
@@ -68,6 +70,7 @@ import {
     MatIconModule,
     NgTemplateOutlet,
     MatDivider,
+    HasAccessControlDirective,
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
@@ -81,6 +84,8 @@ export class UsersComponent implements OnInit {
   deleteUserUseCase: DeleteUseCase;
 
   displayMode = DisplayMode;
+
+  AccessControlId = AccessControlId;
 
   constructor(
     @Inject(TABLE_SERVICE)
