@@ -167,9 +167,9 @@
         class="group item-row relative cursor-pointer hover:shadow-[var(--mat-sys-level5)]"
         (click)="onRowClicked($event, row)"></tr>
 
-      <tr class="mat-row" *matNoDataRow>
+      <tr class="mat-row mat-mdc-row" *matNoDataRow>
         <td
-          class="mat-cell"
+          class="mat-cell mdc-data-table__cell"
           [attr.colspan]="displayedColumns.length"
           i18n="noDataFound">
           No data found
@@ -190,6 +190,10 @@
             "></ng-container>
         }
       </div>
+    }
+
+    @if (!dataSource || dataSource.length == 0) {
+      <div class="flex flex-row justify-center">No data found</div>
     }
   </div>
 
