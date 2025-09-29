@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
     let hasAuthenticatedUserAccessControlUseCase =
       new HasAuthenticatedUserAccessControlUseCase(authenticatedUserRepository);
     this.adminAccessControl$ = hasAuthenticatedUserAccessControlUseCase.execute(
-      AccessControlId.Setting,
+      AccessControlId.ViewDashboard,
     );
   }
 

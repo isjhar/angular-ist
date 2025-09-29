@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { concatMap, map } from 'rxjs/operators';
+import { concatMap } from 'rxjs/operators';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { Menu } from 'src/app/domain/entities/menu';
 import { Pagination } from 'src/app/domain/entities/pagination';
@@ -16,28 +16,28 @@ export class LocalMenuRepository implements MenuRepository {
       url: '',
       isShow: false,
       icon: 'dashboard',
+      accessControlId: AccessControlId.ViewDashboard,
     },
     {
       name: 'Setting',
       url: 'setting',
       isShow: false,
       icon: 'settings',
-      accessControlId: AccessControlId.Setting,
       childs: [
         {
           name: 'Users',
           url: 'users',
-          accessControlId: AccessControlId.Setting,
+          accessControlId: AccessControlId.ViewUser,
         },
         {
           name: 'Access Controls',
           url: 'access-controls',
-          accessControlId: AccessControlId.Setting,
+          accessControlId: AccessControlId.ViewAccessControl,
         },
         {
           name: 'Roles',
           url: 'roles',
-          accessControlId: AccessControlId.Setting,
+          accessControlId: AccessControlId.ViewRole,
         },
       ],
     },
@@ -49,16 +49,25 @@ export class LocalMenuRepository implements MenuRepository {
     return localAuthenticatedUserRepository.getAuthenticatedUser().pipe(
       concatMap((user) => {
         return new Observable<Pagination<Menu>>((observer) => {
-          let items = LocalMenuRepository.items;
-          items.forEach((x) => {
-            let isShow = false;
-            if (
-              !x.accessControlId ||
-              (x.accessControlId && user?.hasAccessControl(x.accessControlId))
-            ) {
-              isShow = true;
-            }
-            x.isShow = isShow;
+          let items = structuredClone(
+            LocalMenuRepository.items.filter((item) => {
+              const isShow =
+                (item.accessControlId &&
+                  user.hasAccessControl(item.accessControlId)) ||
+                item.childs?.some(
+                  (child) =>
+                    child.accessControlId &&
+                    user?.hasAccessControl(child.accessControlId),
+                );
+              return isShow;
+            }),
+          );
+          items.forEach((menu) => {
+            menu.childs = menu.childs?.filter(
+              (child) =>
+                child.accessControlId &&
+                user?.hasAccessControl(child.accessControlId),
+            );
           });
           observer.next({
             total: items.length,
