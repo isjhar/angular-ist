@@ -35,6 +35,7 @@ import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authent
 import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { DefaultTableColumn } from 'src/app/pages/shared/default-table/default-table.component';
+import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
 
 @Component({
   selector: 'app-role',
@@ -48,6 +49,7 @@ import { DefaultTableColumn } from 'src/app/pages/shared/default-table/default-t
     MatDivider,
     MatIcon,
     MatIconButton,
+    HasAccessControlDirective,
   ],
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
@@ -69,6 +71,8 @@ export class RoleComponent implements OnInit {
   deleteRoleAccessControluseCase: DeleteRoleAccessControlUseCase;
   roleId: number = 0;
   role?: RoleDetail;
+
+  AccessControlId = AccessControlId;
 
   private authenticatedUserRepository = inject<AuthenticatedUserRepository>(
     AUTHENTICATED_USER_REPOSITORY,
