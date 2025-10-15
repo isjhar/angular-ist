@@ -32,10 +32,14 @@ import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/conf
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconButton } from '@angular/material/button';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
-import { AUTHENTICATED_USER_REPOSITORY } from 'src/app/app-local-repository';
+import {
+  AUTHENTICATED_USER_REPOSITORY,
+  BREADCRUMB_REPOSITORY,
+} from 'src/app/app-local-repository';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { DefaultTableColumn } from 'src/app/pages/shared/default-table/default-table.component';
 import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
+import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 
 @Component({
   selector: 'app-role',
@@ -83,6 +87,8 @@ export class RoleComponent implements OnInit {
     private tableService: ServerSideTableService<any, any>,
     @Inject(ROLE_REPOSITORY)
     private roleRepository: RoleRepository,
+    @Inject(BREADCRUMB_REPOSITORY)
+    private breadcrumbRepository: BreadcrumbRepository,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private mainService: MainService,
@@ -140,6 +146,7 @@ export class RoleComponent implements OnInit {
     this.roleRepository.find(this.roleId).subscribe({
       next: (response) => {
         this.role = response;
+        this.breadcrumbRepository.setDynamicLabel(this.role.name);
       },
     });
   }

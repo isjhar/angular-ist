@@ -1,8 +1,13 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 import { GetBreadcrumbsUseCase } from 'src/app/domain/use-cases/get-breadcrumbs-use-case';
@@ -17,15 +22,22 @@ import { NgTemplateOutlet, AsyncPipe } from '@angular/common';
   styleUrls: ['./breadcrumb.component.scss'],
   imports: [RouterLink, NgTemplateOutlet, AsyncPipe],
 })
-export class BreadcrumbComponent extends BaseComponent implements OnInit {
-  breadcrumbs: Breadcrumb[] = [];
+export class BreadcrumbComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy
+{
+  breadcrumbs = signal<Breadcrumb[]>([]);
   paths: string[] = [];
   getMenusUseCase: GetMenusUseCase;
+  dynamicLabel = signal('');
+
+  private _dynamicLabelSubscription?: Subscription;
 
   constructor(
     @Inject(BREADCRUMB_REPOSITORY)
-    breadCrumbRepository: BreadcrumbRepository,
+    private breadCrumbRepository: BreadcrumbRepository,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {
     super();
     this.getMenusUseCase = new GetBreadcrumbsUseCase(breadCrumbRepository);
@@ -38,7 +50,19 @@ export class BreadcrumbComponent extends BaseComponent implements OnInit {
 
   override ngOnInit(): void {
     this.getMenusUseCase.execute({}).subscribe((response) => {
-      this.breadcrumbs = response.pagination.items;
+      this.breadcrumbs.set(response.pagination.items);
     });
+
+    this._dynamicLabelSubscription = this.breadCrumbRepository
+      .dynamicLabelChanges()
+      .subscribe((label) => {
+        this.dynamicLabel.set(label);
+        this.breadcrumbs.set(this.breadcrumbs().map((item) => ({ ...item })));
+      });
+  }
+
+  override ngOnDestroy(): void {
+    this._dynamicLabelSubscription?.unsubscribe();
+    super.ngOnDestroy();
   }
 }
