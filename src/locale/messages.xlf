@@ -4,7 +4,6 @@
     <body>
       <trans-unit id="6874529476993853937" datatype="html">
         <source>Welcome to App</source>
-        <target>Selamat datang di Aplikasi</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.component.html</context>
           <context context-type="linenumber">3,5</context>
@@ -13,7 +12,6 @@
       </trans-unit>
       <trans-unit id="1431416938026210429" datatype="html">
         <source>Password</source>
-        <target>Kata sandi</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.component.html</context>
           <context context-type="linenumber">17,18</context>
@@ -30,7 +28,6 @@
       </trans-unit>
       <trans-unit id="1908285951500318953" datatype="html">
         <source> Login </source>
-        <target>Masuk</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.component.html</context>
           <context context-type="linenumber">44,45</context>
@@ -39,7 +36,6 @@
       </trans-unit>
       <trans-unit id="7133281220170148866" datatype="html">
         <source> Try Login with Demo Account </source>
-        <target>Coba masuk dengan akun demo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.component.html</context>
           <context context-type="linenumber">53,56</context>
@@ -184,7 +180,6 @@
       </trans-unit>
       <trans-unit id="7873623519470670250" datatype="html">
         <source>Field is required</source>
-        <target>Kolom ini wajib diisi</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/shared/default-form/form-error/form-error-required/form-error-required.component.html</context>
           <context context-type="linenumber">2,4</context>
