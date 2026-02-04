@@ -3,7 +3,7 @@
   [formGroup]="formGroup"
   (ngSubmit)="onSubmit()">
   <mat-form-field>
-    <mat-label>Enter a date range</mat-label>
+    <mat-label i18n="enterADateRange">Enter a date range</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input
         matStartDate
@@ -17,7 +17,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Quick Ranges</mat-label>
+    <mat-label i18n="quickRange">Quick Ranges</mat-label>
     <mat-select formControlName="quickRange">
       @for (quickRange of quickRanges; track quickRange) {
         <mat-option [value]="quickRange.value">
