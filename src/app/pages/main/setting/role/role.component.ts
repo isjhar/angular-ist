@@ -111,14 +111,14 @@ export class RoleComponent implements OnInit {
       {
         prop: 'name',
         show: true,
-        title: 'Name',
+        title: $localize`Name`,
         showHandset: true,
         sortBy: 'name',
       },
       {
         prop: 'description',
         show: true,
-        title: 'Description',
+        title: $localize`Description`,
         showHandset: true,
         sortBy: 'description',
       },
@@ -131,7 +131,7 @@ export class RoleComponent implements OnInit {
           columns.push({
             prop: 'id',
             show: true,
-            title: 'Action',
+            title: $localize`Action`,
             cellTemplate: this.actionTemplate,
             showHandset: true,
           });
@@ -163,10 +163,14 @@ export class RoleComponent implements OnInit {
             this.table.refreshData();
           },
           error: (response) => {
-            this.snackBar.open('Change access control is failed', 'Close', {
-              horizontalPosition: 'start',
-              verticalPosition: 'bottom',
-            });
+            this.snackBar.open(
+              $localize`:changeAccessControlFailed:Change access control is failed`,
+              'Close',
+              {
+                horizontalPosition: 'start',
+                verticalPosition: 'bottom',
+              },
+            );
           },
         });
       return;
@@ -184,10 +188,14 @@ export class RoleComponent implements OnInit {
           }
         },
         error: (response) => {
-          this.snackBar.open('Change access control is failed', 'Close', {
-            horizontalPosition: 'start',
-            verticalPosition: 'bottom',
-          });
+          this.snackBar.open(
+            $localize`:changeAccessControlFailed:Change access control is failed`,
+            'Close',
+            {
+              horizontalPosition: 'start',
+              verticalPosition: 'bottom',
+            },
+          );
         },
       });
   }
@@ -204,18 +212,22 @@ export class RoleComponent implements OnInit {
       maxWidth: 500,
       height: 'auto ',
       data: {
-        title: `Delete "${element.name}"?`,
-        message: `"${element.name}" will be deleted permanently.`,
+        title: $localize`:deleteSomething:Delete "${element.name}"?`,
+        message: $localize`:deleteSomethingPermanently:"${element.name}" will be deleted permanently.`,
         yes$: this.roleRepository.delete(element.id),
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('Role deleted successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
+        this.snackBar.open(
+          $localize`:roleDeletedSuccessfully:Role deleted successfully`,
+          'Close',
+          {
+            horizontalPosition: 'start',
+            verticalPosition: 'bottom',
+          },
+        );
       }
     });
   }

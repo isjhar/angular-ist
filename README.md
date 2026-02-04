@@ -44,7 +44,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Extract Localization
 
-Run `ng extract-i18n` to generate *.xlf file
+Run `ng extract-i18n --output-path src/locale` to generate *.xlf file
 
 ## Demo
 

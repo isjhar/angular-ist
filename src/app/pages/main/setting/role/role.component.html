@@ -8,6 +8,7 @@
           *appHasAccessControl="AccessControlId.DeleteRole"
           matIconButton
           aria-label="Icon button with a delete icon"
+          i18n-aria-label="deleteIconAriaLabel"
           data-test="btn-delete"
           (click)="onDeleteClicked()">
           <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
@@ -17,7 +18,7 @@
   </div>
 
   <mat-divider></mat-divider>
-  <div class="text-title-medium">Access Controls</div>
+  <div class="text-title-medium" i18n="accessControls">Access Controls</div>
 
   <app-server-side-table #table trackBy="accessControlId" [searchable]="true">
     <ng-template appDefaultTableMobileItemView let-data>
