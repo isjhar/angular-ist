@@ -9,7 +9,7 @@
       [formGroup]="loginForm"
       (ngSubmit)="onLoginformSubmitted()">
       <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
+        <mat-label i18n="email">Email</mat-label>
         <input matInput formControlName="email" data-test="email" />
         <mat-error>
           <app-form-error-required name="email"></app-form-error-required>
@@ -58,6 +58,7 @@
     </form>
   </div>
   <div class="mat-caption mb-6">
-    © 2021 Isjhar Kautsar | {{ "isjhar@gmail.com" }}
+    Copyright © 2026 All Rights Reserved. Isjhar Kautsar |
+    {{ "isjhar@gmail.com" }}
   </div>
 </div>
