@@ -1,6 +1,9 @@
 <div class="flex h-full w-full flex-col place-content-center items-center">
+  <div class="flex w-full justify-end p-4">
+    <app-localization-menu></app-localization-menu>
+  </div>
   <div class="flex flex-1 flex-col place-content-center items-center">
-    <h1 class="text-display-small">Welcome to App</h1>
+    <h1 i18n="welcomeToApp" class="text-display-small">Welcome to App</h1>
     <form
       class="flex w-[400px] flex-col place-content-center p-6"
       [formGroup]="loginForm"
@@ -44,7 +47,12 @@
         Login
       </app-loading-button>
 
-      <button class="mt-4" type="button" matButton (click)="loginDemoClicked()">
+      <button
+        i18n="tryLoginWithDemoAccount"
+        class="mt-4"
+        type="button"
+        matButton
+        (click)="loginDemoClicked()">
         Try Login with Demo Account
       </button>
     </form>

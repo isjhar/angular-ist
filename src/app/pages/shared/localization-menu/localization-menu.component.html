@@ -1,0 +1,21 @@
+<div class="flex flex-row items-center">
+  <span class="text-title-large mt-1">{{ currentLocalizationIcon() }}</span>
+  <button
+    matIconButton
+    class="toolbar-button"
+    [matMenuTriggerFor]="menu"
+    data-test="btn-profile">
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    @for (localization of localizations(); track $index) {
+      <button
+        mat-menu-item
+        class="px-2"
+        (click)="setLocalization(localization.id)">
+        <span class="text-body-medium mr-2">{{ localization.icon }}</span>
+        <ng-container>{{ localization.name }}</ng-container>
+      </button>
+    }
+  </mat-menu>
+</div>

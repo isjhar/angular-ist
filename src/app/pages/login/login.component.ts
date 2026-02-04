@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -24,6 +24,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { MatIcon } from '@angular/material/icon';
 import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
+import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
 
 @Component({
   selector: 'app-login',
@@ -42,6 +43,7 @@ import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggl
     LoadingButtonComponent,
     FormErrorRequiredComponent,
     TogglePasswordDirective,
+    LocalizationMenuComponent,
   ],
 })
 export class LoginComponent extends BaseComponent {
