@@ -1,7 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
-  <h1 mat-dialog-title i18n="menu">Access Control</h1>
+  <h1 mat-dialog-title i18n="accessControl">Access Control</h1>
   @if (error) {
-    <mat-error data-test="error"> {{ error }} </mat-error>
+    <mat-error data-test="error">{{ error }}</mat-error>
   }
   <mat-dialog-content class="mat-typography">
     <div class="column">
@@ -14,14 +14,13 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Description</mat-label>
+        <mat-label i18n="description">Description</mat-label>
         <textarea
           matInput
           formControlName="description"
           required
           data-test="description"
-          rows="3"
-        ></textarea>
+          rows="3"></textarea>
         <mat-error>
           <app-form-error-required name="description"></app-form-error-required>
         </mat-error>
@@ -33,16 +32,14 @@
       mat-button
       mat-dialog-close
       data-test="btn-cancel-form"
-      i18n="cancel"
-      >
+      i18n="cancel">
       Cancel
     </button>
     <app-loading-button
       data-test="btn-save-form"
       [disabled]="!formGroup.valid"
       [isLoading]="isLoading"
-      i18n="save"
-      >
+      i18n="save">
       Save
     </app-loading-button>
   </mat-dialog-actions>
