@@ -3,7 +3,7 @@
     <div class="flex-1">
       <mat-card>
         <mat-card-content>
-          <mat-card-subtitle>Total Users</mat-card-subtitle>
+          <mat-card-subtitle i18n="totalUsers">Total Users</mat-card-subtitle>
           <div style="font-size: 30px; margin-top: 20px">
             {{ adminDashboard().totalUsers | defaultNumber }}
           </div>
@@ -13,7 +13,7 @@
     <div class="flex-1">
       <mat-card>
         <mat-card-content>
-          <mat-card-subtitle>New Users</mat-card-subtitle>
+          <mat-card-subtitle i18n="newUsers">New Users</mat-card-subtitle>
           <div style="font-size: 30px; margin-top: 20px">
             {{ adminDashboard().newUsers | defaultNumber }}
           </div>
@@ -24,7 +24,7 @@
     <div class="flex-1">
       <mat-card>
         <mat-card-content>
-          <mat-card-subtitle>Active User</mat-card-subtitle>
+          <mat-card-subtitle i18n="activeUser">Active User</mat-card-subtitle>
           <div style="font-size: 30px; margin-top: 20px">
             {{ adminDashboard().activeUsers | defaultNumber }}
           </div>
@@ -36,7 +36,9 @@
     <div class="flex-[0.97]">
       <mat-card>
         <mat-card-content>
-          <mat-card-subtitle class="min-h-[32px]">User Roles</mat-card-subtitle>
+          <mat-card-subtitle i18n="userRoles" class="min-h-[32px]">
+            User Roles
+          </mat-card-subtitle>
           <app-user-roles [data]="adminDashboard().userRoles"></app-user-roles>
         </mat-card-content>
       </mat-card>
@@ -44,7 +46,7 @@
     <div class="flex-2">
       <mat-card>
         <mat-card-content>
-          <mat-card-subtitle class="min-h-[32px]">
+          <mat-card-subtitle i18n="userTrends" class="min-h-[32px]">
             User Trends
           </mat-card-subtitle>
           <app-user-trends
@@ -60,8 +62,10 @@
         <mat-card-content>
           <mat-card-subtitle>
             <div class="flex flex-row justify-between">
-              User Activities
-              <div class="daily-toggle flex flex-row items-center gap-2">
+              <span i18n="userActivities">User Activities</span>
+              <div
+                i18n="hourly"
+                class="daily-toggle flex flex-row items-center gap-2">
                 Hourly
                 <mat-slide-toggle #dailyTogle>Daily</mat-slide-toggle>
               </div>
