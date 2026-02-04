@@ -12,30 +12,30 @@ import { Injectable } from '@angular/core';
 export class LocalMenuRepository implements MenuRepository {
   static items: Menu[] = [
     {
-      name: 'Dashboard',
+      name: $localize`Dashboard`,
       url: '',
       isShow: false,
       icon: 'dashboard',
       accessControlId: AccessControlId.ViewDashboard,
     },
     {
-      name: 'Setting',
+      name: $localize`Setting`,
       url: 'setting',
       isShow: false,
       icon: 'settings',
       childs: [
         {
-          name: 'Users',
+          name: $localize`Users`,
           url: 'users',
           accessControlId: AccessControlId.ViewUser,
         },
         {
-          name: 'Access Controls',
+          name: $localize`Access Controls`,
           url: 'access-controls',
           accessControlId: AccessControlId.ViewAccessControl,
         },
         {
-          name: 'Roles',
+          name: $localize`Roles`,
           url: 'roles',
           accessControlId: AccessControlId.ViewRole,
         },
