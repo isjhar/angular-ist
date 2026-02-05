@@ -14,25 +14,25 @@ import { Injectable } from '@angular/core';
 export class LocalBreadcrumbRepository implements BreadcrumbRepository {
   static items: Breadcrumb[] = [
     {
-      name: 'Home',
+      name: $localize`:home:Home`,
       url: '',
       childs: [
         {
-          name: 'Setting',
+          name: $localize`:setting:Setting`,
           url: 'setting',
           childs: [
             {
-              name: 'Users',
+              name: $localize`:users:Users`,
               url: 'users',
               accessControlId: AccessControlId.ViewUser,
             },
             {
-              name: 'Access Controls',
+              name: $localize`:accessControls:Access Controls`,
               url: 'access-controls',
               accessControlId: AccessControlId.ViewAccessControl,
             },
             {
-              name: 'Roles',
+              name: $localize`roles:Roles`,
               url: 'roles',
               accessControlId: AccessControlId.ViewRole,
               childs: [
