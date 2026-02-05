@@ -13,8 +13,12 @@
   (rowClick)="onRowClicked($event.row)"
   [searchable]="true">
   <ng-template appDefaultTableMobileItemView let-data>
-    <mat-card class="relative" (click)="onRowClicked(data)">
-      <mat-card-content matRipple>
+    <mat-card
+      matRipple
+      class="clickable-card relative"
+      (click)="onRowClicked(data)"
+      tabindex="0">
+      <mat-card-content>
         <div class="flex flex-row items-center">
           <div class="flex-1">{{ data.name }}</div>
 

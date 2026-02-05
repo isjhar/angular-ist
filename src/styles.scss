@@ -57,6 +57,10 @@ body {
   padding-bottom: 20px;
 }
 
+.mat-mdc-card > .mat-mdc-card-content:has(+ .mat-ripple-element:last-child) {
+  padding-bottom: 16px;
+}
+
 .card-field .card-field-label {
   opacity: 0.6;
 }
@@ -242,4 +246,18 @@ body {
 
 .circle-radius {
   border-radius: var(--mat-sys-corner-full);
+}
+
+// card
+.clickable-card {
+  cursor: pointer;
+  transition: box-shadow 200ms ease-in-out;
+}
+
+.clickable-card:hover {
+  box-shadow: var(--mat-sys-level5);
+}
+
+.clickable-card:focus {
+  outline: 1px solid var(--mat-sys-primary);
 }
