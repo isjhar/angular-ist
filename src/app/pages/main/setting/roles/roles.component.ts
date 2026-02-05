@@ -93,7 +93,7 @@ export class RolesComponent implements OnInit {
       {
         prop: 'name',
         show: true,
-        title: 'Name',
+        title: $localize`:name:Name`,
         showHandset: true,
         sortBy: 'name',
       },
