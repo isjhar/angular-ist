@@ -174,16 +174,16 @@ export class AddDialogComponent implements OnInit, OnDestroy {
         password: this.password.value,
         roles: roles.map((x) => x.id),
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.isLoading = false;
           this.dialogRef.close('success');
         },
-        (response) => {
+        error: (response) => {
           this.isLoading = false;
           this.error = response;
         },
-      );
+      });
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
