@@ -1,3 +1,6 @@
-@if (formControl && formControl.hasError('greaterThan')) {
-  Value has to greater than {{ formControl.errors?.['greaterThan'].threshold }}
+@if (formControl && formControl.hasError("greaterThan")) {
+  <span i18n="greaterThan">
+    Value has to greater than
+    {{ formControl.errors?.["greaterThan"].threshold }}
+  </span>
 }
