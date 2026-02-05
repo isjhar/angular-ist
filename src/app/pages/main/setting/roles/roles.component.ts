@@ -31,7 +31,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { NgTemplateOutlet } from '@angular/common';
 import { Router } from '@angular/router';
-import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { MatRipple } from '@angular/material/core';
@@ -41,7 +40,7 @@ import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-contr
 @Component({
   selector: 'app-roles',
   imports: [
-    ServerSideTableComponent_1,
+    ServerSideTableComponent,
     DefaultTableMobileItemViewDirective,
     DefaultTableActionContainerDirective,
     MatIconModule,
