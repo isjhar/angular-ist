@@ -52,6 +52,19 @@ body {
   padding: 16px;
 }
 
+.mat-card .card-field {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.card-field .card-field-label {
+  opacity: 0.6;
+}
+
+.card-field .card-field-value {
+  opacity: 0.87;
+}
+
 .mat-cell.number-cell {
   text-align: right;
   padding-right: 10px;
@@ -180,6 +193,7 @@ body {
 
 .text-title-small {
   font: var(--mat-sys-title-small);
+  letter-spacing: var(--mat-sys-title-small-tracking);
 }
 
 .text-title-medium {
@@ -196,9 +210,36 @@ body {
 
 .text-body-medium {
   font: var(--mat-sys-body-medium);
+  letter-spacing: var(--mat-sys-body-medium-tracking);
+}
+
+// material background color
+
+.bg-primary-container {
+  background-color: var(--mat-sys-primary-container);
 }
 
 // material font color
+.text-primary {
+  color: var(--mat-sys-primary);
+}
+
+.text-secondary {
+  color: var(--mat-sys-secondary);
+}
+
 .text-on-secondary-container {
   color: var(--mat-sys-on-secondary-container);
+}
+
+.text-on-surface-variant {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.text-on-surface {
+  color: var(--mat-sys-on-surface);
+}
+
+.circle-radius {
+  border-radius: var(--mat-sys-corner-full);
 }
