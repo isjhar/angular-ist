@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: '',
-  dataSource: 'mock',
+  dataSource: 'api',
 };
 
 /*

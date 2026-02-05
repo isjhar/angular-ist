@@ -1,12 +1,9 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
   Inject,
-  InjectionToken,
   Input,
   OnDestroy,
   OnInit,
@@ -19,13 +16,13 @@ import { delay } from 'rxjs/operators';
 import {
   DefaultTableColumn,
   DefaultTableComponent,
+  DisplayMode,
 } from '../default-table.component';
 import {
   ServerSideTableService,
   TABLE_SERVICE,
 } from './server-side-table.service';
 import { DefaultTableMobileItemViewDirective } from '../default-table-mobile-item-view.directive';
-import { SearchFieldComponent } from './search-field/search-field.component';
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { SkeletonComponent } from '../../skeleton/skeleton.component';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
@@ -36,7 +33,6 @@ import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-even
   templateUrl: './server-side-table.component.html',
   styleUrls: ['./server-side-table.component.scss'],
   imports: [
-    SearchFieldComponent,
     DefaultTableComponent,
     NgStyle,
     DefaultTableMobileItemViewDirective,
@@ -51,6 +47,7 @@ export class ServerSideTableComponent
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
   @Input() trackBy: string = 'id';
+  @Input() displayMode: DisplayMode = DisplayMode.Hybrid;
 
   @Output() rowClick = new EventEmitter<RowClickEvent>();
 
@@ -116,6 +113,11 @@ export class ServerSideTableComponent
     this.get();
   }
 
+  onSearchChanged(search: string): void {
+    this.showLoadingSnackBar();
+    this.get();
+  }
+
   onRowClicked(event: RowClickEvent): void {
     this.rowClick.emit(event);
   }
@@ -124,13 +126,18 @@ export class ServerSideTableComponent
     this.service
       .get(this.service.getParams())
       .pipe(delay(0))
-      .subscribe((response) => {
-        this.length = response.total;
-        this.dataSource = response.data;
-        this.table.renderRows();
-        this.initialized = true;
-        this.isLoaded = true;
-        this.snackBarRef?.dismiss();
+      .subscribe({
+        next: (response) => {
+          this.length = response.total;
+          this.dataSource = response.data;
+          this.table.renderRows();
+          this.initialized = true;
+          this.isLoaded = true;
+          this.snackBarRef?.dismiss();
+        },
+        error: (response) => {
+          this.snackBarRef?.dismiss();
+        },
       });
   }
 

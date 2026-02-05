@@ -1,6 +1,3 @@
-@if (searchable) {
-  <app-search-field [placeholder]="searchPlaceholder"></app-search-field>
-}
 <app-default-table
   [ngStyle]="{ display: isLoaded ? 'block' : 'none' }"
   [dataSource]="dataSource"
@@ -9,7 +6,11 @@
   (page)="onPageChanged($event)"
   (sortChange)="onSortChanged($event)"
   (rowClick)="onRowClicked($event)"
-  [trackBy]="trackBy">
+  [trackBy]="trackBy"
+  [searchable]="searchable"
+  [searchPlaceholder]="searchPlaceholder"
+  (searchChange)="onSearchChanged($event)"
+  [displayMode]="displayMode">
   @if (mobileItemView) {
     <ng-template appDefaultTableMobileItemView let-data let-i="index">
       <ng-container

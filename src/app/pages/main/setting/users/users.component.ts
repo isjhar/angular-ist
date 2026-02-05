@@ -5,7 +5,11 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { USER_REPOSITORY } from 'src/app/app-token-repository';
@@ -34,6 +38,18 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
+import { MatDivider } from '@angular/material/divider';
+import { DisplayMode } from 'src/app/pages/shared/default-table/default-table.component';
+import {
+  EdiDialogData,
+  EditDialogComponent,
+} from 'src/app/pages/main/setting/users/edit-dialog/edit-dialog.component';
+import {
+  ChangePasswordDialogComponent,
+  ChangePasswordDialogData,
+} from 'src/app/pages/main/setting/users/change-password-dialog/change-password-dialog.component';
+import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
+import { AccessControlId } from 'src/app/domain/entities/access-control';
 
 @Component({
   selector: 'app-users',
@@ -53,6 +69,8 @@ import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/defau
     MatCardModule,
     MatIconModule,
     NgTemplateOutlet,
+    MatDivider,
+    HasAccessControlDirective,
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
@@ -64,6 +82,10 @@ export class UsersComponent implements OnInit {
   table!: ServerSideTableComponent;
 
   deleteUserUseCase: DeleteUseCase;
+
+  displayMode = DisplayMode;
+
+  AccessControlId = AccessControlId;
 
   constructor(
     @Inject(TABLE_SERVICE)
@@ -92,10 +114,10 @@ export class UsersComponent implements OnInit {
         showHandset: true,
       },
       {
-        prop: 'role_names',
+        prop: 'roleNames',
         show: true,
         title: 'Roles',
-        sortBy: 'role_names',
+        sortBy: 'role',
         showHandset: false,
       },
     ]);
@@ -125,7 +147,8 @@ export class UsersComponent implements OnInit {
       maxWidth: 500,
       height: 'auto ',
       data: {
-        message: 'Are you sure?',
+        title: `Delete "${element.name}"?`,
+        message: `"${element.name}" will be deleted permanently.`,
         yes$: this.delete(element.id),
       },
     });
@@ -142,5 +165,61 @@ export class UsersComponent implements OnInit {
 
   delete(id: number): Observable<void> {
     return this.deleteUserUseCase.execute({ id: id });
+  }
+
+  onEditClicked(event: Event, element: any): void {
+    event.stopPropagation();
+
+    const config: MatDialogConfig<EdiDialogData> = {
+      width: '90%',
+      maxWidth: 500,
+      height: 'auto',
+      data: {
+        value: {
+          id: element.id,
+          name: element.name,
+          roles: element.roleIds,
+        },
+      },
+    };
+    const dialogRef = this.dialog.open(EditDialogComponent, config);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.table.refreshData();
+        this.snackBar.open('User deleted successfully', 'Close', {
+          horizontalPosition: 'start',
+          verticalPosition: 'bottom',
+        });
+      }
+    });
+  }
+
+  onChangePasswordClicked(event: Event, element: any): void {
+    event.stopPropagation();
+
+    const config: MatDialogConfig<ChangePasswordDialogData> = {
+      width: '90%',
+      maxWidth: 500,
+      height: 'auto',
+      data: {
+        value: {
+          id: element.id,
+        },
+      },
+    };
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, config);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.table.refreshData();
+        this.snackBar.open(
+          `Change ${element.name} password successfully`,
+          'Close',
+          {
+            horizontalPosition: 'start',
+            verticalPosition: 'bottom',
+          },
+        );
+      }
+    });
   }
 }

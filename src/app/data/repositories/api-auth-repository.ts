@@ -18,7 +18,7 @@ export class ApiAuthRepository implements AuthRepository {
   }
   login(data: LoginParams): Observable<User> {
     let headers = new HttpHeaders({
-      Accept: 'text/html',
+      Accept: 'application/json',
     });
     return this.getCsrfToken().pipe(
       concatMap((response) =>
@@ -26,7 +26,7 @@ export class ApiAuthRepository implements AuthRepository {
           .post('/auth/login', data, {
             headers: headers,
             withCredentials: true,
-            responseType: 'text',
+            responseType: 'json',
             observe: 'response',
           })
           .pipe(
@@ -34,11 +34,11 @@ export class ApiAuthRepository implements AuthRepository {
               this.http.get<ApiResponse<UserData>>('/api/user').pipe(
                 map<ApiResponse<UserData>, User>((x) => {
                   return mapUserData(x.data);
-                })
-              )
-            )
-          )
-      )
+                }),
+              ),
+            ),
+          ),
+      ),
     );
   }
 

@@ -1,4 +1,50 @@
 <div class="mat-elevation-z8">
+  <div
+    [ngClass]="{ 'flex-col': isCardView, 'flex-row gap-2': isTableView }"
+    class="flex">
+    @if (searchable) {
+      <form [formGroup]="searchForm" class="flex-1">
+        <mat-form-field class="w-full">
+          <mat-label i18n="search">Search</mat-label>
+          <input matInput formControlName="search" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+    }
+    @if (isCardView) {
+      <div class="flex flex-1 flex-row gap-2">
+        <mat-form-field class="flex-1">
+          <mat-label>Sort By</mat-label>
+          <mat-select
+            [value]="sort"
+            (selectionChange)="changeSort($event.value)">
+            <mat-option [value]="">---None---</mat-option>
+            @for (column of columns; track column) {
+              @if (column.sortBy) {
+                <mat-option [value]="column.sortBy">
+                  {{ column.title }}
+                </mat-option>
+              }
+            }
+          </mat-select>
+        </mat-form-field>
+        <button
+          matIconButton
+          aria-label="Order by"
+          (click)="toggleOrder()"
+          class="mt-2">
+          <mat-icon
+            [ngClass]="{
+              'scale-y-100': order == 'desc',
+              '-scale-y-100': order == 'asc',
+            }">
+            sort
+          </mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+
   <div [ngStyle]="{ display: isTableView ? 'block' : 'none' }">
     <table
       mat-table
@@ -114,24 +160,26 @@
       }
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
         class="group item-row relative cursor-pointer hover:shadow-[var(--mat-sys-level5)]"
         (click)="onRowClicked($event, row)"></tr>
-      <tr class="mat-row" *matNoDataRow>
+
+      <tr class="mat-row mat-mdc-row" *matNoDataRow>
         <td
-          class="mat-cell"
+          class="mat-cell mdc-data-table__cell"
           [attr.colspan]="displayedColumns.length"
-          i18n="noDataFound"></td>
-        No data found
+          i18n="noDataFound">
+          No data found
+        </td>
       </tr>
     </table>
   </div>
-
   <div
     class="card-view mb-4"
-    [ngStyle]="{ display: isTableView ? 'none' : 'flex' }">
+    [ngStyle]="{ display: isCardView ? 'flex' : 'none' }">
     @for (data of dataSource; track data[trackBy]; let i = $index) {
       <div>
         @if (mobileItemView) {
@@ -142,6 +190,10 @@
             "></ng-container>
         }
       </div>
+    }
+
+    @if (!dataSource || dataSource.length == 0) {
+      <div class="flex flex-row justify-center">No data found</div>
     }
   </div>
 

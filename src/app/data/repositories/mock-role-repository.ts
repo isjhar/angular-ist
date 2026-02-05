@@ -12,22 +12,34 @@ import {
   UpdateRoleRequestParams,
 } from 'src/app/domain/repositories/role-repository';
 import { MockAccessControlRepository } from './mock-access-control.repository';
+import { RoleList } from 'src/app/domain/entities/role-list';
+import { AccessControl } from 'src/app/domain/entities/access-control';
+import { RoleDetail } from 'src/app/domain/entities/role-detail';
+
+interface MockRole {
+  id: number;
+  name: string;
+  accessControls: AccessControl[];
+  isEditable: boolean;
+}
 
 export class MockRoleRepository implements RoleRepository {
-  static roles: Role[] = [
+  static roles: MockRole[] = [
     {
       id: 1,
       name: 'Sys Admin',
       accessControls: [...MockAccessControlRepository.items],
+      isEditable: false,
     },
     {
       id: 2,
       name: 'Admin',
       accessControls: [...MockAccessControlRepository.items],
+      isEditable: true,
     },
   ];
 
-  get(params: PaginationParams): Observable<Pagination<Role>> {
+  get(params: PaginationParams): Observable<Pagination<RoleList>> {
     let roles = [...MockRoleRepository.roles];
     let search = params.search;
     let limit = params.limit ? params.limit : roles.length;
@@ -55,10 +67,11 @@ export class MockRoleRepository implements RoleRepository {
       let maxId = Math.max(
         ...MockRoleRepository.roles.map((element) => element.id),
       );
-      let role: Role = {
+      let role: MockRole = {
         id: maxId + 1,
         name: params.name,
         accessControls: [],
+        isEditable: true,
       };
       MockRoleRepository.roles.push(role);
       observer.next(role);
@@ -168,7 +181,7 @@ export class MockRoleRepository implements RoleRepository {
     });
   }
 
-  find(id: number): Observable<Role> {
+  find(id: number): Observable<RoleDetail> {
     return new Observable((observer) => {
       let role = MockRoleRepository.roles.find((x) => x.id == id);
       if (role) {

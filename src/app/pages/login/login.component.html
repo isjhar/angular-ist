@@ -1,29 +1,39 @@
-<div class="h-full w-full flex flex-col place-content-center items-center">
-  <div class="flex-1 flex flex-col place-content-center items-center">
-    <h1 class="text-display-small">Welcome to App</h1>
+<div class="flex h-full w-full flex-col place-content-center items-center">
+  <div class="flex w-full justify-end p-4">
+    <app-localization-menu></app-localization-menu>
+  </div>
+  <div class="flex flex-1 flex-col place-content-center items-center">
+    <h1 i18n="welcomeToApp" class="text-display-small">Welcome to App</h1>
     <form
-      class="flex flex-col place-content-center w-[400px] p-6"
+      class="flex w-[400px] flex-col place-content-center p-6"
       [formGroup]="loginForm"
       (ngSubmit)="onLoginformSubmitted()">
-      @if (error) {
-        <mat-error class="m-1 text-center" data-test="error">
-          {{ error }}
-        </mat-error>
-      }
       <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
+        <mat-label i18n="email">Email</mat-label>
         <input matInput formControlName="email" data-test="email" />
         <mat-error>
           <app-form-error-required name="email"></app-form-error-required>
         </mat-error>
       </mat-form-field>
+
       <mat-form-field appearance="fill">
         <mat-label i18n="password">Password</mat-label>
         <input
           matInput
           type="password"
           formControlName="password"
+          autocomplete="off"
           data-test="password" />
+
+        <button
+          matIconButton
+          matSuffix
+          appTogglePassword
+          type="button"
+          [attr.aria-label]="'Toggle password visibility'">
+          <mat-icon></mat-icon>
+        </button>
+
         <mat-error>
           <app-form-error-required name="password"></app-form-error-required>
         </mat-error>
@@ -37,12 +47,18 @@
         Login
       </app-loading-button>
 
-      <button class="mt-4" type="button" matButton (click)="loginDemoClicked()">
+      <button
+        i18n="tryLoginWithDemoAccount"
+        class="mt-4"
+        type="button"
+        matButton
+        (click)="loginDemoClicked()">
         Try Login with Demo Account
       </button>
     </form>
   </div>
   <div class="mat-caption mb-6">
-    © 2021 Isjhar Kautsar | {{ "isjhar@gmail.com" }}
+    Copyright © 2026 All Rights Reserved. Isjhar Kautsar |
+    {{ "isjhar@gmail.com" }}
   </div>
 </div>

@@ -13,7 +13,6 @@ export function mapUserData(data: UserData): User {
     id: data.id,
     name: data.name,
     email: data.email,
-    password: '',
     roles: data.roles.map((role) => {
       return {
         id: role.id,

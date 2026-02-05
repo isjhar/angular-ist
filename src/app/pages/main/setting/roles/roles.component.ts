@@ -1,11 +1,4 @@
-import {
-  Component,
-  inject,
-  Inject,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -37,12 +30,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { NgTemplateOutlet } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
-import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { MatRipple } from '@angular/material/core';
+import { AccessControlId } from 'src/app/domain/entities/access-control';
+import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
 
 @Component({
   selector: 'app-roles',
@@ -61,6 +55,7 @@ import { MatRipple } from '@angular/material/core';
     MatCardModule,
     NgTemplateOutlet,
     MatRipple,
+    HasAccessControlDirective,
   ],
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
@@ -81,6 +76,8 @@ export class RolesComponent implements OnInit {
 
   router = inject(Router);
 
+  AccessControlId = AccessControlId;
+
   constructor(
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
     @Inject(TABLE_SERVICE)
@@ -96,8 +93,9 @@ export class RolesComponent implements OnInit {
       {
         prop: 'name',
         show: true,
-        title: 'Name',
+        title: $localize`:name:Name`,
         showHandset: true,
+        sortBy: 'name',
       },
     ]);
   }
@@ -128,7 +126,8 @@ export class RolesComponent implements OnInit {
       maxWidth: 500,
       height: 'auto ',
       data: {
-        message: 'Are you sure?',
+        title: `Delete "${element.name}"?`,
+        message: `"${element.name}" will be deleted permanently.`,
         yes$: this.deleteRoleUseCase.execute({ id: element.id }),
       },
     });

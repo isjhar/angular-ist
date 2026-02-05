@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -16,10 +16,15 @@ import {
   MatFormField,
   MatLabel,
   MatInput,
+  MatSuffix,
 } from '@angular/material/input';
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
 import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { BaseComponent } from 'src/app/pages/shared/base.component';
+import { MatIcon } from '@angular/material/icon';
+import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
+import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
 
 @Component({
   selector: 'app-login',
@@ -32,16 +37,20 @@ import { MatButton } from '@angular/material/button';
     MatLabel,
     MatInput,
     MatButton,
+    MatIcon,
+    MatIconButton,
+    MatSuffix,
     LoadingButtonComponent,
     FormErrorRequiredComponent,
+    TogglePasswordDirective,
+    LocalizationMenuComponent,
   ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent {
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
-  error?: string;
   isLoading: boolean = false;
 
   loginUseCase: LoginUseCase;
@@ -52,13 +61,12 @@ export class LoginComponent implements OnInit {
     authenticatedUserRepository: AuthenticatedUserRepository,
     private router: Router,
   ) {
+    super();
     this.loginUseCase = new LoginUseCase(
       authenticatedUserRepository,
       authRepository,
     );
   }
-
-  ngOnInit(): void {}
 
   onLoginformSubmitted(): void {
     this.isLoading = true;
@@ -67,15 +75,15 @@ export class LoginComponent implements OnInit {
         email: this.loginForm.value.email ?? '',
         password: this.loginForm.value.password ?? '',
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.router.navigate(['']);
         },
-        (error) => {
-          this.error = `Login failed: ${error}`;
+        error: (error) => {
+          this.snackBarService.showError(`Login failed: ${error}`);
           this.isLoading = false;
         },
-      );
+      });
   }
 
   loginDemoClicked(): void {

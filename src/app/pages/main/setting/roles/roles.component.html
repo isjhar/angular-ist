@@ -1,4 +1,4 @@
-<div style="margin-bottom: 10px">
+<div style="margin-bottom: 10px" *appHasAccessControl="AccessControlId.AddRole">
   <button
     data-test="btn-add-role-list"
     matButton="filled"
@@ -7,15 +7,18 @@
     Add
   </button>
 </div>
-<app-server-side-table #table (rowClick)="onRowClicked($event.row)">
+
+<app-server-side-table
+  #table
+  (rowClick)="onRowClicked($event.row)"
+  [searchable]="true">
   <ng-template appDefaultTableMobileItemView let-data>
     <mat-card class="relative" (click)="onRowClicked(data)">
       <mat-card-content matRipple>
-        <div class="row">
-          <div style="flex: 1">
-            <div>{{ data.name }}</div>
-          </div>
-          <div class="row main-axis-end" style="width: 100px">
+        <div class="flex flex-row items-center">
+          <div class="flex-1">{{ data.name }}</div>
+
+          @if (data.isEditable) {
             <ng-container
               *ngTemplateOutlet="
                 actionTemplate;
@@ -23,7 +26,7 @@
                   element: data,
                 }
               "></ng-container>
-          </div>
+          }
         </div>
       </mat-card-content>
     </mat-card>
@@ -42,8 +45,9 @@
 </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
-  @if (element.id != 1) {
+  @if (element.isEditable) {
     <button
+      *appHasAccessControl="AccessControlId.DeleteRole"
       matIconButton
       aria-label="Icon button with a delete icon"
       data-test="btn-delete"

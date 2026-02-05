@@ -11,6 +11,7 @@ import {
 } from 'src/app/domain/repositories/access-control-repository';
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
+import { toApiPageIndex } from 'src/app/data/utilities/api-param-modifier';
 
 @Injectable()
 export class ApiAccessControlRepository implements AccessControlRepository {
@@ -18,14 +19,14 @@ export class ApiAccessControlRepository implements AccessControlRepository {
 
   get(params: PaginationParams): Observable<Pagination<AccessControl>> {
     let urlBuilder = new ApiUrlBuilder('/api/access-controls');
-    urlBuilder.pushQueryParam('page', params.page);
+    urlBuilder.pushQueryParam('page', toApiPageIndex(params.page));
     urlBuilder.pushQueryParam('limit', params.limit);
     return this.http
       .get<ApiResponse<Pagination<AccessControl>>>(urlBuilder.getUrl())
       .pipe(
         map<ApiResponse<Pagination<AccessControl>>, Pagination<AccessControl>>(
-          (e) => e.data
-        )
+          (e) => e.data,
+        ),
       );
   }
   store(params: StoreAccessControlRequestParams): Observable<AccessControl> {
@@ -33,7 +34,7 @@ export class ApiAccessControlRepository implements AccessControlRepository {
   }
   update(
     id: number,
-    params: StoreAccessControlRequestParams
+    params: StoreAccessControlRequestParams,
   ): Observable<void> {
     throw new Error('Method not implemented.');
   }

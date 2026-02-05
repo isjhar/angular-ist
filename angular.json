@@ -4,6 +4,12 @@
   "newProjectRoot": "projects",
   "projects": {
     "template-web": {
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "id": "src/locale/messages.id.xlf"
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -59,6 +65,9 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "id": {
+              "localize": ["id"]
             }
           },
           "defaultConfiguration": "production"
@@ -71,6 +80,9 @@
             },
             "development": {
               "buildTarget": "template-web:build:development"
+            },
+            "id": {
+              "buildTarget": "template-web:build:development,id"
             }
           },
           "options": {

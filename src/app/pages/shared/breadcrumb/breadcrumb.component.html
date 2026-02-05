@@ -1,8 +1,8 @@
 @if (!(isHandset$ | async)) {
-  @for (breadcrumb of breadcrumbs; track breadcrumb) {
+  @for (breadcrumb of breadcrumbs(); track breadcrumb) {
     @if (paths.length > 0 && breadcrumb.url == paths[0]) {
       <a class="breadcrumb" [routerLink]="'/' + breadcrumb.url">
-        <span>{{ breadcrumb.name }}</span>
+        {{ breadcrumb.name }}
       </a>
       <ng-container
         *ngTemplateOutlet="
@@ -26,7 +26,7 @@
     @if (paths.length > level) {
       @if (child.url == paths[level]) {
         <a class="breadcrumb" [routerLink]="'/' + parentUrl + '/' + child.url">
-          <span>{{ child.name }}</span>
+          {{ child.name }}
         </a>
         <ng-container
           *ngTemplateOutlet="
@@ -42,7 +42,7 @@
         <a
           class="breadcrumb"
           [routerLink]="'/' + parentUrl + '/' + paths[level]">
-          <span>{{ paths[level] }}</span>
+          {{ dynamicLabel() }}
         </a>
         <ng-container
           *ngTemplateOutlet="

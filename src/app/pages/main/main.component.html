@@ -34,7 +34,9 @@
                 <mat-icon>email</mat-icon>
                 {{ loggedUser.email }}
               </div>
-              <div class="text-title-large">Halo, {{ loggedUser.name }}</div>
+              <div i18n="helloUser" class="text-title-large">
+                Halo, {{ loggedUser.name }}
+              </div>
             </div>
             <mat-divider></mat-divider>
             <div class="flex justify-center">
@@ -61,14 +63,27 @@
     [opened]="(isHandset$ | async) === false">
     <mat-nav-list>
       @for (menu of menus; track menu) {
-        @if (menu.isShow) {
-          @if (!menu.childs) {
-            <a
-              mat-list-item
-              [routerLink]="'/' + menu.url"
-              [ngClass]="{
-                selected: menu.url == url || (url == '/' && menu.url == ''),
-              }">
+        @if (!menu.childs) {
+          <a
+            mat-list-item
+            [routerLink]="'/' + menu.url"
+            [ngClass]="{
+              selected: menu.url == url || (url == '/' && menu.url == ''),
+            }">
+            <div class="menu-title">
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                fontSet="material-symbols-outlined">
+                {{ menu.icon }}
+              </mat-icon>
+              {{ menu.name }}
+            </div>
+          </a>
+        }
+        @if (menu.childs) {
+          <a mat-list-item (click)="toggleMenu(menu.name)">
+            <div class="expanded-menu-item">
               <div class="menu-title">
                 <mat-icon
                   mat-list-icon
@@ -78,47 +93,32 @@
                 </mat-icon>
                 {{ menu.name }}
               </div>
-            </a>
-          }
-          @if (menu.childs) {
-            <a mat-list-item (click)="toggleMenu(menu.name)">
-              <div class="expanded-menu-item">
-                <div class="menu-title">
-                  <mat-icon
-                    mat-list-icon
-                    class="icon"
-                    fontSet="material-symbols-outlined">
-                    {{ menu.icon }}
-                  </mat-icon>
-                  {{ menu.name }}
-                </div>
-                <mat-icon
-                  class="arrow-icon"
-                  [ngClass]="{ open: expandedMenu == menu.name }"
-                  mat-list-icon>
-                  arrow_right
-                </mat-icon>
-              </div>
-            </a>
-          }
-          <ng-container>
-            <mat-nav-list class="sub-menu">
-              @for (child of menu.childs; track child) {
-                <a
-                  [ngClass]="{
-                    open: expandedMenu == menu.name,
-                    selected: '/' + menu.url + '/' + child.url == url,
-                  }"
-                  mat-list-item
-                  [routerLink]="'/' + menu.url + '/' + child.url">
-                  <span class="child-label">
-                    {{ child.name }}
-                  </span>
-                </a>
-              }
-            </mat-nav-list>
-          </ng-container>
+              <mat-icon
+                class="arrow-icon"
+                [ngClass]="{ open: expandedMenu == menu.name }"
+                mat-list-icon>
+                arrow_right
+              </mat-icon>
+            </div>
+          </a>
         }
+        <ng-container>
+          <mat-nav-list class="sub-menu">
+            @for (child of menu.childs; track child) {
+              <a
+                [ngClass]="{
+                  open: expandedMenu == menu.name,
+                  selected: '/' + menu.url + '/' + child.url == url,
+                }"
+                mat-list-item
+                [routerLink]="'/' + menu.url + '/' + child.url">
+                <span class="child-label">
+                  {{ child.name }}
+                </span>
+              </a>
+            }
+          </mat-nav-list>
+        </ng-container>
       }
     </mat-nav-list>
   </mat-sidenav>

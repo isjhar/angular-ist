@@ -1,5 +1,5 @@
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
 import { Error } from 'src/app/domain/entities/error';
@@ -8,7 +8,9 @@ import { PaginationParams } from 'src/app/domain/entities/pagination-params';
 import { User } from 'src/app/domain/entities/user';
 import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 import { LocalAuthenticatedUserRepository } from './local-authenticated-user-repository';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class LocalBreadcrumbRepository implements BreadcrumbRepository {
   static items: Breadcrumb[] = [
     {
@@ -18,27 +20,26 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
         {
           name: 'Setting',
           url: 'setting',
-          accessControlId: AccessControlId.Setting,
           childs: [
             {
               name: 'Users',
               url: 'users',
-              accessControlId: AccessControlId.Setting,
+              accessControlId: AccessControlId.ViewUser,
             },
             {
               name: 'Access Controls',
               url: 'access-controls',
-              accessControlId: AccessControlId.Setting,
+              accessControlId: AccessControlId.ViewAccessControl,
             },
             {
               name: 'Roles',
               url: 'roles',
-              accessControlId: AccessControlId.Setting,
+              accessControlId: AccessControlId.ViewRole,
               childs: [
                 {
                   name: 'Role',
                   url: ':id',
-                  accessControlId: AccessControlId.Setting,
+                  accessControlId: AccessControlId.ViewRole,
                 },
               ],
             },
@@ -47,6 +48,8 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
       ],
     },
   ];
+
+  private _dynamicLabel = new Subject<string>();
 
   get(params: PaginationParams): Observable<Pagination<Breadcrumb>> {
     let items = [...LocalBreadcrumbRepository.items];
@@ -66,14 +69,17 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
       concatMap((menu) => {
         let localAuthenticatedUserRepository =
           new LocalAuthenticatedUserRepository();
-        return localAuthenticatedUserRepository.getAuthenticatedUser().pipe(
-          map<User, boolean>((user) => {
-            if (menu && menu.accessControlId) {
-              return user.hasAccessControl(menu.accessControlId);
-            }
-            return false;
-          }),
-        );
+        return localAuthenticatedUserRepository
+          .getAuthenticatedUser()
+          .pipe(
+            map<User, boolean>(
+              (user) =>
+                (menu &&
+                  menu.accessControlId &&
+                  user.hasAccessControl(menu.accessControlId)) ??
+                false,
+            ),
+          );
       }),
     );
   }
@@ -132,5 +138,13 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
       }
     }
     return undefined;
+  }
+
+  dynamicLabelChanges(): Observable<string> {
+    return this._dynamicLabel;
+  }
+
+  setDynamicLabel(label: string): void {
+    this._dynamicLabel.next(label);
   }
 }

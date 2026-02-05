@@ -6,7 +6,7 @@ import { AuthenticatedUserRepository } from './domain/repositories/authenticated
 import { AuthRepository } from './domain/repositories/auth-repository';
 import { AUTHENTICATED_USER_REPOSITORY } from './app-local-repository';
 import { AUTH_REPOSITORY } from './app-token-repository';
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, Provider } from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
   HttpErrorResponse,
@@ -23,17 +23,17 @@ export class AuthInterceptor implements HttpInterceptor {
     private router: Router,
     @Inject(AUTHENTICATED_USER_REPOSITORY)
     authenticatedUserRepository: AuthenticatedUserRepository,
-    @Inject(AUTH_REPOSITORY) authRepository: AuthRepository
+    @Inject(AUTH_REPOSITORY) authRepository: AuthRepository,
   ) {
     this.logoutUseCase = new LogoutUseCase(
       authenticatedUserRepository,
-      authRepository
+      authRepository,
     );
   }
 
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     return next
       .handle(request)
@@ -68,7 +68,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 }
 
-export const authInterceptorProviders = [
+export const authInterceptorProviders: Provider = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

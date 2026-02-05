@@ -1,4 +1,4 @@
-<div style="margin-bottom: 10px">
+<div style="margin-bottom: 10px" *appHasAccessControl="AccessControlId.AddUser">
   <button
     matButton="filled"
     data-test="btn-add-list"
@@ -7,24 +7,36 @@
     Add
   </button>
 </div>
-<app-server-side-table #table>
+<app-server-side-table
+  #table
+  [searchable]="true"
+  [displayMode]="displayMode.Hybrid">
   <ng-template appDefaultTableMobileItemView let-data>
     <mat-card>
       <mat-card-content>
-        <div class="row">
-          <div style="flex: 1">
-            <div>{{ data.name }}</div>
-            <div>Email : {{ data.email }}</div>
-            <div>Role : {{ data.role_names }}</div>
+        <div class="flex flex-col gap-2">
+          <div class="flex flex-row items-center justify-between">
+            {{ data.name }}
+            @if (data.isEditable) {
+              <ng-container
+                *ngTemplateOutlet="
+                  actionTemplate;
+                  context: {
+                    element: data,
+                  }
+                "></ng-container>
+            }
           </div>
-          <div class="row main-axis-end" style="width: 50px">
-            <ng-container
-              *ngTemplateOutlet="
-                actionTemplate;
-                context: {
-                  element: data,
-                }
-              "></ng-container>
+          <mat-divider></mat-divider>
+          <div class="text-body-medium">
+            <div>
+              <span i18n="email">Email</span>
+              : {{ data.email }}
+            </div>
+            <div>
+              <span i18n="role">Role</span>
+              : {{ data.roleNames }}
+            </div>
           </div>
         </div>
       </mat-card-content>
@@ -44,13 +56,32 @@
 </app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
-  @if (element.id != 1) {
-    <button
-      matIconButton
-      aria-label="Example icon button with a delete icon"
-      data-test="btn-delete"
-      (click)="onDeleteClicked($event, element)">
-      <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
-    </button>
+  @if (element.isEditable) {
+    <div class="flex-row gap-2">
+      <button
+        *appHasAccessControl="AccessControlId.EditUser"
+        matIconButton
+        aria-label="Example icon button with a delete icon"
+        data-test="btn-edit"
+        (click)="onEditClicked($event, element)">
+        <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+      </button>
+      <button
+        *appHasAccessControl="AccessControlId.EditUser"
+        matIconButton
+        aria-label="Example icon button with a edit icon"
+        data-test="btn-edit"
+        (click)="onChangePasswordClicked($event, element)">
+        <mat-icon fontSet="material-symbols-outlined">lock</mat-icon>
+      </button>
+      <button
+        *appHasAccessControl="AccessControlId.DeleteUser"
+        matIconButton
+        aria-label="Example icon button with a delete icon"
+        data-test="btn-delete"
+        (click)="onDeleteClicked($event, element)">
+        <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+      </button>
+    </div>
   }
 </ng-template>

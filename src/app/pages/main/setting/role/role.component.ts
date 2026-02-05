@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   Inject,
   OnInit,
   TemplateRef,
@@ -24,6 +25,21 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgTemplateOutlet } from '@angular/common';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
+import { MatDivider } from '@angular/material/divider';
+import { RoleDetail } from 'src/app/domain/entities/role-detail';
+import { MatIcon } from '@angular/material/icon';
+import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconButton } from '@angular/material/button';
+import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
+import {
+  AUTHENTICATED_USER_REPOSITORY,
+  BREADCRUMB_REPOSITORY,
+} from 'src/app/app-local-repository';
+import { AccessControlId } from 'src/app/domain/entities/access-control';
+import { DefaultTableColumn } from 'src/app/pages/shared/default-table/default-table.component';
+import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
+import { BreadcrumbRepository } from 'src/app/domain/repositories/breadcrumb-repository';
 
 @Component({
   selector: 'app-role',
@@ -34,6 +50,10 @@ import { DefaultTableMobileItemViewDirective } from '../../../shared/default-tab
     MatSlideToggleModule,
     MatSnackBarModule,
     NgTemplateOutlet,
+    MatDivider,
+    MatIcon,
+    MatIconButton,
+    HasAccessControlDirective,
   ],
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
@@ -54,20 +74,31 @@ export class RoleComponent implements OnInit {
   storeRoleAccessControlUseCase: StoreRoleAccessControlUseCase;
   deleteRoleAccessControluseCase: DeleteRoleAccessControlUseCase;
   roleId: number = 0;
+  role?: RoleDetail;
+
+  AccessControlId = AccessControlId;
+
+  private authenticatedUserRepository = inject<AuthenticatedUserRepository>(
+    AUTHENTICATED_USER_REPOSITORY,
+  );
+
   constructor(
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
     @Inject(ROLE_REPOSITORY)
-    roleRepository: RoleRepository,
+    private roleRepository: RoleRepository,
+    @Inject(BREADCRUMB_REPOSITORY)
+    private breadcrumbRepository: BreadcrumbRepository,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private mainService: MainService
+    private mainService: MainService,
+    private dialog: MatDialog,
   ) {
     this.storeRoleAccessControlUseCase = new StoreRoleAccessControlUseCase(
-      roleRepository
+      roleRepository,
     );
     this.deleteRoleAccessControluseCase = new DeleteRoleAccessControlUseCase(
-      roleRepository
+      roleRepository,
     );
 
     if (this.route.snapshot.paramMap.has('id')) {
@@ -76,21 +107,48 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tableService.changeColumns([
+    const columns: DefaultTableColumn[] = [
       {
         prop: 'name',
         show: true,
-        title: 'Name',
+        title: $localize`Name`,
         showHandset: true,
+        sortBy: 'name',
       },
       {
-        prop: 'id',
+        prop: 'description',
         show: true,
-        title: 'Action',
-        cellTemplate: this.actionTemplate,
+        title: $localize`Description`,
         showHandset: true,
+        sortBy: 'description',
       },
-    ]);
+    ];
+
+    this.authenticatedUserRepository
+      .hasAccessControl(AccessControlId.EditRole)
+      .subscribe((hasAccess) => {
+        if (hasAccess) {
+          columns.push({
+            prop: 'id',
+            show: true,
+            title: $localize`Action`,
+            cellTemplate: this.actionTemplate,
+            showHandset: true,
+          });
+        }
+        this.tableService.changeColumns(columns);
+      });
+
+    this.findRole();
+  }
+
+  findRole(): void {
+    this.roleRepository.find(this.roleId).subscribe({
+      next: (response) => {
+        this.role = response;
+        this.breadcrumbRepository.setDynamicLabel(this.role.name);
+      },
+    });
   }
 
   onToggled(element: RoleAccessControlRow): void {
@@ -100,17 +158,21 @@ export class RoleComponent implements OnInit {
           accessControlId: element.accessControlId,
           roleId: this.roleId,
         })
-        .subscribe(
-          (response) => {
+        .subscribe({
+          next: (response) => {
             this.table.refreshData();
           },
-          (response) => {
-            this.snackBar.open('Change access control is failed', 'Close', {
-              horizontalPosition: 'start',
-              verticalPosition: 'bottom',
-            });
-          }
-        );
+          error: (response) => {
+            this.snackBar.open(
+              $localize`:changeAccessControlFailed:Change access control is failed`,
+              'Close',
+              {
+                horizontalPosition: 'start',
+                verticalPosition: 'bottom',
+              },
+            );
+          },
+        });
       return;
     }
 
@@ -119,22 +181,54 @@ export class RoleComponent implements OnInit {
         accessControlId: element.accessControlId,
         roleId: this.roleId,
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.table.refreshData();
           if (this.isLoggedUserHasToggledAccessControl(element)) {
           }
         },
-        (response) => {
-          this.snackBar.open('Change access control is failed', 'Close', {
-            horizontalPosition: 'start',
-            verticalPosition: 'bottom',
-          });
-        }
-      );
+        error: (response) => {
+          this.snackBar.open(
+            $localize`:changeAccessControlFailed:Change access control is failed`,
+            'Close',
+            {
+              horizontalPosition: 'start',
+              verticalPosition: 'bottom',
+            },
+          );
+        },
+      });
   }
 
   isLoggedUserHasToggledAccessControl(element: RoleAccessControlRow): boolean {
     return false;
+  }
+
+  onDeleteClicked(): void {
+    const element = this.role;
+    if (!element) return;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '90%',
+      maxWidth: 500,
+      height: 'auto ',
+      data: {
+        title: $localize`:deleteSomething:Delete "${element.name}"?`,
+        message: $localize`:deleteSomethingPermanently:"${element.name}" will be deleted permanently.`,
+        yes$: this.roleRepository.delete(element.id),
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.table.refreshData();
+        this.snackBar.open(
+          $localize`:roleDeletedSuccessfully:Role deleted successfully`,
+          'Close',
+          {
+            horizontalPosition: 'start',
+            verticalPosition: 'bottom',
+          },
+        );
+      }
+    });
   }
 }

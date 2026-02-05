@@ -1,9 +1,11 @@
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { User } from 'src/app/domain/entities/user';
 import { AuthenticatedUserRepository } from 'src/app/domain/repositories/authenticated-user-repository';
 
+@Injectable()
 export class LocalAuthenticatedUserRepository
   implements AuthenticatedUserRepository
 {
@@ -26,7 +28,6 @@ export class LocalAuthenticatedUserRepository
         email: userRaw.email,
         name: userRaw.name,
         roles: userRaw.roles,
-        password: userRaw.password,
       });
       observer.next(user);
       observer.complete();
@@ -59,7 +60,7 @@ export class LocalAuthenticatedUserRepository
 
   hasAccessControl(accessControlId: AccessControlId): Observable<boolean> {
     return this.getAuthenticatedUser().pipe(
-      map<User, boolean>((user) => user?.hasAccessControl(accessControlId))
+      map<User, boolean>((user) => user?.hasAccessControl(accessControlId)),
     );
   }
 }

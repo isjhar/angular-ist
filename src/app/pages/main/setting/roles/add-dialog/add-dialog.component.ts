@@ -19,6 +19,7 @@ import { UpdateRoleUseCase } from 'src/app/domain/use-cases/update-role-use-case
 import { FormErrorRequiredComponent } from '../../../../shared/default-form/form-error/form-error-required/form-error-required.component';
 import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
 import { MatButtonModule } from '@angular/material/button';
+import { FormDialogComponent } from 'src/app/pages/shared/form-dialog-component';
 
 export interface AddDialogData {
   value: any;
@@ -38,10 +39,7 @@ export interface AddDialogData {
   styleUrls: ['./add-dialog.component.scss'],
   standalone: true,
 })
-export class AddDialogComponent implements OnInit {
-  isLoading: boolean = false;
-  error: string = '';
-
+export class AddDialogComponent extends FormDialogComponent implements OnInit {
   formGroup = new UntypedFormGroup({
     id: new FormControl(0),
     name: new FormControl('', Validators.required),
@@ -60,29 +58,26 @@ export class AddDialogComponent implements OnInit {
 
   constructor(
     @Inject(ROLE_REPOSITORY) roleRepository: RoleRepository,
-    private dialogRef: MatDialogRef<AddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AddDialogData
+    dialogRef: MatDialogRef<AddDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: AddDialogData,
   ) {
+    super(dialogRef);
     this.storeRoleUseCase = new StoreRoleUseCase(roleRepository);
     this.updateRoleUseCase = new UpdateRoleUseCase(roleRepository);
   }
 
-  ngOnInit(): void {}
+  override ngOnInit(): void {}
 
   onSubmitted(): void {
     this.isLoading = true;
     let params = {
       name: this.name.value,
     };
-    this.storeRoleUseCase.execute(params).subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.dialogRef.close('success');
+    this.storeRoleUseCase.execute(params).subscribe({
+      next: (response) => {
+        this.onSucceeded();
       },
-      (error) => {
-        this.isLoading = false;
-        this.error = error;
-      }
-    );
+      error: this.onError,
+    });
   }
 }

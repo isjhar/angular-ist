@@ -1,21 +1,43 @@
-<div class="column">
-  <app-server-side-table #table trackBy="accessControlId">
+<div class="flex flex-col gap-2">
+  <div class="flex flex-row items-center justify-between">
+    @if (role) {
+      <div class="text-title-large">{{ role.name }}</div>
+
+      @if (role.isEditable) {
+        <button
+          *appHasAccessControl="AccessControlId.DeleteRole"
+          matIconButton
+          aria-label="Icon button with a delete icon"
+          i18n-aria-label="deleteIconAriaLabel"
+          data-test="btn-delete"
+          (click)="onDeleteClicked()">
+          <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+        </button>
+      }
+    }
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="text-title-medium" i18n="accessControls">Access Controls</div>
+
+  <app-server-side-table #table trackBy="accessControlId" [searchable]="true">
     <ng-template appDefaultTableMobileItemView let-data>
       <mat-card>
         <mat-card-content>
-          <div class="row">
-            <div style="flex: 1">
-              <div>{{ data.name }}</div>
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-row items-center">
+              <div class="flex-1 flex-row items-center">{{ data.name }}</div>
+              <div class="row main-axis-end">
+                <ng-container
+                  *ngTemplateOutlet="
+                    actionTemplate;
+                    context: {
+                      element: data,
+                    }
+                  "></ng-container>
+              </div>
             </div>
-            <div class="row main-axis-end" style="width: 50px">
-              <ng-container
-                *ngTemplateOutlet="
-                  actionTemplate;
-                  context: {
-                    element: data,
-                  }
-                "></ng-container>
-            </div>
+            <div class="text-body-small">{{ data.description }}</div>
           </div>
         </mat-card-content>
       </mat-card>
@@ -25,8 +47,9 @@
 
 <ng-template #actionTemplate let-element="element">
   <mat-slide-toggle
+    *appHasAccessControl="AccessControlId.EditRole"
     data-test="btn-slide"
     [checked]="element.id != undefined"
     (change)="onToggled(element)"
-    [disabled]="roleId == 1"></mat-slide-toggle>
+    [disabled]="role?.isEditable != true"></mat-slide-toggle>
 </ng-template>

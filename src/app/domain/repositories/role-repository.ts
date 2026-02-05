@@ -8,19 +8,21 @@ import { Pagination } from '../entities/pagination';
 import { PaginationParams } from '../entities/pagination-params';
 import { Role } from '../entities/role';
 import { RoleAccessControl } from '../entities/role-access-control';
+import { RoleList } from 'src/app/domain/entities/role-list';
+import { RoleDetail } from 'src/app/domain/entities/role-detail';
 
 export interface RoleRepository
-  extends GetableRepository<PaginationParams, Role>,
+  extends GetableRepository<PaginationParams, RoleList>,
     StorableRepository<StoreRoleRequestParams, Role>,
     UpdatableRepository<UpdateRoleRequestParams>,
     DeletableRepository,
-    FindableRepository<Role> {
+    FindableRepository<RoleDetail> {
   getRoleAccessControls(
-    params: GetRoleAccessControlsRequestParams
+    params: GetRoleAccessControlsRequestParams,
   ): Observable<Pagination<RoleAccessControl>>;
   storeAccessControl(params: StoreAccessControlRequestParams): Observable<void>;
   deleteAccessControl(
-    params: DeleteAccessControlRequestParams
+    params: DeleteAccessControlRequestParams,
   ): Observable<void>;
 }
 

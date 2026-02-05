@@ -21,7 +21,7 @@ import { UserRepository } from 'src/app/domain/repositories/user-repository';
 import { GetRolesUseCase } from 'src/app/domain/use-cases/get-roles-use-case';
 import { StoreUserUseCase } from 'src/app/domain/use-cases/store-user-use-case';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import {
   MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
@@ -35,7 +35,6 @@ import {
   map,
   startWith,
 } from 'rxjs';
-import { Role } from 'src/app/domain/entities/role';
 import { MatInputModule } from '@angular/material/input';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -44,6 +43,10 @@ import { FormErrorRequiredComponent } from '../../../../shared/default-form/form
 import { FormErrorEmailComponent } from '../../../../shared/default-form/form-error/form-error-email/form-error-email.component';
 import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
 import { MatButtonModule } from '@angular/material/button';
+import { CustomValidator } from 'src/app/pages/shared/default-form/custom-validator';
+import { FormErrorPasswordComponent } from 'src/app/pages/shared/default-form/form-error/form-error-password/form-error-password.component';
+import { RoleList } from 'src/app/domain/entities/role-list';
+import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
 
 @Component({
   selector: 'app-add-dialog',
@@ -56,10 +59,12 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     FormErrorRequiredComponent,
     FormErrorEmailComponent,
+    FormErrorPasswordComponent,
     LoadingButtonComponent,
     ReactiveFormsModule,
     AsyncPipe,
     FormsModule,
+    TogglePasswordDirective,
   ],
   templateUrl: './add-dialog.component.html',
   styleUrls: ['./add-dialog.component.scss'],
@@ -69,7 +74,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
 
   currentPassword: string = '';
-  roleOptions: Observable<Role[]>;
+  roleOptions: Observable<RoleList[]>;
   isLoading: boolean = false;
   error: string = '';
 
@@ -79,7 +84,10 @@ export class AddDialogComponent implements OnInit, OnDestroy {
   formGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
+      Validators.required,
+      CustomValidator.password,
+    ]),
     confirmPassword: new FormControl('', [
       Validators.required,
       (control: AbstractControl) => {
@@ -92,7 +100,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
         };
       },
     ]),
-    roles: new FormControl<Role[]>([], [Validators.required]),
+    roles: new FormControl<RoleList[]>([], [Validators.required]),
   });
 
   get name() {
@@ -112,7 +120,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
   }
 
   get roles() {
-    return this.formGroup.get('roles') as FormControl<Role[]>;
+    return this.formGroup.get('roles') as FormControl<RoleList[]>;
   }
   getRolesUseCase: GetRolesUseCase;
   storeUserUseCase: StoreUserUseCase;
@@ -166,16 +174,16 @@ export class AddDialogComponent implements OnInit, OnDestroy {
         password: this.password.value,
         roles: roles.map((x) => x.id),
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.isLoading = false;
           this.dialogRef.close('success');
         },
-        (response) => {
+        error: (response) => {
           this.isLoading = false;
           this.error = response;
         },
-      );
+      });
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -196,7 +204,7 @@ export class AddDialogComponent implements OnInit, OnDestroy {
     this.roles.setValue(roles);
   }
 
-  displayFn(role?: Role): string {
+  displayFn(role?: RoleList): string {
     return role && role.name ? role.name : '';
   }
 }
