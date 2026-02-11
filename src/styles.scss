@@ -52,7 +52,7 @@ body {
   padding: 16px;
 }
 
-.mat-card .card-field {
+.mat-mdc-card .card-field {
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -244,6 +244,10 @@ body {
   color: var(--mat-sys-on-surface);
 }
 
+.text-disabled {
+  color: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
+}
+
 .circle-radius {
   border-radius: var(--mat-sys-corner-full);
 }
@@ -260,4 +264,16 @@ body {
 
 .clickable-card:focus {
   outline: 1px solid var(--mat-sys-primary);
+}
+
+.gap-xs {
+  gap: 8px;
+}
+
+.gap-sm {
+  gap: 12px;
+}
+
+.gap-md {
+  gap: 16px;
 }

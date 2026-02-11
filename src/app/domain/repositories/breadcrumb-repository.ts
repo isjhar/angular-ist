@@ -6,6 +6,6 @@ import { PaginationParams } from '../entities/pagination-params';
 export interface BreadcrumbRepository
   extends GetableRepository<PaginationParams, Breadcrumb> {
   isUrlAccessible(url: string): Observable<boolean>;
-  dynamicLabelChanges(): Observable<string>;
-  setDynamicLabel(label: string): void;
+  dynamicLabelDictChanges(): Observable<{ [key: string]: string }>;
+  setDynamicLabelDict(data: { [key: string]: string }): void;
 }

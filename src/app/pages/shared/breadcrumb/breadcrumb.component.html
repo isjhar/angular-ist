@@ -1,59 +1,17 @@
 @if (!(isHandset$ | async)) {
-  @for (breadcrumb of breadcrumbs(); track breadcrumb) {
-    @if (paths.length > 0 && breadcrumb.url == paths[0]) {
-      <a class="breadcrumb" [routerLink]="'/' + breadcrumb.url">
-        {{ breadcrumb.name }}
-      </a>
-      <ng-container
-        *ngTemplateOutlet="
-          recursion;
-          context: {
-            childs: breadcrumb.childs,
-            parentUrl: '/' + breadcrumb.url,
-            level: 1,
-          }
-        "></ng-container>
-    }
+  @for (
+    breadcrumb of displayedBreadcrumbs();
+    let i = $index;
+    track breadcrumb.label
+  ) {
+    <a
+      class="breadcrumb"
+      [ngClass]="{
+        last: i === displayedBreadcrumbs().length - 1,
+        first: i === 0,
+      }"
+      [routerLink]="'/' + breadcrumb.fullUrl">
+      {{ breadcrumb.label }}
+    </a>
   }
 }
-
-<ng-template
-  #recursion
-  let-childs="childs"
-  let-parentUrl="parentUrl"
-  let-level="level">
-  @for (child of childs; track child) {
-    @if (paths.length > level) {
-      @if (child.url == paths[level]) {
-        <a class="breadcrumb" [routerLink]="'/' + parentUrl + '/' + child.url">
-          {{ child.name }}
-        </a>
-        <ng-container
-          *ngTemplateOutlet="
-            recursion;
-            context: {
-              childs: child.childs,
-              parentUrl: '/' + parentUrl + '/' + child.url,
-              level: level + 1,
-            }
-          "></ng-container>
-      }
-      @if (child.url != paths[level] && child.url.includes(":")) {
-        <a
-          class="breadcrumb"
-          [routerLink]="'/' + parentUrl + '/' + paths[level]">
-          {{ dynamicLabel() }}
-        </a>
-        <ng-container
-          *ngTemplateOutlet="
-            recursion;
-            context: {
-              childs: child.childs,
-              parentUrl: '/' + parentUrl + '/' + paths[level],
-              level: level + 1,
-            }
-          "></ng-container>
-      }
-    }
-  }
-</ng-template>

@@ -1,4 +1,4 @@
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { Breadcrumb } from 'src/app/domain/entities/breadcrumb';
@@ -49,7 +49,9 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
     },
   ];
 
-  private _dynamicLabel = new Subject<string>();
+  private _dynamicLabelDict = new BehaviorSubject<{ [key: string]: string }>(
+    {},
+  );
 
   get(params: PaginationParams): Observable<Pagination<Breadcrumb>> {
     let items = [...LocalBreadcrumbRepository.items];
@@ -140,11 +142,16 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
     return undefined;
   }
 
-  dynamicLabelChanges(): Observable<string> {
-    return this._dynamicLabel;
+  dynamicLabelDictChanges(): Observable<{ [key: string]: string }> {
+    return this._dynamicLabelDict;
   }
 
-  setDynamicLabel(label: string): void {
-    this._dynamicLabel.next(label);
+  setDynamicLabelDict(data: { [key: string]: string }): void {
+    const newValue: { [key: string]: string } = Object.assign(
+      {},
+      this._dynamicLabelDict.getValue(),
+      data,
+    );
+    this._dynamicLabelDict.next(newValue);
   }
 }

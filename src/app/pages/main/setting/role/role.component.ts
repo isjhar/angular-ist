@@ -146,7 +146,7 @@ export class RoleComponent implements OnInit {
     this.roleRepository.find(this.roleId).subscribe({
       next: (response) => {
         this.role = response;
-        this.breadcrumbRepository.setDynamicLabel(this.role.name);
+        this.breadcrumbRepository.setDynamicLabelDict({ id: this.role.name });
       },
     });
   }
