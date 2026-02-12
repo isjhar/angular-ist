@@ -1,0 +1,14 @@
+<div
+  class="bg-primary-container text-primary circle-radius flex flex-row items-center justify-center"
+  [ngStyle]="{ width: size + 'px', height: size + 'px' }">
+  @if (src) {
+    <img class="w-100 object-cover" [src]="src" alt="profile-icon" />
+  }
+  @if (!src) {
+    <span
+      class="flex h-100 w-100 flex-row items-center justify-center"
+      [ngStyle]="{ fontSize: size / 3 + 'px' }">
+      {{ displayAbbrevationName }}
+    </span>
+  }
+</div>
