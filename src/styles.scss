@@ -2,6 +2,7 @@
 @use "@angular/material" as mat;
 @use "./styles/_theme-colors.scss" as theme;
 @use "tailwindcss";
+@use "sass:map";
 
 html {
   color-scheme: light dark;
@@ -52,7 +53,7 @@ $spacing: (
 
 // Helper function to grab values easily
 @function space($key) {
-  @return map-get($spacing, $key);
+  @return map.get($spacing, $key);
 }
 
 html,
@@ -308,6 +309,10 @@ body {
 
 .p-sm {
   padding: space("sm");
+}
+
+.basic-width {
+  max-width: 600px;
 }
 
 .align-wide {
