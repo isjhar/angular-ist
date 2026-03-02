@@ -235,9 +235,16 @@ body {
 }
 
 // material background color
-
 .bg-primary-container {
   background-color: var(--mat-sys-primary-container);
+}
+
+.bg-surface {
+  background-color: var(--mat-sys-surface);
+}
+
+.bg-surface-container {
+  background-color: var(--mat-sys-surface-container);
 }
 
 // material font color
@@ -259,6 +266,10 @@ body {
 
 .text-on-surface {
   color: var(--mat-sys-on-surface);
+}
+
+.text-outline {
+  color: var(--mat-sys-outline);
 }
 
 .text-disabled {
