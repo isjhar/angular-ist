@@ -234,6 +234,10 @@ body {
   letter-spacing: var(--mat-sys-body-medium-tracking);
 }
 
+.text-body-large {
+  font: var(--mat-sys-body-large);
+}
+
 // material background color
 .bg-primary-container {
   background-color: var(--mat-sys-primary-container);
