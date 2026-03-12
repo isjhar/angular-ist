@@ -1,0 +1,22 @@
+<div class="gap-sm flex flex-row flex-wrap items-center justify-start">
+  <mat-form-field>
+    <mat-label i18n="enterADateRange">Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start date" [formControl]="startDate" />
+      <input matEndDate placeholder="End date" [formControl]="endDate" />
+    </mat-date-range-input>
+    <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-button-toggle-group
+    [formControl]="filterOption"
+    aria-label="Date Filter">
+    <mat-button-toggle value="today" i18n="today">Today</mat-button-toggle>
+    <mat-button-toggle value="yesterday" i18n="yesterday">
+      Yesterday
+    </mat-button-toggle>
+    <mat-button-toggle value="custom" i18n="custom">Custom</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
