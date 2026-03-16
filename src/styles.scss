@@ -326,6 +326,19 @@ body {
   padding: space("sm");
 }
 
+.p-md {
+  padding: space("md");
+}
+
+.p-lg {
+  padding: space("lg");
+}
+
+.py-lg {
+  padding-top: space("lg");
+  padding-bottom: space("lg");
+}
+
 .basic-width {
   max-width: 600px;
 }
