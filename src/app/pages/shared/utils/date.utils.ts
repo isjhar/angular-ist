@@ -24,3 +24,15 @@ export function isSameDate(d1: Date, d2: Date): boolean {
     d1.getDate() == d2.getDate()
   );
 }
+
+export function getTodayFirstTime(): Date {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
+export function getTodayLastTime(): Date {
+  const date = new Date();
+  date.setHours(23, 59, 59, 999);
+  return date;
+}

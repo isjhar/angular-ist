@@ -5,12 +5,21 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   MatButtonToggle,
+  MatButtonToggleChange,
   MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 import {
+  DateRange,
+  MatDatepickerInputEvent,
   MatDatepickerToggle,
   MatDateRangeInput,
   MatDateRangePicker,
@@ -28,6 +37,8 @@ import { MatInput, MatInputModule } from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import {
   getLast7DaysDate,
+  getTodayFirstTime,
+  getTodayLastTime,
   getYesterdayDate,
   isSameDate,
 } from 'src/app/pages/shared/utils/date.utils';
@@ -55,63 +66,54 @@ export interface DateRangeFilter {
     MatStartDate,
     MatEndDate,
     MatSuffix,
+    FormsModule,
   ],
   templateUrl: './date-range-filter.component.html',
   styleUrl: './date-range-filter.component.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: DateRangeFilterComponent,
+    },
+  ],
 })
-export class DateRangeFilterComponent implements OnInit, OnDestroy {
-  @Output() change = new EventEmitter<DateRangeFilter>();
+export class DateRangeFilterComponent
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
+  value: DateRange<Date | null> = new DateRange<Date | null>(
+    getTodayFirstTime(),
+    getTodayLastTime(),
+  );
 
-  filterOption = new FormControl<DateFilterOption>('today');
-  startDate = new FormControl<Date | null>(new Date());
-  endDate = new FormControl<Date | null>(new Date());
+  filterOptionValue = 'today';
+  onChange = (value: DateRange<Date | null> | null) => {};
+  onTouched = () => {};
 
-  filterOptionSubscription?: Subscription;
-  startDateSubscription?: Subscription;
-  endDateSubscription?: Subscription;
+  disabled = false;
+  touched = false;
 
-  ngOnInit(): void {
-    this.filterOptionSubscription = this.filterOption.valueChanges.subscribe(
-      (value) => {
-        this.updateDateRange();
-      },
-    );
-    this.startDateSubscription = this.startDate.valueChanges.subscribe(
-      (value) => {
-        this.updateQuickRange();
-      },
-    );
-    this.endDateSubscription = this.endDate.valueChanges.subscribe((value) => {
-      this.updateQuickRange();
-    });
-  }
+  ngOnInit(): void {}
 
-  ngOnDestroy(): void {
-    this.filterOptionSubscription?.unsubscribe();
-    this.startDateSubscription?.unsubscribe();
-    this.endDateSubscription?.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   updateDateRange(): void {
-    const filterOption = this.filterOption.value;
+    const filterOption = this.filterOptionValue;
 
     switch (filterOption) {
       case 'today':
-        this.startDate.patchValue(new Date(), { emitEvent: false });
-        this.endDate.patchValue(new Date(), { emitEvent: false });
+        this.value = new DateRange(new Date(), new Date());
         break;
       case 'yesterday':
-        this.startDate.patchValue(getYesterdayDate(), { emitEvent: false });
-        this.endDate.patchValue(getYesterdayDate(), { emitEvent: false });
+        this.value = new DateRange(getYesterdayDate(), getYesterdayDate());
         break;
     }
-
-    this.onChanged();
+    this.syncValueTime();
   }
 
   updateQuickRange(): void {
-    const startDate = this.startDate.value;
-    const endDate = this.endDate.value;
+    const startDate = this.value.start;
+    const endDate = this.value.end;
     const today = new Date();
 
     const yesterday = getYesterdayDate();
@@ -129,24 +131,70 @@ export class DateRangeFilterComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.filterOption.setValue(quickRange, { emitEvent: false });
+    this.filterOptionValue = quickRange;
+  }
 
+  onStartChanged(event: MatDatepickerInputEvent<Date>) {
+    this.value = new DateRange(event.value, this.value.end);
+    this.syncValueTime();
+    this.updateQuickRange();
     this.onChanged();
   }
 
+  onEndChanged(event: MatDatepickerInputEvent<Date>) {
+    this.value = new DateRange(this.value.start, event.value);
+    this.syncValueTime();
+    this.updateQuickRange();
+    this.onChanged();
+  }
+
+  onFilterOptionChanged(event: MatButtonToggleChange) {
+    this.markAsTouched();
+    this.updateDateRange();
+    this.onChanged();
+  }
+
+  markAsTouched() {
+    if (!this.touched) {
+      this.onTouched();
+      this.touched = true;
+    }
+  }
+
+  writeValue(obj: DateRange<Date | null>): void {
+    this.value = obj;
+    this.syncValueTime();
+    this.updateQuickRange();
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
   onChanged(): void {
-    const startDate = this.startDate.value;
+    this.onChange(this.value);
+  }
+
+  syncValueTime(): void {
+    if (this.value == null) {
+      return;
+    }
+    const startDate = this.value.start;
     if (startDate) {
       startDate.setHours(0, 0, 0, 0);
     }
 
-    const endDate = this.endDate.value;
+    const endDate = this.value.end;
     if (endDate) {
       endDate.setHours(23, 59, 59, 999);
     }
-    this.change.emit({
-      startDate: startDate,
-      endDate: endDate,
-    });
+
+    this.value = new DateRange(startDate, endDate);
   }
 }
