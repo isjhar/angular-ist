@@ -17,6 +17,7 @@ import {
   DefaultTableColumn,
   DefaultTableComponent,
   DisplayMode,
+  DisplayType,
 } from '../default-table.component';
 import {
   ServerSideTableService,
@@ -47,7 +48,20 @@ export class ServerSideTableComponent
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
   @Input() trackBy: string = 'id';
-  @Input() displayMode: DisplayMode = DisplayMode.Hybrid;
+  @Input() set displayMode(value: DisplayMode) {
+    switch (value) {
+      case DisplayMode.Card:
+        this.displayType = 'card';
+        break;
+      case DisplayMode.Hybrid:
+        this.displayType = 'hybrid';
+        break;
+      default:
+        this.displayType = 'table';
+        break;
+    }
+  }
+  @Input() displayType: DisplayType = 'hybrid';
 
   @Output() rowClick = new EventEmitter<RowClickEvent>();
 
@@ -142,6 +156,7 @@ export class ServerSideTableComponent
   }
 
   refreshData(): void {
+    if (!this.initialized) return;
     this.showLoadingSnackBar();
     this.get();
   }

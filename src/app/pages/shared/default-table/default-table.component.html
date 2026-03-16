@@ -12,7 +12,7 @@
       </form>
     }
     @if (isCardView) {
-      <div class="flex flex-1 flex-row gap-2">
+      <div class="gap-sm flex flex-1 flex-row">
         <mat-form-field class="flex-1">
           <mat-label>Sort By</mat-label>
           <mat-select
@@ -30,9 +30,9 @@
         </mat-form-field>
         <button
           matIconButton
+          class="mt-2 shrink-0 grow-0 basis-[48px]"
           aria-label="Order by"
-          (click)="toggleOrder()"
-          class="mt-2">
+          (click)="toggleOrder()">
           <mat-icon
             [ngClass]="{
               'scale-y-100': order == 'desc',
@@ -177,6 +177,7 @@
       </tr>
     </table>
   </div>
+
   <div
     class="card-view mb-4"
     [ngStyle]="{ display: isCardView ? 'flex' : 'none' }">

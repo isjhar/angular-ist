@@ -64,6 +64,8 @@ export enum DisplayMode {
   Hybrid,
 }
 
+export type DisplayType = 'table' | 'card' | 'hybrid';
+
 @Component({
   selector: 'app-default-table',
   templateUrl: './default-table.component.html',
@@ -110,7 +112,21 @@ export class DefaultTableComponent
   @Input() length: number = 0;
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
-  @Input() displayMode: DisplayMode = DisplayMode.Hybrid;
+  @Input() set displayMode(value: DisplayMode) {
+    switch (value) {
+      case DisplayMode.Card:
+        this.displayType = 'card';
+        break;
+      case DisplayMode.Hybrid:
+        this.displayType = 'hybrid';
+        break;
+      default:
+        this.displayType = 'table';
+        break;
+    }
+  }
+
+  @Input() displayType: DisplayType = 'hybrid';
 
   private _columns: DefaultTableColumn[] = [];
   @Input() set columns(values: DefaultTableColumn[]) {
@@ -189,8 +205,8 @@ export class DefaultTableComponent
 
   get isTableView(): boolean {
     return (
-      this.displayMode == DisplayMode.Table ||
-      (this.displayMode == DisplayMode.Hybrid &&
+      this.displayType == 'table' ||
+      (this.displayType == 'hybrid' &&
         (!this.isHandset || this.mobileItemView == undefined))
     );
   }
@@ -202,8 +218,8 @@ export class DefaultTableComponent
   get isCardView(): boolean {
     return (
       this.mobileItemView != undefined &&
-      (this.displayMode == DisplayMode.Card ||
-        (this.isHandset && this.displayMode == DisplayMode.Hybrid))
+      (this.displayType == 'card' ||
+        (this.isHandset && this.displayType == 'hybrid'))
     );
   }
 

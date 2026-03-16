@@ -10,7 +10,7 @@
   [searchable]="searchable"
   [searchPlaceholder]="searchPlaceholder"
   (searchChange)="onSearchChanged($event)"
-  [displayMode]="displayMode">
+  [displayType]="displayType">
   @if (mobileItemView) {
     <ng-template appDefaultTableMobileItemView let-data let-i="index">
       <ng-container
