@@ -169,7 +169,7 @@
 
       <tr class="mat-row mat-mdc-row" *matNoDataRow>
         <td
-          class="mat-cell mdc-data-table__cell"
+          class="mat-cell mdc-data-table__cell text-body-medium text-on-surface-variant"
           [attr.colspan]="displayedColumns.length"
           i18n="noDataFound">
           No data found
@@ -194,7 +194,10 @@
     }
 
     @if (!dataSource || dataSource.length == 0) {
-      <div class="flex flex-row justify-center">No data found</div>
+      <div
+        class="text-body-medium text-on-surface-variant flex flex-row justify-center">
+        No data found
+      </div>
     }
   </div>
 
