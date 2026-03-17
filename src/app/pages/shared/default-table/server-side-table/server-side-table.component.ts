@@ -167,4 +167,12 @@ export class ServerSideTableComponent
       verticalPosition: 'top',
     });
   }
+
+  updateRow(oldItem: any, newItem: any): void {
+    const index = this.dataSource.findIndex(
+      (element) => element[this.trackBy] == oldItem[this.trackBy],
+    );
+    this.dataSource[index] = Object.assign({}, this.dataSource[index], newItem);
+    this.dataSource = [...this.dataSource];
+  }
 }
