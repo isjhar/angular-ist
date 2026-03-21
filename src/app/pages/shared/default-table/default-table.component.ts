@@ -303,11 +303,14 @@ export class DefaultTableComponent
     });
   }
 
-  toggleOrder(): void {
+  toggleOrder(options?: { emitEvent: boolean }): void {
     this.order = this.order === 'asc' ? 'desc' : 'asc';
-    this.onSortChanged({
-      active: this.sort,
-      direction: this.order,
-    });
+    const emitEvent = options ? options.emitEvent : true;
+    if (emitEvent) {
+      this.onSortChanged({
+        active: this.sort,
+        direction: this.order,
+      });
+    }
   }
 }
