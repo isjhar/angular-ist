@@ -110,8 +110,7 @@ export class BreadcrumbComponent
     for (let index = 0; index < menus.length; index++) {
       const menu = menus[index];
       const currentPath = this.paths()[level];
-      const isDynamicLabel =
-        menu.url.includes(':') && /^[0-9]+$/.test(currentPath);
+      const isDynamicLabel = menu.url.includes(':');
       let isMatch = menu.url == currentPath || isDynamicLabel;
 
       if (isMatch) {
