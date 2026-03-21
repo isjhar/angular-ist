@@ -35,6 +35,12 @@ html {
     )
   );
 
+  @include mat.divider-overrides(
+    (
+      color: var(--mat-sys-outline-variant),
+    )
+  );
+
   --neutral-variant-1: #4fc3f7;
   --neutral-variant-2: #ff6f61;
   --neutral-variant-3: #f4b4b4;
@@ -357,4 +363,36 @@ body {
   border-width: 1px;
   border-style: solid;
   border-radius: 10px;
+}
+
+.pending-badge {
+  background-color: color-mix(
+    in srgb,
+    var(--mat-sys-on-surface-variant),
+    white 90%
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--mat-sys-on-surface-variant),
+    white 80%
+  );
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.error-badge {
+  background-color: var(--mat-sys-error);
+  border-color: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+}
+
+.primary-badge {
+  background-color: var(--mat-sys-tertiary);
+  border-color: var(--mat-sys-tertiary);
+  color: var(--mat-sys-on-tertiary);
+}
+
+.warning-badge {
+  background-color: #ffb300;
+  border-color: color-mix(in srgb, #ffb300, white 90%);
+  color: color-mix(in srgb, #ffb300, white 90%);
 }
