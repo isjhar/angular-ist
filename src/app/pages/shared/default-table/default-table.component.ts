@@ -147,7 +147,7 @@ export class DefaultTableComponent
 
   private _dataSource: any[] = [];
   @Input() set dataSource(values: any[]) {
-    let startPosition = this.pageIndex * this.pageSize + 1;
+    let startPosition = this.paginator.pageIndex * this.pageSize + 1;
     this._dataSource = values.map((x) => {
       let newSource = Object.assign({ position: startPosition }, x);
       startPosition++;
@@ -185,7 +185,7 @@ export class DefaultTableComponent
   }
 
   get pageIndex() {
-    return this.paginator.pageIndex;
+    return this.paginator.pageIndex + 1;
   }
 
   sort: string = '';
