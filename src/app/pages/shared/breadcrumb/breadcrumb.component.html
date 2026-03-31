@@ -1,8 +1,9 @@
-@if (!(isHandset$ | async)) {
+<div
+  class="gap-xs breadcrumb-container p-md flex flex-row flex-wrap items-center">
   @for (
     breadcrumb of displayedBreadcrumbs();
     let i = $index;
-    track breadcrumb.label
+    track breadcrumb
   ) {
     <a
       class="breadcrumb"
@@ -13,5 +14,9 @@
       [routerLink]="'/' + breadcrumb.fullUrl">
       {{ breadcrumb.label }}
     </a>
+
+    @if (i < displayedBreadcrumbs().length - 1) {
+      <mat-icon>chevron_right</mat-icon>
+    }
   }
-}
+</div>
