@@ -27,7 +27,10 @@ export const appConfig: ApplicationConfig = {
     provideRepositories(),
     provideDateAdapter(),
     provideCharts(withDefaultRegisterables()),
-    provideEnvironmentNgxMask(),
+    provideEnvironmentNgxMask({
+      thousandSeparator: '.',
+      decimalMarker: ',',
+    }),
     authInterceptorProviders,
     apiInterceptorProviders,
     provideRouter(routes),
