@@ -18,6 +18,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { enUS } from 'date-fns/locale';
 import { DATE_FORMATS } from 'src/app/date-formats';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,6 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideRepositories(),
     provideDateAdapter(),
     provideCharts(withDefaultRegisterables()),
+    provideEnvironmentNgxMask(),
     authInterceptorProviders,
     apiInterceptorProviders,
     provideRouter(routes),
