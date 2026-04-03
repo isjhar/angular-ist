@@ -69,7 +69,6 @@
               [ngClass]="{
                 'center-cell':
                   column.cellTemplate ||
-                  column.cellTemplateByType == 'date' ||
                   column.cellTemplateByType == 'category' ||
                   column.cellTemplateByType == 'number' ||
                   column.cellTemplateByType == 'currency',
@@ -85,7 +84,6 @@
               [ngClass]="{
                 'center-cell':
                   column.cellTemplate ||
-                  column.cellTemplateByType == 'date' ||
                   column.cellTemplateByType == 'dateTime' ||
                   column.cellTemplateByType == 'category' ||
                   column.cellTemplateByType == 'number' ||
@@ -112,15 +110,15 @@
               </td>
             }
             @if (!column.cellTemplate && column.cellTemplateByType == "date") {
-              <td mat-cell class="date-cell">
-                {{ element[column.prop] | date: "M/d/yyyy" }}
+              <td mat-cell>
+                {{ element[column.prop] | defaultDate }}
               </td>
             }
             @if (
               !column.cellTemplate && column.cellTemplateByType == "dateTime"
             ) {
               <td mat-cell class="date-cell">
-                {{ element[column.prop] | date: "M/d/yyyy HH:mm:ss" }}
+                {{ element[column.prop] | defaultDateTime }}
               </td>
             }
             @if (

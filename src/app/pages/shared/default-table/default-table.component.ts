@@ -47,6 +47,8 @@ import { MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { DefaultDatePipe } from 'src/app/pages/shared/text/default-date.pipe';
+import { DefaultDateTimePipe } from 'src/app/pages/shared/text/default-date-time.pipe';
 
 export interface DefaultTableColumn {
   title: string;
@@ -89,9 +91,10 @@ export type DisplayType = 'table' | 'card' | 'hybrid';
     MatRow,
     MatNoDataRow,
     MatPaginator,
-    DatePipe,
+    DefaultDatePipe,
     DefaultCurrencyPipe,
     DefaultNumberPipe,
+    DefaultDateTimePipe,
     MatFormField,
     MatLabel,
     MatSelect,
