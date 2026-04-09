@@ -345,6 +345,11 @@ body {
   padding-bottom: space("lg");
 }
 
+.py-sm {
+  padding-top: space("sm");
+  padding-bottom: space("sm");
+}
+
 .basic-width {
   max-width: 600px;
 }
