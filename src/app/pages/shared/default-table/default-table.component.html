@@ -142,6 +142,11 @@
                 {{ element[column.prop] | defaultCurrency }}
               </td>
             }
+            @if (!column.cellTemplate && column.cellTemplateByType == "time") {
+              <td mat-cell class="number-cell">
+                {{ element[column.prop] | defaultTime }}
+              </td>
+            }
           </ng-container>
         </ng-container>
       }

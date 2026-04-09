@@ -49,6 +49,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DefaultDatePipe } from 'src/app/pages/shared/text/default-date.pipe';
 import { DefaultDateTimePipe } from 'src/app/pages/shared/text/default-date-time.pipe';
+import { DefaultTimePipe } from 'src/app/pages/shared/text/default-time.pipe';
 
 export interface DefaultTableColumn {
   title: string;
@@ -105,6 +106,7 @@ export type DisplayType = 'table' | 'card' | 'hybrid';
     MatInput,
     ReactiveFormsModule,
     MatTableModule,
+    DefaultTimePipe,
   ],
   encapsulation: ViewEncapsulation.None,
 })
