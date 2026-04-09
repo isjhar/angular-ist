@@ -25,6 +25,11 @@ export function isSameDate(d1: Date, d2: Date): boolean {
   );
 }
 
+export function getTodayDayIndex(): number {
+  const date = new Date();
+  return date.getDay();
+}
+
 export function getTodayFirstTime(): Date {
   const date = new Date();
   date.setHours(0, 0, 0, 0);
@@ -35,4 +40,35 @@ export function getTodayLastTime(): Date {
   const date = new Date();
   date.setHours(23, 59, 59, 999);
   return date;
+}
+
+export function convertToRoundedHour(date: Date): number {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // 2. Convert to total decimal hours (e.g., 3.5)
+  const decimalHour = hours + minutes / 60;
+
+  // 3. Round to the nearest integer
+  return Math.round(decimalHour);
+}
+
+export function convertToCeiledHour(date: Date): number {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // 2. Convert to total decimal hours (e.g., 3.5)
+  const decimalHour = hours + minutes / 60;
+
+  // 3. Round to the nearest integer
+  return Math.ceil(decimalHour);
+}
+
+export function convertToHour(date: Date): number {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // 2. Convert to total decimal hours (e.g., 3.5)
+  const decimalHour = hours + minutes / 60;
+  return decimalHour;
 }
