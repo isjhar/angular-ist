@@ -324,6 +324,10 @@ body {
   gap: space("xl");
 }
 
+.mt-sm {
+  margin-top: space("sm");
+}
+
 .mt-md {
   margin-top: space("md");
 }
@@ -348,6 +352,16 @@ body {
 .py-sm {
   padding-top: space("sm");
   padding-bottom: space("sm");
+}
+
+.px-md {
+  padding-left: space("md");
+  padding-right: space("md");
+}
+
+.px-sm {
+  padding-left: space("sm");
+  padding-right: space("sm");
 }
 
 .basic-width {
@@ -400,4 +414,39 @@ body {
   background-color: #ffb300;
   border-color: color-mix(in srgb, #ffb300, white 90%);
   color: color-mix(in srgb, #ffb300, white 90%);
+}
+
+.crud-table {
+  background-color: var(--mat-sys-surface-container);
+
+  & > div {
+    &:first-child {
+      font: var(--mat-sys-title-small);
+      letter-spacing: var(--mat-sys-title-small-tracking);
+
+      & > div {
+        padding-left: 10px;
+        padding-right: 10px;
+        min-height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
+    }
+
+    & > * {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    & > mat-form-field {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
 }
