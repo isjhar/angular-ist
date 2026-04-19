@@ -27,7 +27,9 @@ export function isSameDate(d1: Date, d2: Date): boolean {
 
 export function getTodayDayIndex(): number {
   const date = new Date();
-  return date.getDay();
+  const jsDayIndex = date.getDay();
+
+  return jsDayIndex == 0 ? 7 : jsDayIndex;
 }
 
 export function getTodayFirstTime(): Date {
