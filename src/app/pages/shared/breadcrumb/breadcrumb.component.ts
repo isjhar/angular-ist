@@ -83,7 +83,7 @@ export class BreadcrumbComponent
     this.checkMenus(breadcrumbs, this.breadcrumbs, 0);
     this._displayedBreadcrumbs = breadcrumbs;
 
-    this.displayedBreadcrumbs.set(...[this._displayedBreadcrumbs]);
+    this.displayedBreadcrumbs.set(this._displayedBreadcrumbs);
   }
 
   updateDisplayedBreadcrumbsLabel(): void {
@@ -96,7 +96,6 @@ export class BreadcrumbComponent
         this.dynamicLabelDict[breadcrumb.label.slice(1)]
       ) {
         breadcrumb.label = this.dynamicLabelDict[breadcrumb.label.slice(1)];
-        breadcrumb.timestamp = Date.now();
         isChanged = true;
       }
     });
@@ -122,9 +121,9 @@ export class BreadcrumbComponent
         }
 
         items.push({
+          id: menu.name,
           label: label,
           fullUrl: parentUrl + currentPath,
-          timestamp: Date.now(),
         });
         const childs = menu.childs;
         if (level + 1 < pathLength && childs) {
@@ -134,14 +133,10 @@ export class BreadcrumbComponent
       }
     }
   }
-
-  private hasParameterizedUrl(): boolean {
-    return this._displayedBreadcrumbs.some((b) => b.label.includes(':'));
-  }
 }
 
 interface BreadcrumbViewItem {
+  id: string;
   label: string;
   fullUrl: string;
-  timestamp: number;
 }
