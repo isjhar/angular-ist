@@ -28,6 +28,7 @@ import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { SkeletonComponent } from '../../skeleton/skeleton.component';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
+import { SortDirection } from '@angular/material/sort';
 
 @Component({
   selector: 'app-server-side-table',
@@ -62,6 +63,8 @@ export class ServerSideTableComponent
     }
   }
   @Input() displayType: DisplayType = 'hybrid';
+  @Input() sortActive: string = '';
+  @Input() sortDirection: SortDirection = '';
 
   @Output() rowClick = new EventEmitter<RowClickEvent>();
 

@@ -146,8 +146,29 @@ export class DefaultTableComponent
     this._columns.push(...values);
     this.adjustDisplayedColumns();
   }
+
   get columns() {
     return this._columns;
+  }
+
+  private _sortActive: string = '';
+  @Input() set sortActive(value: string) {
+    this._sortActive = value;
+    this.sort = value;
+  }
+
+  get sortActive() {
+    return this._sortActive;
+  }
+
+  private _sortDirection: SortDirection = '';
+  @Input() set sortDirection(value: SortDirection) {
+    this._sortDirection = value;
+    this.order = value;
+  }
+
+  get sortDirection() {
+    return this._sortDirection;
   }
 
   private _dataSource: any[] = [];
@@ -196,16 +217,10 @@ export class DefaultTableComponent
   sort: string = '';
   order: SortDirection = 'asc';
 
-  searchForm = new FormGroup({
-    search: new FormControl(''),
-  });
-
-  get searchControl() {
-    return this.searchForm.get('search') as FormControl;
-  }
+  searchControl = new FormControl<string>('');
 
   get search() {
-    return this.searchControl.value;
+    return this.searchControl.value ?? '';
   }
 
   get isTableView(): boolean {
@@ -255,6 +270,7 @@ export class DefaultTableComponent
     this.searchValueChangesSubscription = this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if (!value) return;
         this.paginator.pageIndex = 0;
         this.searchChange.emit(value);
       });
