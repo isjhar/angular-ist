@@ -27,7 +27,7 @@ export class ApiUrlBuilder {
     } else {
       this.urls.push('&');
     }
-    this.urls.push(`${key}=${value}`);
+    this.urls.push(`${key}=${encodeURIComponent(value)}`);
   }
 
   getUrl(): string {
