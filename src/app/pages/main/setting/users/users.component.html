@@ -1,60 +1,63 @@
-<div style="margin-bottom: 10px" *appHasAccessControl="AccessControlId.AddUser">
-  <button
-    matButton="filled"
-    data-test="btn-add-list"
-    (click)="onTambahClicked()"
-    i18n="add">
-    Add
-  </button>
-</div>
-<app-server-side-table
-  #table
-  [searchable]="true"
-  [displayMode]="displayMode.Hybrid">
-  <ng-template appDefaultTableMobileItemView let-data>
-    <mat-card>
-      <mat-card-content>
-        <div class="flex flex-col gap-2">
-          <div class="flex flex-row items-center justify-between">
-            {{ data.name }}
-            @if (data.isEditable) {
-              <ng-container
-                *ngTemplateOutlet="
-                  actionTemplate;
-                  context: {
-                    element: data,
-                  }
-                "></ng-container>
+<div class="align-wide">
+  <div
+    style="margin-bottom: 10px"
+    *appHasAccessControl="AccessControlId.AddUser">
+    <button
+      matButton="filled"
+      data-test="btn-add-list"
+      (click)="onTambahClicked()"
+      i18n="add">
+      Add
+    </button>
+  </div>
+  <app-server-side-table
+    #table
+    [searchable]="true"
+    [displayMode]="displayMode.Hybrid">
+    <ng-template appDefaultTableMobileItemView let-data>
+      <mat-card>
+        <mat-card-content>
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-row items-center justify-between">
+              {{ data.name }}
+              @if (data.isEditable) {
+                <ng-container
+                  *ngTemplateOutlet="
+                    actionTemplate;
+                    context: {
+                      element: data,
+                    }
+                  "></ng-container>
+              }
+            </div>
+            <mat-divider></mat-divider>
+            <div class="text-body-medium">
+              <div>
+                <span i18n="email">Email</span>
+                : {{ data.email }}
+              </div>
+              <div>
+                <span i18n="role">Role</span>
+                : {{ data.roleNames }}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+    <ng-template appDefaultTableActionContainer let-data>
+      <div class="mt-[6px]">
+        <ng-container
+          *ngTemplateOutlet="
+            actionTemplate;
+            context: {
+              element: data,
             }
-          </div>
-          <mat-divider></mat-divider>
-          <div class="text-body-medium">
-            <div>
-              <span i18n="email">Email</span>
-              : {{ data.email }}
-            </div>
-            <div>
-              <span i18n="role">Role</span>
-              : {{ data.roleNames }}
-            </div>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </ng-template>
-  <ng-template appDefaultTableActionContainer let-data>
-    <div class="mt-[6px]">
-      <ng-container
-        *ngTemplateOutlet="
-          actionTemplate;
-          context: {
-            element: data,
-          }
-        "></ng-container>
-    </div>
-  </ng-template>
-</app-server-side-table>
-
+          "></ng-container>
+      </div>
+    </ng-template>
+  </app-server-side-table>
+</div>
 <ng-template #actionTemplate let-element="element">
   @if (element.isEditable) {
     <div class="flex-row gap-2">

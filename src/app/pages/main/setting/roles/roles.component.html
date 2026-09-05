@@ -1,52 +1,56 @@
-<div style="margin-bottom: 10px" *appHasAccessControl="AccessControlId.AddRole">
-  <button
-    data-test="btn-add-role-list"
-    matButton="filled"
-    (click)="onTambahClicked()"
-    i18n="add">
-    Add
-  </button>
+<div class="align-wide">
+  <div
+    style="margin-bottom: 10px"
+    *appHasAccessControl="AccessControlId.AddRole">
+    <button
+      data-test="btn-add-role-list"
+      matButton="filled"
+      (click)="onTambahClicked()"
+      i18n="add">
+      Add
+    </button>
+  </div>
+
+  <app-server-side-table
+    #table
+    (rowClick)="onRowClicked($event.row)"
+    [searchable]="true">
+    <ng-template appDefaultTableMobileItemView let-data>
+      <mat-card
+        matRipple
+        class="clickable-card relative"
+        (click)="onRowClicked(data)"
+        tabindex="0">
+        <mat-card-content>
+          <div class="flex flex-row items-center">
+            <div class="flex-1">{{ data.name }}</div>
+
+            @if (data.isEditable) {
+              <ng-container
+                *ngTemplateOutlet="
+                  actionTemplate;
+                  context: {
+                    element: data,
+                  }
+                "></ng-container>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+    <ng-template appDefaultTableActionContainer let-data>
+      <div class="mt-[6px]">
+        <ng-container
+          *ngTemplateOutlet="
+            actionTemplate;
+            context: {
+              element: data,
+            }
+          "></ng-container>
+      </div>
+    </ng-template>
+  </app-server-side-table>
 </div>
-
-<app-server-side-table
-  #table
-  (rowClick)="onRowClicked($event.row)"
-  [searchable]="true">
-  <ng-template appDefaultTableMobileItemView let-data>
-    <mat-card
-      matRipple
-      class="clickable-card relative"
-      (click)="onRowClicked(data)"
-      tabindex="0">
-      <mat-card-content>
-        <div class="flex flex-row items-center">
-          <div class="flex-1">{{ data.name }}</div>
-
-          @if (data.isEditable) {
-            <ng-container
-              *ngTemplateOutlet="
-                actionTemplate;
-                context: {
-                  element: data,
-                }
-              "></ng-container>
-          }
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </ng-template>
-  <ng-template appDefaultTableActionContainer let-data>
-    <div class="mt-[6px]">
-      <ng-container
-        *ngTemplateOutlet="
-          actionTemplate;
-          context: {
-            element: data,
-          }
-        "></ng-container>
-    </div>
-  </ng-template>
-</app-server-side-table>
 
 <ng-template #actionTemplate let-element="element">
   @if (element.isEditable) {
