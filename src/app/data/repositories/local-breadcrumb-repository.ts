@@ -32,7 +32,7 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
               accessControlId: AccessControlId.ViewAccessControl,
             },
             {
-              name: $localize`roles:Roles`,
+              name: $localize`:roles:Roles`,
               url: 'roles',
               accessControlId: AccessControlId.ViewRole,
               childs: [
