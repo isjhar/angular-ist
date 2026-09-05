@@ -16,13 +16,14 @@ import { GetMenusUseCase } from 'src/app/domain/use-cases/get-menus-use-case';
 import { BREADCRUMB_REPOSITORY } from 'src/app/app-local-repository';
 import { BaseComponent } from '../base.component';
 import { Menu } from 'src/app/domain/entities/menu';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss'],
-  imports: [RouterLink, AsyncPipe, NgClass],
+  imports: [RouterLink, NgClass, MatIcon],
   standalone: true,
   encapsulation: ViewEncapsulation.None,
 })
@@ -82,9 +83,7 @@ export class BreadcrumbComponent
     this.checkMenus(breadcrumbs, this.breadcrumbs, 0);
     this._displayedBreadcrumbs = breadcrumbs;
 
-    if (!this.hasParameterizedUrl()) {
-      this.displayedBreadcrumbs.set(this._displayedBreadcrumbs);
-    }
+    this.displayedBreadcrumbs.set(this._displayedBreadcrumbs);
   }
 
   updateDisplayedBreadcrumbsLabel(): void {
@@ -97,21 +96,20 @@ export class BreadcrumbComponent
         this.dynamicLabelDict[breadcrumb.label.slice(1)]
       ) {
         breadcrumb.label = this.dynamicLabelDict[breadcrumb.label.slice(1)];
-        breadcrumb.timestamp = Date.now();
         isChanged = true;
       }
     });
     if (isChanged) {
-      this.displayedBreadcrumbs.set(breadcrumbs);
+      this.displayedBreadcrumbs.set([...breadcrumbs]);
     }
   }
 
   checkMenus(items: BreadcrumbViewItem[], menus: Menu[], level: number): void {
     for (let index = 0; index < menus.length; index++) {
       const menu = menus[index];
+      const pathLength = this.paths().length;
       const currentPath = this.paths()[level];
-      const isDynamicLabel =
-        menu.url.includes(':') && /^[0-9]+$/.test(currentPath);
+      const isDynamicLabel = menu.url.includes(':');
       let isMatch = menu.url == currentPath || isDynamicLabel;
 
       if (isMatch) {
@@ -123,26 +121,22 @@ export class BreadcrumbComponent
         }
 
         items.push({
+          id: menu.name,
           label: label,
           fullUrl: parentUrl + currentPath,
-          timestamp: Date.now(),
         });
         const childs = menu.childs;
-        if (childs) {
+        if (level + 1 < pathLength && childs) {
           this.checkMenus(items, childs, level + 1);
         }
         return;
       }
     }
   }
-
-  private hasParameterizedUrl(): boolean {
-    return this._displayedBreadcrumbs.some((b) => b.label.includes(':'));
-  }
 }
 
 interface BreadcrumbViewItem {
+  id: string;
   label: string;
   fullUrl: string;
-  timestamp: number;
 }
