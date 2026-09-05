@@ -8,8 +8,8 @@ export const settingRoutes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./users/users.component').then((m) => m.UsersComponent),
+        pathMatch: 'full',
+        redirectTo: 'users',
       },
       {
         path: 'users',
