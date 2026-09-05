@@ -30,11 +30,6 @@ export class LocalMenuRepository implements MenuRepository {
           accessControlId: AccessControlId.ViewUser,
         },
         {
-          name: $localize`:accessControls:Access Controls`,
-          url: 'access-controls',
-          accessControlId: AccessControlId.ViewAccessControl,
-        },
-        {
           name: $localize`:roles:Roles`,
           url: 'roles',
           accessControlId: AccessControlId.ViewRole,

@@ -19,7 +19,7 @@ export class ApiAccessControlRepository implements AccessControlRepository {
 
   get(params: PaginationParams): Observable<Pagination<AccessControl>> {
     let urlBuilder = new ApiUrlBuilder('/api/access-controls');
-    urlBuilder.pushQueryParam('page', toApiPageIndex(params.page));
+    urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
     return this.http
       .get<ApiResponse<Pagination<AccessControl>>>(urlBuilder.getUrl())

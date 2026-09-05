@@ -32,7 +32,7 @@ export class ApiRoleRepository implements RoleRepository {
 
   get(params: PaginationParams): Observable<Pagination<RoleList>> {
     let urlBuilder = new ApiUrlBuilder('/api/roles');
-    urlBuilder.pushQueryParam('page', toApiPageIndex(params.page));
+    urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
     urlBuilder.pushQueryParam('search', params.search);
     urlBuilder.pushQueryParam('order', params.order);

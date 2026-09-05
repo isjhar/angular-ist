@@ -26,13 +26,6 @@ export const settingRoutes: Routes = [
         loadComponent: () =>
           import('./roles/roles.component').then((m) => m.RolesComponent),
       },
-      {
-        path: 'access-controls',
-        loadComponent: () =>
-          import('./access-controls/access-controls.component').then(
-            (m) => m.AccessControlsComponent
-          ),
-      },
     ],
   },
 ];

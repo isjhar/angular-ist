@@ -22,7 +22,7 @@ export class ApiUserRepository implements UserRepository {
   constructor(private http: HttpClient) {}
   get(params: PaginationParams): Observable<Pagination<UserList>> {
     let urlBuilder = new ApiUrlBuilder('/api/users');
-    urlBuilder.pushQueryParam('page', toApiPageIndex(params.page));
+    urlBuilder.pushQueryParam('page', params.page);
     urlBuilder.pushQueryParam('limit', params.limit);
     urlBuilder.pushQueryParam('sort', params.sort);
     urlBuilder.pushQueryParam('order', params.order);
