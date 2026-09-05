@@ -67,7 +67,8 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
   }
 
   isUrlAccessible(url: string): Observable<boolean> {
-    return this.findBreadcrumbByUrl(url).pipe(
+    const cleanUrl = url.split('?')[0];
+    return this.findBreadcrumbByUrl(cleanUrl).pipe(
       concatMap((menu) => {
         let localAuthenticatedUserRepository =
           new LocalAuthenticatedUserRepository();

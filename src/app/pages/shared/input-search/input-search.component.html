@@ -1,0 +1,11 @@
+<mat-form-field>
+  <mat-label i18n="search">Search</mat-label>
+  <input
+    matInput
+    [(ngModel)]="value"
+    [placeholder]="placeholder"
+    (focus)="markAsTouched()"
+    (input)="onInputChange($event)"
+    [disabled]="disabled" />
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>

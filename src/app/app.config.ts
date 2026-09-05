@@ -15,8 +15,10 @@ import {
 import { provideRepositories } from './app-repository';
 import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { enUS } from 'date-fns/locale';
+import { DATE_FORMATS } from 'src/app/date-formats';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +27,10 @@ export const appConfig: ApplicationConfig = {
     provideRepositories(),
     provideDateAdapter(),
     provideCharts(withDefaultRegisterables()),
+    provideEnvironmentNgxMask({
+      thousandSeparator: '.',
+      decimalMarker: ',',
+    }),
     authInterceptorProviders,
     apiInterceptorProviders,
     provideRouter(routes),
@@ -35,5 +41,23 @@ function provideDateAdapter(): Provider[] {
   return [
     provideDateFnsAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: enUS },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: DATE_FORMATS.date,
+          timeInput: DATE_FORMATS.time,
+        },
+        display: {
+          dateInput: DATE_FORMATS.date,
+          monthLabel: 'MMM yyyy',
+          dateA11yLabel: 'PP',
+          monthYearA11yLabel: 'MMMM yyyy',
+          monthYearLabel: 'MMM yyyy',
+          timeInput: DATE_FORMATS.time,
+          timeOptionLabel: DATE_FORMATS.time,
+        },
+      },
+    },
   ];
 }

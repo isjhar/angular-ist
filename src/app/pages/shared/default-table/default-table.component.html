@@ -1,19 +1,15 @@
 <div class="mat-elevation-z8">
-  <div
-    [ngClass]="{ 'flex-col': isCardView, 'flex-row gap-2': isTableView }"
-    class="flex">
+  <div class="gap-sm flex flex-row justify-end">
     @if (searchable) {
-      <form [formGroup]="searchForm" class="flex-1">
-        <mat-form-field class="w-full">
-          <mat-label i18n="search">Search</mat-label>
-          <input matInput formControlName="search" />
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-      </form>
+      <mat-form-field class="basis-[300px]">
+        <mat-label i18n="search">Search</mat-label>
+        <input matInput [formControl]="searchControl" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
     }
     @if (isCardView) {
-      <div class="flex flex-1 flex-row gap-2">
-        <mat-form-field class="flex-1">
+      <div class="gap-sm flex flex-row justify-end">
+        <mat-form-field class="flex-1 md:flex-0 md:basis-[200px]">
           <mat-label>Sort By</mat-label>
           <mat-select
             [value]="sort"
@@ -30,9 +26,9 @@
         </mat-form-field>
         <button
           matIconButton
+          class="mt-2 shrink-0 grow-0 basis-[48px]"
           aria-label="Order by"
-          (click)="toggleOrder()"
-          class="mt-2">
+          (click)="toggleOrder()">
           <mat-icon
             [ngClass]="{
               'scale-y-100': order == 'desc',
@@ -51,7 +47,9 @@
       [dataSource]="dataSource"
       class="mat-elevation-z8"
       matSort
-      (matSortChange)="onSortChanged($event)">
+      (matSortChange)="onSortChanged($event)"
+      [matSortActive]="sortActive"
+      [matSortDirection]="sortDirection">
       <!--- Note that these columns can be defined in any order.
       The actual rendered columns are set as a property on the row definition" -->
 
@@ -65,7 +63,6 @@
               [ngClass]="{
                 'center-cell':
                   column.cellTemplate ||
-                  column.cellTemplateByType == 'date' ||
                   column.cellTemplateByType == 'category' ||
                   column.cellTemplateByType == 'number' ||
                   column.cellTemplateByType == 'currency',
@@ -81,7 +78,6 @@
               [ngClass]="{
                 'center-cell':
                   column.cellTemplate ||
-                  column.cellTemplateByType == 'date' ||
                   column.cellTemplateByType == 'dateTime' ||
                   column.cellTemplateByType == 'category' ||
                   column.cellTemplateByType == 'number' ||
@@ -108,15 +104,15 @@
               </td>
             }
             @if (!column.cellTemplate && column.cellTemplateByType == "date") {
-              <td mat-cell class="date-cell">
-                {{ element[column.prop] | date: "M/d/yyyy" }}
+              <td mat-cell>
+                {{ element[column.prop] | defaultDate }}
               </td>
             }
             @if (
               !column.cellTemplate && column.cellTemplateByType == "dateTime"
             ) {
               <td mat-cell class="date-cell">
-                {{ element[column.prop] | date: "M/d/yyyy HH:mm:ss" }}
+                {{ element[column.prop] | defaultDateTime }}
               </td>
             }
             @if (
@@ -138,6 +134,11 @@
             ) {
               <td mat-cell class="number-cell">
                 {{ element[column.prop] | defaultCurrency }}
+              </td>
+            }
+            @if (!column.cellTemplate && column.cellTemplateByType == "time") {
+              <td mat-cell class="number-cell">
+                {{ element[column.prop] | defaultTime }}
               </td>
             }
           </ng-container>
@@ -169,7 +170,7 @@
 
       <tr class="mat-row mat-mdc-row" *matNoDataRow>
         <td
-          class="mat-cell mdc-data-table__cell"
+          class="mat-cell mdc-data-table__cell text-body-medium text-on-surface-variant"
           [attr.colspan]="displayedColumns.length"
           i18n="noDataFound">
           No data found
@@ -177,6 +178,7 @@
       </tr>
     </table>
   </div>
+
   <div
     class="card-view mb-4"
     [ngStyle]="{ display: isCardView ? 'flex' : 'none' }">
@@ -193,7 +195,10 @@
     }
 
     @if (!dataSource || dataSource.length == 0) {
-      <div class="flex flex-row justify-center">No data found</div>
+      <div
+        class="text-body-medium text-on-surface-variant flex flex-row justify-center">
+        No data found
+      </div>
     }
   </div>
 

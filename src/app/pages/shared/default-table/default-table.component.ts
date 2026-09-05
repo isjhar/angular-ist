@@ -47,6 +47,9 @@ import { MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { DefaultDatePipe } from 'src/app/pages/shared/text/default-date.pipe';
+import { DefaultDateTimePipe } from 'src/app/pages/shared/text/default-date-time.pipe';
+import { DefaultTimePipe } from 'src/app/pages/shared/text/default-time.pipe';
 
 export interface DefaultTableColumn {
   title: string;
@@ -63,6 +66,8 @@ export enum DisplayMode {
   Card,
   Hybrid,
 }
+
+export type DisplayType = 'table' | 'card' | 'hybrid';
 
 @Component({
   selector: 'app-default-table',
@@ -87,9 +92,10 @@ export enum DisplayMode {
     MatRow,
     MatNoDataRow,
     MatPaginator,
-    DatePipe,
+    DefaultDatePipe,
     DefaultCurrencyPipe,
     DefaultNumberPipe,
+    DefaultDateTimePipe,
     MatFormField,
     MatLabel,
     MatSelect,
@@ -100,6 +106,7 @@ export enum DisplayMode {
     MatInput,
     ReactiveFormsModule,
     MatTableModule,
+    DefaultTimePipe,
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -110,7 +117,21 @@ export class DefaultTableComponent
   @Input() length: number = 0;
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
-  @Input() displayMode: DisplayMode = DisplayMode.Hybrid;
+  @Input() set displayMode(value: DisplayMode) {
+    switch (value) {
+      case DisplayMode.Card:
+        this.displayType = 'card';
+        break;
+      case DisplayMode.Hybrid:
+        this.displayType = 'hybrid';
+        break;
+      default:
+        this.displayType = 'table';
+        break;
+    }
+  }
+
+  @Input() displayType: DisplayType = 'hybrid';
 
   private _columns: DefaultTableColumn[] = [];
   @Input() set columns(values: DefaultTableColumn[]) {
@@ -125,13 +146,34 @@ export class DefaultTableComponent
     this._columns.push(...values);
     this.adjustDisplayedColumns();
   }
+
   get columns() {
     return this._columns;
   }
 
+  private _sortActive: string = '';
+  @Input() set sortActive(value: string) {
+    this._sortActive = value;
+    this.sort = value;
+  }
+
+  get sortActive() {
+    return this._sortActive;
+  }
+
+  private _sortDirection: SortDirection = '';
+  @Input() set sortDirection(value: SortDirection) {
+    this._sortDirection = value;
+    this.order = value;
+  }
+
+  get sortDirection() {
+    return this._sortDirection;
+  }
+
   private _dataSource: any[] = [];
   @Input() set dataSource(values: any[]) {
-    let startPosition = this.pageIndex * this.pageSize + 1;
+    let startPosition = this.paginator.pageIndex * this.pageSize + 1;
     this._dataSource = values.map((x) => {
       let newSource = Object.assign({ position: startPosition }, x);
       startPosition++;
@@ -169,28 +211,22 @@ export class DefaultTableComponent
   }
 
   get pageIndex() {
-    return this.paginator.pageIndex;
+    return this.paginator.pageIndex + 1;
   }
 
   sort: string = '';
   order: SortDirection = 'asc';
 
-  searchForm = new FormGroup({
-    search: new FormControl(''),
-  });
-
-  get searchControl() {
-    return this.searchForm.get('search') as FormControl;
-  }
+  searchControl = new FormControl<string>('');
 
   get search() {
-    return this.searchControl.value;
+    return this.searchControl.value ?? '';
   }
 
   get isTableView(): boolean {
     return (
-      this.displayMode == DisplayMode.Table ||
-      (this.displayMode == DisplayMode.Hybrid &&
+      this.displayType == 'table' ||
+      (this.displayType == 'hybrid' &&
         (!this.isHandset || this.mobileItemView == undefined))
     );
   }
@@ -202,8 +238,8 @@ export class DefaultTableComponent
   get isCardView(): boolean {
     return (
       this.mobileItemView != undefined &&
-      (this.displayMode == DisplayMode.Card ||
-        (this.isHandset && this.displayMode == DisplayMode.Hybrid))
+      (this.displayType == 'card' ||
+        (this.isHandset && this.displayType == 'hybrid'))
     );
   }
 
@@ -234,6 +270,7 @@ export class DefaultTableComponent
     this.searchValueChangesSubscription = this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
+        if (!value) return;
         this.paginator.pageIndex = 0;
         this.searchChange.emit(value);
       });
@@ -287,11 +324,14 @@ export class DefaultTableComponent
     });
   }
 
-  toggleOrder(): void {
+  toggleOrder(options?: { emitEvent: boolean }): void {
     this.order = this.order === 'asc' ? 'desc' : 'asc';
-    this.onSortChanged({
-      active: this.sort,
-      direction: this.order,
-    });
+    const emitEvent = options ? options.emitEvent : true;
+    if (emitEvent) {
+      this.onSortChanged({
+        active: this.sort,
+        direction: this.order,
+      });
+    }
   }
 }

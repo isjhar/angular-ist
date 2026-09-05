@@ -17,6 +17,7 @@ import {
   DefaultTableColumn,
   DefaultTableComponent,
   DisplayMode,
+  DisplayType,
 } from '../default-table.component';
 import {
   ServerSideTableService,
@@ -27,6 +28,7 @@ import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { SkeletonComponent } from '../../skeleton/skeleton.component';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
+import { SortDirection } from '@angular/material/sort';
 
 @Component({
   selector: 'app-server-side-table',
@@ -47,7 +49,22 @@ export class ServerSideTableComponent
   @Input() searchable: boolean = false;
   @Input() searchPlaceholder: string = '';
   @Input() trackBy: string = 'id';
-  @Input() displayMode: DisplayMode = DisplayMode.Hybrid;
+  @Input() set displayMode(value: DisplayMode) {
+    switch (value) {
+      case DisplayMode.Card:
+        this.displayType = 'card';
+        break;
+      case DisplayMode.Hybrid:
+        this.displayType = 'hybrid';
+        break;
+      default:
+        this.displayType = 'table';
+        break;
+    }
+  }
+  @Input() displayType: DisplayType = 'hybrid';
+  @Input() sortActive: string = '';
+  @Input() sortDirection: SortDirection = '';
 
   @Output() rowClick = new EventEmitter<RowClickEvent>();
 
@@ -142,6 +159,7 @@ export class ServerSideTableComponent
   }
 
   refreshData(): void {
+    if (!this.initialized) return;
     this.showLoadingSnackBar();
     this.get();
   }
@@ -151,5 +169,13 @@ export class ServerSideTableComponent
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
+  }
+
+  updateRow(oldItem: any, newItem: any): void {
+    const index = this.dataSource.findIndex(
+      (element) => element[this.trackBy] == oldItem[this.trackBy],
+    );
+    this.dataSource[index] = Object.assign({}, this.dataSource[index], newItem);
+    this.dataSource = [...this.dataSource];
   }
 }
