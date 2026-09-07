@@ -34,7 +34,6 @@ import { ForgotPasswordParams } from 'src/app/domain/repositories/password-reset
     MatFormField,
     MatLabel,
     MatInput,
-    MatButton,
     LoadingButtonComponent,
     FormErrorRequiredComponent,
     LocalizationMenuComponent,

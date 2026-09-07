@@ -2,15 +2,22 @@
   <div class="flex w-full justify-end p-4">
     <app-localization-menu></app-localization-menu>
   </div>
-  <div class="flex flex-1 flex-col place-content-center items-center">
+  <div class="flex flex-1 flex-col place-content-center items-center px-6">
     <h1 i18n="welcomeToApp" class="text-display-small">Welcome to App</h1>
     <form
-      class="flex w-[400px] flex-col place-content-center p-6"
+      class="flex w-full max-w-[500px] flex-col place-content-center p-6"
       [formGroup]="loginForm"
       (ngSubmit)="onLoginformSubmitted()">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="mb-2">
         <mat-label i18n="email">Email</mat-label>
-        <input matInput formControlName="email" data-test="email" />
+        <input
+          matInput
+          type="email"
+          name="email"
+          id="email"
+          formControlName="email"
+          autocomplete="email"
+          data-test="email" />
         <mat-error>
           <app-form-error-required name="email"></app-form-error-required>
         </mat-error>
@@ -21,8 +28,10 @@
         <input
           matInput
           type="password"
+          name="password"
+          id="password"
           formControlName="password"
-          autocomplete="off"
+          autocomplete="current-password"
           data-test="password" />
 
         <button
@@ -30,7 +39,8 @@
           matSuffix
           appTogglePassword
           type="button"
-          [attr.aria-label]="'Toggle password visibility'">
+          i18n-aria-label="togglePasswordVisibility@@togglePasswordVisibility"
+          aria-label="Toggle password visibility">
           <mat-icon></mat-icon>
         </button>
 
@@ -41,23 +51,23 @@
 
       <app-loading-button
         [isLoading]="isLoading"
-        i18n="login"
+        i18n="logIn@@logIn"
         width="100%"
         [disabled]="!loginForm.valid">
-        Login
+        Log in
       </app-loading-button>
 
       <button
-        i18n="tryLoginWithDemoAccount"
+        i18n="tryLoggingInWithDemoAccount@@tryLoggingInWithDemoAccount"
         class="mt-4"
         type="button"
-        matButton
+        matButton="tonal"
         (click)="loginDemoClicked()">
-        Try Login with Demo Account
+        Try logging in with demo account
       </button>
 
       <a
-        i18n="forgotPassword"
+        i18n="forgotPassword@@forgotPassword"
         class="mt-2 text-center"
         type="button"
         matButton
@@ -66,7 +76,7 @@
       </a>
     </form>
   </div>
-  <div class="mat-caption mb-6">
+  <div class="mb-6 text-center" style="font: var(--mat-sys-body-small)">
     Copyright © 2026 All Rights Reserved. Isjhar Kautsar |
     {{ "isjhar@gmail.com" }}
   </div>
