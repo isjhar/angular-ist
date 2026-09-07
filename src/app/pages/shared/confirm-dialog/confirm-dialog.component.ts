@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoadingButtonComponent } from '../default-form/loading-button/loading-button.component';
 import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface ConfirmDialogData {
   title: string;
@@ -27,6 +28,7 @@ export interface ConfirmDialogData {
     ReactiveFormsModule,
     MatFormFieldModule,
     FormsModule,
+    MatIconModule,
   ],
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.scss'],

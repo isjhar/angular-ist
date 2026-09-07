@@ -46,6 +46,7 @@ export class LocalMenuRepository implements MenuRepository {
           let items = structuredClone(
             LocalMenuRepository.items.filter((item) => {
               const isShow =
+                !item.accessControlId ||
                 (item.accessControlId &&
                   user.hasAccessControl(item.accessControlId)) ||
                 item.childs?.some(
@@ -59,7 +60,7 @@ export class LocalMenuRepository implements MenuRepository {
           items.forEach((menu) => {
             menu.childs = menu.childs?.filter(
               (child) =>
-                child.accessControlId &&
+                !child.accessControlId ||
                 user?.hasAccessControl(child.accessControlId),
             );
           });
