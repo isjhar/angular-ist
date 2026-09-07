@@ -270,7 +270,7 @@ export class DefaultTableComponent
     this.searchValueChangesSubscription = this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        if (!value) return;
+        if (value == null || value == undefined) return;
         this.paginator.pageIndex = 0;
         this.searchChange.emit(value);
       });
