@@ -30,7 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { NgTemplateOutlet } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { MatRipple } from '@angular/material/core';
@@ -55,6 +55,7 @@ import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-contr
     NgTemplateOutlet,
     MatRipple,
     HasAccessControlDirective,
+    RouterLink,
   ],
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],

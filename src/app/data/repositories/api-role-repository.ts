@@ -12,13 +12,16 @@ import {
   RoleRepository,
   StoreAccessControlRequestParams,
   StoreRoleRequestParams,
+  SyncAccessControlRequestParams,
   UpdateRoleRequestParams,
 } from 'src/app/domain/repositories/role-repository';
 import { ApiResponse } from '../entities/api-response';
 import { ApiUrlBuilder } from '../utilities/api-url-builder';
-import { toApiPageIndex } from 'src/app/data/utilities/api-param-modifier';
 import { RoleList } from 'src/app/domain/entities/role-list';
-import { RoleAccessControlData } from 'src/app/data/entities/role-access-control-data';
+import {
+  mapRoleAccessControlData,
+  RoleAccessControlData,
+} from 'src/app/data/entities/role-access-control-data';
 import { RoleDetail } from 'src/app/domain/entities/role-detail';
 
 @Injectable()
@@ -63,35 +66,17 @@ export class ApiRoleRepository implements RoleRepository {
 
   getRoleAccessControls(
     params: GetRoleAccessControlsRequestParams,
-  ): Observable<Pagination<RoleAccessControl>> {
+  ): Observable<RoleAccessControl[]> {
     let urlBuilder = new ApiUrlBuilder(
       `/api/roles/${params.roleId}/access-controls`,
     );
-    urlBuilder.pushQueryParam('page', params.page);
-    urlBuilder.pushQueryParam('limit', params.limit);
-    urlBuilder.pushQueryParam('order', params.order);
-    urlBuilder.pushQueryParam('sort', params.sort);
-    urlBuilder.pushQueryParam('search', params.search);
     return this.http
-      .get<ApiResponse<Pagination<RoleAccessControlData>>>(urlBuilder.getUrl())
+      .get<ApiResponse<RoleAccessControlData[]>>(urlBuilder.getUrl())
       .pipe(
-        map<
-          ApiResponse<Pagination<RoleAccessControlData>>,
-          Pagination<RoleAccessControl>
-        >((e) => {
-          return {
-            items: e.data.items.map((x) => {
-              return {
-                id: x.roleId,
-                accessControl: {
-                  id: x.id,
-                  name: x.name,
-                  description: x.description,
-                },
-              };
-            }),
-            total: e.data.total,
-          };
+        map<ApiResponse<RoleAccessControlData[]>, RoleAccessControl[]>((e) => {
+          return e.data.map((e) => {
+            return mapRoleAccessControlData(e);
+          });
         }),
       );
   }
@@ -113,6 +98,14 @@ export class ApiRoleRepository implements RoleRepository {
       .delete<
         ApiResponse<void>
       >(`/api/roles/${params.roleId}/access-controls/${params.accessControlId}`)
+      .pipe(map<ApiResponse<void>, void>((e) => e.data));
+  }
+
+  syncAccessControl(params: SyncAccessControlRequestParams): Observable<void> {
+    return this.http
+      .patch<ApiResponse<void>>(`/api/roles/${params.roleId}/access-controls`, {
+        accessControlIds: params.accessControlIds,
+      })
       .pipe(map<ApiResponse<void>, void>((e) => e.data));
   }
 }

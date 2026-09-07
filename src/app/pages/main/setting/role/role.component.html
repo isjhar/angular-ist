@@ -1,55 +1,90 @@
-<div class="flex flex-col gap-2">
-  <div class="flex flex-row items-center justify-between">
-    @if (role) {
+<div class="align-wide flex flex-col gap-2">
+  @if (role) {
+    <div class="flex flex-row items-center justify-between">
       <div class="text-title-large">{{ role.name }}</div>
 
       @if (role.isEditable) {
-        <button
-          *appHasAccessControl="AccessControlId.DeleteRole"
-          matIconButton
-          aria-label="Icon button with a delete icon"
-          i18n-aria-label="deleteIconAriaLabel"
-          data-test="btn-delete"
-          (click)="onDeleteClicked()">
-          <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
-        </button>
+        <div class="gap-sm flex items-center">
+          <form [formGroup]="formGroup" (ngSubmit)="save()">
+            <app-loading-button
+              [isLoading]="isLoading"
+              i18n="login"
+              width="100%"
+              [disabled]="!hasChanges"
+              icon="save">
+              Save
+            </app-loading-button>
+          </form>
+          <button
+            *appHasAccessControl="AccessControlId.DeleteRole"
+            matIconButton
+            aria-label="Icon button with a delete icon"
+            i18n-aria-label="deleteIconAriaLabel"
+            data-test="btn-delete"
+            (click)="onDeleteClicked()">
+            <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+          </button>
+        </div>
       }
-    }
-  </div>
+    </div>
 
-  <mat-divider></mat-divider>
-  <div class="text-title-medium" i18n="accessControls">Access Controls</div>
+    <mat-divider></mat-divider>
+    <div class="text-title-medium" i18n="accessControls">Access Controls</div>
 
-  <app-server-side-table #table trackBy="accessControlId" [searchable]="true">
-    <ng-template appDefaultTableMobileItemView let-data>
-      <mat-card>
-        <mat-card-content>
-          <div class="flex flex-col gap-4">
-            <div class="flex flex-row items-center">
-              <div class="flex-1 flex-row items-center">{{ data.name }}</div>
-              <div class="row main-axis-end">
-                <ng-container
-                  *ngTemplateOutlet="
-                    actionTemplate;
-                    context: {
-                      element: data,
-                    }
-                  "></ng-container>
-              </div>
-            </div>
-            <div class="text-body-small">{{ data.description }}</div>
+    @if (isLoadingAccessControls) {
+      <div class="flex justify-center py-8">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    } @else {
+      <mat-tree
+        #tree
+        [childrenAccessor]="childrenAccessorFn"
+        [dataSource]="treeDataSource"
+        class="access-control-tree">
+        <mat-nested-tree-node
+          *matTreeNodeDef="let node; when: hasChildren"
+          [cdkTreeNodeTypeaheadLabel]="node.name">
+          <div class="tree-parent-node">
+            <button matIconButton matTreeNodeToggle>
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{ tree.isExpanded(node) ? "expand_more" : "chevron_right" }}
+              </mat-icon>
+            </button>
+            <mat-checkbox
+              [disabled]="!role.isEditable"
+              [checked]="isAllChecked(node)"
+              [indeterminate]="isIndeterminate(node)"
+              (change)="toggleAll(node, $event.checked)">
+              {{ node.name }}
+            </mat-checkbox>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </ng-template>
-  </app-server-side-table>
-</div>
 
-<ng-template #actionTemplate let-element="element">
-  <mat-slide-toggle
-    *appHasAccessControl="AccessControlId.EditRole"
-    data-test="btn-slide"
-    [checked]="element.id != undefined"
-    (change)="onToggled(element)"
-    [disabled]="role?.isEditable != true"></mat-slide-toggle>
-</ng-template>
+          <div
+            [class.example-tree-invisible]="!tree.isExpanded(node)"
+            role="group">
+            <ng-container matTreeNodeOutlet></ng-container>
+          </div>
+        </mat-nested-tree-node>
+
+        <mat-nested-tree-node *matTreeNodeDef="let node">
+          <div class="tree-child-node">
+            <mat-checkbox
+              [disabled]="!role.isEditable"
+              [checked]="node.checked ?? false"
+              (change)="toggleAccessControl(node, $event.checked)"
+              class="access-control-checkbox">
+              <div class="access-control-content">
+                <span class="access-control-name">{{ node.name }}</span>
+                @if (node.description) {
+                  <span class="access-control-description">
+                    {{ node.description }}
+                  </span>
+                }
+              </div>
+            </mat-checkbox>
+          </div>
+        </mat-nested-tree-node>
+      </mat-tree>
+    }
+  }
+</div>

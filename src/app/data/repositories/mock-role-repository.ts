@@ -9,6 +9,7 @@ import {
   RoleRepository,
   StoreAccessControlRequestParams,
   StoreRoleRequestParams,
+  SyncAccessControlRequestParams,
   UpdateRoleRequestParams,
 } from 'src/app/domain/repositories/role-repository';
 import { MockAccessControlRepository } from './mock-access-control.repository';
@@ -104,8 +105,8 @@ export class MockRoleRepository implements RoleRepository {
 
   getRoleAccessControls(
     params: GetRoleAccessControlsRequestParams,
-  ): Observable<Pagination<RoleAccessControl>> {
-    return new Observable<Pagination<RoleAccessControl>>((observer) => {
+  ): Observable<RoleAccessControl[]> {
+    return new Observable<RoleAccessControl[]>((observer) => {
       let items = [...MockAccessControlRepository.items];
       let search = params.search;
       let limit = params.limit ? params.limit : items.length;
@@ -124,15 +125,7 @@ export class MockRoleRepository implements RoleRepository {
         observer.complete();
         return;
       }
-      let data: RoleAccessControl[] = paginatedAccessControls.map((element) => {
-        return {
-          accessControl: element,
-          id: role?.accessControls.find(
-            (accessControl) => accessControl.id == element.id,
-          )?.id,
-        };
-      });
-      observer.next({ total: total, items: data });
+      observer.next([]);
       observer.complete();
     });
   }
@@ -192,5 +185,9 @@ export class MockRoleRepository implements RoleRepository {
       observer.error(Error.ItemNotFound);
       observer.complete();
     });
+  }
+
+  syncAccessControl(params: SyncAccessControlRequestParams): Observable<void> {
+    throw 'Method not implemented.';
   }
 }

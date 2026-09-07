@@ -11,10 +11,7 @@
     </button>
   </div>
 
-  <app-server-side-table
-    #table
-    (rowClick)="onRowClicked($event.row)"
-    [searchable]="true">
+  <app-server-side-table #table [searchable]="true">
     <ng-template appDefaultTableMobileItemView let-data>
       <mat-card
         matRipple
@@ -53,6 +50,13 @@
 </div>
 
 <ng-template #actionTemplate let-element="element">
+  <a
+    [routerLink]="[element.id]"
+    matIconButton
+    aria-label="Icon button with a delete icon"
+    data-test="btn-detail">
+    <mat-icon fontSet="material-symbols-outlined">visibility</mat-icon>
+  </a>
   @if (element.isEditable) {
     <button
       *appHasAccessControl="AccessControlId.DeleteRole"

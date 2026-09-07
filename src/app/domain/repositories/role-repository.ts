@@ -19,11 +19,12 @@ export interface RoleRepository
     FindableRepository<RoleDetail> {
   getRoleAccessControls(
     params: GetRoleAccessControlsRequestParams,
-  ): Observable<Pagination<RoleAccessControl>>;
+  ): Observable<RoleAccessControl[]>;
   storeAccessControl(params: StoreAccessControlRequestParams): Observable<void>;
   deleteAccessControl(
     params: DeleteAccessControlRequestParams,
   ): Observable<void>;
+  syncAccessControl(params: SyncAccessControlRequestParams): Observable<void>;
 }
 
 export interface StoreRoleRequestParams {
@@ -46,4 +47,9 @@ export interface StoreAccessControlRequestParams {
 export interface DeleteAccessControlRequestParams {
   roleId: number;
   accessControlId: number;
+}
+
+export interface SyncAccessControlRequestParams {
+  roleId: number;
+  accessControlIds: number[];
 }

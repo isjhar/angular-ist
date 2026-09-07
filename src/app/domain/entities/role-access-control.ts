@@ -1,6 +1,9 @@
-import { AccessControl } from './access-control';
-
 export interface RoleAccessControl {
-  id?: number;
-  accessControl: AccessControl;
+  name: string;
+  accessControls: {
+    id: number;
+    name: string;
+    description: string;
+    value: boolean;
+  }[];
 }
