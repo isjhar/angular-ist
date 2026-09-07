@@ -2,10 +2,10 @@
   <div class="flex w-full justify-end p-4">
     <app-localization-menu></app-localization-menu>
   </div>
-  <div class="flex flex-1 flex-col place-content-center items-center px-6">
+  <div class="gap-lg flex flex-1 flex-col place-content-center items-center">
     <h1 i18n="welcomeToApp" class="text-display-small">Welcome to App</h1>
     <form
-      class="flex w-full max-w-[500px] flex-col place-content-center p-6"
+      class="gap-xs flex w-full max-w-[500px] flex-col place-content-center"
       [formGroup]="loginForm"
       (ngSubmit)="onLoginformSubmitted()">
       <mat-form-field appearance="fill" class="mb-2">
@@ -18,9 +18,13 @@
           formControlName="email"
           autocomplete="email"
           data-test="email" />
-        <mat-error>
-          <app-form-error-required name="email"></app-form-error-required>
-        </mat-error>
+        @if (email.invalid && (email.dirty || email.touched)) {
+          <mat-error>
+            @if (email.hasError("required")) {
+              <span i18n="fieldIsRequired">Field is required</span>
+            }
+          </mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -44,19 +48,26 @@
           <mat-icon></mat-icon>
         </button>
 
-        <mat-error>
-          <app-form-error-required name="password"></app-form-error-required>
-        </mat-error>
+        @if (password.invalid && (password.dirty || password.touched)) {
+          <mat-error>
+            @if (password.hasError("required")) {
+              <span i18n="fieldIsRequired">Field is required</span>
+            }
+          </mat-error>
+        }
       </mat-form-field>
 
       <app-loading-button
         [isLoading]="isLoading"
         i18n="logIn@@logIn"
         width="100%"
-        [disabled]="!loginForm.valid">
+        [disabled]="!loginForm.valid"
+        icon="login">
         Log in
       </app-loading-button>
+    </form>
 
+    <div class="gap-xs flex flex-col items-center">
       <button
         i18n="tryLoggingInWithDemoAccount@@tryLoggingInWithDemoAccount"
         class="mt-4"
@@ -74,7 +85,7 @@
         routerLink="/forgot-password">
         Forgot Password?
       </a>
-    </form>
+    </div>
   </div>
   <div class="mb-6 text-center" style="font: var(--mat-sys-body-small)">
     Copyright © 2026 All Rights Reserved. Isjhar Kautsar |

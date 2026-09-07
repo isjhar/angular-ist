@@ -19,7 +19,6 @@ import {
   MatSuffix,
 } from '@angular/material/input';
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
-import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { MatIcon } from '@angular/material/icon';
@@ -42,7 +41,6 @@ import { RouterLink } from '@angular/router';
     MatIconButton,
     MatSuffix,
     LoadingButtonComponent,
-    FormErrorRequiredComponent,
     TogglePasswordDirective,
     LocalizationMenuComponent,
     RouterLink,
@@ -54,6 +52,14 @@ export class LoginComponent extends BaseComponent {
     password: new FormControl('', Validators.required),
   });
   isLoading: boolean = false;
+
+  get email() {
+    return this.loginForm.get('email') as FormControl;
+  }
+
+  get password() {
+    return this.loginForm.get('password') as FormControl;
+  }
 
   loginUseCase: LoginUseCase;
 
