@@ -3,10 +3,12 @@ import { ApiAuthRepository } from './data/repositories/api-auth-repository';
 import { ApiUserRepository } from './data/repositories/api-user-repository';
 import { ApiRoleRepository } from './data/repositories/api-role-repository';
 import { ApiAccessControlRepository } from './data/repositories/api-access-control-repository';
+import { ApiPasswordResetRepository } from './data/repositories/api-password-reset-repository';
 import {
   ACCESS_CONTROL_REPOSITORY,
   ADMIN_DASHBOARD_REPOSITORY,
   AUTH_REPOSITORY,
+  PASSWORD_RESET_REPOSITORY,
   ROLE_REPOSITORY,
   USER_REPOSITORY,
 } from './app-token-repository';
@@ -29,5 +31,9 @@ export const appApiRepositoryProviders: Provider = [
   {
     provide: ADMIN_DASHBOARD_REPOSITORY,
     useClass: MockAdminDashboardRepository,
+  },
+  {
+    provide: PASSWORD_RESET_REPOSITORY,
+    useClass: ApiPasswordResetRepository,
   },
 ];

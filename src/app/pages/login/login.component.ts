@@ -25,6 +25,7 @@ import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { MatIcon } from '@angular/material/icon';
 import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
 import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +45,7 @@ import { LocalizationMenuComponent } from '../shared/localization-menu/localizat
     FormErrorRequiredComponent,
     TogglePasswordDirective,
     LocalizationMenuComponent,
+    RouterLink,
   ],
 })
 export class LoginComponent extends BaseComponent {

@@ -1,12 +1,14 @@
 import { NgModule, Provider } from '@angular/core';
 import { MockAccessControlRepository } from './data/repositories/mock-access-control.repository';
 import { MockAuthRepository } from './data/repositories/mock-auth-repository';
+import { MockPasswordResetRepository } from './data/repositories/mock-password-reset-repository';
 import { MockRoleRepository } from './data/repositories/mock-role-repository';
 import { MockUserRepository } from './data/repositories/mock-user-repository';
 import {
   ACCESS_CONTROL_REPOSITORY,
   ADMIN_DASHBOARD_REPOSITORY,
   AUTH_REPOSITORY,
+  PASSWORD_RESET_REPOSITORY,
   ROLE_REPOSITORY,
   USER_REPOSITORY,
 } from './app-token-repository';
@@ -29,5 +31,9 @@ export const appMockRepositoryProviders: Provider = [
   {
     provide: ADMIN_DASHBOARD_REPOSITORY,
     useClass: MockAdminDashboardRepository,
+  },
+  {
+    provide: PASSWORD_RESET_REPOSITORY,
+    useClass: MockPasswordResetRepository,
   },
 ];

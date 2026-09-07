@@ -1,0 +1,73 @@
+import { Component, inject, Inject } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  AUTH_REPOSITORY,
+  PASSWORD_RESET_REPOSITORY,
+} from 'src/app/app-token-repository';
+import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
+
+import {
+  MatError,
+  MatFormField,
+  MatLabel,
+  MatInput,
+} from '@angular/material/input';
+import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
+import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
+import { MatButton } from '@angular/material/button';
+import { BaseComponent } from 'src/app/pages/shared/base.component';
+import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
+import { ForgotPasswordParams } from 'src/app/domain/repositories/password-reset-repository';
+
+@Component({
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.scss',
+  imports: [
+    ReactiveFormsModule,
+    MatError,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatButton,
+    LoadingButtonComponent,
+    FormErrorRequiredComponent,
+    LocalizationMenuComponent,
+  ],
+})
+export class ForgotPasswordComponent extends BaseComponent {
+  forgotPasswordForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+  });
+  isLoading: boolean = false;
+
+  passwordResetRepository = inject(PASSWORD_RESET_REPOSITORY);
+
+  constructor() {
+    super();
+  }
+
+  onForgotPasswordSubmitted(): void {
+    this.isLoading = true;
+    const params: ForgotPasswordParams = {
+      email: this.forgotPasswordForm.value.email ?? '',
+    };
+    this.passwordResetRepository.forgotPassword(params).subscribe({
+      next: () => {
+        this.snackBarService.showSuccess(
+          'Password reset link sent to your email',
+        );
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.snackBarService.showError(`Failed to send: ${error}`);
+        this.isLoading = false;
+      },
+    });
+  }
+}
