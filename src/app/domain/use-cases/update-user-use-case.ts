@@ -12,7 +12,6 @@ export class UpdateUserUseCase extends UpdateUseCase<
     return {
       email: params.email,
       name: params.name,
-      password: params.password,
       roles: params.roles,
     };
   }
@@ -21,6 +20,5 @@ export class UpdateUserUseCase extends UpdateUseCase<
 export interface UpdateUserUseCaseParams extends UpdateUseCaseParams {
   email: string;
   name: string;
-  password: string;
   roles: number[];
 }

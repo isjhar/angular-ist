@@ -88,7 +88,7 @@ export class MockUserRepository implements UserRepository {
         roles: MockRoleRepository.roles.filter((element) =>
           params.roles.includes(element.id),
         ),
-        password: params.password,
+        password: 'password',
         isEditable: true,
       };
       MockUserRepository.users.push(user);

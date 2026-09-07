@@ -20,7 +20,6 @@ export interface UserRepository
 export interface StoreUserRequestParams {
   email: string;
   name: string;
-  password: string;
   roles: number[];
 }
 
