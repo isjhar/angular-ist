@@ -1,15 +1,11 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  AUTH_REPOSITORY,
-  PASSWORD_RESET_REPOSITORY,
-} from 'src/app/app-token-repository';
-import { AuthRepository } from 'src/app/domain/repositories/auth-repository';
+import { PASSWORD_RESET_REPOSITORY } from 'src/app/app-token-repository';
 
 import {
   MatError,
@@ -18,8 +14,6 @@ import {
   MatInput,
 } from '@angular/material/input';
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
-import { FormErrorRequiredComponent } from '../shared/default-form/form-error/form-error-required/form-error-required.component';
-import { MatButton } from '@angular/material/button';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
 import { ForgotPasswordParams } from 'src/app/domain/repositories/password-reset-repository';
@@ -35,7 +29,6 @@ import { ForgotPasswordParams } from 'src/app/domain/repositories/password-reset
     MatLabel,
     MatInput,
     LoadingButtonComponent,
-    FormErrorRequiredComponent,
     LocalizationMenuComponent,
   ],
 })
@@ -46,6 +39,10 @@ export class ForgotPasswordComponent extends BaseComponent {
   isLoading: boolean = false;
 
   passwordResetRepository = inject(PASSWORD_RESET_REPOSITORY);
+
+  get email() {
+    return this.forgotPasswordForm.get('email') as FormControl;
+  }
 
   constructor() {
     super();
