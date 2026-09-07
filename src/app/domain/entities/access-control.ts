@@ -5,14 +5,12 @@ export interface AccessControl {
 }
 
 export enum AccessControlId {
-  ViewDashboard = 1,
-  ViewAccessControl = 2,
-  ViewRole = 3,
-  AddRole = 4,
-  EditRole = 5,
-  DeleteRole = 6,
-  ViewUser = 7,
-  AddUser = 8,
-  EditUser = 9,
-  DeleteUser = 10,
+  ViewUser = 1,
+  AddUser = 2,
+  EditUser = 3,
+  DeleteUser = 4,
+  ViewRole = 5,
+  AddRole = 6,
+  EditRole = 7,
+  DeleteRole = 8,
 }

@@ -193,33 +193,4 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-
-  onChangePasswordClicked(event: Event, element: any): void {
-    event.stopPropagation();
-
-    const config: MatDialogConfig<ChangePasswordDialogData> = {
-      width: '90%',
-      maxWidth: 500,
-      height: 'auto',
-      data: {
-        value: {
-          id: element.id,
-        },
-      },
-    };
-    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, config);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.table.refreshData();
-        this.snackBar.open(
-          `Change ${element.name} password successfully`,
-          'Close',
-          {
-            horizontalPosition: 'start',
-            verticalPosition: 'bottom',
-          },
-        );
-      }
-    });
-  }
 }

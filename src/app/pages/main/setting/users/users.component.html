@@ -7,6 +7,7 @@
       data-test="btn-add-list"
       (click)="onTambahClicked()"
       i18n="add">
+      <mat-icon>person_add</mat-icon>
       Add
     </button>
   </div>
@@ -69,14 +70,7 @@
         (click)="onEditClicked($event, element)">
         <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
       </button>
-      <button
-        *appHasAccessControl="AccessControlId.EditUser"
-        matIconButton
-        aria-label="Example icon button with a edit icon"
-        data-test="btn-edit"
-        (click)="onChangePasswordClicked($event, element)">
-        <mat-icon fontSet="material-symbols-outlined">lock</mat-icon>
-      </button>
+
       <button
         *appHasAccessControl="AccessControlId.DeleteUser"
         matIconButton

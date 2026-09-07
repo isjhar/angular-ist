@@ -13,7 +13,7 @@ import {
 export class MockAccessControlRepository implements AccessControlRepository {
   static items: AccessControl[] = [
     {
-      id: AccessControlId.ViewDashboard,
+      id: AccessControlId.ViewUser,
       name: 'Dashboard',
       description: 'View dashboard',
     },

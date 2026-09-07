@@ -16,7 +16,6 @@ export class LocalMenuRepository implements MenuRepository {
       url: '',
       isShow: false,
       icon: 'dashboard',
-      accessControlId: AccessControlId.ViewDashboard,
     },
     {
       name: $localize`:setting:Setting`,

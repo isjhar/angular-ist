@@ -1,7 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmitted()">
   <div mat-dialog-title i18n="editUser">Edit user</div>
   <mat-dialog-content class="mat-typography">
-    <div class="column">
+    <div class="gap-sm flex flex-col">
       <mat-form-field appearance="fill">
         <mat-label i18n="name">Name</mat-label>
         <input matInput formControlName="name" required data-test="name" />
@@ -50,19 +50,22 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button
-      mat-button
-      mat-dialog-close
-      data-test="btn-cancel-form"
-      i18n="cancel">
-      Cancel
-    </button>
-    <app-loading-button
-      data-test="btn-save-form"
-      [disabled]="!formGroup.valid"
-      [isLoading]="isLoading"
-      i18n="save">
-      Save
-    </app-loading-button>
+    <div class="gap-xs flex flex-row">
+      <button
+        mat-button
+        mat-dialog-close
+        data-test="btn-cancel-form"
+        i18n="cancel">
+        Cancel
+      </button>
+      <app-loading-button
+        data-test="btn-save-form"
+        [disabled]="!formGroup.valid"
+        [isLoading]="isLoading"
+        i18n="save"
+        icon="save">
+        Save
+      </app-loading-button>
+    </div>
   </mat-dialog-actions>
 </form>
