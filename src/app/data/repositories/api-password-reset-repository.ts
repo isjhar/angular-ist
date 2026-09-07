@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
 import {
   ForgotPasswordParams,
   PasswordResetRepository,
+  ResetPasswordParams,
 } from 'src/app/domain/repositories/password-reset-repository';
 import { ApiResponse } from '../entities/api-response';
 
@@ -21,5 +22,23 @@ export class ApiPasswordResetRepository implements PasswordResetRepository {
         headers: headers,
       })
       .pipe(map((response) => response));
+  }
+
+  resetPassword(data: ResetPasswordParams): Observable<any> {
+    let headers = new HttpHeaders({
+      Accept: 'application/json',
+    });
+    return this.http.get('/sanctum/csrf-cookie').pipe(
+      concatMap((response) =>
+        this.http
+          .post('/api/reset-password', data, {
+            headers: headers,
+            withCredentials: true,
+            responseType: 'json',
+            observe: 'response',
+          })
+          .pipe(map((response) => response)),
+      ),
+    );
   }
 }
