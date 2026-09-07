@@ -25,5 +25,13 @@ export const routes: Routes = [
       ),
     canActivate: [localizationGuard],
   },
+  {
+    path: 'password-reset-sent',
+    loadComponent: () =>
+      import('./pages/password-reset-sent/password-reset-sent.component').then(
+        (m) => m.PasswordResetSentComponent,
+      ),
+    canActivate: [localizationGuard],
+  },
   { path: '**', redirectTo: '' },
 ];

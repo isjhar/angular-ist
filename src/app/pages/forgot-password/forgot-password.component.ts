@@ -17,6 +17,7 @@ import { LoadingButtonComponent } from '../shared/default-form/loading-button/lo
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
 import { ForgotPasswordParams } from 'src/app/domain/repositories/password-reset-repository';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
@@ -40,6 +41,8 @@ export class ForgotPasswordComponent extends BaseComponent {
 
   passwordResetRepository = inject(PASSWORD_RESET_REPOSITORY);
 
+  router = inject(Router);
+
   get email() {
     return this.forgotPasswordForm.get('email') as FormControl;
   }
@@ -55,10 +58,8 @@ export class ForgotPasswordComponent extends BaseComponent {
     };
     this.passwordResetRepository.forgotPassword(params).subscribe({
       next: () => {
-        this.snackBarService.showSuccess(
-          'Password reset link sent to your email',
-        );
         this.isLoading = false;
+        this.router.navigate(['password-reset-sent']);
       },
       error: (error) => {
         this.snackBarService.showError(`Failed to send: ${error}`);
