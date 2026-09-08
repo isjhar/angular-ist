@@ -20,6 +20,7 @@ import { FormErrorRequiredComponent } from '../../../../shared/default-form/form
 import { LoadingButtonComponent } from '../../../../shared/default-form/loading-button/loading-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormDialogComponent } from 'src/app/pages/shared/form-dialog-component';
+import { MatIcon } from '@angular/material/icon';
 
 export interface AddDialogData {
   value: any;
@@ -34,6 +35,7 @@ export interface AddDialogData {
     MatButtonModule,
     FormErrorRequiredComponent,
     LoadingButtonComponent,
+    MatIcon,
   ],
   templateUrl: './add-dialog.component.html',
   styleUrls: ['./add-dialog.component.scss'],

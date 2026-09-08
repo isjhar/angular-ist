@@ -12,19 +12,23 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button
-      mat-button
-      mat-dialog-close
-      data-test="btn-cancel-form"
-      i18n="cancel">
-      Cancel
-    </button>
-    <app-loading-button
-      data-test="btn-save-form"
-      [disabled]="!formGroup.valid"
-      [isLoading]="isLoading"
-      i18n="save">
-      Save
-    </app-loading-button>
+    <div class="gap-xs flex flex-row">
+      <button
+        matButton
+        mat-dialog-close
+        data-test="btn-cancel-form"
+        i18n="cancel">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+      <app-loading-button
+        data-test="btn-save-form"
+        [disabled]="!formGroup.valid"
+        [isLoading]="isLoading"
+        i18n="save"
+        icon="save">
+        Save
+      </app-loading-button>
+    </div>
   </mat-dialog-actions>
 </form>
