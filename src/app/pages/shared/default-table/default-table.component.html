@@ -1,45 +1,47 @@
 <div class="mat-elevation-z8">
-  <div class="gap-sm flex flex-row justify-end">
-    @if (searchable) {
-      <mat-form-field class="basis-[300px]">
-        <mat-label i18n="search">Search</mat-label>
-        <input matInput [formControl]="searchControl" />
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-    }
-    @if (isCardView) {
-      <div class="gap-sm flex flex-row justify-end">
-        <mat-form-field class="flex-1 md:flex-0 md:basis-[200px]">
-          <mat-label>Sort By</mat-label>
-          <mat-select
-            [value]="sort"
-            (selectionChange)="changeSort($event.value)">
-            <mat-option [value]="">---None---</mat-option>
-            @for (column of columns; track column) {
-              @if (column.sortBy) {
-                <mat-option [value]="column.sortBy">
-                  {{ column.title }}
-                </mat-option>
-              }
-            }
-          </mat-select>
+  @if (searchable || isCardView) {
+    <div class="gap-sm flex flex-col justify-start md:flex-row md:justify-end">
+      @if (searchable) {
+        <mat-form-field class="md:basis-[300px]">
+          <mat-label i18n="search">Search</mat-label>
+          <input matInput [formControl]="searchControl" />
+          <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-        <button
-          matIconButton
-          class="mt-2 shrink-0 grow-0 basis-[48px]"
-          aria-label="Order by"
-          (click)="toggleOrder()">
-          <mat-icon
-            [ngClass]="{
-              'scale-y-100': order == 'desc',
-              '-scale-y-100': order == 'asc',
-            }">
-            sort
-          </mat-icon>
-        </button>
-      </div>
-    }
-  </div>
+      }
+      @if (isCardView) {
+        <div class="gap-sm flex flex-row justify-end">
+          <mat-form-field class="flex-1 md:flex-0 md:basis-[200px]">
+            <mat-label>Sort By</mat-label>
+            <mat-select
+              [value]="sort"
+              (selectionChange)="changeSort($event.value)">
+              <mat-option [value]="">---None---</mat-option>
+              @for (column of columns; track column) {
+                @if (column.sortBy) {
+                  <mat-option [value]="column.sortBy">
+                    {{ column.title }}
+                  </mat-option>
+                }
+              }
+            </mat-select>
+          </mat-form-field>
+          <button
+            matIconButton
+            class="mt-2 shrink-0 grow-0 basis-[48px]"
+            aria-label="Order by"
+            (click)="toggleOrder()">
+            <mat-icon
+              [ngClass]="{
+                'scale-y-100': order == 'desc',
+                '-scale-y-100': order == 'asc',
+              }">
+              sort
+            </mat-icon>
+          </button>
+        </div>
+      }
+    </div>
+  }
 
   <div [ngStyle]="{ display: isTableView ? 'block' : 'none' }">
     <table
