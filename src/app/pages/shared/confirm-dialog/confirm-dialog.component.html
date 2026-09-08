@@ -11,11 +11,16 @@
       style="margin-right: 5px"
       mat-button
       mat-dialog-close
-      data-test="btn-no">
+      data-test="btn-no"
+      i18n="cancel">
       <mat-icon>cancel</mat-icon>
       Cancel
     </button>
-    <app-loading-button [isLoading]="isLoading" data-test="btn-yes" icon="check">
+    <app-loading-button
+      [isLoading]="isLoading"
+      data-test="btn-yes"
+      icon="check"
+      i18n="yes">
       Yes
     </app-loading-button>
   </div>
