@@ -15,6 +15,20 @@ app-default-table {
     gap: 16px;
   }
 
+  .action-container {
+    display: flex;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .action-container {
+      display: none;
+    }
+    .item-row:hover .action-container,
+    .item-row:focus-within .action-container {
+      display: flex;
+    }
+  }
+
   .mat-mdc-cell,
   .mat-mdc-header-cell {
     border-bottom: var(--mat-table-row-item-outline-width, 1px)
