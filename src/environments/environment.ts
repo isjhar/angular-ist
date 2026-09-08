@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   apiUrl: '',
   dataSource: 'api',
+  version: '0.0.0',
 };
 
 /*

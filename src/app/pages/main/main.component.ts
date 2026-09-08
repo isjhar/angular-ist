@@ -31,6 +31,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { BreadcrumbComponent } from 'src/app/pages/shared/breadcrumb/breadcrumb.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-main',
@@ -62,6 +63,7 @@ export class MainComponent extends BaseComponent implements OnInit {
   menus: Menu[] = [];
   loggedUser?: User;
   url?: String;
+  version: string = environment.version;
 
   constructor(
     @Inject(AUTHENTICATED_USER_REPOSITORY)

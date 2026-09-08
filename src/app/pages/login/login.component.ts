@@ -25,6 +25,7 @@ import { MatIcon } from '@angular/material/icon';
 import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggle-password.directive';
 import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
 import { RouterLink } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -52,6 +53,7 @@ export class LoginComponent extends BaseComponent {
     password: new FormControl('', Validators.required),
   });
   isLoading: boolean = false;
+  version: string = environment.version;
 
   get email() {
     return this.loginForm.get('email') as FormControl;
