@@ -18,6 +18,7 @@ import {
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
+import { FooterComponent } from '../shared/footer/footer.component';
 import { CustomValidator } from 'src/app/pages/shared/default-form/custom-validator';
 import { FormErrorPasswordComponent } from 'src/app/pages/shared/default-form/form-error/form-error-password/form-error-password.component';
 import { FormErrorRequiredComponent } from 'src/app/pages/shared/default-form/form-error/form-error-required/form-error-required.component';
@@ -44,6 +45,7 @@ import { SubmissionComponent } from 'src/app/pages/shared/submission-component';
     TogglePasswordDirective,
     MatIcon,
     MatButtonModule,
+    FooterComponent,
   ],
 })
 export class ResetPasswordComponent

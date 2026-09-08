@@ -16,6 +16,7 @@ import {
 import { LoadingButtonComponent } from '../shared/default-form/loading-button/loading-button.component';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
+import { FooterComponent } from '../shared/footer/footer.component';
 import { ForgotPasswordParams } from 'src/app/domain/repositories/password-reset-repository';
 import { Router } from '@angular/router';
 
@@ -31,6 +32,7 @@ import { Router } from '@angular/router';
     MatInput,
     LoadingButtonComponent,
     LocalizationMenuComponent,
+    FooterComponent,
   ],
 })
 export class ForgotPasswordComponent extends BaseComponent {
