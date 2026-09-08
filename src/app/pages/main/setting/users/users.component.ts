@@ -102,7 +102,7 @@ export class UsersComponent implements OnInit {
       {
         prop: 'name',
         show: true,
-        title: 'Name',
+        title: $localize`:name:Name`,
         sortBy: 'name',
         showHandset: true,
       },
@@ -116,7 +116,7 @@ export class UsersComponent implements OnInit {
       {
         prop: 'roleNames',
         show: true,
-        title: 'Roles',
+        title: $localize`:roles:Roles`,
         sortBy: 'role',
         showHandset: false,
       },
