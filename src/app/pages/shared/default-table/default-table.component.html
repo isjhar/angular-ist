@@ -11,7 +11,7 @@
       @if (isCardView) {
         <div class="gap-sm flex flex-row justify-end">
           <mat-form-field class="flex-1 md:flex-0 md:basis-[200px]">
-            <mat-label>Sort By</mat-label>
+            <mat-label i18n="sortBy">Sort By</mat-label>
             <mat-select
               [value]="sort"
               (selectionChange)="changeSort($event.value)">
