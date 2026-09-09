@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { ROLE_REPOSITORY } from 'src/app/app-token-repository';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
@@ -103,7 +103,6 @@ export class RoleComponent extends SubmissionComponent implements OnInit {
     private roleRepository: RoleRepository,
     @Inject(BREADCRUMB_REPOSITORY)
     private breadcrumbRepository: BreadcrumbRepository,
-    private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private dialog: MatDialog,
   ) {
@@ -253,13 +252,8 @@ export class RoleComponent extends SubmissionComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open(
+        this.snackbar.showSuccess(
           $localize`:roleDeletedSuccessfully:Role deleted successfully`,
-          'Close',
-          {
-            horizontalPosition: 'start',
-            verticalPosition: 'bottom',
-          },
         );
       }
     });

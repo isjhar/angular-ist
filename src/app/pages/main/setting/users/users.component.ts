@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   Inject,
   OnInit,
   TemplateRef,
@@ -10,7 +11,6 @@ import {
   MatDialogConfig,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { USER_REPOSITORY } from 'src/app/app-token-repository';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
@@ -50,6 +50,7 @@ import {
 } from 'src/app/pages/main/setting/users/change-password-dialog/change-password-dialog.component';
 import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
+import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
 
 @Component({
   selector: 'app-users',
@@ -87,12 +88,13 @@ export class UsersComponent implements OnInit {
 
   AccessControlId = AccessControlId;
 
+  snackBarService = inject(SnackBarService);
+
   constructor(
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
     @Inject(USER_REPOSITORY) userRepository: UserRepository,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
   ) {
     this.deleteUserUseCase = new DeleteUseCase(userRepository);
   }
@@ -132,10 +134,9 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('User added successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
+        this.snackBarService.showSuccess(
+          $localize`:userAddedSuccessfully:User added successfully`,
+        );
       }
     });
   }
@@ -155,10 +156,9 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('User deleted successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
+        this.snackBarService.showSuccess(
+          $localize`:somethingDeletedSuccessfully:${element.name}:item: deleted successfully`,
+        );
       }
     });
   }
@@ -186,10 +186,9 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('User deleted successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
+        this.snackBarService.showSuccess(
+          $localize`:somethingEditedSuccessfully:${element.universityName}:item: edited successfully`,
+        );
       }
     });
   }

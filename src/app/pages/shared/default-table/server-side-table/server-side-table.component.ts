@@ -3,6 +3,7 @@ import {
   Component,
   ContentChild,
   EventEmitter,
+  inject,
   Inject,
   Input,
   OnDestroy,
@@ -10,7 +11,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import {
@@ -29,6 +29,7 @@ import { SkeletonComponent } from '../../skeleton/skeleton.component';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
 import { SortDirection } from '@angular/material/sort';
+import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
 
 @Component({
   selector: 'app-server-side-table',
@@ -74,7 +75,6 @@ export class ServerSideTableComponent
   columns: DefaultTableColumn[] = [];
   search: string = '';
   initialized = false;
-  snackBarRef?: MatSnackBarRef<any>;
 
   @ViewChild(DefaultTableComponent, { static: true })
   table!: DefaultTableComponent;
@@ -88,9 +88,10 @@ export class ServerSideTableComponent
   columnsChangeSubscription!: Subscription;
   searchChangeSubscription!: Subscription;
 
+  snackBarService = inject(SnackBarService);
+
   constructor(
     @Inject(TABLE_SERVICE) private service: ServerSideTableService<any, any>,
-    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -150,10 +151,10 @@ export class ServerSideTableComponent
           this.table.renderRows();
           this.initialized = true;
           this.isLoaded = true;
-          this.snackBarRef?.dismiss();
+          this.snackBarService.dismissLoading();
         },
         error: (response) => {
-          this.snackBarRef?.dismiss();
+          this.snackBarService.dismissLoading();
         },
       });
   }
@@ -165,10 +166,7 @@ export class ServerSideTableComponent
   }
 
   showLoadingSnackBar(): void {
-    this.snackBarRef = this.snackBar.open('Loading...', undefined, {
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
+    this.snackBarService.showLoading($localize`:loading:Loading...`);
   }
 
   updateRow(oldItem: any, newItem: any): void {

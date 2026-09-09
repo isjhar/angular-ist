@@ -4,7 +4,6 @@ import {
   MatDialogConfig,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ROLE_REPOSITORY } from 'src/app/app-token-repository';
 import { DeleteUseCase } from 'src/app/domain/base-use-cases/delete-use-case';
 import { RoleRepository } from 'src/app/domain/repositories/role-repository';
@@ -36,6 +35,7 @@ import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/defau
 import { MatRipple } from '@angular/material/core';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
+import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
 
 @Component({
   selector: 'app-roles',
@@ -76,6 +76,8 @@ export class RolesComponent implements OnInit {
 
   router = inject(Router);
 
+  snackBarService = inject(SnackBarService);
+
   AccessControlId = AccessControlId;
 
   constructor(
@@ -83,7 +85,6 @@ export class RolesComponent implements OnInit {
     @Inject(TABLE_SERVICE)
     private tableService: ServerSideTableService<any, any>,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
   ) {
     this.deleteRoleUseCase = new DeleteUseCase(roleRepository);
   }
@@ -111,10 +112,9 @@ export class RolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('Role added successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
+        this.snackBarService.showSuccess(
+          $localize`:roleAddedSuccessfully:Role added successfully`,
+        );
       }
     });
   }
@@ -134,10 +134,9 @@ export class RolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.table.refreshData();
-        this.snackBar.open('Role deleted successfully', 'Close', {
-          horizontalPosition: 'start',
-          verticalPosition: 'bottom',
-        });
+        this.snackBarService.showSuccess(
+          $localize`:somethingDeletedSuccessfully:${element.name}:item: deleted successfully`,
+        );
       }
     });
   }

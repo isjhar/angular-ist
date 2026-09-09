@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoadingButtonComponent } from '../default-form/loading-button/loading-button.component';
-import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
 import { MatIconModule } from '@angular/material/icon';
+import { SubmissionComponent } from 'src/app/pages/shared/submission-component';
 
 export interface ConfirmDialogData {
   title: string;
@@ -34,19 +34,21 @@ export interface ConfirmDialogData {
   styleUrls: ['./confirm-dialog.component.scss'],
   standalone: true,
 })
-export class ConfirmDialogComponent implements OnInit {
-  isLoading: boolean = false;
+export class ConfirmDialogComponent
+  extends SubmissionComponent
+  implements OnInit
+{
   error: string = '';
   formGroup = new FormGroup({});
-
-  snackbar = inject(SnackBarService);
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData,
-  ) {}
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {}
+  override ngOnInit(): void {}
 
   onSubmitted(): void {
     this.isLoading = true;
@@ -57,7 +59,9 @@ export class ConfirmDialogComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-        this.snackbar.showError(`Process failed: ${error}`);
+        this.snackbar.showError(
+          $localize`:processFailedSomething:Process failed ${error}:something:`,
+        );
       },
     });
   }

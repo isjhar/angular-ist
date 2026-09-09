@@ -18,6 +18,8 @@ export class SubmissionComponent extends BaseComponent {
 
   onError(error: any): void {
     this.isLoading = false;
-    this.snackbar.showError(`Process failed: ${error}`);
+    this.snackbar.showError(
+      $localize`:processFailedSomething:Process failed: ${error}:something:`,
+    );
   }
 }

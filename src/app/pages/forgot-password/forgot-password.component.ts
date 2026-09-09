@@ -19,6 +19,7 @@ import { LocalizationMenuComponent } from '../shared/localization-menu/localizat
 import { FooterComponent } from '../shared/footer/footer.component';
 import { ForgotPasswordParams } from 'src/app/domain/repositories/password-reset-repository';
 import { Router } from '@angular/router';
+import { SubmissionComponent } from 'src/app/pages/shared/submission-component';
 
 @Component({
   selector: 'app-forgot-password',
@@ -35,11 +36,10 @@ import { Router } from '@angular/router';
     FooterComponent,
   ],
 })
-export class ForgotPasswordComponent extends BaseComponent {
+export class ForgotPasswordComponent extends SubmissionComponent {
   forgotPasswordForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
   });
-  isLoading: boolean = false;
 
   passwordResetRepository = inject(PASSWORD_RESET_REPOSITORY);
 
@@ -64,8 +64,7 @@ export class ForgotPasswordComponent extends BaseComponent {
         this.router.navigate(['password-reset-sent']);
       },
       error: (error) => {
-        this.snackBarService.showError(`Failed to send: ${error}`);
-        this.isLoading = false;
+        this.onError(error);
       },
     });
   }

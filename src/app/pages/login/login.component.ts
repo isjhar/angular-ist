@@ -26,6 +26,7 @@ import { TogglePasswordDirective } from 'src/app/pages/shared/default-form/toggl
 import { LocalizationMenuComponent } from '../shared/localization-menu/localization-menu.component';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../shared/footer/footer.component';
+import { SubmissionComponent } from 'src/app/pages/shared/submission-component';
 
 @Component({
   selector: 'app-login',
@@ -48,12 +49,11 @@ import { FooterComponent } from '../shared/footer/footer.component';
     FooterComponent,
   ],
 })
-export class LoginComponent extends BaseComponent {
+export class LoginComponent extends SubmissionComponent {
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
-  isLoading: boolean = false;
 
   get email() {
     return this.loginForm.get('email') as FormControl;
@@ -90,7 +90,7 @@ export class LoginComponent extends BaseComponent {
           this.router.navigate(['']);
         },
         error: (error) => {
-          this.snackBarService.showError(`Login failed: ${error}`);
+          this.onError(error);
           this.isLoading = false;
         },
       });

@@ -123,8 +123,7 @@ export class ResetPasswordComponent
         this.router.navigate(['login']);
       },
       error: (error) => {
-        this.snackBarService.showError(`Failed to reset: ${error}`);
-        this.isLoading = false;
+        this.onError(error);
       },
     });
   }
