@@ -1,4 +1,5 @@
 import { AuthGuard } from './auth.guard';
+import { SetupGuard } from './setup.guard';
 import { Routes } from '@angular/router';
 import { mainRoutes } from './pages/main/main.routes';
 import { localizationGuard } from 'src/app/localization.guard';
@@ -9,13 +10,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/main/main.component').then((m) => m.MainComponent),
     children: mainRoutes,
-    canActivate: [localizationGuard, AuthGuard],
+    canActivate: [SetupGuard, localizationGuard, AuthGuard],
   },
   {
     path: 'login',
     loadComponent: () =>
       import('./pages/login/login.component').then((m) => m.LoginComponent),
-    canActivate: [localizationGuard],
+    canActivate: [SetupGuard, localizationGuard],
   },
   {
     path: 'forgot-password',
@@ -23,7 +24,7 @@ export const routes: Routes = [
       import('./pages/forgot-password/forgot-password.component').then(
         (m) => m.ForgotPasswordComponent,
       ),
-    canActivate: [localizationGuard],
+    canActivate: [SetupGuard, localizationGuard],
   },
   {
     path: 'reset-password',
@@ -31,7 +32,7 @@ export const routes: Routes = [
       import('./pages/reset-password/reset-password.component').then(
         (m) => m.ResetPasswordComponent,
       ),
-    canActivate: [localizationGuard],
+    canActivate: [SetupGuard, localizationGuard],
   },
   {
     path: 'password-reset-sent',
@@ -39,7 +40,12 @@ export const routes: Routes = [
       import('./pages/password-reset-sent/password-reset-sent.component').then(
         (m) => m.PasswordResetSentComponent,
       ),
-    canActivate: [localizationGuard],
+    canActivate: [SetupGuard, localizationGuard],
+  },
+  {
+    path: 'setup',
+    loadComponent: () =>
+      import('./pages/setup/setup.component').then((m) => m.SetupComponent),
   },
   { path: '**', redirectTo: '' },
 ];

@@ -1,0 +1,119 @@
+<div class="flex h-full w-full flex-col place-content-center items-center">
+  <div class="gap-lg flex flex-1 flex-col place-content-center items-center">
+    <img
+      src="assets/webometrics-logo.png"
+      alt="Webometrics"
+      class="login-logo" />
+    <h1 i18n="setup" class="text-display-small">Setup</h1>
+    <form
+      class="gap-xs flex w-full max-w-[500px] flex-col place-content-center"
+      [formGroup]="setupForm"
+      (ngSubmit)="onSetupSubmitted()">
+      <mat-form-field appearance="fill">
+        <mat-label i18n="email">Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          id="email"
+          formControlName="email"
+          autocomplete="email"
+          data-test="email"
+          required />
+        <mat-error>
+          <app-form-error-required name="email"></app-form-error-required>
+          <app-form-error-email name="email"></app-form-error-email>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label i18n="name">Name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="name"
+          id="name"
+          formControlName="name"
+          autocomplete="name"
+          data-test="name"
+          required />
+        <mat-error>
+          <app-form-error-required name="name"></app-form-error-required>
+          @if (name.hasError("maxlength")) {
+            <span i18n="max500Chars">Max 500 characters</span>
+          }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label i18n="password">Password</mat-label>
+        <input
+          matInput
+          type="password"
+          name="password"
+          id="password"
+          formControlName="password"
+          autocomplete="new-password"
+          data-test="password" />
+
+        <button
+          matIconButton
+          matSuffix
+          appTogglePassword
+          type="button"
+          [attr.aria-label]="'Toggle password visibility'">
+          <mat-icon></mat-icon>
+        </button>
+
+        <mat-error>
+          <app-form-error-required name="password"></app-form-error-required>
+          @if (!password.hasError("required")) {
+            <app-form-error-password name="password"></app-form-error-password>
+          }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label i18n="confirmPassword">Confirm Password</mat-label>
+        <input
+          matInput
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          autocomplete="new-password"
+          data-test="confirm-password" />
+
+        <button
+          matIconButton
+          matSuffix
+          appTogglePassword
+          type="button"
+          [attr.aria-label]="'Toggle password visibility'">
+          <mat-icon></mat-icon>
+        </button>
+
+        <mat-error>
+          @if (
+            confirmPassword.hasError("passwordMismatch") &&
+            !confirmPassword.hasError("required")
+          ) {
+            <span i18n="passwordsDoNotMatch">Passwords do not match</span>
+          }
+          <app-form-error-required
+            name="confirmPassword"></app-form-error-required>
+        </mat-error>
+      </mat-form-field>
+
+      <app-loading-button
+        [isLoading]="isLoading"
+        i18n="setup@@setup"
+        width="100%"
+        [disabled]="!setupForm.valid"
+        icon="rocket_launch">
+        Setup
+      </app-loading-button>
+    </form>
+  </div>
+  <app-footer></app-footer>
+</div>

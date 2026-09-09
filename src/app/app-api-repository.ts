@@ -1,4 +1,4 @@
-import { NgModule, Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 import { ApiAuthRepository } from './data/repositories/api-auth-repository';
 import { ApiUserRepository } from './data/repositories/api-user-repository';
 import { ApiRoleRepository } from './data/repositories/api-role-repository';
@@ -10,9 +10,11 @@ import {
   AUTH_REPOSITORY,
   PASSWORD_RESET_REPOSITORY,
   ROLE_REPOSITORY,
+  SETUP_REPOSITORY,
   USER_REPOSITORY,
 } from './app-token-repository';
 import { MockAdminDashboardRepository } from 'src/app/data/repositories/mock-admin-dashboard-repository';
+import { ApiSetupRepository } from 'src/app/data/repositories/api-setup-repository';
 
 export const appApiRepositoryProviders: Provider = [
   { provide: AUTH_REPOSITORY, useClass: ApiAuthRepository },
@@ -36,4 +38,5 @@ export const appApiRepositoryProviders: Provider = [
     provide: PASSWORD_RESET_REPOSITORY,
     useClass: ApiPasswordResetRepository,
   },
+  { provide: SETUP_REPOSITORY, useClass: ApiSetupRepository },
 ];

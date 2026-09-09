@@ -1,0 +1,24 @@
+.app-setup {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  place-content: center;
+}
+
+.app-setup form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  box-sizing: border-box;
+}
+
+.title {
+  font: var(--mat-sys-display-small);
+}
+
+.login-logo {
+  width: 96px;
+  height: 96px;
+}
