@@ -1,0 +1,10 @@
+<div class="number-input-container">
+  <input
+    #numberInput
+    class="text-right"
+    matInput
+    [mask]="mask()"
+    [disabled]="disabled"
+    [(ngModel)]="value"
+    (input)="onInput($event)" />
+</div>
