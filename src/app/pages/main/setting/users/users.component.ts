@@ -187,7 +187,7 @@ export class UsersComponent implements OnInit {
       if (result) {
         this.table.refreshData();
         this.snackBarService.showSuccess(
-          $localize`:somethingEditedSuccessfully:${element.universityName}:item: edited successfully`,
+          $localize`:somethingEditedSuccessfully:${element.name}:item: edited successfully`,
         );
       }
     });
