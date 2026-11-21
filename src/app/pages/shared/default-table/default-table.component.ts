@@ -227,7 +227,7 @@ export class DefaultTableComponent
     return (
       this.displayType == 'table' ||
       (this.displayType == 'hybrid' &&
-        (!this.isHandset || this.mobileItemView == undefined))
+        (!this.isHandset && !this.hasCoarsePointer || this.mobileItemView == undefined))
     );
   }
 
@@ -239,12 +239,14 @@ export class DefaultTableComponent
     return (
       this.mobileItemView != undefined &&
       (this.displayType == 'card' ||
-        (this.isHandset && this.displayType == 'hybrid'))
+        ((this.isHandset || this.hasCoarsePointer) && this.displayType == 'hybrid'))
     );
   }
 
   isHandset: boolean = false;
+  hasCoarsePointer: boolean = false;
   searchValueChangesSubscription!: Subscription;
+  coarsePointerSubscription!: Subscription;
 
   constructor() {
     super();
@@ -267,6 +269,13 @@ export class DefaultTableComponent
       this.adjustDisplayedColumns();
     });
 
+    this.coarsePointerSubscription = this.breakpointObserver
+      .observe('(pointer: coarse)')
+      .subscribe((result) => {
+        this.hasCoarsePointer = result.matches;
+        this.adjustDisplayedColumns();
+      });
+
     this.searchValueChangesSubscription = this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
@@ -277,6 +286,7 @@ export class DefaultTableComponent
   }
 
   override ngOnDestroy(): void {
+    this.coarsePointerSubscription?.unsubscribe();
     this.searchValueChangesSubscription.unsubscribe();
     super.ngOnDestroy();
   }
