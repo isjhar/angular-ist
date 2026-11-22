@@ -67,17 +67,13 @@ export class LocalBreadcrumbRepository implements BreadcrumbRepository {
       concatMap((menu) => {
         let localAuthenticatedUserRepository =
           new LocalAuthenticatedUserRepository();
-        return localAuthenticatedUserRepository
-          .getAuthenticatedUser()
-          .pipe(
-            map<User, boolean>(
-              (user) =>
-                (menu &&
-                  menu.accessControlId &&
-                  user.hasAccessControl(menu.accessControlId)) ??
-                false,
-            ),
-          );
+        return localAuthenticatedUserRepository.getAuthenticatedUser().pipe(
+          map<User, boolean>((user) => {
+            if (!menu) return false;
+            if (menu.accessControlId === undefined) return true;
+            return user.hasAccessControl(menu.accessControlId);
+          }),
+        );
       }),
     );
   }
