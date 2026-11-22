@@ -1,7 +1,7 @@
 export interface RoleAccessControl {
   name: string;
   accessControls: {
-    id: number;
+    id: string;
     name: string;
     description: string;
     value: boolean;

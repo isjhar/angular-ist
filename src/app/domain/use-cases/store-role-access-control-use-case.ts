@@ -13,5 +13,5 @@ export class StoreRoleAccessControlUseCase
 
 export interface StoreRoleAccessControlUseCaseParams {
   roleId: number;
-  accessControlId: number;
+  accessControlId: string;
 }

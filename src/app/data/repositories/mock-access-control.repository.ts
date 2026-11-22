@@ -41,11 +41,8 @@ export class MockAccessControlRepository implements AccessControlRepository {
   }
   store(params: StoreAccessControlRequestParams): Observable<AccessControl> {
     return new Observable<AccessControl>((observer) => {
-      let maxId = Math.max(
-        ...MockAccessControlRepository.items.map((element) => element.id),
-      );
       let menu: AccessControl = {
-        id: maxId + 1,
+        id: `access-control-${Date.now()}`,
         name: params.name,
         description: params.description,
       };
@@ -55,7 +52,7 @@ export class MockAccessControlRepository implements AccessControlRepository {
     });
   }
   update(
-    id: number,
+    id: number | string,
     params: StoreAccessControlRequestParams,
   ): Observable<void> {
     return new Observable<void>((observer) => {
@@ -72,7 +69,7 @@ export class MockAccessControlRepository implements AccessControlRepository {
       observer.complete();
     });
   }
-  delete(id: number): Observable<void> {
+  delete(id: number | string): Observable<void> {
     return new Observable<void>((observer) => {
       MockAccessControlRepository.items =
         MockAccessControlRepository.items.filter((element) => element.id != id);

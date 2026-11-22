@@ -13,5 +13,5 @@ export class DeleteRoleAccessControlUseCase
 
 export interface DeleteRoleAccessControlUseCaseParams {
   roleId: number;
-  accessControlId: number;
+  accessControlId: string;
 }

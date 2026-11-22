@@ -64,7 +64,7 @@ export class AccessControlsTableService extends ServerSideTableService<
 }
 
 export interface AccessControlRow {
-  id: number;
+  id: string;
   name: string;
   description: string;
 }

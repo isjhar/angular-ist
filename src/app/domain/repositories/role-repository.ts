@@ -32,7 +32,7 @@ export interface StoreRoleRequestParams {
 }
 
 export interface UpdateRoleRequestParams {
-  accessControls: number[];
+  accessControls: string[];
 }
 
 export interface GetRoleAccessControlsRequestParams extends PaginationParams {
@@ -41,15 +41,15 @@ export interface GetRoleAccessControlsRequestParams extends PaginationParams {
 
 export interface StoreAccessControlRequestParams {
   roleId: number;
-  accessControlId: number;
+  accessControlId: string;
 }
 
 export interface DeleteAccessControlRequestParams {
   roleId: number;
-  accessControlId: number;
+  accessControlId: string;
 }
 
 export interface SyncAccessControlRequestParams {
   roleId: number;
-  accessControlIds: number[];
+  accessControlIds: string[];
 }

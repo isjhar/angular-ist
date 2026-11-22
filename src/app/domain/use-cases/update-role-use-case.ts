@@ -16,5 +16,5 @@ export class UpdateRoleUseCase extends UpdateUseCase<
 }
 
 export interface UpdateRoleUseCaseParams extends UpdateUseCaseParams {
-  accessControls: number[];
+  accessControls: string[];
 }

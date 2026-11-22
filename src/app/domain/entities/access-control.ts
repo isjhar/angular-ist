@@ -1,16 +1,16 @@
 export interface AccessControl {
-  id: number;
+  id: string;
   name: string;
   description: string;
 }
 
 export enum AccessControlId {
-  ViewUser = 1,
-  AddUser = 2,
-  EditUser = 3,
-  DeleteUser = 4,
-  ViewRole = 5,
-  AddRole = 6,
-  EditRole = 7,
-  DeleteRole = 8,
+  ViewUser = 'view-user',
+  CreateUser = 'create-user',
+  EditUser = 'edit-user',
+  DeleteUser = 'delete-user',
+  ViewRole = 'view-role',
+  CreateRole = 'create-role',
+  EditRole = 'edit-role',
+  DeleteRole = 'delete-role',
 }

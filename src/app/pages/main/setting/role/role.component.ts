@@ -41,7 +41,7 @@ interface AccessControlTreeNode {
   name: string;
   description?: string;
   children?: AccessControlTreeNode[];
-  id?: number;
+  id?: string;
   checked?: boolean;
 }
 
@@ -82,7 +82,7 @@ export class RoleComponent extends SubmissionComponent implements OnInit {
   isLoadingAccessControls = false;
 
   treeDataSource: AccessControlTreeNode[] = [];
-  private originalCheckedIds = new Set<number>();
+  private originalCheckedIds = new Set<string>();
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -141,7 +141,7 @@ export class RoleComponent extends SubmissionComponent implements OnInit {
 
   private collectCheckedIds(
     nodes: AccessControlTreeNode[],
-    ids: Set<number>,
+    ids: Set<string>,
   ): void {
     for (const node of nodes) {
       if (node.id !== undefined && node.checked) {
@@ -154,7 +154,7 @@ export class RoleComponent extends SubmissionComponent implements OnInit {
   }
 
   get hasChanges(): boolean {
-    const currentIds = new Set<number>();
+    const currentIds = new Set<string>();
     this.collectCheckedIds(this.treeDataSource, currentIds);
     if (currentIds.size !== this.originalCheckedIds.size) return true;
     for (const id of currentIds) {
@@ -166,7 +166,7 @@ export class RoleComponent extends SubmissionComponent implements OnInit {
   save(): void {
     this.isLoading = true;
 
-    const checkedIds = new Set<number>();
+    const checkedIds = new Set<string>();
     this.collectCheckedIds(this.treeDataSource, checkedIds);
     this.roleRepository
       .syncAccessControl({

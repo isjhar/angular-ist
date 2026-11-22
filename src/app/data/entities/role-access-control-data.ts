@@ -3,7 +3,7 @@ import { RoleAccessControl } from 'src/app/domain/entities/role-access-control';
 export interface RoleAccessControlData {
   name: string;
   accessControls: {
-    key: number;
+    key: string;
     name: string;
     description: string;
     value: boolean;
