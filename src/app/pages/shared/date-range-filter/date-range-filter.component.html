@@ -4,12 +4,14 @@
     <mat-date-range-input [rangePicker]="picker" [disabled]="disabled">
       <input
         matStartDate
+        i18n-placeholder="startDate"
         placeholder="Start date"
         [(ngModel)]="value.start"
         (dateChange)="onStartChanged($event)"
         (focus)="markAsTouched()" />
       <input
         matEndDate
+        i18n-placeholder="endDate"
         placeholder="End date"
         [(ngModel)]="value.end"
         (dateChange)="onEndChanged($event)"

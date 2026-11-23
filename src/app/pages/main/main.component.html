@@ -5,10 +5,15 @@
         <button
           class="toolbar-button"
           type="button"
+          i18n-aria-label="toggleSidenav"
           aria-label="Toggle sidenav"
           matIconButton
           (click)="sidenav.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          <mat-icon
+            i18n-aria-label="sideNavToggleIcon"
+            aria-label="Side nav toggle icon">
+            menu
+          </mat-icon>
         </button>
         <div class="text-title-medium">Template Web</div>
       </div>

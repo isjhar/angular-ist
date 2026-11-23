@@ -7,9 +7,14 @@
     <mat-date-range-input [rangePicker]="picker">
       <input
         matStartDate
+        i18n-placeholder="startDate"
         placeholder="Start date"
         formControlName="startDate" />
-      <input matEndDate placeholder="End date" formControlName="endDate" />
+      <input
+        matEndDate
+        i18n-placeholder="endDate"
+        placeholder="End date"
+        formControlName="endDate" />
     </mat-date-range-input>
     <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>

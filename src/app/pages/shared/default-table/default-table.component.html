@@ -28,6 +28,7 @@
           <button
             matIconButton
             class="mt-2 shrink-0 grow-0 basis-[48px]"
+            i18n-aria-label="orderBy"
             aria-label="Order by"
             (click)="toggleOrder()">
             <mat-icon
@@ -198,7 +199,8 @@
 
     @if (!dataSource || dataSource.length == 0) {
       <div
-        class="text-body-medium text-on-surface-variant flex flex-row justify-center">
+        class="text-body-medium text-on-surface-variant flex flex-row justify-center"
+        i18n="noDataFound">
         No data found
       </div>
     }
@@ -209,5 +211,6 @@
     [length]="length"
     (page)="onPageChanged($event)"
     showFirstLastButtons
-    aria-label="Select page of periodic elements"></mat-paginator>
+    i18n-aria-label="selectPage"
+    aria-label="Select page"></mat-paginator>
 </div>

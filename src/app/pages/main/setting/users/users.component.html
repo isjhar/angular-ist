@@ -65,7 +65,8 @@
       <button
         *appHasAccessControl="AccessControlId.EditUser"
         matIconButton
-        aria-label="Example icon button with a delete icon"
+        i18n-aria-label="deleteIconAriaLabel"
+        aria-label="Icon button with a delete icon"
         data-test="btn-edit"
         (click)="onEditClicked($event, element)">
         <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
@@ -74,7 +75,8 @@
       <button
         *appHasAccessControl="AccessControlId.DeleteUser"
         matIconButton
-        aria-label="Example icon button with a delete icon"
+        i18n-aria-label="deleteIconAriaLabel"
+        aria-label="Icon button with a delete icon"
         data-test="btn-delete"
         (click)="onDeleteClicked($event, element)">
         <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>

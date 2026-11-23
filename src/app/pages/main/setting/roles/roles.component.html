@@ -52,6 +52,7 @@
   <a
     [routerLink]="[element.id]"
     matIconButton
+    i18n-aria-label="deleteIconAriaLabel"
     aria-label="Icon button with a delete icon"
     data-test="btn-detail">
     <mat-icon fontSet="material-symbols-outlined">visibility</mat-icon>
@@ -60,6 +61,7 @@
     <button
       *appHasAccessControl="AccessControlId.DeleteRole"
       matIconButton
+      i18n-aria-label="deleteIconAriaLabel"
       aria-label="Icon button with a delete icon"
       data-test="btn-delete"
       (click)="onDeleteClicked($event, element)">

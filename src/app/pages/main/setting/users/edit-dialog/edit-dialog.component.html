@@ -13,6 +13,7 @@
         <mat-label i18n="role">Role</mat-label>
         <mat-chip-grid
           #chipGrid
+          i18n-aria-label="roleSelection"
           aria-label="Role selection"
           formControlName="roles">
           @for (role of roles.value; track role) {
@@ -25,6 +26,7 @@
           }
         </mat-chip-grid>
         <input
+          i18n-placeholder="rolePlaceholder"
           placeholder="Role..."
           #roleInput
           [formControl]="roleControl"
