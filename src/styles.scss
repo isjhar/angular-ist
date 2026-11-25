@@ -18,8 +18,8 @@ html {
 :root {
   @include mat.toolbar-overrides(
     (
-      container-background-color: var(--mat-sys-primary),
-      container-text-color: var(--mat-sys-on-primary),
+      container-background-color: var(--mat-sys-surface-container-high),
+      container-text-color: var(--mat-sys-on-surface),
     )
   );
 
@@ -41,9 +41,9 @@ html {
     )
   );
 
-  --neutral-variant-1: #4fc3f7;
-  --neutral-variant-2: #ff6f61;
-  --neutral-variant-3: #f4b4b4;
+  // --neutral-variant-1: #379acb;
+  // --neutral-variant-2: #d34445;
+  // --neutral-variant-3: #6b9c7a;
 }
 
 $spacing-unit: 8px; // The "Base"
@@ -249,6 +249,79 @@ body {
   background-color: var(--mat-sys-primary-container);
 }
 
+.bg-primary-main {
+  background-color: var(--mat-sys-primary);
+}
+
+.bg-secondary-container {
+  background-color: var(--mat-sys-secondary-container);
+}
+
+.bg-tertiary-container {
+  background-color: var(--mat-sys-tertiary-container);
+}
+
+.bg-surface {
+  background-color: var(--mat-sys-surface);
+}
+
+.bg-surface-container {
+  background-color: var(--mat-sys-surface-container);
+}
+
+.bg-surface-container-low {
+  background-color: var(--mat-sys-surface-container-low);
+}
+
+// material font color
+.text-primary {
+  color: var(--mat-sys-primary);
+}
+
+.text-on-primary-main {
+  color: var(--mat-sys-on-primary);
+}
+
+.text-secondary {
+  color: var(--mat-sys-secondary);
+}
+
+.text-on-secondary {
+  color: var(--mat-sys-on-secondary);
+}
+
+.text-on-secondary-container {
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.text-tertiary {
+  color: var(--mat-sys-tertiary);
+}
+
+.text-on-tertiary {
+  color: var(--mat-sys-on-tertiary);
+}
+
+.text-on-surface-variant {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.text-on-surface {
+  color: var(--mat-sys-on-surface);
+}
+
+.text-outline {
+  color: var(--mat-sys-outline);
+}
+
+.bg-primary-container {
+  background-color: var(--mat-sys-primary-container);
+}
+
+.bg-primary {
+  background-color: var(--mat-sys-primary);
+}
+
 .bg-surface {
   background-color: var(--mat-sys-surface);
 }
@@ -260,6 +333,14 @@ body {
 // material font color
 .text-primary {
   color: var(--mat-sys-primary);
+}
+
+.text-on-primary {
+  color: var(--mat-sys-on-primary);
+}
+
+.text-on-primary-main {
+  color: var(--mat-sys-on-primary);
 }
 
 .text-secondary {
@@ -349,6 +430,11 @@ body {
   padding-bottom: space("lg");
 }
 
+.py-xs {
+  padding-top: space("xs");
+  padding-bottom: space("xs");
+}
+
 .py-sm {
   padding-top: space("sm");
   padding-bottom: space("sm");
@@ -364,6 +450,10 @@ body {
   padding-right: space("sm");
 }
 
+.pt-xs {
+  padding-top: space("xs");
+}
+
 .basic-width {
   max-width: 600px;
 }
@@ -377,11 +467,7 @@ body {
 .align-compact {
   margin-left: auto;
   margin-right: auto;
-  max-width: 600px;
-}
-
-.mt-md {
-  margin-top: 16px;
+  max-width: 540px;
 }
 
 .badge {
@@ -417,9 +503,9 @@ body {
 }
 
 .warning-badge {
-  background-color: #ffb300;
-  border-color: color-mix(in srgb, #ffb300, white 90%);
-  color: color-mix(in srgb, #ffb300, white 90%);
+  background-color: var(--mat-sys-secondary);
+  border-color: color-mix(in srgb, var(--mat-sys-secondary), white 80%);
+  color: var(--mat-sys-on-secondary);
 }
 
 .crud-table {
@@ -454,5 +540,46 @@ body {
       padding-top: 10px;
       padding-bottom: 10px;
     }
+  }
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+.action-buttons {
+  margin-top: 6px;
+}
+
+.selectable-card {
+  cursor: pointer;
+}
+
+.selected-card {
+  outline: 2px solid var(--mat-sys-primary);
+}
+
+.selection-docked-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  border-radius: 16px 16px 16px 16px;
+  background-color: var(--mat-sys-surface-container-high);
+  box-shadow: var(--mat-sys-level2);
+  animation: selection-slide-up 0.25s ease-out;
+}
+
+@keyframes selection-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
   }
 }
