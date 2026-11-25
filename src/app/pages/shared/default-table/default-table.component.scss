@@ -1,5 +1,11 @@
 @use "@angular/material" as mat;
 
+$row-outline-width: var(--mat-table-row-item-outline-width, 1px);
+$row-outline-color: var(
+  --mat-table-row-item-outline-color,
+  var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12))
+);
+
 app-default-table {
   table {
     width: 100%;
@@ -17,6 +23,8 @@ app-default-table {
 
   .action-container {
     display: flex;
+    border-top: $row-outline-width $row-outline-color solid;
+    border-bottom: $row-outline-width $row-outline-color solid;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -31,22 +39,12 @@ app-default-table {
 
   .mat-mdc-cell,
   .mat-mdc-header-cell {
-    border-bottom: var(--mat-table-row-item-outline-width, 1px)
-      var(
-        --mat-table-row-item-outline-color,
-        var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12))
-      )
-      solid;
+    border-bottom: $row-outline-width $row-outline-color solid;
   }
 
   .mdc-data-table__row {
     &:last-child > .mat-mdc-cell {
-      border-bottom: var(--mat-table-row-item-outline-width, 1px)
-        var(
-          --mat-table-row-item-outline-color,
-          var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12))
-        )
-        solid;
+      border-bottom: $row-outline-width $row-outline-color solid;
     }
   }
 }
