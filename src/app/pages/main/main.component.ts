@@ -28,7 +28,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { BaseComponent } from 'src/app/pages/shared/base.component';
 import { BreadcrumbComponent } from 'src/app/pages/shared/breadcrumb/breadcrumb.component';
 import { environment } from 'src/environments/environment';
@@ -38,7 +38,6 @@ import { environment } from 'src/environments/environment';
   imports: [
     RouterOutlet,
     RouterLink,
-    AsyncPipe,
     MatButtonModule,
     LayoutModule,
     MatToolbarModule,

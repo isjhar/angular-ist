@@ -1,20 +1,20 @@
 <div class="align-wide">
-  <div
-    style="margin-bottom: 10px"
-    *appHasAccessControl="AccessControlId.CreateUser">
-    <button
-      matButton="filled"
-      data-test="btn-add-list"
-      (click)="onTambahClicked()"
-      i18n="add">
-      <mat-icon>person_add</mat-icon>
-      Add
-    </button>
-  </div>
   <app-server-side-table
     #table
     [searchable]="true"
     [displayMode]="displayMode.Hybrid">
+    <ng-template appDefaultTableTopActionContainer>
+      <div *appHasAccessControl="AccessControlId.CreateUser">
+        <button
+          matButton="filled"
+          data-test="btn-add-list"
+          (click)="onTambahClicked()"
+          i18n="add">
+          <mat-icon>person_add</mat-icon>
+          Add
+        </button>
+      </div>
+    </ng-template>
     <ng-template appDefaultTableMobileItemView let-data>
       <mat-card>
         <mat-card-content>

@@ -32,6 +32,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
+import { DefaultTableTopActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-top-action-container.directive';
 import { MatRipple } from '@angular/material/core';
 import { AccessControlId } from 'src/app/domain/entities/access-control';
 import { HasAccessControlDirective } from 'src/app/pages/shared/has-access-control.directive';
@@ -43,6 +44,7 @@ import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
     ServerSideTableComponent,
     DefaultTableMobileItemViewDirective,
     DefaultTableActionContainerDirective,
+    DefaultTableTopActionContainerDirective,
     MatIconModule,
     MatFormFieldModule,
     ReactiveFormsModule,

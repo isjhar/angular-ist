@@ -63,9 +63,9 @@
   <mat-sidenav
     #sidenav
     class="sidenav"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false">
+    [attr.role]="isHandset() ? 'dialog' : 'navigation'"
+    [mode]="isHandset() ? 'over' : 'side'"
+    [opened]="!isHandset()">
     <mat-nav-list>
       @for (menu of menus; track menu) {
         @if (!menu.childs) {

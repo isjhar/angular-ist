@@ -1,16 +1,17 @@
 import {
   AfterViewInit,
   Component,
-  ContentChild,
-  EventEmitter,
+  contentChild,
+  effect,
   inject,
-  Inject,
-  Input,
+  input,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import {
@@ -29,7 +30,8 @@ import { SkeletonComponent } from '../../skeleton/skeleton.component';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
 import { RowClickEvent } from 'src/app/pages/shared/default-table/row-click-event';
 import { SortDirection } from '@angular/material/sort';
-import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
+import { DefaultTableTopActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-top-action-container.directive';
+import { DefaultTableFilterContainerContainerDirective } from 'src/app/pages/shared/default-table/default-table-filter-container.directive';
 
 @Component({
   selector: 'app-server-side-table',
@@ -40,76 +42,87 @@ import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
     NgStyle,
     DefaultTableMobileItemViewDirective,
     DefaultTableActionContainerDirective,
+    DefaultTableTopActionContainerDirective,
     NgTemplateOutlet,
     SkeletonComponent,
+    DefaultTableFilterContainerContainerDirective,
   ],
 })
 export class ServerSideTableComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  @Input() searchable: boolean = false;
-  @Input() searchPlaceholder: string = '';
-  @Input() trackBy: string = 'id';
-  @Input() set displayMode(value: DisplayMode) {
-    switch (value) {
-      case DisplayMode.Card:
-        this.displayType = 'card';
-        break;
-      case DisplayMode.Hybrid:
-        this.displayType = 'hybrid';
-        break;
-      default:
-        this.displayType = 'table';
-        break;
-    }
-  }
-  @Input() displayType: DisplayType = 'hybrid';
-  @Input() sortActive: string = '';
-  @Input() sortDirection: SortDirection = '';
+  readonly searchable = input(false);
+  readonly searchPlaceholder = input('');
+  readonly trackBy = input('id');
 
-  @Output() rowClick = new EventEmitter<RowClickEvent>();
+  readonly displayMode = input<DisplayMode | undefined>(undefined);
+  displayType = signal<DisplayType>('hybrid');
 
-  isLoaded = false;
-  dataSource: any[] = [];
-  length: number = 0;
-  columns: DefaultTableColumn[] = [];
-  search: string = '';
-  initialized = false;
+  readonly sortActive = input<string>('');
+  readonly sortDirection = input<SortDirection>('');
 
-  @ViewChild(DefaultTableComponent, { static: true })
-  table!: DefaultTableComponent;
+  readonly rowClick = output<RowClickEvent>();
 
-  @ContentChild(DefaultTableMobileItemViewDirective)
-  mobileItemView?: DefaultTableMobileItemViewDirective;
+  isLoaded = signal(false);
+  dataSource = signal<any[]>([]);
+  length = signal(0);
+  columns = signal<DefaultTableColumn[]>([]);
+  search = signal('');
+  initialized = signal(false);
+  snackBarRef?: MatSnackBarRef<any>;
 
-  @ContentChild(DefaultTableActionContainerDirective)
-  actionContainer?: DefaultTableActionContainerDirective;
+  readonly table = viewChild(DefaultTableComponent);
+
+  readonly mobileItemView = contentChild(DefaultTableMobileItemViewDirective);
+  readonly actionContainer = contentChild(DefaultTableActionContainerDirective);
+  readonly topActionContainer = contentChild(
+    DefaultTableTopActionContainerDirective,
+  );
+  readonly filterContainer = contentChild(
+    DefaultTableFilterContainerContainerDirective,
+  );
 
   columnsChangeSubscription!: Subscription;
   searchChangeSubscription!: Subscription;
 
-  snackBarService = inject(SnackBarService);
+  private service = inject<ServerSideTableService<any, any>>(TABLE_SERVICE);
+  private snackBar = inject(MatSnackBar);
 
-  constructor(
-    @Inject(TABLE_SERVICE) private service: ServerSideTableService<any, any>,
-  ) {}
+  constructor() {
+    effect(() => {
+      const mode = this.displayMode();
+      if (mode !== undefined) {
+        switch (mode) {
+          case DisplayMode.Card:
+            this.displayType.set('card');
+            break;
+          case DisplayMode.Hybrid:
+            this.displayType.set('hybrid');
+            break;
+          default:
+            this.displayType.set('table');
+            break;
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.columns = this.service.columns;
+    this.columns.set(this.service.columns);
     this.columnsChangeSubscription = this.service.columnsChange.subscribe(
       (columns) => {
-        this.columns = columns;
-        this.table.renderRows();
+        this.columns.set(columns);
+        this.table()?.renderRows();
       },
     );
-    this.search = this.service.search;
+    this.search.set(this.service.search);
     this.searchChangeSubscription = this.service.searchChange.subscribe(
       (search) => {
-        this.search = search;
+        this.search.set(search);
         this.refreshData();
       },
     );
-    this.service.setTable(this.table);
+    this.service.setTable(this.table()!);
   }
 
   ngAfterViewInit(): void {
@@ -146,34 +159,47 @@ export class ServerSideTableComponent
       .pipe(delay(0))
       .subscribe({
         next: (response) => {
-          this.length = response.total;
-          this.dataSource = response.data;
-          this.table.renderRows();
-          this.initialized = true;
-          this.isLoaded = true;
-          this.snackBarService.dismissLoading();
+          this.length.set(response.total);
+          this.dataSource.set(response.data);
+          this.table()?.renderRows();
+          this.initialized.set(true);
+          this.isLoaded.set(true);
+          this.snackBarRef?.dismiss();
         },
         error: (response) => {
-          this.snackBarService.dismissLoading();
+          this.snackBarRef?.dismiss();
         },
       });
   }
 
+  resetData(): void {
+    if (!this.initialized()) return;
+    this.table()!.paginator()!.pageIndex = 0;
+    this.showLoadingSnackBar();
+    this.get();
+  }
+
   refreshData(): void {
-    if (!this.initialized) return;
+    if (!this.initialized()) return;
     this.showLoadingSnackBar();
     this.get();
   }
 
   showLoadingSnackBar(): void {
-    this.snackBarService.showLoading($localize`:loading:Loading...`);
+    this.snackBarRef = this.snackBar.open('Loading...', undefined, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 
   updateRow(oldItem: any, newItem: any): void {
-    const index = this.dataSource.findIndex(
-      (element) => element[this.trackBy] == oldItem[this.trackBy],
-    );
-    this.dataSource[index] = Object.assign({}, this.dataSource[index], newItem);
-    this.dataSource = [...this.dataSource];
+    this.dataSource.update((values) => {
+      const index = values.findIndex(
+        (element) => element[this.trackBy()] == oldItem[this.trackBy()],
+      );
+      const updated = [...values];
+      updated[index] = Object.assign({}, updated[index], newItem);
+      return updated;
+    });
   }
 }

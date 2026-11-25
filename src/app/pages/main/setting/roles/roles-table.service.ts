@@ -28,10 +28,10 @@ export class RolesTableService extends ServerSideTableService<
   }
   getParams() {
     return {
-      limit: this.table.pageSize,
+      limit: this.table.pageSize(),
       page: this.table.pageIndex,
-      sort: this.table.sort,
-      order: this.table.order,
+      sort: this.table.sort(),
+      order: this.table.order(),
       search: this.table.search,
     };
   }

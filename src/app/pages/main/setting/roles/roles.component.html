@@ -1,16 +1,17 @@
 <div class="align-compact gap-md flex flex-col">
-  <div *appHasAccessControl="AccessControlId.CreateRole">
-    <button
-      data-test="btn-add-role-list"
-      matButton="filled"
-      (click)="onTambahClicked()"
-      i18n="add">
-      <mat-icon>add</mat-icon>
-      Add
-    </button>
-  </div>
-
   <app-server-side-table #table [searchable]="true">
+    <ng-template appDefaultTableTopActionContainer>
+      <div *appHasAccessControl="AccessControlId.CreateRole">
+        <button
+          data-test="btn-add-role-list"
+          matButton="filled"
+          (click)="onTambahClicked()"
+          i18n="add">
+          <mat-icon>add</mat-icon>
+          Add
+        </button>
+      </div>
+    </ng-template>
     <ng-template appDefaultTableMobileItemView let-data>
       <mat-card
         matRipple

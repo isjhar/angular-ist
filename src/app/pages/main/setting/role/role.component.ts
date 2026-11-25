@@ -76,7 +76,7 @@ export class RoleComponent extends SubmissionComponent implements OnInit {
   roleId: number = 0;
   role?: RoleDetail;
 
-  AccessControlId = AccessControlId;
+  override readonly AccessControlId = AccessControlId;
 
   accessControls: RoleAccessControl[] = [];
   isLoadingAccessControls = false;

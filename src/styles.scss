@@ -18,8 +18,8 @@ html {
 :root {
   @include mat.toolbar-overrides(
     (
-      container-background-color: var(--mat-sys-surface-container-high),
-      container-text-color: var(--mat-sys-on-surface),
+      container-background-color: var(--mat-sys-primary),
+      container-text-color: var(--mat-sys-on-primary),
     )
   );
 

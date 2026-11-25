@@ -38,6 +38,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ServerSideTableComponent as ServerSideTableComponent_1 } from '../../../shared/default-table/server-side-table/server-side-table.component';
 import { DefaultTableMobileItemViewDirective } from '../../../shared/default-table/default-table-mobile-item-view.directive';
 import { DefaultTableActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-action-container.directive';
+import { DefaultTableTopActionContainerDirective } from 'src/app/pages/shared/default-table/default-table-top-action-container.directive';
 import { MatDivider } from '@angular/material/divider';
 import { DisplayMode } from 'src/app/pages/shared/default-table/default-table.component';
 import {
@@ -58,6 +59,7 @@ import { SnackBarService } from 'src/app/pages/shared/snack-bar.service';
     ServerSideTableComponent_1,
     DefaultTableMobileItemViewDirective,
     DefaultTableActionContainerDirective,
+    DefaultTableTopActionContainerDirective,
     MatIconModule,
     MatFormFieldModule,
     ReactiveFormsModule,

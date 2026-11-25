@@ -1,32 +1,44 @@
 <app-default-table
-  [ngStyle]="{ display: isLoaded ? 'block' : 'none' }"
-  [dataSource]="dataSource"
-  [length]="length"
-  [columns]="columns"
+  [ngStyle]="{ display: isLoaded() ? 'block' : 'none' }"
+  [dataSource]="dataSource()"
+  [length]="length()"
+  [columns]="columns()"
   (page)="onPageChanged($event)"
   (sortChange)="onSortChanged($event)"
   (rowClick)="onRowClicked($event)"
-  [trackBy]="trackBy"
-  [searchable]="searchable"
-  [searchPlaceholder]="searchPlaceholder"
+  [trackBy]="trackBy()"
+  [searchable]="searchable()"
+  [searchPlaceholder]="searchPlaceholder()"
   (searchChange)="onSearchChanged($event)"
-  [displayType]="displayType"
-  [sortActive]="sortActive"
-  [sortDirection]="sortDirection">
-  @if (mobileItemView) {
+  [displayType]="displayType()"
+  [sortActive]="sortActive()"
+  [sortDirection]="sortDirection()">
+  <ng-template appDefaultTableTopActionContainer let-data let-i="index">
+    <ng-container
+      *ngTemplateOutlet="
+        topActionContainer()?.templateRef ?? null
+      "></ng-container>
+  </ng-template>
+
+  <ng-template appDefaultTableFilterContainerContainer let-data let-i="index">
+    <ng-container
+      *ngTemplateOutlet="filterContainer()?.templateRef ?? null"></ng-container>
+  </ng-template>
+
+  @if (mobileItemView()) {
     <ng-template appDefaultTableMobileItemView let-data let-i="index">
       <ng-container
         *ngTemplateOutlet="
-          mobileItemView.templateRef;
+          mobileItemView()!.templateRef;
           context: { $implicit: data, index: i }
         "></ng-container>
     </ng-template>
   }
-  @if (actionContainer) {
+  @if (actionContainer()) {
     <ng-template appDefaultTableActionContainer let-data>
       <ng-container
         *ngTemplateOutlet="
-          actionContainer.templateRef;
+          actionContainer()!.templateRef;
           context: { $implicit: data }
         "></ng-container>
     </ng-template>
@@ -35,4 +47,4 @@
 
 <app-skeleton
   height="160px"
-  [ngStyle]="{ display: isLoaded ? 'none' : 'block' }"></app-skeleton>
+  [ngStyle]="{ display: isLoaded() ? 'none' : 'block' }"></app-skeleton>
